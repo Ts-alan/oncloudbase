@@ -7,7 +7,8 @@
 @Scripts.Render("~/bundles/jqCrid")
 @Styles.Render("~/Content/jqCrid")
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
+
         tableToGrid("#table", {
             height: 700,
             colNames: [
@@ -25,6 +26,7 @@
 
             ]
         });
+
     });
 </script>
 @Html.ActionLink("+ Добавить новую рекламную конструкцию", "Index", null, new { @class = "btn btn-default" })
@@ -38,11 +40,14 @@
         <th>Столбце_действия</th>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        @foreach (var item in Model)
+        {
+            <td></td>
+            <td>@item.Location</td>
+            <td>@item.Denomination</td>
+            <td>@item.NumberOfSegment</td>
+            <td></td>
+        }
     </tr>
 </table>
 
