@@ -9,7 +9,9 @@ namespace oncloud.Web.oddBase
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery-ui-{version}.js"
+                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -25,7 +27,22 @@ namespace oncloud.Web.oddBase
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/jquery-ui.css"));
+            //css для Grid
+            bundles.Add(new StyleBundle("~/Content/jqCrid").Include(
+                      "~/Content/jqGrid/ui.jqgrid.css",
+                      "~/Content/jqGrid/searchFilter.css",
+                      "~/Content/jqGrid/ui.jqgrid-bootstarp.css",
+                      "~/Content/jqGrid/ui.multiselect.css",
+                      "~/Content/GridSystemForTable.css"
+                    ));
+            //javascript для Grid
+            bundles.Add(new ScriptBundle("~/bundles/jqCrid").Include(
+            "~/Scripts/jqGrid/i18n/grid.locale-en.js",
+            "~/Scripts/jqGrid/jquery.jqGrid.js",
+            "~/Scripts/jqGrid/plugins/grid.tbltogrid.js"
+            ));
         }
     }
 }
