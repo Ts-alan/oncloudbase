@@ -1,0 +1,1259 @@
+﻿
+@{
+    ViewBag.Title = "AddStreet";
+}
+
+
+<script type="text/javascript">
+    ymaps.ready(init);
+    var myMap, myPlacemark, Arr = [[]], counterArr = 0, handlerRoute, currentRoute, firstPointRoute,
+        endPointRoute, position, identifierForDelete = 0, increment = 1, tempData, tempDataFor3 = 5,
+        objects, identifierForDelBallon = true, CountObjectInMap, transfercurrentRoute,
+        massSegment = [], handlerSegment, countElementSegGlobal = new Object();
+    countElementSegGlobal.length = 0;
+    function init() {
+
+        myMap = new ymaps.Map("map", {
+            center: [53.9172, 27.5601],
+            zoom: 11,
+            controls: []
+        });
+
+        myMap.behaviors.disable(["dblClickZoom"]);
+
+
+
+    }
+
+    function SetRoute(Arr) {
+
+        if (currentRoute != undefined) {
+            myMap.geoObjects.remove(currentRoute);
+            myMap.geoObjects.remove(currentRoute.getPaths());
+
+        }
+        ymaps.route([
+                Arr[0],
+                Arr[1]
+        ],
+            {
+                mapStateAutoApply: true,
+                removeViaPoints: true
+
+            }
+        ).then(
+            function (route) {
+                route.events.add('dragend', function (e) {
+
+                    Arr[0] = [route.requestPoints[0][0].toString().substr(0, 7), route.requestPoints[0][1].toString().substr(0, 7)];
+                    Arr[1] = [route.requestPoints[1][0].toString().substr(0, 7), route.requestPoints[1][1].toString().substr(0, 7)];
+                });
+
+
+                route.editor.start({
+                    editWayPoints: true
+                });
+
+                var points = route.getWayPoints();
+                points.get(0).properties.set("iconContent", "Начало улицы");
+                points.get(0).properties.set("balloonContentHeader", "<a href='#' onclick='setHandlerS()'>Удалить Обьект</a>");
+                points.get(0).options.set('preset', 'islands#darkGreenStretchyIcon');
+
+
+                points.get(1).properties.set("iconContent", "Конец улицы");
+                points.get(1).properties.set("balloonContentHeader", "<a href='#' onclick='setHandlerE()'>Удалить Обьект</a>");
+                points.get(1).options.set("preset", "islands#darkGreenStretchyIcon");
+                route.editor.events.add("routeupdate", function () {
+                    $("#breadthS").val(route.requestPoints[0][0].toString().substr(0, 7));
+                    $("#lengthS").val(route.requestPoints[0][1].toString().substr(0, 7));
+                    $("#breadthE").val(route.requestPoints[1][0].toString().substr(0, 7));
+                    $("#lengthE").val(route.requestPoints[1][1].toString().substr(0, 7));
+                });
+
+                route.getPaths().options.set({
+
+                    //можно выставить настройки графики маршруту
+                    strokeColor: '0000ffff',
+                    opacity: 0.9
+                });
+                currentRoute = route;
+
+                myMap.geoObjects.add(route);
+                //удаление лишних обьектов
+                myMap.geoObjects.remove(myPlacemark);
+                myMap.geoObjects.remove(firstPointRoute);
+                myMap.geoObjects.remove(endPointRoute);
+
+                identifierForDelete = 0;
+                //заполнение переменных
+                $("#breadthS").val(Arr[0][0]);
+                $("#lengthS").val(Arr[0][1]);
+                $("#breadthE").val(Arr[1][0]);
+                $("#lengthE").val(Arr[1][1]);
+            },
+            function (error) {
+                alert("Возникла ошибка: " + error.message);
+            });
+
+
+    }
+
+    //поиск
+    function search() {
+
+        if (myPlacemark != undefined) {
+
+            myMap.geoObjects.remove(myPlacemark);
+        }
+        position = $("#city").val().toString() + " " + $("#street").val().toString();
+
+        var myGeocoder = ymaps.geocode(position);
+
+        myGeocoder.then(
+            function (res) {
+
+                myPlacemark = new ymaps.GeoObject({
+                    geometry: {
+                        type: "Point", // тип геометрии - точка
+                        coordinates: [res.geoObjects.get(0).geometry.getCoordinates()[0], res.geoObjects.get(0).geometry.getCoordinates()[1]] // координаты точки
+                    }
+                },
+                { draggable: true });
+                myMap.geoObjects.add(myPlacemark);
+                identifierForDelete++;
+                myMap.setCenter([res.geoObjects.get(0).geometry.getCoordinates()[0], res.geoObjects.get(0).geometry.getCoordinates()[1]], 14);
+            });
+
+    }
+
+    function Set() {
+
+        if ($("#breadthS").val() != "" && $("#lengthS").val() != "" && $("#breadthE").val() && $("#lengthE").val()) {
+            Arr = [[]];
+
+            Arr[0] = [parseFloat($("#breadthS").val()), parseFloat($("#lengthS").val())];
+            Arr[1] = [parseFloat($("#breadthE").val()), parseFloat($("#lengthE").val())];
+
+            SetRoute(Arr);
+        }
+    }
+    //удаление начальной точки
+    function setHandlerS() {
+        if (identifierForDelete == 0) {
+            myMap.geoObjects.remove(currentRoute);
+            myMap.geoObjects.remove(currentRoute.getPaths());
+            endPointRoute = new ymaps.GeoObject({
+                geometry: {
+                    type: "Point", // тип геометрии - точка
+                    coordinates: [Arr[1][0], Arr[1][1]] // координаты точки
+                },
+                properties: {
+                    iconContent: "Конец улицы",
+                    balloonContentHeader: "<a href='#' onclick='setHandlerE()'>Удалить Обьект</a>",
+                    balloonContent: "[" + Arr[1][0] + "," + Arr[1][1] + "]"
+                }
+            },
+            { draggable: true, preset: "islands#darkGreenStretchyIcon" });
+
+
+            endPointRoute.events.add("dragend", function (e) {
+
+                var coords = endPointRoute.geometry.getCoordinates();
+                Arr[1] = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
+                //изменение координат при пертягивание метки
+                var object = e.get('target');
+                object.properties.set("balloonContent", "[" + coords[0].toPrecision(6) + "," + coords[1].toPrecision(6) + "]");
+
+            });
+            myMap.geoObjects.add(endPointRoute);
+            myMap.events.add('dblclick', handlerRoute);
+            identifierForDelete = 1;
+
+        } else {
+            myMap.geoObjects.remove(firstPointRoute);
+            identifierForDelete = 0;
+            counterArr = 0;
+            Arr = [[]];
+
+
+        }
+        counterArr = 0;
+    }
+    //удаление конченой точки
+    function setHandlerE() {
+
+        if (identifierForDelete == 0) {
+            myMap.geoObjects.remove(endPointRoute);
+            myMap.geoObjects.remove(currentRoute);
+            myMap.geoObjects.remove(currentRoute.getPaths());
+            firstPointRoute.geometry.setCoordinates([Arr[0][0], Arr[0][1]]);
+            myMap.geoObjects.add(firstPointRoute);
+            myMap.events.add('dblclick', handlerRoute);
+            counterArr = 1;
+            identifierForDelete = 1;
+
+        } else {
+            myMap.geoObjects.remove(endPointRoute);
+            identifierForDelete = 0;
+            counterArr = 0;
+            Arr = [[]];
+
+
+        }
+
+    }
+    //задать координаты
+    function SetCoords() {
+        if (countElementSegGlobal.length == 0) {
+
+            console.log(countElementSegGlobal.length);
+            if (currentRoute != undefined) {
+                $("#blockStreetCoord").css("display", "inline");
+                myMap.geoObjects.add(currentRoute);
+                currentRoute.editor.start({ editWayPoints: true });
+
+                $("#blockStreetCoord").parent().prev().children("input").each(function (indx, element) {
+                    $(element).removeAttr("readonly");
+
+                });
+
+                $("#blockStreetCoord").parent().prev().prev().prev().children("input").each(function (indx, element) {
+                    $(element).removeAttr("readonly");
+                });
+
+            } else {
+                handlerRoute = function (e) {
+
+                    var coords = e.get('coords');
+                    if (counterArr < 2) {
+                        Arr[counterArr] = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
+
+                    }
+                    if (counterArr == 0) {
+                        firstPointRoute = new ymaps.GeoObject({
+                            geometry: {
+                                type: "Point", // тип геометрии - точка
+                                coordinates: [Arr[0][0], Arr[0][1]] // координаты точки
+                            },
+                            properties: {
+                                iconContent: "Начало улицы",
+                                balloonContentHeader: "<a href='#' onclick='setHandlerS()'>Удалить Обьект</a>",
+                                balloonContent: "[" + coords[0].toPrecision(6) + "," + coords[1].toPrecision(6) + "]"
+                            }
+                        },
+                        { draggable: true, preset: "islands#darkGreenStretchyIcon" });
+                        firstPointRoute.events.add("dragend", function (e) {
+
+                            var coords = firstPointRoute.geometry.getCoordinates();
+                            Arr[0] = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
+                            //изменение координат при пертягивание метки
+                            var object = e.get('target');
+                            object.properties.set("balloonContent", "[" + coords[0].toPrecision(6) + "," + coords[1].toPrecision(6) + "]");
+
+                        });
+
+                        myMap.geoObjects.add(firstPointRoute);
+                        identifierForDelete++;
+                    }
+                    counterArr++;
+
+                    if (Arr.length == 2) {
+
+                        SetRoute(Arr);
+                        //задать несколько маршрутов
+                        //Arr = [];
+                        //counterArr = 0;
+                        myMap.events.remove('dblclick', handlerRoute);
+
+                    }
+                }
+
+                myMap.events.add('dblclick', handlerRoute);
+
+            }
+        } else {
+            alert('Вы не можете редактировать улицу пока на нем находится хотя бы один участок');
+        }
+    }
+    //удаление сегмента
+    function deleteSegment(index) {
+        countElementSegGlobal.length--;
+
+        myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1]));
+        myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1] - 1));
+
+        for (var i = index - 1; i < massSegment.length; i++) {
+            massSegment[i] = massSegment[i] - 2;
+        };
+
+        massSegment.splice(index - 1, 1);
+
+        var j = 1;
+        myMap.geoObjects.each(function (el, index) {
+
+            for (var i = 0; i < massSegment.length; i++) {
+                if (massSegment[i] == index) {
+
+
+                    el.properties.set({
+                        iconContent: j,
+                        balloonContentHeader: "<a href='#' onclick='deleteSegment(" + j + ")'>Удалить Обьект</a>",
+                    });
+                    j++;
+                };
+            }
+
+        });
+        var indexOffset = false;
+        var previousDom = $('[id^=segment]:has("*")').eq(0);
+        var countElement = $('[id^=segment]:has("*")');
+        var indexSkipOfFirst = false;
+        $('[id^=segment]:has("*")').each(function (ind, domElement) {
+
+            if (((ind + 1) == parseInt(index) || indexOffset == true)) {
+
+                if (indexSkipOfFirst == true) {
+                    $(previousDom).html(domElement.innerHTML);
+                }
+                //изменения содержимого сегмента
+                if (countElement.length != 1) {
+                    $(previousDom).attr("id", "segment" + ind + "");
+                    $(previousDom).find("u").first().text("Координаты участка " + ind);
+                    $(previousDom).find("input").first().attr("id", "breadthSegS" + ind);
+                    $(previousDom).find("input").eq(1).attr("id", "lengthSegS" + ind);
+                    $(previousDom).find("input").eq(2).attr("id", "breadthSegE" + ind);
+                    $(previousDom).find("input").last().attr("id", "lengthSegE" + ind);
+                }
+                previousDom = domElement;
+                if (indexSkipOfFirst == false)
+                    indexSkipOfFirst = true;
+                indexOffset = true;
+            }
+            if ((countElement.length) == (ind + 1)) {
+                if (index != 1) {
+                    $(domElement).html("");
+                } else {
+                    $("#breadthSegS1").attr("value", "");
+                    $("#lengthSegS1").attr("value", "");
+                    $("#breadthSegE1").attr("value", "");
+                    $("#lengthSegE1").attr("value", "");
+                }
+                if ((countElement.length - 5) % 3 == 0 && index != 2) {
+                    $(domElement).closest(".form-group").remove();
+                }
+                $("#CountSides").val((parseInt($("#CountSides").val()) - 1).toString());
+            }
+        });
+        if (countElement.length == 5) {
+            $("#interData+div").remove();
+            $("#segment4").after("<div>" +
+                "<button type='button' class='btn btn-success setSegment'>Задать/Изменить координаты</button>" +
+                 "<button id='SendForm' class='btn btn-warning'>Сохранить</button>" +
+            "</div>");
+            tempDataFor3 = 5;
+        }
+        increment = massSegment.length + 1;
+        console.log(countElementSegGlobal.length);
+    }
+
+
+
+    //задание координат
+    $(document).ready(function () {
+        $('[data-target="#ModalTable"]').click(function () {
+
+            var textStreet = $('[name="Street.Name"]').val();
+
+            if (textStreet != "") {
+                $('#text').text(textStreet);
+            }
+        });
+
+        function setSegment(eventObject) {
+
+            if ($(eventObject.target).next("button").css("display") == "none") {
+                $("#SendForm").css("display", "inline-block");
+            }
+            if (currentRoute == undefined || $("#blockStreetCoord").css("display") == "inline") {
+                alert("Задайте улицу или возможно нажмите кнопку сохранить в этом пункте");
+            } else {
+
+                if (identifierForDelBallon == true) {
+                    console.log(currentRoute.getPaths().getBounds());
+                    currentRoute.getPaths().get(0).balloon.destroy();
+
+                    identifierForDelBallon = false;
+                }
+
+                handlerSegment = function (e) {
+                    countElementSegGlobal.length++;
+                    console.log(countElementSegGlobal.length);
+                    var coords = e.get('coords');
+
+                    ymaps.route([
+                            tempData,
+                            [coords[0].toPrecision(6), coords[1].toPrecision(6)]
+                    ],
+                        {
+                            mapStateAutoApply: true,
+                            removeViaPoints: true
+                        }
+                    ).then(
+                        function (route) {
+
+
+                            var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
+                            edges = [];
+
+                            // Переберем все сегменты и разобьем их на отрезки.
+                            pathsObjects.each(function (path) {
+                                var coordinates = path.geometry.getCoordinates();
+                                for (var i = 1, l = coordinates.length; i < l; i++) {
+                                    edges.push({
+                                        type: 'LineString',
+                                        coordinates: [coordinates[i], coordinates[i - 1]]
+
+                                    });
+                                }
+                            });
+                            CountObjectInMap = edges.length;
+
+
+                            route.getPaths().options.set({
+
+                                //можно выставить настройки графики маршруту
+                                strokeColor: '#FF0000',
+                                opacity: 0.9,
+                                strokeWidth: 4
+                            });
+
+
+                            if (increment >= 2 && increment <= 4) {
+
+                                $("#segment" + increment).html(
+                                    '<b><u>Координаты участка ' + increment + '</u></b>' +
+                                    '<div>Начальнаты начала</div>' +
+                                    '<div><label for="Segment.BreadthS">Широта</label> <input id="breadthSegS' + increment + '" name="Segment.BreadthS" readonly="" type="text" value="">' +
+                                    '<label for="Segment.LengthS">Долгота</label> <input id="lengthSegS' + increment + '" name="Segment.LengthS" readonly="" type="text" value="">' +
+                                    '</div><div>Координаты конца</div><div>' +
+                                    '<label for="Segment.BreadthE">Широта</label> <input id="breadthSegE' + increment + '" name="Segment.BreadthE" readonly="" type="text" value="">' +
+                                    '<label for="Segment.LengthE">Долгота</label> <input id="lengthSegE' + increment + '" name="Segment.LengthE" readonly="" type="text" value=""></div></div>'
+                                    );
+                            }
+
+                            if (increment > 4) {
+                                if (increment == 5) {
+                                    $("#segment4+div").remove();
+                                    $("#interData").after('<div style="float: left"  >' +
+                                        '<button type="button"  class="btn btn-success setSegment">Задать/Изменить координаты</button>' +
+                                        '<button id="SendForm" class="btn btn-warning">Сохранить</button>' +
+                                        '</div>');
+
+                                }
+                                if (tempDataFor3 == increment) {
+                                    $("#interData").before('<div class="form-group" style="margin-top: 10px"><div id="segment' + increment + '" style="width: 30.2%;float: left;height: 115px"></div><div id="segment' + (increment + 1) + '" style="width:29%;float: left;height: 115px"></div><div id="segment' + (increment + 2) + '" style="width: 39.8%;float: left;height: 115px"></div></div>');
+                                    tempDataFor3 = tempDataFor3 + 3;
+                                }
+                                $("#segment" + increment).html('<b><u>Координаты участка ' + increment + '</u></b>' +
+                                    '<div>Начальнаты начала</div>' +
+                                    '<div><label for="Segment.BreadthS">Широта</label> <input id="breadthSegS' + increment + '" name="Segment.BreadthS" readonly="" type="text" value="">' +
+                                    '<label for="Segment.LengthS">Долгота</label> <input id="lengthSegS' + increment + '" name="Segment.LengthS" readonly="" type="text" value="">' +
+                                    '</div><div>Координаты конца</div>' +
+                                    '<div>' +
+                                    '<label for="Segment.BreadthE">Широта</label> <input id="breadthSegE' + increment + '" name="Segment.BreadthE" readonly="" type="text" value="">' +
+                                    '<label for="Segment.LengthE">Долгота</label> <input id="lengthSegE' + increment + '" name="Segment.LengthE" readonly="" type="text" value=""></div><div>' +
+                                    '</div></div>'
+                                );
+                            }
+                            //$("#breadthSegS" + increment).val(tempData[0]);
+                            //$("#lengthSegS" + increment).val(tempData[1]);
+                            //$("#breadthSegE" + increment).val(coords[0].toPrecision(6));
+                            //$("#lengthSegE" + increment).val(coords[1].toPrecision(6));
+                            $("#CountSides").val(increment);
+                            $("#breadthSegS" + increment).attr("value", tempData[0]);
+                            $("#lengthSegS" + increment).attr("value", tempData[1]);
+                            $("#breadthSegE" + increment).attr("value", coords[0].toPrecision(6));
+                            $("#lengthSegE" + increment).attr("value", coords[1].toPrecision(6));
+                            var segment = new ymaps.GeoObject({
+                                geometry: {
+                                    type: "Point", // тип геометрии - точка
+                                    coordinates: [coords[0].toPrecision(6), coords[1].toPrecision(6)] // координаты точки
+
+                                },
+                                properties: {
+                                    iconContent: increment,
+                                    balloonContentHeader: "<a href='#' onclick='deleteSegment(" + increment + ")'>Удалить Обьект</a>",
+                                    balloonContent: "[" + coords[0].toPrecision(6) + "," + coords[1].toPrecision(6) + "]"
+                                }
+                            },
+                            {
+                                preset: "islands#blueCircleIcon",
+                                draggable: true
+                            });
+
+                            var myCircle = new ymaps.Circle([[coords[0].toPrecision(6), coords[1].toPrecision(6)], 3], null, { draggable: true, visible: false });
+                            //Добавление пути сегмента на карту
+
+                            //if (parseInt(myMap.geoObjects.getLength()) > CountObjectInMap+1) {
+                            //    myMap.geoObjects.splice(CountObjectInMap + 2, 1, route.getPaths());
+
+                            //} else {
+                            //    myMap.geoObjects.add(route.getPaths());
+
+                            //}
+
+                            myMap.geoObjects.add(myCircle);
+                            myMap.geoObjects.add(segment);
+
+                            objects = ymaps.geoQuery([myCircle]);
+
+                            var tempCoordinates;
+                            segment.events.add('dragstart', function () {
+                                tempCoordinates = segment.geometry._xl[0];
+                            });
+                            var Edit = increment;
+                            segment.events.add('drag', function (e) {
+
+                                $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                                $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                                $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                                $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                            });
+
+
+                            segment.events.add('dragend', function (e) {
+
+                                var routeObjects = ymaps.geoQuery(edges).setOptions('visible', false).addToMap(myMap);
+                                myCircle.geometry.setCoordinates(
+                                   segment.geometry._xl[0]
+                                );
+
+                                var boundaryObjects = routeObjects.searchIntersect(myCircle);
+
+
+                                if (boundaryObjects._xg.length == 0) {
+
+                                    segment.geometry.setCoordinates(tempCoordinates);
+
+                                    $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                                    $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                                    $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                                    $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                                }
+                            });
+
+
+                            tempData = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
+                            massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
+                            increment++;
+                        });
+                }
+                currentRoute.getPaths().events.add('dblclick', handlerSegment);
+
+            }
+        }
+
+
+        //отправка формы
+        $('[action="/Home/SaveSuccess"]').submit(function (event) {
+            event.preventDefault();
+            //берем из формы метод передачи данных
+            var m_method = $(this).attr('method');
+            //получаем адрес скрипта на сервере, куда нужно отправить форму
+            var m_action = $(this).attr('action');
+            //получаем данные, введенные пользователем в формате input1=value1&input2=value2...,
+            //то есть в стандартном формате передачи данных формы
+            var m_data = $(this).serialize();
+            $.ajax({
+                type: m_method,
+                url: m_action,
+                data: m_data
+
+            });
+            currentRoute.getPaths().events.remove('dblclick', handlerSegment);
+            $("#SendForm").css("display", "none");
+            $(".setSegment").one('click', setSegment);
+            myMap.geoObjects.each(function (el, index) {
+
+                for (var i = 0; i < massSegment.length; i++) {
+                    if (massSegment[i] == index) {
+                        el.balloon.destroy();
+                        el.options.set({
+                            draggable: false
+                        });
+                    };
+                }
+
+            });
+
+
+        });
+
+
+
+        $(".setSegment").one('click', setSegment);
+
+        $("#breadthS, #lengthS, #breadthE, #lengthE").change(function () {
+            Set();
+        });
+
+        //заблокировать наименовае улицы
+        $("#blockStreet").click(function () {
+            $(this).parent().prev().children("input").each(function (indx, element) {
+                $(element).attr("readonly", "");
+            });
+            $(this).css("display", "none");
+
+        });
+        //заблокировать поля  улицы и убрать координаты
+        $("#blockStreetCoord").click(function () {
+
+            //делает readOnly  инпуты
+            if (currentRoute != undefined && identifierForDelete != 1) {
+                $(this).parent().prev().children("input").each(function (indx, element) {
+                    $(element).attr("readonly", "");
+                });
+
+                $(this).parent().prev().prev().prev().children("input").each(function (indx, element) {
+                    $(element).attr("readonly", "");
+                });
+
+                $(this).css("display", "none");
+                //currentRoute.editor.start({ editWayPoints: false });
+                if (currentRoute != undefined) {
+                    myMap.geoObjects.remove(currentRoute);
+                }
+                currentRoute.getPaths().options.set({
+
+                    //можно выставить настройки графики маршруту
+                    strokeColor: '0000ffff',
+                    opacity: 0.9,
+                    strokeWidth: 4
+                });
+                //var segments= currentRoute.getPaths().get(0).getSegments();
+                //console.log(segments[0].getCoordinates());
+                //console.log(currentRoute.getPaths().get(0).state.get('hover'));
+                tempData = Arr[0];
+
+                myMap.geoObjects.add(currentRoute.getPaths());
+
+            } else {
+                alert("Задайте сначала маршрут");
+            }
+        });
+        //подсказки улиц
+        var autocompleteUrl = '/Home/FindStreets';
+        $('[name="Street.Name"]').autocomplete({
+            source: autocompleteUrl,
+            minLength: 2,
+            select: function (event, ui) {
+
+            }
+        });
+        //при клике по tr фокус по input
+        $("tr td").has("input").click(function (eventObject) {
+
+            $(eventObject.target).children().focus();
+        });
+        //чистка полей в модальном окне при нажатии по close
+        $(".close").click(function (e) {
+            $("td input").each(function (indx, element) {
+                $(element).val("");
+            });
+        });
+    });
+</script>
+
+<style>
+    /*изменение размера (ширины) модального окна*/
+    .modal-dialog {
+        width: 1000px;
+    }
+
+    td input {
+        border-width: 0;
+        text-align: right !important;
+    }
+    /*правит шрифт бутсрапа*/
+    label {
+        font-weight: normal;
+    }
+    /*отступы*/
+    .indentForTextBox {
+        margin-right: 60px;
+    }
+
+    .btn {
+        width: 285px;
+    }
+</style>
+<h2 style="text-align: center">Карточка улицы</h2>
+
+@using (Html.BeginForm("SaveSuccess", "Home", null, FormMethod.Post, new
+{
+    style = "height: 744px"
+}))
+{
+    <div class="form-inline">
+        <div class="form-group col-lg-7 col-md-7 col-sm-7 col-xs-7">
+            <div id="map" style="height: 744px;"></div>
+        </div>
+
+        <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
+            <b><u>1.Наименование улицы</u></b>
+            <div>
+                @Html.Hidden("City.id", (int)ViewBag.City.id)
+                @Html.Label("Выбирите город", new { @for = "City.Name" }) @Html.TextBox("City.Name", (string)ViewBag.City.Name, new { id = "city" })
+                @Html.Label("Выбирите улицу", new { @for = "Street.Name" }) @Html.TextBox("Street.Name", null, new { id = "street" })
+            </div>
+            <div>
+                <button type="button" class="btn btn-success " onclick="search()">Показать на карте</button>
+                <button type="button" id="blockStreet" class="btn btn-warning">Сохранить</button>
+            </div>
+            <b><u>2.Координаты улицы</u></b>
+            <div>Начальнаты начала</div>
+            <div>
+                @Html.Label("Широта", new { @for = "Street.BreadthS" }) @Html.TextBox("Street.BreadthS", null, new { id = "breadthS" })
+                @Html.Label("Долгота", new { @for = "Street.LengthS" }) @Html.TextBox("Street.LengthS", null, new { id = "lengthS" })
+            </div>
+            <div>Координаты конца</div>
+            <div>
+                @Html.Label("Широта", new { @for = "Street.BreadthE" }) @Html.TextBox("Street.BreadthE", null, new { id = "breadthE" })
+                @Html.Label("Долгота", new { @for = "Street.LengthE" }) @Html.TextBox("Street.LengthE", null, new { id = "lengthE" })
+            </div>
+            <div>
+                <button type="button" onclick="SetCoords()" class="btn btn-success ">Задать/Изменить координаты</button>
+                <button type="button" id="blockStreetCoord" class="btn btn-warning">Сохранить</button>
+            </div>
+            <b><u>3.Количество и координаты участков улицы</u></b>
+            <div>
+                @Html.Label("Количество участков", new { @for = "CountSides", style = "margin-right: 20px" }) @Html.TextBox(" ", null, new { id = "CountSides", style = "width: 40px", @readonly = "" })
+
+            </div>
+            <div id="segment1">
+                <b><u>Координаты участка 1</u></b>
+                <div>Начальнаты начала</div>
+                <div>
+                    @Html.Label("Широта", new { @for = "Segment.BreadthS" }) @Html.TextBox("Segment.BreadthS", null, new { id = "breadthSegS1", @readonly = "" })
+                    @Html.Label("Долгота", new { @for = "Segment.LengthS" }) @Html.TextBox("Segment.LengthS", null, new { id = "lengthSegS1", @readonly = "" })
+                </div>
+                <div>Координаты конца</div>
+                <div>
+                    @Html.Label("Широта", new { @for = "Segment.BreadthE" }) @Html.TextBox("Segment.BreadthE", null, new { id = "breadthSegE1", @readonly = "" })
+                    @Html.Label("Долгота", new { @for = "Segment.LengthE" }) @Html.TextBox("Segment.LengthE", null, new { id = "lengthSegE1", @readonly = "" })
+                </div>
+            </div>
+            <div id="segment2">
+            </div>
+            <div id="segment3">
+            </div>
+            <div id="segment4">
+            </div>
+            <div>
+                <button type="button" class="btn btn-success setSegment">Задать/Изменить координаты</button>
+                <button id="SendForm" class="btn btn-warning">Сохранить</button>
+            </div>
+
+        </div>
+
+    </div>
+    <div id="interData"></div>
+    <!-- Modal -->
+    <div class="modal fade" id="ModalTable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Спецификация горизонтальной дорожной разметки
+                        <p>по ул. <span id="text">_________________</span> в г. Минске
+                    </h4>
+
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>№ разметки</th>
+                            <th>Картинка</th>
+                            <th>Описание</th>
+                            <th>Длина (м.пог) / штуки</th>
+                            <th>Площадь (м.кв)</th>
+                        </tr>
+                        <tr>
+                            <td>1.1.1</td>
+                            <td rowspan="2"><img src="~/Content/image/1.1.1-1.1.2.JPG" /></td>
+                            <td>
+                                Сплошная одиночная
+                                линия, применяемая
+                                на проезжей части
+                                (кроме линий, распо-
+                                ложенных вдоль края
+                                проезжей части)
+                            </td>
+                            <td style="vertical-align: middle"><input name="ModalsL1.1.1" type="text" /></td>
+                            <td style="vertical-align: middle"><input name="ModalsA1.1.1" type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>1.1.2</td>
+
+                            <td>
+                                Сплошная одиночная
+                                линия, применяемая
+                                вне проезжей части
+                            </td>
+                            <td style="vertical-align: middle"><input name="ModalsL1.1.2" type="text" /></td>
+                            <td style="vertical-align: middle"><input name="ModalsA1.1.2" type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>1.2</td>
+                            <td><img src="~/Content/image/1.2.JPG" /></td>
+                            <td>
+                                Сплошная одиночная
+                                линия, расположенная
+                                вдоль края проезжей
+                                части
+                            </td>
+                            <td style="vertical-align: middle"><input name="ModalsL1.2" type="text" /></td>
+                            <td style="vertical-align: middle"><input name="ModalsA1.2" type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>1.3</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.4</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.5</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.6</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.7</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.8</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.9</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.10</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.11</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.12</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.13</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.14.1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.14.2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.14.3</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.15.1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.15.2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.16.1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.16.2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.16.3</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.17.1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.17.2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.17.2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.18.1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.18.2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.18.3</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.18.4</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.18.5</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.18.6</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.18.7</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.18.8</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.18.9</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.18.10</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.18.11</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.18.12</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.19.1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.19.2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.20</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.21</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.22.1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.22.2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.22.3</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.23</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.24.1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.24.2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.24.3</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.24.3</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.25</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.26</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.27</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.28</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.29</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.30</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.31</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.32</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.33</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.34</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1.35</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default close" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div style="clear: both">
+    <div class="">
+        <b><u>4.Ввод данных</u></b>
+    </div>
+    <div>
+        <input type="file" value="" />
+    </div>
+    <div>
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalTable">Ввести спецификацию разметки</button>
+    </div>
+
+    <div>
+        <b><u>Участок 1</u></b>
+    </div>
+
+    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+        <button type="button" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
+    </div>
+    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+        <button type="button" class="btn btn-default">Ввести данные о дорожных знаках</button>
+    </div>
+    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        <button type="button" class="btn btn-default">
+            Ввести данные о дорожных ограждениях
+        </button>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<oncloud.Web.oddBase.Models.Home.Table>
+
+@{
+    ViewBag.Title = "Table";
+}
+
+@Scripts.Render("~/bundles/jqCrid")
+@Styles.Render("~/Content/jqCrid")
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        tableToGrid("#table", {
+            height: 700,
+            colNames: [
+                "№ улицы", "Населенный пункт", "Наименование",
+                "Количество участков", "     "
+            ],
+            forceFit: false,
+            cmTemplate: { "resizable": false, sortable: false },
+            colModel: [
+                { name: "№_улицы", align: "center" },
+                { name: "Населенный_пункт", align: "center" },
+                { name: "Наименование", align: "center" },
+                { name: "Количество_участков", align: "center" },
+                { name: "Столбце_действия", align: "center" }
+
+            ]
+        });
+
+    });
+</script>
+@Html.ActionLink("+ Добавить новую рекламную конструкцию", "AddStreet", null, new { @class = "btn btn-default" })
+<table id="table" class="table-bordered" cellpadding="5" >
+    <tr>
+
+        <th>№_улицы</th>
+        <th>Населенный_пункт</th>
+        <th> Наименование </th>
+        <th> Количество_участков</th>
+        <th>Столбце_действия</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td></td>
+            <td>@item.Location</td>
+            <td>@item.Denomination</td>
+            <td>@item.NumberSegment</td>
+            <td>
+                <b><a href="#">Документы</a></b><br>
+                <a href="#" target="_blank">Показать на карте</a><br>
+                <a href="#">Изменить</a><br>
+                <a href="#">Удалить</a><br>
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+
+
+
