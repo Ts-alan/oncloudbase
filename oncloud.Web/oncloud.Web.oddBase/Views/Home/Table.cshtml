@@ -29,8 +29,8 @@
 
     });
 </script>
-@Html.ActionLink("+ Добавить новую рекламную конструкцию", "Index", null, new { @class = "btn btn-default" })
-<table id="table" class="table-bordered" cellpadding="5" style="width: 100%">
+@Html.ActionLink("+ Добавить новую рекламную конструкцию", "AddStreet", null, new { @class = "btn btn-default" })
+<table id="table" class="table-bordered" cellpadding="5" >
     <tr>
 
         <th>№_улицы</th>
@@ -39,16 +39,24 @@
         <th> Количество_участков</th>
         <th>Столбце_действия</th>
     </tr>
-    <tr>
-        @foreach (var item in Model)
-        {
+
+    @foreach (var item in Model)
+    {
+        <tr>
             <td></td>
             <td>@item.Location</td>
             <td>@item.Denomination</td>
-            <td>@item.NumberOfSegment</td>
-            <td></td>
-        }
-    </tr>
+            <td>@item.NumberSegment</td>
+            <td>
+                <b><a href="#">Документы</a></b><br>
+                <a href="#" target="_blank">Показать на карте</a><br>
+                <a href="#">Изменить</a><br>
+                <a href="#">Удалить</a><br>
+
+            </td>
+        </tr>
+    }
+
 </table>
 
 

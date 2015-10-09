@@ -10,7 +10,7 @@ namespace oncloud.Web.oddBase
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/jquery-ui-{version}.js"
+                        "~/Scripts/jquery-ui.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

@@ -19,7 +19,7 @@ namespace oncloud.Web.oddBase.Models.Home
                   Location = citystreet.Location,
                   NumberSegment = segment.Count()
               });
-        }
+         }
         public IEnumerable<Table> GetDataModel { get; set; }
         public int NumberSegment { get; set; }
         public string Location { get; set; }
