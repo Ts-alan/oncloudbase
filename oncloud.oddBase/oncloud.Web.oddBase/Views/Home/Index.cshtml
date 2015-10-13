@@ -1,8 +1,14 @@
 ﻿@{
     ViewBag.Title = "Главная";
+    var date = "Cегодня " + DateTime.Now.ToShortDateString();
+    var time = "Время    " + DateTime.Now.TimeOfDay.ToString(@"hh\:mm");
 }
-
-
+<div class="jumbotron">
+    <h2>Добро пожаловать!</h2>
+    <p>
+        @date &nbsp;&nbsp;@time
+    </p>
+</div>
 <div class="row">
     <div class="col-md-4">
         <h2>Карточки улиц</h2>
@@ -25,6 +31,7 @@
                 <li>Управлние пользователями и их правами</li>
             </ul>
         </p>
-        <p>@Html.ActionLink("Администрирование", "AdminTool", null, new { @class = "btn btn-default" })</p>
+        <p><a class="btn btn-default" href="#">Администрирование</a></p>
+@*<p>@Html.ActionLink("Администрирование", "AdminTool", null, new { @class = "btn btn-default" })</p>*@
     </div>
 </div>

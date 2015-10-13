@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Odd.AdbaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Odd.AdbaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="id" />
@@ -13,7 +13,7 @@
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.WEB\ONCLOUD.WEB.ODDBASE\APP_DATA\ODD.ADBASE.MDF.dbo.IntelliSenseStreet' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.ODDBASE\ONCLOUD.WEB.ODDBASE\APP_DATA\ODD.ADBASE.MDF.dbo.IntelliSenseStreet' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="IntelliSenseStreet">
           <Key>
             <PropertyRef Name="id" />
@@ -56,6 +56,7 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.WEB\ONCLOUD.WEB.ODDBASE\APP
           <Property Name="BreadthE" Type="nvarchar(max)" Nullable="false" />
           <Property Name="LengthE" Type="nvarchar(max)" Nullable="false" />
           <Property Name="City_id" Type="int" Nullable="false" />
+          <Property Name="UniqueNumber" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -129,8 +130,7 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.WEB\ONCLOUD.WEB.ODDBASE\APP
             <End Role="Street" EntitySet="Street" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Odd.AdbaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -140,7 +140,7 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.WEB\ONCLOUD.WEB.ODDBASE\APP
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Street" Relationship="Self.FK_Street_City" FromRole="City" ToRole="Street" />
+          <NavigationProperty Name="Street" Relationship="Odd.AdbaseModel.FK_Street_City" FromRole="City" ToRole="Street" />
         </EntityType>
         <EntityType Name="Segment">
           <Key>
@@ -153,7 +153,7 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.WEB\ONCLOUD.WEB.ODDBASE\APP
           <Property Name="BreadthE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LengthE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Street_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Street" Relationship="Self.FK_Segment_Street" FromRole="Segment" ToRole="Street" />
+          <NavigationProperty Name="Street" Relationship="Odd.AdbaseModel.FK_Segment_Street" FromRole="Segment" ToRole="Street" />
         </EntityType>
         <EntityType Name="SpecificationofRM">
           <Key>
@@ -164,22 +164,7 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.WEB\ONCLOUD.WEB.ODDBASE\APP
           <Property Name="area" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Street_id" Type="Int32" Nullable="false" />
           <Property Name="Mackup" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Street" Relationship="Self.FK_SpecificationofRM_Street" FromRole="SpecificationofRM" ToRole="Street" />
-        </EntityType>
-        <EntityType Name="Street">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="BreadthS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LengthS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="BreadthE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LengthE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="City_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="City" Relationship="Self.FK_Street_City" FromRole="Street" ToRole="City" />
-          <NavigationProperty Name="Segment" Relationship="Self.FK_Segment_Street" FromRole="Street" ToRole="Segment" />
-          <NavigationProperty Name="SpecificationofRM" Relationship="Self.FK_SpecificationofRM_Street" FromRole="Street" ToRole="SpecificationofRM" />
+          <NavigationProperty Name="Street" Relationship="Odd.AdbaseModel.FK_SpecificationofRM_Street" FromRole="SpecificationofRM" ToRole="Street" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -200,9 +185,45 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.WEB\ONCLOUD.WEB.ODDBASE\APP
           <Property Name="Street" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityContainer Name="EntitiesOddAdbase" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="City" EntityType="Self.City" />
+          <EntitySet Name="Segment" EntityType="Self.Segment" />
+          <EntitySet Name="SpecificationofRM" EntityType="Self.SpecificationofRM" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="IntelliSenseStreet" EntityType="Self.IntelliSenseStreet" />
+          <EntitySet Name="Street" EntityType="Odd.AdbaseModel.Street" />
+          <AssociationSet Name="FK_Street_City" Association="Odd.AdbaseModel.FK_Street_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="Street" EntitySet="Street" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Segment_Street" Association="Odd.AdbaseModel.FK_Segment_Street">
+            <End Role="Street" EntitySet="Street" />
+            <End Role="Segment" EntitySet="Segment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SpecificationofRM_Street" Association="Odd.AdbaseModel.FK_SpecificationofRM_Street">
+            <End Role="Street" EntitySet="Street" />
+            <End Role="SpecificationofRM" EntitySet="SpecificationofRM" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Street">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BreadthS" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LengthS" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BreadthE" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LengthE" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="City_id" Type="Int32" Nullable="false" />
+          <Property Name="UniqueNumber" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="City" Relationship="Odd.AdbaseModel.FK_Street_City" FromRole="Street" ToRole="City" />
+          <NavigationProperty Name="Segment" Relationship="Odd.AdbaseModel.FK_Segment_Street" FromRole="Street" ToRole="Segment" />
+          <NavigationProperty Name="SpecificationofRM" Relationship="Odd.AdbaseModel.FK_SpecificationofRM_Street" FromRole="Street" ToRole="SpecificationofRM" />
+        </EntityType>
         <Association Name="FK_Street_City">
-          <End Role="City" Type="Self.City" Multiplicity="1" />
-          <End Role="Street" Type="Self.Street" Multiplicity="*" />
+          <End Type="Odd.AdbaseModel.City" Role="City" Multiplicity="1" />
+          <End Type="Odd.AdbaseModel.Street" Role="Street" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="City">
               <PropertyRef Name="id" />
@@ -213,8 +234,8 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.WEB\ONCLOUD.WEB.ODDBASE\APP
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Segment_Street">
-          <End Role="Street" Type="Self.Street" Multiplicity="1" />
-          <End Role="Segment" Type="Self.Segment" Multiplicity="*" />
+          <End Type="Odd.AdbaseModel.Street" Role="Street" Multiplicity="1" />
+          <End Type="Odd.AdbaseModel.Segment" Role="Segment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Street">
               <PropertyRef Name="id" />
@@ -225,8 +246,8 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.WEB\ONCLOUD.WEB.ODDBASE\APP
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SpecificationofRM_Street">
-          <End Role="Street" Type="Self.Street" Multiplicity="1" />
-          <End Role="SpecificationofRM" Type="Self.SpecificationofRM" Multiplicity="*" />
+          <End Type="Odd.AdbaseModel.Street" Role="Street" Multiplicity="1" />
+          <End Type="Odd.AdbaseModel.SpecificationofRM" Role="SpecificationofRM" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Street">
               <PropertyRef Name="id" />
@@ -236,26 +257,6 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.WEB\ONCLOUD.WEB.ODDBASE\APP
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="EntitiesOddAdbase" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="City" EntityType="Self.City" />
-          <EntitySet Name="Segment" EntityType="Self.Segment" />
-          <EntitySet Name="SpecificationofRM" EntityType="Self.SpecificationofRM" />
-          <EntitySet Name="Street" EntityType="Self.Street" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="IntelliSenseStreet" EntityType="Self.IntelliSenseStreet" />
-          <AssociationSet Name="FK_Street_City" Association="Self.FK_Street_City">
-            <End Role="City" EntitySet="City" />
-            <End Role="Street" EntitySet="Street" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Segment_Street" Association="Self.FK_Segment_Street">
-            <End Role="Street" EntitySet="Street" />
-            <End Role="Segment" EntitySet="Segment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SpecificationofRM_Street" Association="Self.FK_SpecificationofRM_Street">
-            <End Role="Street" EntitySet="Street" />
-            <End Role="SpecificationofRM" EntitySet="SpecificationofRM" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -294,19 +295,6 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.WEB\ONCLOUD.WEB.ODDBASE\APP
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Street">
-            <EntityTypeMapping TypeName="Odd.AdbaseModel.Street">
-              <MappingFragment StoreEntitySet="Street">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="BreadthS" ColumnName="BreadthS" />
-                <ScalarProperty Name="LengthS" ColumnName="LengthS" />
-                <ScalarProperty Name="BreadthE" ColumnName="BreadthE" />
-                <ScalarProperty Name="LengthE" ColumnName="LengthE" />
-                <ScalarProperty Name="City_id" ColumnName="City_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="Odd.AdbaseModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -324,6 +312,20 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.WEB\ONCLOUD.WEB.ODDBASE\APP
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Street" ColumnName="Street" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Street">
+            <EntityTypeMapping TypeName="Odd.AdbaseModel.Street">
+              <MappingFragment StoreEntitySet="Street">
+                <ScalarProperty Name="UniqueNumber" ColumnName="UniqueNumber" />
+                <ScalarProperty Name="City_id" ColumnName="City_id" />
+                <ScalarProperty Name="LengthE" ColumnName="LengthE" />
+                <ScalarProperty Name="BreadthE" ColumnName="BreadthE" />
+                <ScalarProperty Name="LengthS" ColumnName="LengthS" />
+                <ScalarProperty Name="BreadthS" ColumnName="BreadthS" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

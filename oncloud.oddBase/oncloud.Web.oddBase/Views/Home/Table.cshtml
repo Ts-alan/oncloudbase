@@ -7,7 +7,7 @@
 @Scripts.Render("~/bundles/jqCrid")
 @Styles.Render("~/Content/jqCrid")
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         tableToGrid("#table", {
             height: 700,
@@ -23,13 +23,14 @@
                 { name: "Наименование", align: "center" },
                 { name: "Количество_участков", align: "center" },
                 { name: "Столбце_действия", align: "center" }
-
             ]
         });
 
     });
 </script>
-@Html.ActionLink("+ Добавить новую рекламную конструкцию", "AddStreet", null, new { @class = "btn btn-default" })
+<h2>Карточки улиц</h2>
+
+@Html.ActionLink("+ Добавить новую рекламную конструкцию", "AddStreet", null, new { @class = "btn btn-default" ,style="margin-bottom: 15px" })
 <table id="table" class="table-bordered" cellpadding="5" >
     <tr>
 
@@ -43,7 +44,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td></td>
+            <td>@item.UniqueNumber</td>
             <td>@item.Location</td>
             <td>@item.Denomination</td>
             <td>@item.NumberSegment</td>

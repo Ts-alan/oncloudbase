@@ -28,6 +28,7 @@ namespace oncloud.Web.oddBase.Models
         public string BreadthE { get; set; }
         public string LengthE { get; set; }
         public int City_id { get; set; }
+        public string UniqueNumber { get; set; }
     
         public virtual City City { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
