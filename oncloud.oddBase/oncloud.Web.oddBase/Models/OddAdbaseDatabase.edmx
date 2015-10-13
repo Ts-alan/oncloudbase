@@ -12,6 +12,13 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="Increment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Counter" Type="int" Nullable="false" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.ODDBASE\ONCLOUD.WEB.ODDBASE\APP_DATA\ODD.ADBASE.MDF.dbo.IntelliSenseStreet' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="IntelliSenseStreet">
@@ -106,6 +113,7 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.ODDBASE\ONCLOUD.WEB.ODDBASE
         </Association>
         <EntityContainer Name="OddAdbaseModelStoreContainer">
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Increment" EntityType="Self.Increment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Segment" EntityType="Self.Segment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SpecificationofRM" EntityType="Self.SpecificationofRM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Street" EntityType="Self.Street" Schema="dbo" store:Type="Tables" />
@@ -204,6 +212,7 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.ODDBASE\ONCLOUD.WEB.ODDBASE
             <End Role="Street" EntitySet="Street" />
             <End Role="SpecificationofRM" EntitySet="SpecificationofRM" />
           </AssociationSet>
+          <EntitySet Name="Increment" EntityType="Odd.AdbaseModel.Increment" />
           </EntityContainer>
         <EntityType Name="Street">
           <Key>
@@ -257,6 +266,13 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.ODDBASE\ONCLOUD.WEB.ODDBASE
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Increment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Counter" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -325,6 +341,14 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.ODDBASE\ONCLOUD.WEB.ODDBASE
                 <ScalarProperty Name="LengthS" ColumnName="LengthS" />
                 <ScalarProperty Name="BreadthS" ColumnName="BreadthS" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Increment">
+            <EntityTypeMapping TypeName="Odd.AdbaseModel.Increment">
+              <MappingFragment StoreEntitySet="Increment">
+                <ScalarProperty Name="Counter" ColumnName="Counter" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

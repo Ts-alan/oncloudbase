@@ -45,7 +45,8 @@ namespace oncloud.Web.oddBase.Controllers
                 BreadthE = street.BreadthE,
                 LengthE = street.LengthE,
                 LengthS = street.LengthS,
-                City_id = city.id
+                City_id = city.id,
+                UniqueNumber = TableAdapterExtensions.StringSymvol()
             };
             db.Street.Add(streetInfo);
 

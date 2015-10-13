@@ -31,5 +31,6 @@ namespace oncloud.Web.oddBase.Models
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<IntelliSenseStreet> IntelliSenseStreet { get; set; }
         public virtual DbSet<Street> Street { get; set; }
+        public virtual DbSet<Increment> Increment { get; set; }
     }
 }

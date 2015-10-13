@@ -175,6 +175,9 @@
     <Compile Include="Models\CustomModelBinder.cs" />
     <Compile Include="Models\Home\Table.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Increment.cs">
+      <DependentUpon>OddAdbaseDataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IntelliSenseStreet.cs">
       <DependentUpon>OddAdbaseDataBase.tt</DependentUpon>
     </Compile>
@@ -206,6 +209,7 @@
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>OddAdbaseDataBase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TableAdapterExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
