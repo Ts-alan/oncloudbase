@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IStreetsRepository.cs" />
+    <Compile Include="Concrete\EFDBContext.cs" />
+    <Compile Include="Concrete\EFStreetsRepository.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
     <Compile Include="DAL\IGenericRepository.cs" />
     <Compile Include="Entities\Street.cs" />

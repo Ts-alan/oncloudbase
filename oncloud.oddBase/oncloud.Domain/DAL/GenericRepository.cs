@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace oncloud.Domain.DAL
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity, TEFContext> : IGenericRepository<TEntity> where TEntity : class where TEFContext : DbContext
     {
-        internal DbContext context;
+        internal TEFContext context;
         internal DbSet<TEntity> dbSet;
 
-        public GenericRepository(DbContext context)
+        public GenericRepository(TEFContext context)
         {
             this.context = context;
             this.dbSet = context.Set<TEntity>();
