@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Ninject;
+using Ninject.Web.Common;
 using oncloud.Domain.Abstract;
 using oncloud.Domain.Concrete;
 using oncloud.Domain.Entities;
@@ -30,13 +31,14 @@ namespace oncloud.Web.oddBase.Infrastructure
         private void AddBindings()
         {
             // конфигурирование контейнера     
-            Mock<IStreetsRepository> mock = new Mock<IStreetsRepository>();
-            mock.Setup(m => m.Streets).Returns(new List<Street> { 
-                new Street {Caption = "Football" }, 
-                new Street {Caption = "Football" },
-            }.AsQueryable());
+            //Mock<IStreetsRepository> mock = new Mock<IStreetsRepository>();
+            //mock.Setup(m => m.Streets).Returns(new List<Street> { 
+            //    new Street {Caption = "Football" }, 
+            //    new Street {Caption = "Football" },
+            //}.AsQueryable());
             //ninjectKernel.Bind<IStreetsRepository>().ToConstant(mock.Object);
-            ninjectKernel.Bind<IStreetsRepository>().To<EFStreetsRepository>();
+            //ninjectKernel.Bind<IStreetsRepository>().To<EFStreetsRepository>();
+            ninjectKernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope().WithConstructorArgument("EFDBContext");
         }
     }
 }

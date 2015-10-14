@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace oncloud.Domain.Abstract
 {
-    public interface ICitiesRepository : IGenericRepository<City>
+    interface ICitiesRepository : IGenericRepository<City>
     {
         IQueryable<City> Cities { get; }
     }

@@ -8,13 +8,45 @@ using System.Web;
 using System.Web.Mvc;
 using oncloud.Domain.Concrete;
 using oncloud.Domain.Entities;
+using oncloud.Domain.Abstract;
 
 namespace oncloud.Web.oddBase.Controllers
 {
     public class CitiesController : Controller
     {
-        private EFDBContext db = new EFDBContext();
+        private readonly DataBaseSets db;
+        private class DataBaseSets
+        {
+            private IUnitOfWork _uow;
+            internal DataBaseSets(IUnitOfWork uow) { _uow = uow; }
+            public IDbSet<City> Cities { get { return _uow.Set<City>(); } }
+            public int SaveChanges()
+            {
+                return _uow.SubmitChanges();
+            }
 
+            public void SetEntryModified<TEntity>(TEntity entity) where TEntity : class
+            {
+                _uow.Update(entity);
+            }
+
+            public void Dispose()
+            {
+                if (_uow is IDisposable)
+                {
+                    ((IDisposable)_uow).Dispose();
+                }
+            }
+        }
+
+        private readonly IUnitOfWork _unitOfWork;
+
+
+        public CitiesController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+            db = new DataBaseSets(_unitOfWork);
+        }
         // GET: Cities
         public ActionResult Index()
         {
@@ -83,7 +115,8 @@ namespace oncloud.Web.oddBase.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(city).State = EntityState.Modified;
+                db.SetEntryModified(city);
+                //db.Entry(city).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
