@@ -24,7 +24,7 @@ namespace oncloud.Web.oddBase.Controllers
        
             return View(data.GetDataModel);
         }
-        public void SaveSuccess(City city, Street street, [ModelBinder(typeof(CustomModelBinderForSegment))] ICollection<Segment> segment, [ModelBinder(typeof(CustomModelBinderForModels))]ICollection<SpecificationofRM> models)
+        public void SaveSuccess(City city, Street street, [ModelBinder(typeof(CustomModelBinderForSegment))] ICollection<Segment> segment, [ModelBinder(typeof(CustomModelBinderForModels))]ICollection<SpecificationofRM> models, HttpPostedFileBase layoutscheme)
         {
             //if (
             //    db.Street.Any(

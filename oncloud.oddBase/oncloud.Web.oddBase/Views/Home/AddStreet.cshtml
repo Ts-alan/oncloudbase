@@ -596,6 +596,10 @@
         $("#breadthS, #lengthS, #breadthE, #lengthE").change(function () {
             Set();
         });
+        //закрытие модального окна
+        $("#closeModel").click(function () {
+            $("#ModalTable").modal('hide');
+        });
 
         //заблокировать наименовае улицы
         $("#blockStreet").click(function () {
@@ -663,8 +667,28 @@
         });
     });
 </script>
-
 <style>
+    /*стили на для Upload кнопки*/
+        .file_upload {
+            position: relative;
+            overflow: hidden;
+            height: 34px; /* example */
+            margin-bottom: 10px
+         }
+        
+        .file_upload input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            transform: scale(1);
+            letter-spacing: 10em; /* IE 9 fix */
+            -ms-transform: scale(1); /* IE 9 fix */
+            opacity: 0;
+            cursor: pointer;
+        }
+
     /*изменение размера (ширины) модального окна*/
     .modal-dialog {
         width: 1000px;
@@ -759,11 +783,11 @@
     </div>
     <div id="interData"></div>
     <!-- Modal -->
-    <div class="modal fade" id="ModalTable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="ModalTable" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
                     <h4 class="modal-title" id="myModalLabel">
                         Спецификация горизонтальной дорожной разметки
                         <p>по ул. <span id="text">_________________</span> в г. Минске
@@ -1216,8 +1240,8 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default close" data-dismiss="modal">Закрыть</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
+                    <button type="button" id="closeModel" class="btn btn-default " data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>
@@ -1225,12 +1249,12 @@
 }
 
 
-<div style="clear: both">
-    <div class="">
+    <div >
         <b><u>4.Ввод данных</u></b>
     </div>
-    <div>
-        <input type="file" value="" />
+    <div  class="file_upload">
+        <button class="btn btn-default" type="button">Загрузить компоновочную схему</button>
+        <input name="layoutscheme" type="file">
     </div>
     <div>
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalTable">Ввести спецификацию разметки</button>
@@ -1251,7 +1275,7 @@
             Ввести данные о дорожных ограждениях
         </button>
     </div>
-</div>
+
 
 
 
