@@ -1,4 +1,5 @@
-﻿using oncloud.Web.oddBase.Models;
+﻿using oncloud.Web.oddBase.Infrastructure;
+using oncloud.Web.oddBase.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -20,6 +21,8 @@ namespace oncloud.Web.oddBase
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
         }
     }
 }
