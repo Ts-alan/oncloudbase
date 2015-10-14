@@ -12,5 +12,6 @@ namespace oncloud.Domain.Concrete
     public class EFDBContext : DbContext
     {
         public DbSet<Street> Streets { get; set; }
+        public DbSet<City> Cities { get; set; }
     }
 }

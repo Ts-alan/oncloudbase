@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Data.Spatial;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace oncloud.Domain.Entities
 {
@@ -18,6 +19,7 @@ namespace oncloud.Domain.Entities
         public double? EndPointLongitude { get; set; }
         public double? EndPointLatitude { get; set; }
 
+        [NotMapped]
         public DbGeography StartPoint { 
             get 
             {

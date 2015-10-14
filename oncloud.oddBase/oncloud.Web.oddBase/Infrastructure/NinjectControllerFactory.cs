@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Ninject;
 using oncloud.Domain.Abstract;
+using oncloud.Domain.Concrete;
 using oncloud.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,8 @@ namespace oncloud.Web.oddBase.Infrastructure
                 new Street {Caption = "Football" }, 
                 new Street {Caption = "Football" },
             }.AsQueryable());
-            ninjectKernel.Bind<IStreetsRepository>().ToConstant(mock.Object);
+            //ninjectKernel.Bind<IStreetsRepository>().ToConstant(mock.Object);
+            ninjectKernel.Bind<IStreetsRepository>().To<EFStreetsRepository>();
         }
     }
 }
