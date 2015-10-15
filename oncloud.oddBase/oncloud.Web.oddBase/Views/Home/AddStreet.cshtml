@@ -682,7 +682,6 @@
         }
         .file_upload input[type=file] {
             position: absolute;
-            left: 0;
             top: 0;
             width: 100%;
             height: 100%;
@@ -837,25 +836,25 @@
     <div >
         <b><u>4.Ввод данных</u></b>
     </div>
-    <div  class="file_upload">
+    <div  class="file_upload  col-lg-4 col-md-4 col-sm-4 col-xs-4">
         <button class="btn btn-default" type="button">Загрузить компоновочную схему</button>
         <input name="layoutscheme" type="file">
     </div>
-    <div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalTable">Ввести спецификацию разметки</button>
     </div>
 
-    <div>
+    <div style="clear: both" >
         <b><u>Участок 1</u></b>
     </div>
 
-    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+    <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
         <button type="button" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
     </div>
-    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+    <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
         <button type="button" class="btn btn-default">Ввести данные о дорожных знаках</button>
     </div>
-    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4">
+    <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
         <button type="button" class="btn btn-default">
             Ввести данные о дорожных ограждениях
         </button>
