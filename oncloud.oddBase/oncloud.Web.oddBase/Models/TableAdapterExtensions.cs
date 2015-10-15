@@ -12,7 +12,7 @@ namespace oncloud.Web.oddBase.Models
             int result;
             int valueInrement;
 
-            using (EntitiesOddAdbase context = new EntitiesOddAdbase())
+            using (OddAdbaseDataBase context = new OddAdbaseDataBase())
             {
 
                 result = context.Increment.First().Counter;

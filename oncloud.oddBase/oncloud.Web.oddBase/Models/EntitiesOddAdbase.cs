@@ -5,10 +5,10 @@ namespace oncloud.Web.oddBase.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class OddAdbaseDataBase : DbContext
+    public partial class EntitiesOddAdbase : DbContext
     {
-        public OddAdbaseDataBase()
-            : base("name=OddAdbaseDataBase")
+        public EntitiesOddAdbase()
+            : base("name=EntitiesOddAdbase")
         {
         }
 

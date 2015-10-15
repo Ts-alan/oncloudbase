@@ -7,7 +7,7 @@ namespace oncloud.Web.oddBase.Models.Home
 {
     public class Table
     {
-        public void Setinitialization(EntitiesOddAdbase db)
+        public void Setinitialization(OddAdbaseDataBase db)
         {
             GetDataModel = db.City.Join(db.Street, city => city.id, street => street.City_id,
       (city, street) => new { Location = city.Name, Denomination = street.Name, StreetId = street.id, UniqueNumber=street.UniqueNumber })

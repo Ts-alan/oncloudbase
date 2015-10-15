@@ -11,7 +11,7 @@ namespace oncloud.Web.oddBase.Controllers
 {
     public class HomeController : Controller
     {
-        EntitiesOddAdbase db=new EntitiesOddAdbase();
+        OddAdbaseDataBase db =new OddAdbaseDataBase();
         public ActionResult Index()
         {
             return View();
