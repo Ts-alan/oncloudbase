@@ -66,9 +66,8 @@ namespace oncloud.Web.oddBase.Controllers
         }
         public ActionResult AddStreet()
         {
-
-                ViewBag.City = db.City.First();
-    
+            ViewBag.City = db.City.First();
+            ViewBag.Model = db.TheHorizontalRoadMarking;
 
             return View();
         }

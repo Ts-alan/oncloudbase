@@ -75,6 +75,14 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.ODDBASE\ONCLOUD.WEB.ODDBASE
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="TheHorizontalRoadMarking">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumberMarking" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="description" Type="ntext" Nullable="false" />
+        </EntityType>
         <Association Name="FK_Segment_Street">
           <End Role="Street" Type="Self.Street" Multiplicity="1" />
           <End Role="Segment" Type="Self.Segment" Multiplicity="*" />
@@ -118,6 +126,7 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.ODDBASE\ONCLOUD.WEB.ODDBASE
           <EntitySet Name="SpecificationofRM" EntityType="Self.SpecificationofRM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Street" EntityType="Self.Street" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TheHorizontalRoadMarking" EntityType="Self.TheHorizontalRoadMarking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IntelliSenseStreet" EntityType="Self.IntelliSenseStreet" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [IntelliSenseStreet].[id] AS [id], 
@@ -213,6 +222,7 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.ODDBASE\ONCLOUD.WEB.ODDBASE
             <End Role="SpecificationofRM" EntitySet="SpecificationofRM" />
           </AssociationSet>
           <EntitySet Name="Increment" EntityType="Odd.AdbaseModel.Increment" />
+          <EntitySet Name="TheHorizontalRoadMarking" EntityType="Odd.AdbaseModel.TheHorizontalRoadMarking" />
           </EntityContainer>
         <EntityType Name="Street">
           <Key>
@@ -272,6 +282,14 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.ODDBASE\ONCLOUD.WEB.ODDBASE
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="Counter" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TheHorizontalRoadMarking">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumberMarking" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -349,6 +367,15 @@ warning 6002: The table/view 'D:\ONCLOUDBASE\ONCLOUD.ODDBASE\ONCLOUD.WEB.ODDBASE
             <EntityTypeMapping TypeName="Odd.AdbaseModel.Increment">
               <MappingFragment StoreEntitySet="Increment">
                 <ScalarProperty Name="Counter" ColumnName="Counter" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TheHorizontalRoadMarking">
+            <EntityTypeMapping TypeName="Odd.AdbaseModel.TheHorizontalRoadMarking">
+              <MappingFragment StoreEntitySet="TheHorizontalRoadMarking">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="NumberMarking" ColumnName="NumberMarking" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

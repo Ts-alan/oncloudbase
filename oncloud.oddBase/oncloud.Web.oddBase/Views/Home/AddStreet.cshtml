@@ -206,7 +206,7 @@
     function SetCoords() {
         if (countElementSegGlobal.length == 0) {
 
-            console.log(countElementSegGlobal.length);
+           
             if (currentRoute != undefined) {
                 $("#blockStreetCoord").css("display", "inline");
                 myMap.geoObjects.add(currentRoute);
@@ -353,7 +353,7 @@
             tempDataFor3 = 5;
         }
         increment = massSegment.length + 1;
-        console.log(countElementSegGlobal.length);
+      
     }
 
 
@@ -379,7 +379,7 @@
             } else {
 
                 if (identifierForDelBallon == true) {
-                    console.log(currentRoute.getPaths().getBounds());
+                   
                     currentRoute.getPaths().get(0).balloon.destroy();
 
                     identifierForDelBallon = false;
@@ -387,7 +387,7 @@
 
                 handlerSegment = function (e) {
                     countElementSegGlobal.length++;
-                    console.log(countElementSegGlobal.length);
+                  
                     var coords = e.get('coords');
 
                     ymaps.route([
@@ -564,6 +564,8 @@
             //получаем данные, введенные пользователем в формате input1=value1&input2=value2...,
             //то есть в стандартном формате передачи данных формы
             var m_data = $(this).serialize();
+
+            //console.log($('[name="layoutscheme"]').attr("files")[0]);
             $.ajax({
                 type: m_method,
                 url: m_action,
@@ -675,7 +677,9 @@
             height: 34px; /* example */
             margin-bottom: 10px
          }
-        
+        .file_upload>input {
+            max-width: 284px
+        }
         .file_upload input[type=file] {
             position: absolute;
             left: 0;
@@ -715,7 +719,8 @@
 
 @using (Html.BeginForm("SaveSuccess", "Home", null, FormMethod.Post, new
 {
-    style = "height: 744px"
+    style = "height: 744px",
+    enctype = "multipart/form-data"
 }))
 {
     <div class="form-inline">
@@ -803,440 +808,20 @@
                             <th>Длина (м.пог) / штуки</th>
                             <th>Площадь (м.кв)</th>
                         </tr>
-                        <tr>
-                            <td>1.1.1</td>
-                            <td rowspan="2"><img src="~/Content/image/1.1.1-1.1.2.JPG" /></td>
-                            <td>
-                                Сплошная одиночная
-                                линия, применяемая
-                                на проезжей части
-                                (кроме линий, распо-
-                                ложенных вдоль края
-                                проезжей части)
-                            </td>
-                            <td style="vertical-align: middle"><input name="ModalsL1.1.1" type="text" /></td>
-                            <td style="vertical-align: middle"><input name="ModalsA1.1.1" type="text" /></td>
-                        </tr>
-                        <tr>
-                            <td>1.1.2</td>
+                   @foreach (var item in (IEnumerable<oncloud.Web.oddBase.Models.TheHorizontalRoadMarking>)ViewBag.Model)
+                   {
+                       <tr>
 
-                            <td>
-                                Сплошная одиночная
-                                линия, применяемая
-                                вне проезжей части
-                            </td>
-                            <td style="vertical-align: middle"><input name="ModalsL1.1.2" type="text" /></td>
-                            <td style="vertical-align: middle"><input name="ModalsA1.1.2" type="text" /></td>
-                        </tr>
-                        <tr>
-                            <td>1.2</td>
-                            <td><img src="~/Content/image/1.2.JPG" /></td>
-                            <td>
-                                Сплошная одиночная
-                                линия, расположенная
-                                вдоль края проезжей
-                                части
-                            </td>
-                            <td style="vertical-align: middle"><input name="ModalsL1.2" type="text" /></td>
-                            <td style="vertical-align: middle"><input name="ModalsA1.2" type="text" /></td>
-                        </tr>
-                        <tr>
-                            <td>1.3</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.4</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.5</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.6</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.7</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.8</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.9</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.10</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.11</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.12</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.13</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.14.1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.14.2</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.14.3</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.15.1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.15.2</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.16.1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.16.2</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.16.3</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.17.1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.17.2</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.17.2</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.18.1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.18.2</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.18.3</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.18.4</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.18.5</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.18.6</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.18.7</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.18.8</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.18.9</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.18.10</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.18.11</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.18.12</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.19.1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.19.2</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.20</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.21</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.22.1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.22.2</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.22.3</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.23</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.24.1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.24.2</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.24.3</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.24.3</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.25</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.26</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.27</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.28</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.29</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.30</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.31</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.32</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.33</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.34</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1.35</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                           <td>@item.NumberMarking</td>
+                           <td><img src="~/Content/image/Mackup/@(item.NumberMarking).JPG"/></td>
+                           <td>
+                                  @item.description
+                           </td>
+                           <td style="vertical-align: middle"><input name="ModalsL@(item.NumberMarking)" type="text"/></td>
+                           <td style="vertical-align: middle"><input name="ModalsA@(item.NumberMarking)" type="text"/></td>
+                       </tr>
+                   }
+                     
                     </table>
                 </div>
                 <div class="modal-footer">

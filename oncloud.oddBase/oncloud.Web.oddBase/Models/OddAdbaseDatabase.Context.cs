@@ -32,5 +32,6 @@ namespace oncloud.Web.oddBase.Models
         public virtual DbSet<IntelliSenseStreet> IntelliSenseStreet { get; set; }
         public virtual DbSet<Street> Street { get; set; }
         public virtual DbSet<Increment> Increment { get; set; }
+        public virtual DbSet<TheHorizontalRoadMarking> TheHorizontalRoadMarking { get; set; }
     }
 }

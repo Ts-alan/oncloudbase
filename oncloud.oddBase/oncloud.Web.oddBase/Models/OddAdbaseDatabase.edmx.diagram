@@ -15,6 +15,7 @@
         <AssociationConnector Association="Odd.AdbaseModel.FK_Segment_Street" />
         <AssociationConnector Association="Odd.AdbaseModel.FK_SpecificationofRM_Street" />
         <EntityTypeShape EntityType="Odd.AdbaseModel.Increment" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="Odd.AdbaseModel.TheHorizontalRoadMarking" Width="1.5" PointX="3.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
