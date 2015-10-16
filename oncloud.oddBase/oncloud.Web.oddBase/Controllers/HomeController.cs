@@ -21,7 +21,6 @@ namespace oncloud.Web.oddBase.Controllers
         {
             Table data=new Table();
             data.Setinitialization(db);
-       
             return View(data.GetDataModel);
         }
         public void SaveSuccess(City city, Street street, [ModelBinder(typeof(CustomModelBinderForSegment))] ICollection<Segment> segment, [ModelBinder(typeof(CustomModelBinderForModels))]ICollection<SpecificationofRM> models, HttpPostedFileBase layoutscheme)
