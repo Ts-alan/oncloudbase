@@ -31,6 +31,15 @@ namespace oncloud.Web.oddBase.Infrastructure
         private void AddBindings()
         {
             // конфигурирование контейнера     
+
+            //var mockCities = new InMemoryDbSet<City>() { new City(), new City() };
+            //var mockUoW = new Mock<IUnitOfWork>();
+            //mockUoW.Setup(uow => uow.Set<City>()).Returns(mockCities);
+
+            //var controller = new HomeController((IUnitOfWork)mockUoW);
+            //var view = controller.Index();
+
+
             //Mock<IStreetsRepository> mock = new Mock<IStreetsRepository>();
             //mock.Setup(m => m.Streets).Returns(new List<Street> { 
             //    new Street {Caption = "Football" }, 
@@ -38,7 +47,7 @@ namespace oncloud.Web.oddBase.Infrastructure
             //}.AsQueryable());
             //ninjectKernel.Bind<IStreetsRepository>().ToConstant(mock.Object);
             //ninjectKernel.Bind<IStreetsRepository>().To<EFStreetsRepository>();
-            ninjectKernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope().WithConstructorArgument("EFDBContext");
+            ninjectKernel.Bind<IUnitOfWork>().To<EFDbContext>().InRequestScope();
         }
     }
 }

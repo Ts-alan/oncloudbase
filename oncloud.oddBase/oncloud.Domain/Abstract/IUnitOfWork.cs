@@ -9,7 +9,7 @@ namespace oncloud.Domain.Abstract
 {
     public interface IUnitOfWork
     {
-        int SubmitChanges();
+        int SaveChanges();
         IDbSet<TEntity> Set<TEntity>() where TEntity : class;
         void Update<TEntity>(TEntity entity) where TEntity : class;
     }

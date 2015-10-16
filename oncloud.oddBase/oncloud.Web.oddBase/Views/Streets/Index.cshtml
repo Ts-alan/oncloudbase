@@ -32,7 +32,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.ActionLink(item.Caption, "Details", new { id = item.StreetId })
+            @Html.DisplayFor(modelItem => item.Caption)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.StartPointLongitude)
@@ -47,6 +47,8 @@
             @Html.DisplayFor(modelItem => item.EndPointLatitude)
         </td>
         <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.StreetId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.StreetId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.StreetId })
         </td>
     </tr>

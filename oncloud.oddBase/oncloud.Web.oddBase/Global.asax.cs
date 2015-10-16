@@ -1,4 +1,5 @@
-﻿using oncloud.Web.oddBase.Infrastructure;
+﻿using oncloud.Domain.Concrete;
+using oncloud.Web.oddBase.Infrastructure;
 using oncloud.Web.oddBase.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace oncloud.Web.oddBase
         protected void Application_Start()
         {
             Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
+
+            Database.SetInitializer<EFDbContext>(new DropCreateDatabaseIfModelChanges<EFDbContext>());
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

@@ -9,34 +9,18 @@ using System.Web.Mvc;
 using oncloud.Domain.Concrete;
 using oncloud.Domain.Entities;
 using oncloud.Domain.Abstract;
+using System.Data.Entity.Infrastructure;
+using oncloud.Domain.DAL;
 
 namespace oncloud.Web.oddBase.Controllers
 {
     public class CitiesController : Controller
     {
         private readonly DataBaseSets db;
-        private class DataBaseSets
+        private class DataBaseSets : DataSets
         {
-            private IUnitOfWork _uow;
-            internal DataBaseSets(IUnitOfWork uow) { _uow = uow; }
+            internal DataBaseSets(IUnitOfWork uow) : base(uow) { }
             public IDbSet<City> Cities { get { return _uow.Set<City>(); } }
-            public int SaveChanges()
-            {
-                return _uow.SubmitChanges();
-            }
-
-            public void SetEntryModified<TEntity>(TEntity entity) where TEntity : class
-            {
-                _uow.Update(entity);
-            }
-
-            public void Dispose()
-            {
-                if (_uow is IDisposable)
-                {
-                    ((IDisposable)_uow).Dispose();
-                }
-            }
         }
 
         private readonly IUnitOfWork _unitOfWork;
