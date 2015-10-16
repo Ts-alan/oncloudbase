@@ -15,6 +15,8 @@ namespace oncloud.Domain.Concrete
         public IDbSet<Street> Streets { get; set; }
         public IDbSet<City> Cities { get; set; }
 
+        public IDbSet<RoadMarking> RoadMarkings { get; set; }
+
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    modelBuilder.Configurations.Add(new CountryMappings());

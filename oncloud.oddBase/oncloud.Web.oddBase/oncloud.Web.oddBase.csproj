@@ -184,6 +184,19 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
+    <Compile Include="Migrations\201510162258545_InitialCreate.cs" />
+    <Compile Include="Migrations\201510162258545_InitialCreate.Designer.cs">
+      <DependentUpon>201510162258545_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510162303349_initial.cs" />
+    <Compile Include="Migrations\201510162303349_initial.Designer.cs">
+      <DependentUpon>201510162303349_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510162313524_added_road_marking.cs" />
+    <Compile Include="Migrations\201510162313524_added_road_marking.Designer.cs">
+      <DependentUpon>201510162313524_added_road_marking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
     <Compile Include="Models\City.cs">
@@ -558,6 +571,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201510162258545_InitialCreate.resx">
+      <DependentUpon>201510162258545_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510162303349_initial.resx">
+      <DependentUpon>201510162303349_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510162313524_added_road_marking.resx">
+      <DependentUpon>201510162313524_added_road_marking.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -18,7 +18,7 @@ namespace oncloud.Web.oddBase
         {
             Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
 
-            Database.SetInitializer<EFDbContext>(new DropCreateDatabaseIfModelChanges<EFDbContext>());
+            //Database.SetInitializer<EFDbContext>(new DropCreateDatabaseIfModelChanges<EFDbContext>());
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

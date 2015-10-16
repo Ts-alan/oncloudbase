@@ -53,6 +53,7 @@
     <Compile Include="Concrete\EFDBContext.cs" />
     <Compile Include="DAL\DataSets.cs" />
     <Compile Include="Entities\City.cs" />
+    <Compile Include="Entities\RoadMarking.cs" />
     <Compile Include="Entities\Street.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
