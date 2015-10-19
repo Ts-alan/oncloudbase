@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -66,7 +67,19 @@ namespace oncloud.Web.oddBase.Controllers
         public ActionResult AddStreet()
         {
             ViewBag.City = db.City.First();
-            ViewBag.Model = db.TheHorizontalRoadMarking;
+            
+            ViewBag.Model = db.TheHorizontalRoadMarking.ToList().OrderBy(a =>
+            {
+                if (a.NumberMarking.Substring(2).LastIndexOf(".") == -1)
+                {
+                    return int.Parse(a.NumberMarking.Substring(2).Replace(".", ","));
+                }
+                else
+                {
+                    return int.Parse(a.NumberMarking.Substring(2, a.NumberMarking.Substring(2).LastIndexOf("."))
+                        .Replace(".", ","));
+                }
+            });
 
             return View();
         }
