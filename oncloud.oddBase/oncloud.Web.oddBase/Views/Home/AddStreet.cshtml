@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "AddStreet";
 }
-
+@Scripts.Render("~/bundles/jquery.form")
 
 <script type="text/javascript">
     ymaps.ready(init);
@@ -465,10 +465,7 @@
                                     '</div></div>'
                                 );
                             }
-                            //$("#breadthSegS" + increment).val(tempData[0]);
-                            //$("#lengthSegS" + increment).val(tempData[1]);
-                            //$("#breadthSegE" + increment).val(coords[0].toPrecision(6));
-                            //$("#lengthSegE" + increment).val(coords[1].toPrecision(6));
+  
                             $("#CountSides").val(increment);
                             $("#breadthSegS" + increment).attr("value", tempData[0]);
                             $("#lengthSegS" + increment).attr("value", tempData[1]);
@@ -552,7 +549,14 @@
 
             }
         }
+        //var files;
+        //$('input[type=file]').on('change', prepareUpload);
 
+        //// Grab the files and set them to our variable
+        //function prepareUpload(event) {
+        //    files = event.target.files;
+        //    console.log(files[0]);
+        //}
 
         //отправка формы
         $('[action="/Home/SaveSuccess"]').submit(function (event) {
@@ -564,9 +568,11 @@
             //получаем данные, введенные пользователем в формате input1=value1&input2=value2...,
             //то есть в стандартном формате передачи данных формы
             var m_data = $(this).serialize();
-
-            //console.log($('[name="layoutscheme"]').attr("files")[0]);
-            $.ajax({
+            //var file = $('input[type=file]').fieldSerialize();
+            //var t = $('input[type="file"]')[0].files[0];
+            //m_data = m_data.concat("&layoutscheme[]=").concat(t);
+          
+          $.ajax({
                 type: m_method,
                 url: m_action,
                 data: m_data

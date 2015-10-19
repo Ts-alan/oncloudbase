@@ -39,6 +39,11 @@ namespace oncloud.Web.oddBase
                       "~/Content/jqGrid/ui.multiselect.css",
                       "~/Content/GridSystemForTable.css"
                     ));
+
+            bundles.Add(new StyleBundle("~/bundles/jquery.form").Include(
+                       "~/Scripts/jquery.form/jquery.form.js",
+                       "~/Scripts/jquery.form/jquery.form.min.js"
+           ));
             //javascript для Grid
             bundles.Add(new ScriptBundle("~/bundles/jqCrid").Include(
             "~/Scripts/jqGrid/i18n/grid.locale-en.js",
