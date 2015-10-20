@@ -206,7 +206,7 @@
     function SetCoords() {
         if (countElementSegGlobal.length == 0) {
 
-           
+
             if (currentRoute != undefined) {
                 $("#blockStreetCoord").css("display", "inline");
                 myMap.geoObjects.add(currentRoute);
@@ -348,12 +348,19 @@
             $("#interData+div").remove();
             $("#segment4").after("<div>" +
                 "<button type='button' class='btn btn-success setSegment'>Задать/Изменить координаты</button>" +
-                 "<button id='SendForm' class='btn btn-warning'>Сохранить</button>" +
+                 "<button id='BlockSegment' class='btn btn-warning'>Сохранить</button>" +
             "</div>");
             tempDataFor3 = 5;
         }
+        $(".DataOfRoad" + index).remove();
+        $('[class^="DataOfRoad"]').each(function(ind,element) {
+            if(ind!=0) {
+                $(element).attr("class", "DataOfRoad" + (ind + 1));
+                $(element).find("u").text("Участок " + (ind + 1));
+            }
+        });
         increment = massSegment.length + 1;
-      
+
     }
 
 
@@ -372,14 +379,14 @@
         function setSegment(eventObject) {
 
             if ($(eventObject.target).next("button").css("display") == "none") {
-                $("#SendForm").css("display", "inline-block");
+                $("#BlockSegment").css("display", "inline-block");
             }
             if (currentRoute == undefined || $("#blockStreetCoord").css("display") == "inline") {
                 alert("Задайте улицу или возможно нажмите кнопку сохранить в этом пункте");
             } else {
 
                 if (identifierForDelBallon == true) {
-                   
+
                     currentRoute.getPaths().get(0).balloon.destroy();
 
                     identifierForDelBallon = false;
@@ -387,7 +394,7 @@
 
                 handlerSegment = function (e) {
                     countElementSegGlobal.length++;
-                  
+
                     var coords = e.get('coords');
 
                     ymaps.route([
@@ -446,7 +453,7 @@
                                     $("#segment4+div").remove();
                                     $("#interData").after('<div style="float: left"  >' +
                                         '<button type="button"  class="btn btn-success setSegment">Задать/Изменить координаты</button>' +
-                                        '<button id="SendForm" class="btn btn-warning">Сохранить</button>' +
+                                        '<button id="BlockSegment" class="btn btn-warning">Сохранить</button>' +
                                         '</div>');
 
                                 }
@@ -465,7 +472,23 @@
                                     '</div></div>'
                                 );
                             }
-  
+                            if (increment!=1) {
+                            $('[class^="DataOfRoad"]:last').after("<div style='clear: both' class='DataOfRoad"+increment+"'>"+
+                                                            "<div>"+
+                                                                "<b><u>Участок "+increment+"</u></b>"+
+                                                            "</div>"+
+                                                            "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>"+
+                                                                "<button type='button' class='btn btn-default'>Загрузить Дислокацию ТСОДД</button>"+
+                                                            "</div>"+
+                                                            "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>"+
+                                                                "<button type='button' class='btn btn-default'>Ввести данные о дорожных знаках</button>"+
+                                                            "</div>"+
+                                                            "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' >" +
+                                                               "<button type='button' class='btn btn-default'>Ввести данные о дорожных ограждениях</button>"+
+                                                            "</div>"+
+                                                          "</div>");
+                            }
+
                             $("#CountSides").val(increment);
                             $("#breadthSegS" + increment).attr("value", tempData[0]);
                             $("#lengthSegS" + increment).attr("value", tempData[1]);
@@ -559,27 +582,27 @@
         //}
 
         //отправка формы
-        $('[action="/Home/SaveSuccess"]').submit(function (event) {
-            event.preventDefault();
+        $('#BlockSegment').click(function () {
+            //event.preventDefault();
             //берем из формы метод передачи данных
-            var m_method = $(this).attr('method');
-            //получаем адрес скрипта на сервере, куда нужно отправить форму
-            var m_action = $(this).attr('action');
-            //получаем данные, введенные пользователем в формате input1=value1&input2=value2...,
-            //то есть в стандартном формате передачи данных формы
-            var m_data = $(this).serialize();
-            //var file = $('input[type=file]').fieldSerialize();
-            //var t = $('input[type="file"]')[0].files[0];
-            //m_data = m_data.concat("&layoutscheme[]=").concat(t);
-          
-          $.ajax({
-                type: m_method,
-                url: m_action,
-                data: m_data
+            //  var m_method = $(this).attr('method');
+            //  //получаем адрес скрипта на сервере, куда нужно отправить форму
+            //  var m_action = $(this).attr('action');
+            //  //получаем данные, введенные пользователем в формате input1=value1&input2=value2...,
+            //  //то есть в стандартном формате передачи данных формы
+            //  var m_data = $(this).serialize();
+            //  //var file = $('input[type=file]').fieldSerialize();
+            //  //var t = $('input[type="file"]')[0].files[0];
+            //  //m_data = m_data.concat("&layoutscheme[]=").concat(t);
 
-            });
-            currentRoute.getPaths().events.remove('dblclick', handlerSegment);
-            $("#SendForm").css("display", "none");
+            //$.ajax({
+            //      type: m_method,
+            //      url: m_action,
+            //      data: m_data
+
+            //  });
+            //  currentRoute.getPaths().events.remove('dblclick', handlerSegment);
+            $("#BlockSegment").css("display", "none");
             $(".setSegment").one('click', setSegment);
             myMap.geoObjects.each(function (el, index) {
 
@@ -677,15 +700,17 @@
 </script>
 <style>
     /*стили на для Upload кнопки*/
-        .file_upload {
-            position: relative;
-            overflow: hidden;
-            height: 34px; /* example */
-            margin-bottom: 10px
-         }
-        .file_upload>input {
-            max-width: 284px
+    .file_upload {
+        position: relative;
+        overflow: hidden;
+        height: 34px; /* example */
+        margin-bottom: 10px;
+    }
+
+        .file_upload > input {
+            max-width: 284px;
         }
+
         .file_upload input[type=file] {
             position: absolute;
             top: 0;
@@ -724,7 +749,6 @@
 
 @using (Html.BeginForm("SaveSuccess", "Home", null, FormMethod.Post, new
 {
-    style = "height: 744px",
     enctype = "multipart/form-data"
 }))
 {
@@ -785,7 +809,7 @@
             </div>
             <div>
                 <button type="button" class="btn btn-success setSegment">Задать/Изменить координаты</button>
-                <button id="SendForm" class="btn btn-warning">Сохранить</button>
+                <button id="BlockSegment" type="button" class="btn btn-warning">Сохранить</button>
             </div>
 
         </div>
@@ -813,20 +837,20 @@
                             <th>Длина (м.пог) / штуки</th>
                             <th>Площадь (м.кв)</th>
                         </tr>
-                   @foreach (var item in (IEnumerable<oncloud.Web.oddBase.Models.TheHorizontalRoadMarking>)ViewBag.Model)
-                   {
-                       <tr>
+                        @foreach (var item in (IEnumerable<oncloud.Web.oddBase.Models.TheHorizontalRoadMarking>)ViewBag.Model)
+                        {
+                            <tr>
 
-                           <td>@item.NumberMarking</td>
-                           <td><img src="~/Content/image/Mackup/@(item.NumberMarking).JPG"/></td>
-                           <td>
-                                  @item.description
-                           </td>
-                           <td style="vertical-align: middle"><input name="ModalsL@(item.NumberMarking)" type="text"/></td>
-                           <td style="vertical-align: middle"><input name="ModalsA@(item.NumberMarking)" type="text"/></td>
-                       </tr>
-                   }
-                     
+                                <td>@item.NumberMarking</td>
+                                <td><img src="~/Content/image/Mackup/@(item.NumberMarking).JPG" /></td>
+                                <td>
+                                    @item.description
+                                </td>
+                                <td style="vertical-align: middle"><input name="ModalsL@(item.NumberMarking)" type="text" /></td>
+                                <td style="vertical-align: middle"><input name="ModalsA@(item.NumberMarking)" type="text" /></td>
+                            </tr>
+                        }
+
                     </table>
                 </div>
                 <div class="modal-footer">
@@ -836,38 +860,40 @@
             </div>
         </div>
     </div>
-}
 
-<div style="clear: both">
-    <div>
-        <b><u>4.Ввод данных</u></b>
-    </div>
-    <div class="file_upload  col-lg-4 col-md-4 col-sm-4 col-xs-4">
-        <button class="btn btn-default" type="button">Загрузить компоновочную схему</button>
-        <input name="layoutscheme" type="file">
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalTable">Ввести спецификацию разметки</button>
-    </div>
 
     <div style="clear: both">
-        <b><u>Участок 1</u></b>
+        <div>
+            <b><u>4.Ввод данных</u></b>
+        </div>
+        <div class="file_upload  col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <button class="btn btn-default" type="button">Загрузить компоновочную схему</button>
+            <input name="layoutscheme" type="file">
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalTable">Ввести спецификацию разметки</button>
+        </div>
+        <div style="clear: both" class="DataOfRoad">
+            <div >
+                <b><u>Участок 1</u></b>
+            </div>
+
+            <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+                <button type="button" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
+            </div>
+            <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+                <button type="button" class="btn btn-default">Ввести данные о дорожных знаках</button>
+            </div>
+            <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <button type="button" class="btn btn-default">
+                    Ввести данные о дорожных ограждениях
+                </button>
+            </div>
+        </div>
     </div>
 
-    <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-        <button type="button" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
-    </div>
-    <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-        <button type="button" class="btn btn-default">Ввести данные о дорожных знаках</button>
-    </div>
-    <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
-        <button type="button" class="btn btn-default">
-            Ввести данные о дорожных ограждениях
-        </button>
-    </div>
-</div>
-
-
+    <button class="btn btn-info">Добавить</button>
+}
 
 
 

@@ -24,7 +24,7 @@ namespace oncloud.Web.oddBase.Controllers
             data.Setinitialization(db);
             return View(data.GetDataModel);
         }
-        public void SaveSuccess(City city, Street street, [ModelBinder(typeof(CustomModelBinderForSegment))] ICollection<Segment> segment, [ModelBinder(typeof(CustomModelBinderForModels))]ICollection<SpecificationofRM> models, HttpPostedFileBase layoutscheme)
+        public ActionResult SaveSuccess(City city, Street street, [ModelBinder(typeof(CustomModelBinderForSegment))] ICollection<Segment> segment, [ModelBinder(typeof(CustomModelBinderForModels))]ICollection<SpecificationofRM> models, HttpPostedFileBase layoutscheme)
         {
             //if (
             //    db.Street.Any(
@@ -57,6 +57,7 @@ namespace oncloud.Web.oddBase.Controllers
             db.SpecificationofRM.AddRange(models);
             //}
             db.SaveChanges();
+            return RedirectToAction("Table");
         }
         public ActionResult Contact()
         {
