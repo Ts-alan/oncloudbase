@@ -453,7 +453,7 @@
                                     $("#segment4+div").remove();
                                     $("#interData").after('<div style="float: left"  >' +
                                         '<button type="button"  class="btn btn-success setSegment">Задать/Изменить координаты</button>' +
-                                        '<button id="BlockSegment" class="btn btn-warning">Сохранить</button>' +
+                                        '<button id="BlockSegment" type="button" class="btn btn-warning">Сохранить</button>' +
                                         '</div>');
 
                                 }
@@ -572,17 +572,10 @@
 
             }
         }
-        //var files;
-        //$('input[type=file]').on('change', prepareUpload);
 
-        //// Grab the files and set them to our variable
-        //function prepareUpload(event) {
-        //    files = event.target.files;
-        //    console.log(files[0]);
-        //}
 
         //отправка формы
-        $('#BlockSegment').click(function () {
+        $('form[action="/Home/SaveSuccess"]').on('click', "#BlockSegment", function () {
             //event.preventDefault();
             //берем из формы метод передачи данных
             //  var m_method = $(this).attr('method');
@@ -816,8 +809,8 @@
 
     </div>
     <div id="interData"></div>
-    <!-- Modal -->
-    <div class="modal fade" id="ModalTable" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+    <!-- ModalMackUp -->
+    <div class="modal fade" id="ModalMackUp" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -842,7 +835,7 @@
                             <tr>
 
                                 <td>@item.NumberMarking</td>
-                                <td><img src="~/Content/image/Mackup/@(item.NumberMarking).JPG" /></td>
+                                <td><img src="~/Content/images/Mackup/@(item.NumberMarking).JPG" /></td>
                                 <td>
                                     @item.description
                                 </td>
@@ -852,6 +845,51 @@
                         }
 
                     </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
+                    <button type="button" id="closeModel" class="btn btn-default " data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+     <!-- ModalRoadSigns -->
+    <div class="modal fade" id="ModalRoadSigns1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+
+
+                </div>
+                <div class="modal-body">
+                    <div>
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#tab1" aria-controls="1" role="tab" data-toggle="tab">1</a></li>
+                            <li role="presentation"><a href="#tab2" aria-controls="2" role="tab" data-toggle="tab">2</a></li>
+                            <li role="presentation"><a href="#tab3" aria-controls="3" role="tab" data-toggle="tab">3</a></li>
+                            <li role="presentation"><a href="#tab4" aria-controls="4" role="tab" data-toggle="tab">4</a></li>
+                            <li role="presentation"><a href="#tab5" aria-controls="5" role="tab" data-toggle="tab">5</a></li>
+                            <li role="presentation"><a href="#tab6" aria-controls="6" role="tab" data-toggle="tab">6</a></li>
+                            <li role="presentation"><a href="#tab7" aria-controls="7" role="tab" data-toggle="tab">7</a></li>
+                           
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="tab1">test</div>
+                            <div role="tabpanel" class="tab-pane" id="tab2">212121</div>
+                            <div role="tabpanel" class="tab-pane" id="tab3">23323232</div>
+                            <div role="tabpanel" class="tab-pane" id="tab4">434343</div>
+                            <div role="tabpanel" class="tab-pane" id="tab5">54546</div>
+                            <div role="tabpanel" class="tab-pane" id="tab6">5656567</div>
+                            <div role="tabpanel" class="tab-pane" id="tab7">656565</div>
+                        </div>
+
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
@@ -871,7 +909,7 @@
             <input name="layoutscheme" type="file">
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalTable">Ввести спецификацию разметки</button>
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Ввести спецификацию разметки</button>
         </div>
         <div style="clear: both" class="DataOfRoad">
             <div >
@@ -882,7 +920,7 @@
                 <button type="button" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
             </div>
             <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-                <button type="button" class="btn btn-default">Ввести данные о дорожных знаках</button>
+                <button type="button" class="btn btn-default"  data-toggle="modal" data-target="#ModalRoadSigns1" >Ввести данные о дорожных знаках</button>
             </div>
             <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <button type="button" class="btn btn-default">
@@ -891,8 +929,9 @@
             </div>
         </div>
     </div>
-
-    <button class="btn btn-info">Добавить</button>
+    <div style="margin-left: 60%" >
+        <button style="float:left" class="btn btn-success">Сохранить</button> @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-warning" })
+    </div>
 }
 
 
