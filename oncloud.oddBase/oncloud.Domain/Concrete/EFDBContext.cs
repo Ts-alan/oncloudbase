@@ -16,15 +16,15 @@ namespace oncloud.Domain.Concrete
             : base("name=EntitiesOddAdbase")
         {
         }
-        public virtual DbSet<City> City { get; set; }
-        public virtual DbSet<Increment> Increment { get; set; }
+        public virtual IDbSet<City> City { get; set; }
+        public virtual IDbSet<Increment> Increment { get; set; }
         public virtual DbSet<Segment> Segment { get; set; }
         public virtual DbSet<SpecificationofRM> SpecificationofRM { get; set; }
-        public virtual DbSet<Street> Street { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public virtual DbSet<TheHorizontalRoadMarking> TheHorizontalRoadMarking { get; set; }
-        public virtual DbSet<IntelliSenseStreet> IntelliSenseStreet { get; set; }
-
+        public virtual IDbSet<Street> Street { get; set; }
+        public virtual IDbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual IDbSet<TheHorizontalRoadMarking> TheHorizontalRoadMarking { get; set; }
+        public virtual IDbSet<IntelliSenseStreet> IntelliSenseStreet { get; set; }
+        //public virtual IDbSet<RoadSigns> RoadSigns { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
