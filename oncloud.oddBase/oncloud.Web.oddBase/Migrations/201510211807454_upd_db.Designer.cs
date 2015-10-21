@@ -7,13 +7,13 @@ namespace oncloud.Web.oddBase.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class initial : IMigrationMetadata
+    public sealed partial class upd_db : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(upd_db));
         
         string IMigrationMetadata.Id
         {
-            get { return "201510162303349_initial"; }
+            get { return "201510211807454_upd_db"; }
         }
         
         string IMigrationMetadata.Source

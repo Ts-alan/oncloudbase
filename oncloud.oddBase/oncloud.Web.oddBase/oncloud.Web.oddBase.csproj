@@ -21,6 +21,8 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -186,13 +188,9 @@
     <Compile Include="Migrations\201510162258545_InitialCreate.Designer.cs">
       <DependentUpon>201510162258545_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510162303349_initial.cs" />
-    <Compile Include="Migrations\201510162303349_initial.Designer.cs">
-      <DependentUpon>201510162303349_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510162313524_added_road_marking.cs" />
-    <Compile Include="Migrations\201510162313524_added_road_marking.Designer.cs">
-      <DependentUpon>201510162313524_added_road_marking.cs</DependentUpon>
+    <Compile Include="Migrations\201510211807454_upd_db.cs" />
+    <Compile Include="Migrations\201510211807454_upd_db.Designer.cs">
+      <DependentUpon>201510211807454_upd_db.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -554,11 +552,8 @@
     <EmbeddedResource Include="Migrations\201510162258545_InitialCreate.resx">
       <DependentUpon>201510162258545_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510162303349_initial.resx">
-      <DependentUpon>201510162303349_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510162313524_added_road_marking.resx">
-      <DependentUpon>201510162313524_added_road_marking.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201510211807454_upd_db.resx">
+      <DependentUpon>201510211807454_upd_db.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -598,6 +593,13 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
