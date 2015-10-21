@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using oncloud.Domain.Concrete;
 
 namespace oncloud.Web.oddBase.Models.Home
 {
     public class Table
     {
-        public void Setinitialization(OddAdbaseDataBase db)
+        public void Setinitialization(EFDbContext db)
         {
             GetDataModel = db.City.Join(db.Street, city => city.id, street => street.City_id,
       (city, street) => new { Location = city.Name, Denomination = street.Name, StreetId = street.id, UniqueNumber=street.UniqueNumber })

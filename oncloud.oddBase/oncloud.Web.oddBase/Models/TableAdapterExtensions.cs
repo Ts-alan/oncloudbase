@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using oncloud.Domain.Concrete;
 
 namespace oncloud.Web.oddBase.Models
 {
@@ -12,7 +13,7 @@ namespace oncloud.Web.oddBase.Models
             int result;
             int valueInrement;
 
-            using (OddAdbaseDataBase context = new OddAdbaseDataBase())
+            using (EFDbContext context = new EFDbContext())
             {
 
                 result = context.Increment.First().Counter;

@@ -4,6 +4,8 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using oncloud.Domain.Concrete;
+using oncloud.Domain.Entities;
 using oncloud.Web.oddBase.Models;
 using oncloud.Web.oddBase.Models.Home;
 using OddBasyBY.Models;
@@ -12,7 +14,7 @@ namespace oncloud.Web.oddBase.Controllers
 {
     public class HomeController : Controller
     {
-        OddAdbaseDataBase db =new OddAdbaseDataBase();
+        EFDbContext db =new EFDbContext();
         public ActionResult Index()
         {
             return View();

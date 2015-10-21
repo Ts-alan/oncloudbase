@@ -53,8 +53,14 @@
     <Compile Include="Concrete\EFDBContext.cs" />
     <Compile Include="DAL\DataSets.cs" />
     <Compile Include="Entities\City.cs" />
-    <Compile Include="Entities\RoadMarking.cs" />
+    <Compile Include="Entities\Increment.cs" />
+    <Compile Include="Entities\IntelliSenseStreet.cs" />
+    <Compile Include="Entities\RoadSigns.cs" />
+    <Compile Include="Entities\Segment.cs" />
+    <Compile Include="Entities\SpecificationofRM.cs" />
     <Compile Include="Entities\Street.cs" />
+    <Compile Include="Entities\sysdiagrams.cs" />
+    <Compile Include="Entities\TheHorizontalRoadMarking.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
