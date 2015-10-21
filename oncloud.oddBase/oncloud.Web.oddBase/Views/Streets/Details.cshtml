@@ -1,0 +1,58 @@
+﻿@model oncloud.Domain.Entities.Street
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Street</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Caption)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Caption)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartPointLongitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartPointLongitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartPointLatitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartPointLatitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndPointLongitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndPointLongitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndPointLatitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndPointLatitude)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.StreetId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
