@@ -57,6 +57,7 @@
     <Compile Include="Entities\City.cs" />
     <Compile Include="Entities\Increment.cs" />
     <Compile Include="Entities\IntelliSenseStreet.cs" />
+    <Compile Include="Entities\RoadBarriers .cs" />
     <Compile Include="Entities\RoadSigns.cs" />
     <Compile Include="Entities\Segment.cs" />
     <Compile Include="Entities\SpecificationofRM.cs" />

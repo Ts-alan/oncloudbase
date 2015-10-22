@@ -219,6 +219,10 @@
     <Compile Include="Migrations\201510221245393_added_image_road_signs.Designer.cs">
       <DependentUpon>201510221245393_added_image_road_signs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510221406352_RoadBarriers.cs" />
+    <Compile Include="Migrations\201510221406352_RoadBarriers.Designer.cs">
+      <DependentUpon>201510221406352_RoadBarriers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -564,6 +568,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510221245393_added_image_road_signs.resx">
       <DependentUpon>201510221245393_added_image_road_signs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510221406352_RoadBarriers.resx">
+      <DependentUpon>201510221406352_RoadBarriers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
