@@ -8,13 +8,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace oncloud.Domain.Entities
 {
-    class RoadSigns
+    public class RoadSigns
     {
         public int id { get; set; }
         [Required]
         public string NumberMarking { get; set; }
         [Column(TypeName = "nvarchar")]
         [Required]
-        public string description { get; set; }
+        public string Description { get; set; }
     }
 }

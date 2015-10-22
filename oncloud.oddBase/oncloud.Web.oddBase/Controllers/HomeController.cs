@@ -14,7 +14,8 @@ namespace oncloud.Web.oddBase.Controllers
 {
     public class HomeController : Controller
     {
-        EFDbContext db =new EFDbContext();
+        private EFDbContext db = new EFDbContext();
+
         public ActionResult Index()
         {
             return View();
@@ -22,11 +23,15 @@ namespace oncloud.Web.oddBase.Controllers
 
         public ActionResult Table()
         {
-            Table data=new Table();
+            Table data = new Table();
             data.Setinitialization(db);
             return View(data.GetDataModel);
         }
-        public ActionResult SaveSuccess(City city, Street street, [ModelBinder(typeof(CustomModelBinderForSegment))] ICollection<Segment> segment, [ModelBinder(typeof(CustomModelBinderForModels))]ICollection<SpecificationofRM> models, HttpPostedFileBase layoutscheme)
+
+        public ActionResult SaveSuccess(City city, Street street,
+            [ModelBinder(typeof (CustomModelBinderForSegment))] ICollection<Segment> segment,
+            [ModelBinder(typeof (CustomModelBinderForModels))] ICollection<SpecificationofRM> models,
+            HttpPostedFileBase layoutscheme)
         {
             //if (
             //    db.Street.Any(
@@ -61,16 +66,18 @@ namespace oncloud.Web.oddBase.Controllers
             db.SaveChanges();
             return RedirectToAction("Table");
         }
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
         }
+
         public ActionResult AddStreet()
         {
             ViewBag.City = db.City.First();
-            
+
             ViewBag.Model = db.TheHorizontalRoadMarking.ToList().OrderBy(a =>
             {
                 if (a.NumberMarking.Substring(2).LastIndexOf(".") == -1)
@@ -86,17 +93,33 @@ namespace oncloud.Web.oddBase.Controllers
 
             return View();
         }
+
         public ActionResult FindStreets(string term)
         {
             var streets = from m in db.IntelliSenseStreet where m.Street.Contains(term) select m;
             var projection = from street in streets
-                             select new
-                             {
-                                 id = street.id,
-                                 label = street.Street + " " + street.Type,
-                                 value = street.Street + " " + street.Type
-                             };
+                select new
+                {
+                    id = street.id,
+                    label = street.Street + " " + street.Type,
+                    value = street.Street + " " + street.Type
+                };
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public FileContentResult Getlmage(int id)
+        {
+            TheHorizontalRoadMarking prod =
+                db.TheHorizontalRoadMarking.FirstOrDefault(p => p.id == id);
+            if (prod != null)
+            {
+                return File(prod.ImageData, prod.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
+
         }
     }
 }

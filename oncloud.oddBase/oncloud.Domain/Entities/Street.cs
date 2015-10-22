@@ -49,6 +49,8 @@ namespace oncloud.Domain.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SpecificationofRM> SpecificationofRM { get; set; }
+
+        public virtual ICollection<SpecificationofRS> SpecificationofRS { get; set; }
         //public int StreetId { get; set; }
         //public string Caption { get; set; }
 

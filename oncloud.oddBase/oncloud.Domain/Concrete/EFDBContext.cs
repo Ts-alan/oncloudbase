@@ -20,10 +20,11 @@ namespace oncloud.Domain.Concrete
         public virtual IDbSet<Increment> Increment { get; set; }
         public virtual DbSet<Segment> Segment { get; set; }
         public virtual DbSet<SpecificationofRM> SpecificationofRM { get; set; }
+        public virtual DbSet<SpecificationofRS> SpecificationofRS { get; set; }
         public virtual IDbSet<Street> Street { get; set; }
         public virtual IDbSet<TheHorizontalRoadMarking> TheHorizontalRoadMarking { get; set; }
         public virtual IDbSet<IntelliSenseStreet> IntelliSenseStreet { get; set; }
-        //public virtual IDbSet<RoadSigns> RoadSigns { get; set; }
+        public virtual IDbSet<RoadSigns> RoadSigns { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -46,6 +47,11 @@ namespace oncloud.Domain.Concrete
                 .HasForeignKey(e => e.Street_id)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Street>()
+                .HasMany(e => e.SpecificationofRS)
+                .WithRequired(e => e.Street)
+                .HasForeignKey(e => e.Street_id)
+                .WillCascadeOnDelete(false);
             //    modelBuilder.Configurations.Add(new CountryMappings());
             //    modelBuilder.Configurations.Add(new CityMappings());
         }

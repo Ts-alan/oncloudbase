@@ -198,6 +198,22 @@
     <Compile Include="Migrations\201510220714064_added_image_horizontal_road_marking.Designer.cs">
       <DependentUpon>201510220714064_added_image_horizontal_road_marking.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510220839085_AddRoadSigns.cs" />
+    <Compile Include="Migrations\201510220839085_AddRoadSigns.Designer.cs">
+      <DependentUpon>201510220839085_AddRoadSigns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510220848201_SpecificationofRM.cs" />
+    <Compile Include="Migrations\201510220848201_SpecificationofRM.Designer.cs">
+      <DependentUpon>201510220848201_SpecificationofRM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510220912080_relashenship.cs" />
+    <Compile Include="Migrations\201510220912080_relashenship.Designer.cs">
+      <DependentUpon>201510220912080_relashenship.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510220916203_CountRs.cs" />
+    <Compile Include="Migrations\201510220916203_CountRs.Designer.cs">
+      <DependentUpon>201510220916203_CountRs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -356,7 +372,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jqGrid\minified\jquery.jqGrid.min.js.map" />
-    <None Include="Properties\PublishProfiles\Den4ik.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jqGrid\addons\ui.multiselect.js" />
     <Content Include="Scripts\jqGrid\grid.base.js" />
@@ -570,6 +585,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510220714064_added_image_horizontal_road_marking.resx">
       <DependentUpon>201510220714064_added_image_horizontal_road_marking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510220839085_AddRoadSigns.resx">
+      <DependentUpon>201510220839085_AddRoadSigns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510220848201_SpecificationofRM.resx">
+      <DependentUpon>201510220848201_SpecificationofRM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510220912080_relashenship.resx">
+      <DependentUpon>201510220912080_relashenship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510220916203_CountRs.resx">
+      <DependentUpon>201510220916203_CountRs.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

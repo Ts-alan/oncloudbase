@@ -716,27 +716,26 @@
             cursor: pointer;
         }
 
-    /*изменение размера (ширины) модального окна*/
-    .modal-dialog {
-        width: 1000px;
-    }
+        .modal-dialog {
+            width: 645px 
+        }
 
-    td input {
-        border-width: 0;
-        text-align: right !important;
-    }
-    /*правит шрифт бутсрапа*/
-    label {
-        font-weight: normal;
-    }
-    /*отступы*/
-    .indentForTextBox {
-        margin-right: 60px;
-    }
+        td input {
+            border-width: 0;
+            text-align: right !important;
+        }
+        /*правит шрифт бутсрапа*/
+        label {
+            font-weight: normal;
+        }
+        /*отступы*/
+        .indentForTextBox {
+            margin-right: 60px;
+        }
 
-    .btn {
-        width: 285px;
-    }
+        .btn {
+            width: 285px;
+        }
 </style>
 <h2 style="text-align: center">Карточка улицы</h2>
 
@@ -811,7 +810,7 @@
     <div id="interData"></div>
     <!-- ModalMackUp -->
     <div class="modal fade" id="ModalMackUp" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog" style="width: 1000px" role="document">
             <div class="modal-content">
                 <div class="modal-header">
 
@@ -835,7 +834,12 @@
                             <tr>
 
                                 <td>@item.NumberMarking</td>
-                                <td><img src="~/Content/images/Mackup/@(item.NumberMarking).JPG" /></td>
+                                <td>
+                                    @if (item.ImageData != null)
+                                    {
+                                        <img src="@Url.Action("Getlmage",  "Home", new { Model.ProductID })"/>
+                                    }
+                                </td>
                                 <td>
                                     @item.description
                                 </td>
@@ -893,15 +897,104 @@
                                         <td></td>
                                         <td style="vertical-align: middle"><input  type="text" /></td>
                                    </tr>
-
                                 </table>
                             </div>
-                            <div role="tabpanel" class="tab-pane" id="tab2">212121</div>
-                            <div role="tabpanel" class="tab-pane" id="tab3">23323232</div>
-                            <div role="tabpanel" class="tab-pane" id="tab4">434343</div>
-                            <div role="tabpanel" class="tab-pane" id="tab5">54546</div>
-                            <div role="tabpanel" class="tab-pane" id="tab6">5656567</div>
-                            <div role="tabpanel" class="tab-pane" id="tab7">656565</div>
+                            <div role="tabpanel" class="tab-pane" id="tab2">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>№ знака</th>
+                                        <th>Картинка</th>
+                                        <th>Описание</th>
+                                        <th>Количество</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="vertical-align: middle"><input type="text" /></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="tab3">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>№ знака</th>
+                                        <th>Картинка</th>
+                                        <th>Описание</th>
+                                        <th>Количество</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="vertical-align: middle"><input type="text" /></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="tab4">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>№ знака</th>
+                                        <th>Картинка</th>
+                                        <th>Описание</th>
+                                        <th>Количество</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="vertical-align: middle"><input type="text" /></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="tab5">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>№ знака</th>
+                                        <th>Картинка</th>
+                                        <th>Описание</th>
+                                        <th>Количество</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="vertical-align: middle"><input type="text" /></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="tab6">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>№ знака</th>
+                                        <th>Картинка</th>
+                                        <th>Описание</th>
+                                        <th>Количество</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="vertical-align: middle"><input type="text" /></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="tab7">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>№ знака</th>
+                                        <th>Картинка</th>
+                                        <th>Описание</th>
+                                        <th>Количество</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="vertical-align: middle"><input type="text" /></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
 
                     </div>
