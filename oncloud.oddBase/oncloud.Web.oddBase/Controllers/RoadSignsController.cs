@@ -13,122 +13,122 @@ using oncloud.Domain.Abstract;
 
 namespace oncloud.Web.oddBase.Controllers
 {
-    public class StreetsController : Controller
+    public class RoadSignsController : Controller
     {
         private readonly DataBaseSets db;
         private class DataBaseSets : DataSets
         {
             internal DataBaseSets(IUnitOfWork uow) : base(uow) { }
-            public IDbSet<IntelliSenseStreet> IntelliSenseStreets { get { return _uow.Set<IntelliSenseStreet>(); } }
+            public IDbSet<RoadSigns> RoadSigns { get { return _uow.Set<RoadSigns>(); } }
         }
 
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public StreetsController(IUnitOfWork unitOfWork)
+        public RoadSignsController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             db = new DataBaseSets(_unitOfWork);
         }
 
-        // GET: Streets
+        // GET: RoadSigns
         public ActionResult Index()
         {
-            return View(db.IntelliSenseStreets.ToList());
+            return View(db.RoadSigns.ToList());
         }
 
-        // GET: Streets/Details/5
+        // GET: RoadSigns/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id);
-            if (intelliSenseStreet == null)
+            RoadSigns roadSigns = db.RoadSigns.Find(id);
+            if (roadSigns == null)
             {
                 return HttpNotFound();
             }
-            return View(intelliSenseStreet);
+            return View(roadSigns);
         }
 
-        // GET: Streets/Create
+        // GET: RoadSigns/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Streets/Create
+        // POST: RoadSigns/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,Street,Type")] IntelliSenseStreet intelliSenseStreet)
+        public ActionResult Create([Bind(Include = "id,NumberMarking,Description,ImageData,ImageMimeType")] RoadSigns roadSigns)
         {
             if (ModelState.IsValid)
             {
-                db.IntelliSenseStreets.Add(intelliSenseStreet);
+                db.RoadSigns.Add(roadSigns);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(intelliSenseStreet);
+            return View(roadSigns);
         }
 
-        // GET: Streets/Edit/5
+        // GET: RoadSigns/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id);
-            if (intelliSenseStreet == null)
+            RoadSigns roadSigns = db.RoadSigns.Find(id);
+            if (roadSigns == null)
             {
                 return HttpNotFound();
             }
-            return View(intelliSenseStreet);
+            return View(roadSigns);
         }
 
-        // POST: Streets/Edit/5
+        // POST: RoadSigns/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,Street,Type")] IntelliSenseStreet intelliSenseStreet)
+        public ActionResult Edit([Bind(Include = "id,NumberMarking,Description,ImageData,ImageMimeType")] RoadSigns roadSigns)
         {
             if (ModelState.IsValid)
             {
-                db.SetEntryModified(intelliSenseStreet);
-                //db.Entry(intelliSenseStreet).State = EntityState.Modified;
+                db.SetEntryModified(roadSigns);
+                //db.Entry(roadSigns).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(intelliSenseStreet);
+            return View(roadSigns);
         }
 
-        // GET: Streets/Delete/5
+        // GET: RoadSigns/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id);
-            if (intelliSenseStreet == null)
+            RoadSigns roadSigns = db.RoadSigns.Find(id);
+            if (roadSigns == null)
             {
                 return HttpNotFound();
             }
-            return View(intelliSenseStreet);
+            return View(roadSigns);
         }
 
-        // POST: Streets/Delete/5
+        // POST: RoadSigns/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id);
-            db.IntelliSenseStreets.Remove(intelliSenseStreet);
+            RoadSigns roadSigns = db.RoadSigns.Find(id);
+            db.RoadSigns.Remove(roadSigns);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
