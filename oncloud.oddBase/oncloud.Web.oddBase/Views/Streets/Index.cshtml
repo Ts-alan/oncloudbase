@@ -12,19 +12,25 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Caption)
+            @Html.DisplayNameFor(model => model.City.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StartPointLongitude)
+            @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StartPointLatitude)
+            @Html.DisplayNameFor(model => model.BreadthS)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EndPointLongitude)
+            @Html.DisplayNameFor(model => model.LengthS)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EndPointLatitude)
+            @Html.DisplayNameFor(model => model.BreadthE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LengthE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UniqueNumber)
         </th>
         <th></th>
     </tr>
@@ -32,24 +38,30 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Caption)
+            @Html.DisplayFor(modelItem => item.City.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.StartPointLongitude)
+            @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.StartPointLatitude)
+            @Html.DisplayFor(modelItem => item.BreadthS)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.EndPointLongitude)
+            @Html.DisplayFor(modelItem => item.LengthS)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.EndPointLatitude)
+            @Html.DisplayFor(modelItem => item.BreadthE)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.StreetId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.StreetId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.StreetId })
+            @Html.DisplayFor(modelItem => item.LengthE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UniqueNumber)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
         </td>
     </tr>
 }

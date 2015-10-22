@@ -8,9 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using oncloud.Domain.Concrete;
 using oncloud.Domain.Entities;
-using oncloud.Domain.Abstract;
-using System.Data.Entity.Infrastructure;
 using oncloud.Domain.DAL;
+using oncloud.Domain.Abstract;
 
 namespace oncloud.Web.oddBase.Controllers
 {
@@ -31,6 +30,7 @@ namespace oncloud.Web.oddBase.Controllers
             _unitOfWork = unitOfWork;
             db = new DataBaseSets(_unitOfWork);
         }
+
         // GET: Cities
         public ActionResult Index()
         {
@@ -63,7 +63,7 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CityId,Caption")] City city)
+        public ActionResult Create([Bind(Include = "id,Name")] City city)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CityId,Caption")] City city)
+        public ActionResult Edit([Bind(Include = "id,Name")] City city)
         {
             if (ModelState.IsValid)
             {

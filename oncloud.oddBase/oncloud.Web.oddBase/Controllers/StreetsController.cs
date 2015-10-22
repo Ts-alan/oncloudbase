@@ -20,6 +20,7 @@ namespace oncloud.Web.oddBase.Controllers
         {
             internal DataBaseSets(IUnitOfWork uow) : base(uow) { }
             public IDbSet<Street> Streets { get { return _uow.Set<Street>(); } }
+            public IDbSet<City> Cities { get { return _uow.Set<City>(); } }
         }
 
         private readonly IUnitOfWork _unitOfWork;
@@ -34,7 +35,8 @@ namespace oncloud.Web.oddBase.Controllers
         // GET: Streets
         public ActionResult Index()
         {
-            return View(db.Streets.ToList());
+            var streets = db.Streets.Include(s => s.City);
+            return View(streets.ToList());
         }
 
         // GET: Streets/Details/5
@@ -55,6 +57,7 @@ namespace oncloud.Web.oddBase.Controllers
         // GET: Streets/Create
         public ActionResult Create()
         {
+            ViewBag.City_id = new SelectList(db.Cities, "id", "Name");
             return View();
         }
 
@@ -63,7 +66,7 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StreetId,Caption,StartPointLongitude,StartPointLatitude,EndPointLongitude,EndPointLatitude")] Street street)
+        public ActionResult Create([Bind(Include = "id,Name,BreadthS,LengthS,BreadthE,LengthE,City_id,UniqueNumber")] Street street)
         {
             if (ModelState.IsValid)
             {
@@ -72,6 +75,7 @@ namespace oncloud.Web.oddBase.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.City_id = new SelectList(db.Cities, "id", "Name", street.City_id);
             return View(street);
         }
 
@@ -87,6 +91,7 @@ namespace oncloud.Web.oddBase.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.City_id = new SelectList(db.Cities, "id", "Name", street.City_id);
             return View(street);
         }
 
@@ -95,7 +100,7 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StreetId,Caption,StartPointLongitude,StartPointLatitude,EndPointLongitude,EndPointLatitude")] Street street)
+        public ActionResult Edit([Bind(Include = "id,Name,BreadthS,LengthS,BreadthE,LengthE,City_id,UniqueNumber")] Street street)
         {
             if (ModelState.IsValid)
             {
@@ -104,6 +109,7 @@ namespace oncloud.Web.oddBase.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.City_id = new SelectList(db.Cities, "id", "Name", street.City_id);
             return View(street);
         }
 

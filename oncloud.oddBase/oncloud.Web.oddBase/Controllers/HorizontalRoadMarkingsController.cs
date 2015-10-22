@@ -94,10 +94,16 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,NumberMarking,description")] TheHorizontalRoadMarking theHorizontalRoadMarking)
+        public ActionResult Edit([Bind(Include = "id,NumberMarking,description")] TheHorizontalRoadMarking theHorizontalRoadMarking, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    theHorizontalRoadMarking.ImageMimeType = image.ContentType;
+                    theHorizontalRoadMarking.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(theHorizontalRoadMarking.ImageData, 0, image.ContentLength);
+                }
                 db.SetEntryModified(theHorizontalRoadMarking);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -129,6 +135,20 @@ namespace oncloud.Web.oddBase.Controllers
             db.TheHorizontalRoadMarkings.Remove(theHorizontalRoadMarking);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public FileContentResult GetImage(int id)
+        {
+            TheHorizontalRoadMarking theHorizontalRoadMarking = db.TheHorizontalRoadMarkings.Find(id);
+
+            if (theHorizontalRoadMarking != null)
+            {
+                return File(theHorizontalRoadMarking.ImageData, theHorizontalRoadMarking.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         protected override void Dispose(bool disposing)

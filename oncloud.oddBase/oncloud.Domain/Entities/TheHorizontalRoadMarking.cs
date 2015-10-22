@@ -17,5 +17,8 @@ namespace oncloud.Domain.Entities
         [Column(TypeName = "ntext")]
         [Required]
         public string description { get; set; }
+
+        public byte[] ImageData { get; set; }
+        public string ImageMimeType { get; set; }
     }
 }

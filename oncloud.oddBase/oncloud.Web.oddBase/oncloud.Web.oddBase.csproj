@@ -193,6 +193,10 @@
     <Compile Include="Migrations\201510211807454_upd_db.Designer.cs">
       <DependentUpon>201510211807454_upd_db.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510220714064_added_image_horizontal_road_marking.cs" />
+    <Compile Include="Migrations\201510220714064_added_image_horizontal_road_marking.Designer.cs">
+      <DependentUpon>201510220714064_added_image_horizontal_road_marking.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -527,22 +531,22 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Table.cshtml" />
     <Content Include="Views\Home\AddStreet.cshtml" />
-    <Content Include="Views\Cities\Create.cshtml" />
-    <Content Include="Views\Cities\Delete.cshtml" />
-    <Content Include="Views\Cities\Details.cshtml" />
-    <Content Include="Views\Cities\Edit.cshtml" />
-    <Content Include="Views\Cities\Index.cshtml" />
-    <Content Include="Views\Streets\Create.cshtml" />
-    <Content Include="Views\Streets\Delete.cshtml" />
-    <Content Include="Views\Streets\Details.cshtml" />
-    <Content Include="Views\Streets\Edit.cshtml" />
-    <Content Include="Views\Streets\Index.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\HorizontalRoadMarkings\Create.cshtml" />
     <Content Include="Views\HorizontalRoadMarkings\Delete.cshtml" />
     <Content Include="Views\HorizontalRoadMarkings\Details.cshtml" />
     <Content Include="Views\HorizontalRoadMarkings\Edit.cshtml" />
     <Content Include="Views\HorizontalRoadMarkings\Index.cshtml" />
+    <Content Include="Views\Streets\Create.cshtml" />
+    <Content Include="Views\Streets\Delete.cshtml" />
+    <Content Include="Views\Streets\Details.cshtml" />
+    <Content Include="Views\Streets\Edit.cshtml" />
+    <Content Include="Views\Streets\Index.cshtml" />
+    <Content Include="Views\Cities\Create.cshtml" />
+    <Content Include="Views\Cities\Delete.cshtml" />
+    <Content Include="Views\Cities\Details.cshtml" />
+    <Content Include="Views\Cities\Edit.cshtml" />
+    <Content Include="Views\Cities\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -560,6 +564,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510211807454_upd_db.resx">
       <DependentUpon>201510211807454_upd_db.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510220714064_added_image_horizontal_road_marking.resx">
+      <DependentUpon>201510220714064_added_image_horizontal_road_marking.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
