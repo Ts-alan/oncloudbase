@@ -58,5 +58,7 @@ namespace oncloud.Domain.Concrete
         {
             Entry(entity).State = EntityState.Modified;
         }
+
+        public System.Data.Entity.DbSet<oncloud.Domain.Entities.TheHorizontalRoadMarking> TheHorizontalRoadMarkings { get; set; }
     }
 }
