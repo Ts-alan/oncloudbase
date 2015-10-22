@@ -1,4 +1,4 @@
-﻿@model IEnumerable<oncloud.Domain.Entities.Street>
+﻿@model IEnumerable<oncloud.Domain.Entities.IntelliSenseStreet>
 
 @{
     ViewBag.Title = "Index";
@@ -12,25 +12,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.City.Name)
+            @Html.DisplayNameFor(model => model.Type)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BreadthS)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LengthS)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BreadthE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LengthE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UniqueNumber)
+            @Html.DisplayNameFor(model => model.Street)
         </th>
         <th></th>
     </tr>
@@ -38,30 +23,15 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.City.Name)
+            @Html.DisplayFor(modelItem => item.Type)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(modelItem => item.Street)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.BreadthS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LengthS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BreadthE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LengthE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UniqueNumber)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.id, street = item.Street }) |
+            @Html.ActionLink("Details", "Details", new { id = item.id, street = item.Street }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.id, street = item.Street })
         </td>
     </tr>
 }
