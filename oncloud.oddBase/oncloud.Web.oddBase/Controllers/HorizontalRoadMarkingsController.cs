@@ -104,13 +104,16 @@ namespace oncloud.Web.oddBase.Controllers
         {
             if (ModelState.IsValid)
             {
+                TheHorizontalRoadMarking theHorizontalRoadMarking_original = db.TheHorizontalRoadMarkings.Find(theHorizontalRoadMarking.id);
                 if (image != null)
                 {
-                    theHorizontalRoadMarking.ImageMimeType = image.ContentType;
-                    theHorizontalRoadMarking.ImageData = new byte[image.ContentLength];
-                    image.InputStream.Read(theHorizontalRoadMarking.ImageData, 0, image.ContentLength);
+                    theHorizontalRoadMarking_original.ImageMimeType = image.ContentType;
+                    theHorizontalRoadMarking_original.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(theHorizontalRoadMarking_original.ImageData, 0, image.ContentLength);
                 }
-                db.SetEntryModified(theHorizontalRoadMarking);
+                //db.SetEntryModified(theHorizontalRoadMarking);
+                theHorizontalRoadMarking_original.NumberMarking = theHorizontalRoadMarking.NumberMarking;
+                theHorizontalRoadMarking_original.description = theHorizontalRoadMarking.description;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

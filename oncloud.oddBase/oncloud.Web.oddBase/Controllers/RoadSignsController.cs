@@ -105,14 +105,17 @@ namespace oncloud.Web.oddBase.Controllers
         {
             if (ModelState.IsValid)
             {
+                var original_roadSign = db.RoadSigns.Find(roadSigns.id); 
                 if (image != null)
                 {
-                    roadSigns.ImageMimeType = image.ContentType;
-                    roadSigns.ImageData = new byte[image.ContentLength];
-                    image.InputStream.Read(roadSigns.ImageData, 0, image.ContentLength);
+                    original_roadSign.ImageMimeType = image.ContentType;
+                    original_roadSign.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(original_roadSign.ImageData, 0, image.ContentLength);
                 }
-                db.SetEntryModified(roadSigns);
+                //db.SetEntryModified(roadSigns);
                 //db.Entry(roadSigns).State = EntityState.Modified;
+                original_roadSign.NumberMarking = roadSigns.NumberMarking;
+                original_roadSign.Description = roadSigns.Description;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
