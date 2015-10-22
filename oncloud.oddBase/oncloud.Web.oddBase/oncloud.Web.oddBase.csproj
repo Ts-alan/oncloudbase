@@ -180,6 +180,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HorizontalRoadMarkingsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RoadBarriersController.cs" />
     <Compile Include="Controllers\RoadSignsController.cs" />
     <Compile Include="Controllers\StreetsController.cs" />
     <Compile Include="Controllers\АdministrationController.cs" />
@@ -533,6 +534,11 @@
     <Content Include="Views\RoadSigns\Details.cshtml" />
     <Content Include="Views\RoadSigns\Edit.cshtml" />
     <Content Include="Views\RoadSigns\Index.cshtml" />
+    <Content Include="Views\RoadBarriers\Create.cshtml" />
+    <Content Include="Views\RoadBarriers\Delete.cshtml" />
+    <Content Include="Views\RoadBarriers\Details.cshtml" />
+    <Content Include="Views\RoadBarriers\Edit.cshtml" />
+    <Content Include="Views\RoadBarriers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
