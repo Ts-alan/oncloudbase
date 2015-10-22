@@ -28,6 +28,12 @@
 
     });
 </script>
+<style type="text/css">
+ td {
+    padding: 0px !important
+}
+</style>
+
 <h2>Таблица Улиц</h2>
 
 @Html.ActionLink("+ Создать карточку улицы", "AddStreet", null, new { @class = "btn btn-default" ,style="margin-bottom: 15px" })
@@ -49,11 +55,9 @@
             <td>@item.Denomination</td>
             <td>@item.NumberSegment</td>
             <td>
-                <b><a href="#">Документы</a></b><br>
-                <a href="#" target="_blank">Показать на карте</a><br>
+                @*<a href="#">Просмотреть данные улицы</a><br>
                 <a href="#">Изменить</a><br>
-                <a href="#">Удалить</a><br>
-
+                <a href="#">Удалить</a><br>*@
             </td>
         </tr>
     }
