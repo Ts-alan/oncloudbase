@@ -38,13 +38,13 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         // GET: Streets/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, string street)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id);
+            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id, street);
             if (intelliSenseStreet == null)
             {
                 return HttpNotFound();
@@ -76,13 +76,13 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         // GET: Streets/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, string street)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id);
+            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id, street);
             if (intelliSenseStreet == null)
             {
                 return HttpNotFound();
@@ -108,13 +108,13 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         // GET: Streets/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, string street)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id);
+            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id, street);
             if (intelliSenseStreet == null)
             {
                 return HttpNotFound();
@@ -125,9 +125,9 @@ namespace oncloud.Web.oddBase.Controllers
         // POST: Streets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, string street)
         {
-            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id);
+            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id, street);
             db.IntelliSenseStreets.Remove(intelliSenseStreet);
             db.SaveChanges();
             return RedirectToAction("Index");

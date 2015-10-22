@@ -12,16 +12,13 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.ImageData)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.NumberMarking)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageData)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageMimeType)
         </th>
         <th></th>
     </tr>
@@ -29,16 +26,20 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @if (item.ImageData != null)
+            {
+                <div class="pull-left" style="margin-right: 10px">
+                    <img class="img-thumbnail" width="75" height="75"
+                         src="@Url.Action("GetImage", new { item.id })" />
+                </div>
+            }
+
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.NumberMarking)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImageData)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImageMimeType)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.id }) |

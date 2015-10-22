@@ -14,6 +14,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Type)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Street)
+        </th>
         <th></th>
     </tr>
 
@@ -23,9 +26,12 @@
             @Html.DisplayFor(modelItem => item.Type)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.DisplayFor(modelItem => item.Street)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.id, street = item.Street }) |
+            @Html.ActionLink("Details", "Details", new { id = item.id, street = item.Street }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.id, street = item.Street })
         </td>
     </tr>
 }

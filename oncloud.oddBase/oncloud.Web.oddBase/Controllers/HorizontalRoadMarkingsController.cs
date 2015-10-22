@@ -54,7 +54,7 @@ namespace oncloud.Web.oddBase.Controllers
         // GET: HorizontalRoadMarkings/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new TheHorizontalRoadMarking());
         }
 
         // POST: HorizontalRoadMarkings/Create
@@ -62,10 +62,16 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,NumberMarking,description")] TheHorizontalRoadMarking theHorizontalRoadMarking)
+        public ActionResult Create([Bind(Include = "id,NumberMarking,description")] TheHorizontalRoadMarking theHorizontalRoadMarking, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    theHorizontalRoadMarking.ImageMimeType = image.ContentType;
+                    theHorizontalRoadMarking.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(theHorizontalRoadMarking.ImageData, 0, image.ContentLength);
+                }
                 db.TheHorizontalRoadMarkings.Add(theHorizontalRoadMarking);
                 db.SaveChanges();
                 return RedirectToAction("Index");

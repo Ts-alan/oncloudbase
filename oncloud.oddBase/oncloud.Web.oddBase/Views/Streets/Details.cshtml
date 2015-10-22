@@ -17,10 +17,17 @@
         <dd>
             @Html.DisplayFor(model => model.Type)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Street)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Street)
+        </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id, street = Model.Street }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
