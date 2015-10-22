@@ -214,6 +214,10 @@
     <Compile Include="Migrations\201510220916203_CountRs.Designer.cs">
       <DependentUpon>201510220916203_CountRs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510221245393_added_image_road_signs.cs" />
+    <Compile Include="Migrations\201510221245393_added_image_road_signs.Designer.cs">
+      <DependentUpon>201510221245393_added_image_road_signs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -554,17 +558,17 @@
     <Content Include="Views\HorizontalRoadMarkings\Details.cshtml" />
     <Content Include="Views\HorizontalRoadMarkings\Edit.cshtml" />
     <Content Include="Views\HorizontalRoadMarkings\Index.cshtml" />
-    <Content Include="Views\Streets\Create.cshtml" />
-    <Content Include="Views\Streets\Delete.cshtml" />
-    <Content Include="Views\Streets\Details.cshtml" />
-    <Content Include="Views\Streets\Edit.cshtml" />
-    <Content Include="Views\Streets\Index.cshtml" />
     <Content Include="Views\Cities\Create.cshtml" />
     <Content Include="Views\Cities\Delete.cshtml" />
     <Content Include="Views\Cities\Details.cshtml" />
     <Content Include="Views\Cities\Edit.cshtml" />
     <Content Include="Views\Cities\Index.cshtml" />
     <Content Include="Views\Аdministration\Index.cshtml" />
+    <Content Include="Views\Streets\Create.cshtml" />
+    <Content Include="Views\Streets\Delete.cshtml" />
+    <Content Include="Views\Streets\Details.cshtml" />
+    <Content Include="Views\Streets\Edit.cshtml" />
+    <Content Include="Views\Streets\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -597,6 +601,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510220916203_CountRs.resx">
       <DependentUpon>201510220916203_CountRs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510221245393_added_image_road_signs.resx">
+      <DependentUpon>201510221245393_added_image_road_signs.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -19,8 +19,7 @@ namespace oncloud.Web.oddBase.Controllers
         private class DataBaseSets : DataSets
         {
             internal DataBaseSets(IUnitOfWork uow) : base(uow) { }
-            public IDbSet<Street> Streets { get { return _uow.Set<Street>(); } }
-            public IDbSet<City> Cities { get { return _uow.Set<City>(); } }
+            public IDbSet<IntelliSenseStreet> IntelliSenseStreets { get { return _uow.Set<IntelliSenseStreet>(); } }
         }
 
         private readonly IUnitOfWork _unitOfWork;
@@ -35,8 +34,7 @@ namespace oncloud.Web.oddBase.Controllers
         // GET: Streets
         public ActionResult Index()
         {
-            var streets = db.Streets.Include(s => s.City);
-            return View(streets.ToList());
+            return View(db.IntelliSenseStreets.ToList());
         }
 
         // GET: Streets/Details/5
@@ -46,18 +44,17 @@ namespace oncloud.Web.oddBase.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Street street = db.Streets.Find(id);
-            if (street == null)
+            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id);
+            if (intelliSenseStreet == null)
             {
                 return HttpNotFound();
             }
-            return View(street);
+            return View(intelliSenseStreet);
         }
 
         // GET: Streets/Create
         public ActionResult Create()
         {
-            ViewBag.City_id = new SelectList(db.Cities, "id", "Name");
             return View();
         }
 
@@ -66,17 +63,16 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,Name,BreadthS,LengthS,BreadthE,LengthE,City_id,UniqueNumber")] Street street)
+        public ActionResult Create([Bind(Include = "id,Street,Type")] IntelliSenseStreet intelliSenseStreet)
         {
             if (ModelState.IsValid)
             {
-                db.Streets.Add(street);
+                db.IntelliSenseStreets.Add(intelliSenseStreet);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.City_id = new SelectList(db.Cities, "id", "Name", street.City_id);
-            return View(street);
+            return View(intelliSenseStreet);
         }
 
         // GET: Streets/Edit/5
@@ -86,13 +82,12 @@ namespace oncloud.Web.oddBase.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Street street = db.Streets.Find(id);
-            if (street == null)
+            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id);
+            if (intelliSenseStreet == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.City_id = new SelectList(db.Cities, "id", "Name", street.City_id);
-            return View(street);
+            return View(intelliSenseStreet);
         }
 
         // POST: Streets/Edit/5
@@ -100,17 +95,15 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,Name,BreadthS,LengthS,BreadthE,LengthE,City_id,UniqueNumber")] Street street)
+        public ActionResult Edit([Bind(Include = "id,Street,Type")] IntelliSenseStreet intelliSenseStreet)
         {
             if (ModelState.IsValid)
             {
-                db.SetEntryModified(street);
-                //db.Entry(street).State = EntityState.Modified;
+                db.Entry(intelliSenseStreet).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.City_id = new SelectList(db.Cities, "id", "Name", street.City_id);
-            return View(street);
+            return View(intelliSenseStreet);
         }
 
         // GET: Streets/Delete/5
@@ -120,12 +113,12 @@ namespace oncloud.Web.oddBase.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Street street = db.Streets.Find(id);
-            if (street == null)
+            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id);
+            if (intelliSenseStreet == null)
             {
                 return HttpNotFound();
             }
-            return View(street);
+            return View(intelliSenseStreet);
         }
 
         // POST: Streets/Delete/5
@@ -133,8 +126,8 @@ namespace oncloud.Web.oddBase.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Street street = db.Streets.Find(id);
-            db.Streets.Remove(street);
+            IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id);
+            db.IntelliSenseStreets.Remove(intelliSenseStreet);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
