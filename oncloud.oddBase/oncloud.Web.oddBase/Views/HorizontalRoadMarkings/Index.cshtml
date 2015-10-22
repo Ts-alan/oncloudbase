@@ -12,6 +12,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.ImageData)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.NumberMarking)
         </th>
         <th>
@@ -22,6 +25,16 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @if (item.ImageData != null)
+            {
+                <div class="pull-left" style="margin-right: 10px">
+                    <img class="img-thumbnail" width="75" height="75"
+                         src="@Url.Action("GetImage", new { item.id })" />
+                </div>
+            }
+
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.NumberMarking)
         </td>
