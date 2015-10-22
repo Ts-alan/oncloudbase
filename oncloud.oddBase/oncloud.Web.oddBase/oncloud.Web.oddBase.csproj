@@ -356,6 +356,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jqGrid\minified\jquery.jqGrid.min.js.map" />
+    <None Include="Properties\PublishProfiles\Den4ik.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jqGrid\addons\ui.multiselect.js" />
     <Content Include="Scripts\jqGrid\grid.base.js" />
