@@ -90,9 +90,11 @@ namespace oncloud.Web.oddBase.Controllers
                         .Replace(".", ","));
                 }
             });
-
+            ViewBag.RoadSigns = db.RoadSigns.ToList();
             return View();
         }
+
+
 
         public ActionResult FindStreets(string term)
         {
@@ -107,19 +109,5 @@ namespace oncloud.Web.oddBase.Controllers
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        public FileContentResult Getlmage(int id)
-        {
-            TheHorizontalRoadMarking prod =
-                db.TheHorizontalRoadMarking.FirstOrDefault(p => p.id == id);
-            if (prod != null)
-            {
-                return File(prod.ImageData, prod.ImageMimeType);
-            }
-            else
-            {
-                return null;
-            }
-
-        }
     }
 }
