@@ -63,7 +63,7 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,NumberBarriers,Description,ImageData,ImageMimeType")] RoadBarriers roadBarriers, HttpPostedFileBase image = null)
+        public ActionResult Create([Bind(Include = "id,NumberBarriers,Description")] RoadBarriers roadBarriers, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +101,7 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,NumberBarriers,Description,ImageData,ImageMimeType")] RoadBarriers roadBarriers, HttpPostedFileBase image = null)
+        public ActionResult Edit([Bind(Include = "id,NumberBarriers,Description")] RoadBarriers roadBarriers, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
