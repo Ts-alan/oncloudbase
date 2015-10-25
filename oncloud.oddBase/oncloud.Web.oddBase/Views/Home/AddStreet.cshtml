@@ -277,6 +277,7 @@
     }
     //удаление сегмента
     function deleteSegment(index) {
+        
         countElementSegGlobal.length--;
 
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1]));
@@ -323,6 +324,16 @@
                     $(previousDom).find("input").eq(1).attr("id", "lengthSegS" + ind);
                     $(previousDom).find("input").eq(2).attr("id", "breadthSegE" + ind);
                     $(previousDom).find("input").last().attr("id", "lengthSegE" + ind);
+
+                    //чистка модальных окон
+                    $('[class^="DataOfRoad"' + index + ']').remove();
+                    $('[id^="ModalRoadSigns"' + index + ']').remove();
+                    $('[id^="ModalRoadSigns"]').each(function (ind, element) {
+                        $(element).attr("id", "ModalRoadSigns" + (index + 1)).find(".buttonclose").attr("onclick", "cleaning(" + (index + 1) + ")");
+                    });
+                    $('[data-target^="#DataOfRoad"]').each(function (ind, element) {
+                        $(element).attr("data-target", "ModalRoadSigns" + (ind + 1));
+                    });
                 }
                 previousDom = domElement;
                 if (indexSkipOfFirst == false)
@@ -360,7 +371,8 @@
             }
         });
         increment = massSegment.length + 1;
-
+        
+        
     }
     //чистка полей
     function cleaning(par) {
@@ -495,7 +507,8 @@
                                                               "</div>");
                                 
                                 //вставка модальных окон
-                                $('[class^="DataOfRoad"]:last').after($('#ModalRoadSigns1').clone().attr("id", "ModalRoadSigns" + increment).closest(".buttonclose").attr("onclick", "cleaning(" + increment + ")").end());
+          
+                                $('[class^="DataOfRoad"]:last').after($('#ModalRoadSigns1').clone().attr("id", "ModalRoadSigns" + increment).find(".buttonclose").attr("onclick", "cleaning(" + increment + ")").end());
                             }
 
                             $("#CountSides").val(increment);$("#breadthSegS" + increment).attr("value", tempData[0]);
