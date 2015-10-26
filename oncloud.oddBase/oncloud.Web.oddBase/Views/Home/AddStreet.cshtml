@@ -277,7 +277,7 @@
     }
     //удаление сегмента
     function deleteSegment(index) {
-        
+
         countElementSegGlobal.length--;
 
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1]));
@@ -326,13 +326,18 @@
                     $(previousDom).find("input").last().attr("id", "lengthSegE" + ind);
 
                     //чистка модальных окон
-                    
+
                     $('[id^="ModalRoadSigns' + index + ']').remove();
                     $('[id^="ModalRoadSigns"]').each(function (ind, element) {
-                        $(element).attr("id", "ModalRoadSigns" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaning(" + (ind + 1) + ")");
+                        $(element).attr("id", "ModalRoadSigns" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadSigns(" + (ind + 1) + ")");
                     });
-                    $('[data-target^="#DataOfRoad"]').each(function (ind, element) {
-                        $(element).attr("data-target", "ModalRoadSigns" + (ind + 1));
+                    //$('[data-target^="#DataOfRoad"]').each(function (ind, element) {
+                    //    $(element).attr("data-target", "ModalRoadSigns" + (ind + 1));
+                    //});
+
+                    $('[id^="RoadBarriers' + index + ']').remove();
+                    $('[id^="RoadBarriers"]').each(function (ind, element) {
+                        $(element).attr("id", "RoadBarriers" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadBarriers(" + (ind + 1) + ")");
                     });
                 }
                 previousDom = domElement;
@@ -366,24 +371,31 @@
 
         $(".DataOfRoad" + index).remove();
         $('[class^="DataOfRoad"]').each(function (ind, element) {
-            if (countElement.length!= 0) {
+            if (countElement.length != 0) {
                 $(element).attr("class", "DataOfRoad" + (ind + 1));
                 $(element).find("u").text("Участок " + (ind + 1));
                 $(element).find("[data-target^='#ModalRoadSigns']").attr("data-target", "#ModalRoadSigns" + (ind + 1));
+                $(element).find("[data-target^='#RoadBarriers']").attr("data-target", "#RoadBarriers" + (ind + 1));
             }
         });
         increment = massSegment.length + 1;
-        
-        
+
+
     }
     //чистка полей
-    function cleaning(par) {
-        //alert(par);
+    function cleaningRoadSigns(par) {
+
         $("#ModalRoadSigns" + par + " input").each(function (indx, element) {
-                $(element).val("");
-            });
+            $(element).val("");
+        });
     }
 
+    function cleaningRoadBarrier(par) {
+ 
+        $("#RoadBarriers" + par + " input").each(function (indx, element) {
+            $(element).val("");
+        });
+    }
 
     //задание координат
     $(document).ready(function () {
@@ -504,16 +516,23 @@
                                                                     "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + increment + "'>Ввести данные о дорожных знаках</button>" +
                                                                 "</div>" +
                                                                 "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' >" +
-                                                                   "<button type='button' class='btn btn-default'>Ввести данные о дорожных ограждениях</button>" +
+                                                                   "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#RoadBarriers" + increment + "'>Ввести данные о дорожных ограждениях</button>" +
                                                                 "</div>" +
                                                               "</div>");
-                                
+
                                 //вставка модальных окон
-          
-                                $('[class^="DataOfRoad"]:last').after($('#ModalRoadSigns1').clone().attr("id", "ModalRoadSigns" + increment).find(".buttonclose").attr("onclick", "cleaning(" + increment + ")").end());
+
+                                $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
+                                 .attr("id", "ModalRoadSigns" + increment).find(".buttonclose")
+                                 .attr("onclick", "cleaningRoadSigns(" + increment + ")").end());
+
+                                $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
+                                    .attr("id", "RoadBarriers" + increment).find(".buttonclose")
+                                    .attr("onclick", "cleaningRoadBarrier(" + increment + ")").end());
+                             
                             }
 
-                            $("#CountSides").val(increment);$("#breadthSegS" + increment).attr("value", tempData[0]);
+                            $("#CountSides").val(increment); $("#breadthSegS" + increment).attr("value", tempData[0]);
                             $("#lengthSegS" + increment).attr("value", tempData[1]);
                             $("#breadthSegE" + increment).attr("value", coords[0].toPrecision(6));
                             $("#lengthSegE" + increment).attr("value", coords[1].toPrecision(6));
@@ -647,8 +666,8 @@
         $("#closeModel").click(function () {
             $("#ModalTable").modal('hide');
         });
-        
-        
+
+
         //заблокировать наименовае улицы
         $("#blockStreet").click(function () {
             $(this).parent().prev().children("input").each(function (indx, element) {
@@ -710,23 +729,23 @@
 
         //чистка полей в модальном окне при нажатии по close
         $("#close").click(function (e) {
-          
+
             $("#ModalMackUp input").each(function (indx, element) {
-               $(element).val("");
+                $(element).val("");
             });
         });
         //создание клона формы
-     
+
     });
 </script>
 <style>
-        /*стили на для Upload кнопки*/
-        .file_upload {
-            position: relative;
-            overflow: hidden;
-            height: 34px; /* example */
-            margin-bottom: 10px;
-        }
+    /*стили на для Upload кнопки*/
+    .file_upload {
+        position: relative;
+        overflow: hidden;
+        height: 34px; /* example */
+        margin-bottom: 10px;
+    }
 
         .file_upload > input {
             max-width: 284px;
@@ -857,7 +876,7 @@
                             <th>Длина (м.пог) / штуки</th>
                             <th>Площадь (м.кв)</th>
                         </tr>
-                        @foreach (var item in (IEnumerable<oncloud.Domain.Entities.TheHorizontalRoadMarking>)ViewBag.Model)
+                        @foreach (var item in (IEnumerable<oncloud.Domain.Entities.TheHorizontalRoadMarking>)ViewBag.RoadMarking)
                         {
                             <tr>
 
@@ -912,34 +931,34 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="tab1">
-                                    @{ Session["increment"] = "1";
-                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-                                
+                                @{ Session["increment"] = "1";
+                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+
                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab2">
-                                    @{ Session["increment"] = "2";
-                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-                          
+                                @{ Session["increment"] = "2";
+                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+
                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab3">
-                                    @{ Session["increment"] = "3";
-                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-                             </div>
+                                @{ Session["increment"] = "3";
+                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+                            </div>
                             <div role="tabpanel" class="tab-pane" id="tab4">
-                                    @{ Session["increment"] = "4";
-                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+                                @{ Session["increment"] = "4";
+                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab5">
-                                   @{ Session["increment"] = "5";
-                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+                                @{ Session["increment"] = "5";
+                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab6">
-                                   @{ Session["increment"] = "6";
-                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+                                @{ Session["increment"] = "6";
+                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab7">
-                                   @{ Session["increment"] = "7";
-                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+                                @{ Session["increment"] = "7";
+                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
                             </div>
                         </div>
 
@@ -948,43 +967,86 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
-                    <button type="button"  class="btn btn-default buttonclose" onclick="cleaning(1)" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-default buttonclose" onclick="cleaningRoadSigns(1)" data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>
     </div>
+        <!-- RoadBarriers  -->
+        <div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" style="width: 1000px" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>№ Дорожного ограждения</th>
+                                <th>Картинка</th>
+                                <th>Описание</th>
+                                <th>Квадратные метры</th>
+                            </tr>
+                            @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadBarriers>)ViewBag.RoadBarriers)
+                            {
+                                <tr>
+
+                                    <td>@item.NumberBarriers</td>
+                                    <td>
+                                        @if (item.ImageData != null)
+                                        {
+                                            <img src="@Url.Action("GetImage",  "RoadBarriers", new { item.id})" />
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.Description
+                                    </td>
+                                    <td style="vertical-align: middle"><input name="RoadBarriersMeters@(item.NumberBarriers)" type="text" /></td>
+
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
+                        <button type="button" id="closeModalMackUp" onclick="cleaningRoadBarrier(1)" class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-    <div style="clear: both">
-        <div>
-            <b><u>4.Ввод данных</u></b>
-        </div>
-        <div class="file_upload  col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <button class="btn btn-default" type="button">Загрузить компоновочную схему</button>
-            <input name="layoutscheme" type="file">
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Ввести спецификацию разметки</button>
-        </div>
-        <div style="clear: both" class="DataOfRoad1">
+        <div style="clear: both">
             <div>
-                <b><u>Участок 1</u></b>
+                <b><u>4.Ввод данных</u></b>
             </div>
+            <div class="file_upload  col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <button class="btn btn-default" type="button">Загрузить компоновочную схему</button>
+                <input name="layoutscheme" type="file">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Ввести спецификацию разметки</button>
+            </div>
+            <div style="clear: both" class="DataOfRoad1">
+                <div>
+                    <b><u>Участок 1</u></b>
+                </div>
 
-            <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-                <button type="button" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
-            </div>
-            <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Ввести данные о дорожных знаках</button>
-            </div>
-            <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                <button type="button" class="btn btn-default">
-                    Ввести данные о дорожных ограждениях
-                </button>
+                <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+                    <button type="button" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
+                </div>
+                <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Ввести данные о дорожных знаках</button>
+                </div>
+                <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#RoadBarriers1">
+                        Ввести данные о дорожных ограждениях
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-    <div style="margin-left: 60%">
-        <button style="float:left" class="btn btn-success">Сохранить</button> @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-warning" })
-    </div>
-} 
+        <div style="margin-left: 60%">
+            <button style="float:left" class="btn btn-success">Сохранить</button> @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-warning" })
+        </div>
+        }

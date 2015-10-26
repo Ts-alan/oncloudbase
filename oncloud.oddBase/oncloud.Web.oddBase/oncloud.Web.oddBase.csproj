@@ -224,6 +224,10 @@
     <Compile Include="Migrations\201510221406352_RoadBarriers.Designer.cs">
       <DependentUpon>201510221406352_RoadBarriers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510260927374_SpecificationOfRb.cs" />
+    <Compile Include="Migrations\201510260927374_SpecificationOfRb.Designer.cs">
+      <DependentUpon>201510260927374_SpecificationOfRb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -578,6 +582,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510221406352_RoadBarriers.resx">
       <DependentUpon>201510221406352_RoadBarriers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510260927374_SpecificationOfRb.resx">
+      <DependentUpon>201510260927374_SpecificationOfRb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

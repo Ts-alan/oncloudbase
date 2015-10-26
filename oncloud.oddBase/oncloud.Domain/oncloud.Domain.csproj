@@ -60,6 +60,7 @@
     <Compile Include="Entities\RoadBarriers .cs" />
     <Compile Include="Entities\RoadSigns.cs" />
     <Compile Include="Entities\Segment.cs" />
+    <Compile Include="Entities\SpecificationofRB.cs" />
     <Compile Include="Entities\SpecificationofRM.cs" />
     <Compile Include="Entities\SpecificationofRS.cs" />
     <Compile Include="Entities\Street.cs" />

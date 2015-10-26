@@ -78,7 +78,7 @@ namespace oncloud.Web.oddBase.Controllers
         {
             ViewBag.City = db.City.First();
 
-            ViewBag.Model = db.TheHorizontalRoadMarking.ToList().OrderBy(a =>
+            ViewBag.RoadMarking = db.TheHorizontalRoadMarking.ToList().OrderBy(a =>
             {
                 if (a.NumberMarking.Substring(2).LastIndexOf(".") == -1)
                 {
@@ -91,6 +91,7 @@ namespace oncloud.Web.oddBase.Controllers
                 }
             });
             ViewBag.RoadSigns = db.RoadSigns.ToList();
+            ViewBag.RoadBarriers = db.RoadBarriers.ToList();
             return View();
         }
 

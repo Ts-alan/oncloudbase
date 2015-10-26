@@ -51,6 +51,8 @@ namespace oncloud.Domain.Entities
         public virtual ICollection<SpecificationofRM> SpecificationofRM { get; set; }
 
         public virtual ICollection<SpecificationofRS> SpecificationofRS { get; set; }
+
+        public virtual ICollection<SpecificationOfRb> SpecificationOfRb { get; set; }
         //public int StreetId { get; set; }
         //public string Caption { get; set; }
 
