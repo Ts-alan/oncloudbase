@@ -1,0 +1,29 @@
+﻿
+@model  IEnumerable<oncloud.Domain.Entities.RoadSigns>
+
+<table class="table table-bordered">
+    <tr>
+        <th>№ знака</th>
+        <th>Картинка</th>
+        <th>Описание</th>
+        <th>Количество</th>
+    </tr>
+    @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns)
+    {
+        if (item.NumberMarking.Substring(0, 1) == (string)Session["increment"])
+        {
+            <tr>
+                <td>@item.NumberMarking</td>
+                <td>
+                    @if (item.ImageData != null)
+                    {
+                        <img style="height: 100px; width: 100px" src="@Url.Action("GetImage", "RoadSigns", new {item.id})" />
+                    }
+                </td>
+                <td>@item.Description</td>
+                <td style="vertical-align: middle"><input name="ModalC@(item.NumberMarking)" type="text" /></td>
+
+            </tr>
+        }
+    }
+</table>

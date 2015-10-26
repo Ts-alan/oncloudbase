@@ -277,6 +277,7 @@
     }
     //удаление сегмента
     function deleteSegment(index) {
+        
         countElementSegGlobal.length--;
 
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1]));
@@ -323,6 +324,16 @@
                     $(previousDom).find("input").eq(1).attr("id", "lengthSegS" + ind);
                     $(previousDom).find("input").eq(2).attr("id", "breadthSegE" + ind);
                     $(previousDom).find("input").last().attr("id", "lengthSegE" + ind);
+
+                    //чистка модальных окон
+                    $('[class^="DataOfRoad"' + index + ']').remove();
+                    $('[id^="ModalRoadSigns"' + index + ']').remove();
+                    $('[id^="ModalRoadSigns"]').each(function (ind, element) {
+                        $(element).attr("id", "ModalRoadSigns" + (index + 1)).find(".buttonclose").attr("onclick", "cleaning(" + (index + 1) + ")");
+                    });
+                    $('[data-target^="#DataOfRoad"]').each(function (ind, element) {
+                        $(element).attr("data-target", "ModalRoadSigns" + (ind + 1));
+                    });
                 }
                 previousDom = domElement;
                 if (indexSkipOfFirst == false)
@@ -353,16 +364,23 @@
             tempDataFor3 = 5;
         }
         $(".DataOfRoad" + index).remove();
-        $('[class^="DataOfRoad"]').each(function(ind,element) {
-            if(ind!=0) {
+        $('[class^="DataOfRoad"]').each(function (ind, element) {
+            if (ind != 0) {
                 $(element).attr("class", "DataOfRoad" + (ind + 1));
                 $(element).find("u").text("Участок " + (ind + 1));
             }
         });
         increment = massSegment.length + 1;
-
+        
+        
     }
-
+    //чистка полей
+    function cleaning(par) {
+        //alert(par);
+        $("#ModalRoadSigns" + par + " input").each(function (indx, element) {
+                $(element).val("");
+            });
+    }
 
 
     //задание координат
@@ -472,25 +490,28 @@
                                     '</div></div>'
                                 );
                             }
-                            if (increment!=1) {
-                            $('[class^="DataOfRoad"]:last').after("<div style='clear: both' class='DataOfRoad"+increment+"'>"+
-                                                            "<div>"+
-                                                                "<b><u>Участок "+increment+"</u></b>"+
-                                                            "</div>"+
-                                                            "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>"+
-                                                                "<button type='button' class='btn btn-default'>Загрузить Дислокацию ТСОДД</button>"+
-                                                            "</div>"+
-                                                            "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>"+
-                                                                "<button type='button' class='btn btn-default'>Ввести данные о дорожных знаках</button>"+
-                                                            "</div>"+
-                                                            "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' >" +
-                                                               "<button type='button' class='btn btn-default'>Ввести данные о дорожных ограждениях</button>"+
-                                                            "</div>"+
-                                                          "</div>");
+                            if (increment != 1) {
+                                $('[class^="DataOfRoad"]:last').after("<div style='clear: both' class='DataOfRoad" + increment + "'>" +
+                                                                "<div>" +
+                                                                    "<b><u>Участок " + increment + "</u></b>" +
+                                                                "</div>" +
+                                                                "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
+                                                                    "<button type='button' class='btn btn-default'>Загрузить Дислокацию ТСОДД</button>" +
+                                                                "</div>" +
+                                                                "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
+                                                                    "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + increment + "'>Ввести данные о дорожных знаках</button>" +
+                                                                "</div>" +
+                                                                "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' >" +
+                                                                   "<button type='button' class='btn btn-default'>Ввести данные о дорожных ограждениях</button>" +
+                                                                "</div>" +
+                                                              "</div>");
+                                
+                                //вставка модальных окон
+          
+                                $('[class^="DataOfRoad"]:last').after($('#ModalRoadSigns1').clone().attr("id", "ModalRoadSigns" + increment).find(".buttonclose").attr("onclick", "cleaning(" + increment + ")").end());
                             }
 
-                            $("#CountSides").val(increment);
-                            $("#breadthSegS" + increment).attr("value", tempData[0]);
+                            $("#CountSides").val(increment);$("#breadthSegS" + increment).attr("value", tempData[0]);
                             $("#lengthSegS" + increment).attr("value", tempData[1]);
                             $("#breadthSegE" + increment).attr("value", coords[0].toPrecision(6));
                             $("#lengthSegE" + increment).attr("value", coords[1].toPrecision(6));
@@ -624,7 +645,8 @@
         $("#closeModel").click(function () {
             $("#ModalTable").modal('hide');
         });
-
+        
+        
         //заблокировать наименовае улицы
         $("#blockStreet").click(function () {
             $(this).parent().prev().children("input").each(function (indx, element) {
@@ -683,22 +705,26 @@
 
             $(eventObject.target).children().focus();
         });
+
         //чистка полей в модальном окне при нажатии по close
-        $(".close").click(function (e) {
-            $("td input").each(function (indx, element) {
-                $(element).val("");
+        $("#close").click(function (e) {
+          
+            $("#ModalMackUp input").each(function (indx, element) {
+               $(element).val("");
             });
         });
+        //создание клона формы
+     
     });
 </script>
 <style>
-    /*стили на для Upload кнопки*/
-    .file_upload {
-        position: relative;
-        overflow: hidden;
-        height: 34px; /* example */
-        margin-bottom: 10px;
-    }
+        /*стили на для Upload кнопки*/
+        .file_upload {
+            position: relative;
+            overflow: hidden;
+            height: 34px; /* example */
+            margin-bottom: 10px;
+        }
 
         .file_upload > input {
             max-width: 284px;
@@ -716,26 +742,26 @@
             cursor: pointer;
         }
 
-        .modal-dialog {
-            width: 645px 
-        }
+    .modal-dialog {
+        width: 645px;
+    }
 
-        td input {
-            border-width: 0;
-            text-align: right !important;
-        }
-        /*правит шрифт бутсрапа*/
-        label {
-            font-weight: normal;
-        }
-        /*отступы*/
-        .indentForTextBox {
-            margin-right: 60px;
-        }
+    td input {
+        border-width: 0;
+        text-align: right !important;
+    }
+    /*правит шрифт бутсрапа*/
+    label {
+        font-weight: normal;
+    }
+    /*отступы*/
+    .indentForTextBox {
+        margin-right: 60px;
+    }
 
-        .btn {
-            width: 285px;
-        }
+    .btn {
+        width: 285px;
+    }
 </style>
 <h2 style="text-align: center">Карточка улицы</h2>
 
@@ -837,7 +863,7 @@
                                 <td>
                                     @if (item.ImageData != null)
                                     {
-                                        <img src="@Url.Action("Getlmage",  "Home", new { item.id})"/>
+                                        <img src="@Url.Action("GetImage",  "HorizontalRoadMarkings", new { item.id})" />
                                     }
                                 </td>
                                 <td>
@@ -852,12 +878,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
-                    <button type="button" id="closeModel" class="btn btn-default " data-dismiss="modal">Закрыть</button>
+                    <button type="button" id="closeModalMackUp" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>
     </div>
-    
+
      <!-- ModalRoadSigns -->
     <div class="modal fade" id="ModalRoadSigns1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -878,122 +904,40 @@
                             <li role="presentation"><a href="#tab5" aria-controls="5" role="tab" data-toggle="tab">5</a></li>
                             <li role="presentation"><a href="#tab6" aria-controls="6" role="tab" data-toggle="tab">6</a></li>
                             <li role="presentation"><a href="#tab7" aria-controls="7" role="tab" data-toggle="tab">7</a></li>
-                           
+
                         </ul>
 
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="tab1">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>№ знака</th>
-                                        <th>Картинка</th>
-                                        <th>Описание</th>
-                                        <th>Количество</th>  
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td style="vertical-align: middle"><input  type="text" /></td>
-                                   </tr>
-                                </table>
+                                    @{ Session["increment"] = "1";
+                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+                                
                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab2">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>№ знака</th>
-                                        <th>Картинка</th>
-                                        <th>Описание</th>
-                                        <th>Количество</th>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td style="vertical-align: middle"><input type="text" /></td>
-                                    </tr>
-                                </table>
+                                    @{ Session["increment"] = "2";
+                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+                          
                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab3">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>№ знака</th>
-                                        <th>Картинка</th>
-                                        <th>Описание</th>
-                                        <th>Количество</th>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td style="vertical-align: middle"><input type="text" /></td>
-                                    </tr>
-                                </table>
-                            </div>
+                                    @{ Session["increment"] = "3";
+                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab4">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>№ знака</th>
-                                        <th>Картинка</th>
-                                        <th>Описание</th>
-                                        <th>Количество</th>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td style="vertical-align: middle"><input type="text" /></td>
-                                    </tr>
-                                </table>
+                                    @{ Session["increment"] = "4";
+                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab5">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>№ знака</th>
-                                        <th>Картинка</th>
-                                        <th>Описание</th>
-                                        <th>Количество</th>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td style="vertical-align: middle"><input type="text" /></td>
-                                    </tr>
-                                </table>
+                                   @{ Session["increment"] = "5";
+                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab6">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>№ знака</th>
-                                        <th>Картинка</th>
-                                        <th>Описание</th>
-                                        <th>Количество</th>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td style="vertical-align: middle"><input type="text" /></td>
-                                    </tr>
-                                </table>
+                                   @{ Session["increment"] = "6";
+                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
                             </div>
                             <div role="tabpanel" class="tab-pane" id="tab7">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>№ знака</th>
-                                        <th>Картинка</th>
-                                        <th>Описание</th>
-                                        <th>Количество</th>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td style="vertical-align: middle"><input type="text" /></td>
-                                    </tr>
-                                </table>
+                                   @{ Session["increment"] = "7";
+                                        Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
                             </div>
                         </div>
 
@@ -1002,7 +946,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
-                    <button type="button" id="closeModel" class="btn btn-default " data-dismiss="modal">Закрыть</button>
+                    <button type="button"  class="btn btn-default buttonclose" onclick="cleaning(1)" data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>
@@ -1021,7 +965,7 @@
             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Ввести спецификацию разметки</button>
         </div>
         <div style="clear: both" class="DataOfRoad">
-            <div >
+            <div>
                 <b><u>Участок 1</u></b>
             </div>
 
@@ -1029,7 +973,7 @@
                 <button type="button" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
             </div>
             <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-                <button type="button" class="btn btn-default"  data-toggle="modal" data-target="#ModalRoadSigns1" >Ввести данные о дорожных знаках</button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Ввести данные о дорожных знаках</button>
             </div>
             <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <button type="button" class="btn btn-default">
@@ -1038,10 +982,7 @@
             </div>
         </div>
     </div>
-    <div style="margin-left: 60%" >
+    <div style="margin-left: 60%">
         <button style="float:left" class="btn btn-success">Сохранить</button> @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-warning" })
     </div>
-}
-
-
-
+} 
