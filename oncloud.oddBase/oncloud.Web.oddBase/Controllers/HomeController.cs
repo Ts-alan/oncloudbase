@@ -12,6 +12,7 @@ using OddBasyBY.Models;
 
 namespace oncloud.Web.oddBase.Controllers
 {
+    [Authorize(Roles="user")]
     public class HomeController : Controller
     {
         private EFDbContext db = new EFDbContext();

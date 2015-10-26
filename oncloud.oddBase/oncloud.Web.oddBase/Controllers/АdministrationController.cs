@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace oncloud.Web.oddBase.Controllers
 {
+    [Authorize(Roles="admin")]
     public class АdministrationController : Controller
     {
         // GET: Аdministration
