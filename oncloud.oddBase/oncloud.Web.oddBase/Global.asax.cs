@@ -17,7 +17,7 @@ namespace oncloud.Web.oddBase
     {
         protected void Application_Start()
         {
-            Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, IdentityContextMigrations.Configuration>());
 
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<EFDbContext, Configuration>());
 

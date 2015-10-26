@@ -187,6 +187,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="IdentityContextMigrations\201510262114596_add_organizationId.cs" />
+    <Compile Include="IdentityContextMigrations\201510262114596_add_organizationId.Designer.cs">
+      <DependentUpon>201510262114596_add_organizationId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IdentityContextMigrations\Configuration.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Migrations\201510162258545_InitialCreate.cs" />
     <Compile Include="Migrations\201510162258545_InitialCreate.Designer.cs">
@@ -564,6 +569,9 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="IdentityContextMigrations\201510262114596_add_organizationId.resx">
+      <DependentUpon>201510262114596_add_organizationId.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510162258545_InitialCreate.resx">
       <DependentUpon>201510162258545_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
