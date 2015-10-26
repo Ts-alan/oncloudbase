@@ -326,10 +326,10 @@
                     $(previousDom).find("input").last().attr("id", "lengthSegE" + ind);
 
                     //чистка модальных окон
-                    $('[class^="DataOfRoad"' + index + ']').remove();
-                    $('[id^="ModalRoadSigns"' + index + ']').remove();
+                    
+                    $('[id^="ModalRoadSigns' + index + ']').remove();
                     $('[id^="ModalRoadSigns"]').each(function (ind, element) {
-                        $(element).attr("id", "ModalRoadSigns" + (index + 1)).find(".buttonclose").attr("onclick", "cleaning(" + (index + 1) + ")");
+                        $(element).attr("id", "ModalRoadSigns" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaning(" + (ind + 1) + ")");
                     });
                     $('[data-target^="#DataOfRoad"]').each(function (ind, element) {
                         $(element).attr("data-target", "ModalRoadSigns" + (ind + 1));
@@ -363,11 +363,13 @@
             "</div>");
             tempDataFor3 = 5;
         }
+
         $(".DataOfRoad" + index).remove();
         $('[class^="DataOfRoad"]').each(function (ind, element) {
-            if (ind != 0) {
+            if (countElement.length!= 0) {
                 $(element).attr("class", "DataOfRoad" + (ind + 1));
                 $(element).find("u").text("Участок " + (ind + 1));
+                $(element).find("[data-target^='#ModalRoadSigns']").attr("data-target", "#ModalRoadSigns" + (ind + 1));
             }
         });
         increment = massSegment.length + 1;
@@ -964,7 +966,7 @@
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Ввести спецификацию разметки</button>
         </div>
-        <div style="clear: both" class="DataOfRoad">
+        <div style="clear: both" class="DataOfRoad1">
             <div>
                 <b><u>Участок 1</u></b>
             </div>
