@@ -14,7 +14,8 @@ namespace oncloud.Domain.Entities
         public string area { get; set; }
         public int Street_id { get; set; }
         [Required]
-        public string Mackup { get; set; }
+        public virtual TheHorizontalRoadMarking RoadBarriers { get; set; }
         public virtual Street Street { get; set; }
+
     }
 }

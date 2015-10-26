@@ -10,10 +10,10 @@
     </tr>
     @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns)
     {
-        if (item.NumberMarking.Substring(0, 1) == (string)Session["increment"])
+        if (item.NumberRoadSigns.Substring(0, 1) == (string)Session["increment"])
         {
             <tr>
-                <td>@item.NumberMarking</td>
+                <td>@item.NumberRoadSigns</td>
                 <td>
                     @if (item.ImageData != null)
                     {
@@ -21,7 +21,7 @@
                     }
                 </td>
                 <td>@item.Description</td>
-                <td style="vertical-align: middle"><input name="ModalC@(item.NumberMarking)" type="text" /></td>
+                <td style="vertical-align: middle"><input name="ModalC@(item.NumberRoadSigns)" type="text" /></td>
 
             </tr>
         }

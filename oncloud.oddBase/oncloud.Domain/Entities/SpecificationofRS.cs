@@ -12,5 +12,8 @@ namespace oncloud.Domain.Entities
         public int CountRS { get; set; }
         public int Street_id { get; set; }
         public virtual Street Street { get; set; }
+        public int RoadSigns_id { get; set; }
+
+        public virtual RoadSigns RoadSigns { get; set; }
     }
 }

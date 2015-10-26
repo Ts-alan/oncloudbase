@@ -228,6 +228,14 @@
     <Compile Include="Migrations\201510260927374_SpecificationOfRb.Designer.cs">
       <DependentUpon>201510260927374_SpecificationOfRb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510261355069_renamecolums.cs" />
+    <Compile Include="Migrations\201510261355069_renamecolums.Designer.cs">
+      <DependentUpon>201510261355069_renamecolums.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510261559592_relations.cs" />
+    <Compile Include="Migrations\201510261559592_relations.Designer.cs">
+      <DependentUpon>201510261559592_relations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -585,6 +593,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510260927374_SpecificationOfRb.resx">
       <DependentUpon>201510260927374_SpecificationOfRb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510261355069_renamecolums.resx">
+      <DependentUpon>201510261355069_renamecolums.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510261559592_relations.resx">
+      <DependentUpon>201510261559592_relations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

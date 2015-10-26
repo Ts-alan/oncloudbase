@@ -8,153 +8,151 @@ using System.Web;
 using System.Web.Mvc;
 using oncloud.Domain.Concrete;
 using oncloud.Domain.Entities;
-using oncloud.Domain.DAL;
 using oncloud.Domain.Abstract;
+using oncloud.Domain.DAL;
 
 namespace oncloud.Web.oddBase.Controllers
 {
-    public class RoadSignsController : Controller
+    public class RoadMarkingController : Controller
     {
         private readonly DataBaseSets db;
         private class DataBaseSets : DataSets
         {
             internal DataBaseSets(IUnitOfWork uow) : base(uow) { }
-            public IDbSet<RoadSigns> RoadSigns { get { return _uow.Set<RoadSigns>(); } }
+            public IDbSet<RoadMarking> RoadMarkings { get { return _uow.Set<RoadMarking>(); } }
         }
 
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public RoadSignsController(IUnitOfWork unitOfWork)
+        public RoadMarkingController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             db = new DataBaseSets(_unitOfWork);
         }
-
-        // GET: RoadSigns
+        // GET: HorizontalRoadMarkings
         public ActionResult Index()
         {
-            return View(db.RoadSigns.ToList());
+            return View(db.RoadMarkings.ToList());
         }
 
-        // GET: RoadSigns/Details/5
+        // GET: HorizontalRoadMarkings/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RoadSigns roadSigns = db.RoadSigns.Find(id);
-            if (roadSigns == null)
+            RoadMarking RoadMarking = db.RoadMarkings.Find(id);
+            if (RoadMarking == null)
             {
                 return HttpNotFound();
             }
-            return View(roadSigns);
+            return View(RoadMarking);
         }
 
-        // GET: RoadSigns/Create
+        // GET: HorizontalRoadMarkings/Create
         public ActionResult Create()
         {
-            return View(new RoadSigns());
+            return View(new RoadMarking());
         }
 
-        // POST: RoadSigns/Create
+        // POST: HorizontalRoadMarkings/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,NumberMarking,Description,ImageData,ImageMimeType")] RoadSigns roadSigns, HttpPostedFileBase image = null)
+        public ActionResult Create([Bind(Include = "id,NumberMarking,description")] RoadMarking RoadMarking, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
                 if (image != null)
                 {
-                    roadSigns.ImageMimeType = image.ContentType;
-                    roadSigns.ImageData = new byte[image.ContentLength];
-                    image.InputStream.Read(roadSigns.ImageData, 0, image.ContentLength);
+                    RoadMarking.ImageMimeType = image.ContentType;
+                    RoadMarking.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(RoadMarking.ImageData, 0, image.ContentLength);
                 }
-                db.RoadSigns.Add(roadSigns);
+                db.RoadMarkings.Add(RoadMarking);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(roadSigns);
+            return View(RoadMarking);
         }
 
-        // GET: RoadSigns/Edit/5
+        // GET: HorizontalRoadMarkings/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RoadSigns roadSigns = db.RoadSigns.Find(id);
-            if (roadSigns == null)
+            RoadMarking RoadMarking = db.RoadMarkings.Find(id);
+            if (RoadMarking == null)
             {
                 return HttpNotFound();
             }
-            return View(roadSigns);
+            return View(RoadMarking);
         }
 
-        // POST: RoadSigns/Edit/5
+        // POST: HorizontalRoadMarkings/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,NumberMarking,Description,ImageData,ImageMimeType")] RoadSigns roadSigns, HttpPostedFileBase image = null)
+        public ActionResult Edit([Bind(Include = "id,NumberMarking,description")] RoadMarking RoadMarking, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
-                var original_roadSign = db.RoadSigns.Find(roadSigns.id); 
+                RoadMarking RoadMarking_original = db.RoadMarkings.Find(RoadMarking.id);
                 if (image != null)
                 {
-                    original_roadSign.ImageMimeType = image.ContentType;
-                    original_roadSign.ImageData = new byte[image.ContentLength];
-                    image.InputStream.Read(original_roadSign.ImageData, 0, image.ContentLength);
+                    RoadMarking_original.ImageMimeType = image.ContentType;
+                    RoadMarking_original.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(RoadMarking_original.ImageData, 0, image.ContentLength);
                 }
-                //db.SetEntryModified(roadSigns);
-                //db.Entry(roadSigns).State = EntityState.Modified;
-                original_roadSign.NumberRoadSigns = roadSigns.NumberRoadSigns;
-                original_roadSign.Description = roadSigns.Description;
+                //db.SetEntryModified(RoadMarking);
+                RoadMarking_original.NumberMarking = RoadMarking.NumberMarking;
+                RoadMarking_original.description = RoadMarking.description;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(roadSigns);
+            return View(RoadMarking);
         }
 
-        // GET: RoadSigns/Delete/5
+        // GET: HorizontalRoadMarkings/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RoadSigns roadSigns = db.RoadSigns.Find(id);
-            if (roadSigns == null)
+            RoadMarking RoadMarking = db.RoadMarkings.Find(id);
+            if (RoadMarking == null)
             {
                 return HttpNotFound();
             }
-            return View(roadSigns);
+            return View(RoadMarking);
         }
 
-        // POST: RoadSigns/Delete/5
+        // POST: HorizontalRoadMarkings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            RoadSigns roadSigns = db.RoadSigns.Find(id);
-            db.RoadSigns.Remove(roadSigns);
+            RoadMarking RoadMarking = db.RoadMarkings.Find(id);
+            db.RoadMarkings.Remove(RoadMarking);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         public FileContentResult GetImage(int id)
         {
-            RoadSigns roadSigns = db.RoadSigns.Find(id);
+            RoadMarking RoadMarking = db.RoadMarkings.Find(id);
 
-            if (roadSigns != null)
+            if (RoadMarking != null)
             {
-                return File(roadSigns.ImageData, roadSigns.ImageMimeType);
+                return File(RoadMarking.ImageData, RoadMarking.ImageMimeType);
             }
             else
             {
