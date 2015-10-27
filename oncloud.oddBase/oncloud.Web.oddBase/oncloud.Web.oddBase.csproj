@@ -241,6 +241,10 @@
     <Compile Include="Migrations\201510261559592_relations.Designer.cs">
       <DependentUpon>201510261559592_relations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510271704063_fix_migration_1.cs" />
+    <Compile Include="Migrations\201510271704063_fix_migration_1.Designer.cs">
+      <DependentUpon>201510271704063_fix_migration_1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -607,6 +611,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510261559592_relations.resx">
       <DependentUpon>201510261559592_relations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510271704063_fix_migration_1.resx">
+      <DependentUpon>201510271704063_fix_migration_1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
