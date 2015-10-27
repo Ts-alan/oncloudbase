@@ -11,7 +11,6 @@ namespace oncloud.Domain.Entities
     {
         public int Id { get; set; }
         public string Length { get; set; }
-        public double NumberOfMeters { get; set; }
         public virtual Street Street { get; set; }
 
         public int RoadBarriers_id { get; set; }

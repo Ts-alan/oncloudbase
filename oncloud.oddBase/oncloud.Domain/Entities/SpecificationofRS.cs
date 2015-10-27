@@ -15,5 +15,6 @@ namespace oncloud.Domain.Entities
         public int RoadSigns_id { get; set; }
 
         public virtual RoadSigns RoadSigns { get; set; }
+
     }
 }

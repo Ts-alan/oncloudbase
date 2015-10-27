@@ -31,8 +31,8 @@ namespace oncloud.Web.oddBase.Controllers
 
         public ActionResult SaveSuccess(City city, Street street,
             [ModelBinder(typeof (CustomModelBinderForSegment))] ICollection<Segment> segment,
-            [ModelBinder(typeof (CustomModelBinderForModels))] ICollection<SpecificationofRM> models,
-            HttpPostedFileBase layoutscheme)
+            [ModelBinder(typeof (CustomModelBinderForModels))] ICollection<SpecificationofRM> SpecificationofRM,
+            HttpPostedFileBase layoutScheme,IEnumerable<HttpPostedFileBase> layoutDislocation)
         {
             //if (
             //    db.Street.Any(
@@ -59,10 +59,10 @@ namespace oncloud.Web.oddBase.Controllers
             db.Street.Add(streetInfo);
 
             streetInfo.Segment = segment;
-            streetInfo.SpecificationofRM = models;
+            streetInfo.SpecificationofRM = SpecificationofRM;
 
             db.Segment.AddRange(segment);
-            db.SpecificationofRM.AddRange(models);
+            db.SpecificationofRM.AddRange(SpecificationofRM);
             //}
             db.SaveChanges();
             return RedirectToAction("Table");
