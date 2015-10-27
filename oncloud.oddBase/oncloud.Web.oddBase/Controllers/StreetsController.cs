@@ -13,6 +13,7 @@ using oncloud.Domain.Abstract;
 
 namespace oncloud.Web.oddBase.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class StreetsController : Controller
     {
         private readonly DataBaseSets db;

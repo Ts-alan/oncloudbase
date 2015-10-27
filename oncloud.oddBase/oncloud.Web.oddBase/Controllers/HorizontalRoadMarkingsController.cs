@@ -13,6 +13,7 @@ using oncloud.Domain.DAL;
 
 namespace oncloud.Web.oddBase.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class HorizontalRoadMarkingsController : Controller
     {
         private readonly DataBaseSets db;

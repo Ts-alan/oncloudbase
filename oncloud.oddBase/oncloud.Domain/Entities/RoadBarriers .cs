@@ -19,5 +19,6 @@ namespace oncloud.Domain.Entities
 
         public byte[] ImageData { get; set; }
         public string ImageMimeType { get; set; }
+        public virtual ICollection<SpecificationOfRb> SpecificationofRM { get; set; }
     }
 }

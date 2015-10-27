@@ -55,7 +55,7 @@ namespace OddBasyBY.Models
                 if (tempValueL!= ""&& tempValueA!="")
                 {
                  
-                    ListSpecificationofRM.Add(new SpecificationofRM() {length = tempValueL,area = tempValueA,Mackup = ModalsA.ElementAt(i).Substring(7) });
+                    ListSpecificationofRM.Add(new SpecificationofRM() {length = tempValueL,area = tempValueA});
                 }
             }
             return ListSpecificationofRM;

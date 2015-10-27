@@ -13,6 +13,7 @@ using oncloud.Domain.Abstract;
 
 namespace oncloud.Web.oddBase.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class RoadSignsController : Controller
     {
         private readonly DataBaseSets db;
@@ -114,7 +115,7 @@ namespace oncloud.Web.oddBase.Controllers
                 }
                 //db.SetEntryModified(roadSigns);
                 //db.Entry(roadSigns).State = EntityState.Modified;
-                original_roadSign.NumberMarking = roadSigns.NumberMarking;
+                original_roadSign.NumberRoadSigns = roadSigns.NumberRoadSigns;
                 original_roadSign.Description = roadSigns.Description;
                 db.SaveChanges();
                 return RedirectToAction("Index");

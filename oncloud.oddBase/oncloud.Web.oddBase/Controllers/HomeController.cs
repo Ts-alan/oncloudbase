@@ -12,6 +12,7 @@ using OddBasyBY.Models;
 
 namespace oncloud.Web.oddBase.Controllers
 {
+    [Authorize(Roles="user")]
     public class HomeController : Controller
     {
         private EFDbContext db = new EFDbContext();
@@ -30,8 +31,8 @@ namespace oncloud.Web.oddBase.Controllers
 
         public ActionResult SaveSuccess(City city, Street street,
             [ModelBinder(typeof (CustomModelBinderForSegment))] ICollection<Segment> segment,
-            [ModelBinder(typeof (CustomModelBinderForModels))] ICollection<SpecificationofRM> models,
-            HttpPostedFileBase layoutscheme)
+            [ModelBinder(typeof (CustomModelBinderForModels))] ICollection<SpecificationofRM> SpecificationofRM,
+            HttpPostedFileBase layoutScheme,IEnumerable<HttpPostedFileBase> layoutDislocation)
         {
             //if (
             //    db.Street.Any(
@@ -58,10 +59,10 @@ namespace oncloud.Web.oddBase.Controllers
             db.Street.Add(streetInfo);
 
             streetInfo.Segment = segment;
-            streetInfo.SpecificationofRM = models;
+            streetInfo.SpecificationofRM = SpecificationofRM;
 
             db.Segment.AddRange(segment);
-            db.SpecificationofRM.AddRange(models);
+            db.SpecificationofRM.AddRange(SpecificationofRM);
             //}
             db.SaveChanges();
             return RedirectToAction("Table");
@@ -78,7 +79,7 @@ namespace oncloud.Web.oddBase.Controllers
         {
             ViewBag.City = db.City.First();
 
-            ViewBag.Model = db.TheHorizontalRoadMarking.ToList().OrderBy(a =>
+            ViewBag.RoadMarking = db.TheHorizontalRoadMarking.ToList().OrderBy(a =>
             {
                 if (a.NumberMarking.Substring(2).LastIndexOf(".") == -1)
                 {
@@ -91,6 +92,7 @@ namespace oncloud.Web.oddBase.Controllers
                 }
             });
             ViewBag.RoadSigns = db.RoadSigns.ToList();
+            ViewBag.RoadBarriers = db.RoadBarriers.ToList();
             return View();
         }
 
