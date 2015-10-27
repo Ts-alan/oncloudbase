@@ -1,22 +1,28 @@
 ﻿@model oncloud.Domain.Entities.RoadSigns
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Удаление дорожного знака";
 }
 
-<h2>Delete</h2>
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Главная", MVC.Home.Index())</li>
+    <li>@Html.ActionLink("Администрирование", MVC.Аdministration.Index())</li>
+    <li>@Html.ActionLink("Справочник дорожных знаков", MVC.RoadSigns.Index())</li>
+    <li>@Html.ActionLink(Model.NumberRoadSigns, MVC.RoadSigns.Details(Model.id))</li>
+    <li class="active">Удаление</li>
+</ol>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Вы уверены, что вы хотите удалить?</h3>
 <div>
-    <h4>RoadSigns</h4>
+    <h4>Дорожный знак</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.NumberMarking)
+            @Html.DisplayNameFor(model => model.NumberRoadSigns)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NumberMarking)
+            @Html.DisplayFor(model => model.NumberRoadSigns)
         </dd>
 
         <dt>
@@ -30,17 +36,15 @@
         <dt>
             @Html.DisplayNameFor(model => model.ImageData)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.ImageData)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageMimeType)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImageMimeType)
+            @if (Model.ImageData != null)
+            {
+                <div class="pull-left" style="margin-right: 10px">
+                    <img class="img-thumbnail" width="75" height="75"
+                         src="@Url.Action("GetImage", new { Model.id })" />
+                </div>
+            }
         </dd>
 
     </dl>
@@ -49,8 +53,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Удалить" class="btn btn-default" />
         </div>
     }
 </div>
