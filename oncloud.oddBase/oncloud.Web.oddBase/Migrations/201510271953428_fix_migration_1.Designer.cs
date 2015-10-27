@@ -13,7 +13,7 @@ namespace oncloud.Web.oddBase.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201510271704063_fix_migration_1"; }
+            get { return "201510271953428_fix_migration_1"; }
         }
         
         string IMigrationMetadata.Source

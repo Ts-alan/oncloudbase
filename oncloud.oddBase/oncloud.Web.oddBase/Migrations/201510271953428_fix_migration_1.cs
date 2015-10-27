@@ -7,12 +7,12 @@ namespace oncloud.Web.oddBase.Migrations
     {
         public override void Up()
         {
-            DropColumn("dbo.SpecificationOfRbs", "NumberOfMeters");
+
         }
         
         public override void Down()
         {
-            AddColumn("dbo.SpecificationOfRbs", "NumberOfMeters", c => c.Double(nullable: false));
+
         }
     }
 }
