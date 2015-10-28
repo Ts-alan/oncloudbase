@@ -14,7 +14,7 @@ using oncloud.Domain.Abstract;
 namespace oncloud.Web.oddBase.Controllers
 {
     [Authorize(Roles = "admin")]
-    public class RoadBarriersController : Controller
+    public partial class RoadBarriersController : Controller
     {
         private readonly DataBaseSets db;
         private class DataBaseSets : DataSets
@@ -33,13 +33,13 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         // GET: RoadBarriers
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             return View(db.RoadBarriers.ToList());
         }
 
         // GET: RoadBarriers/Details/5
-        public ActionResult Details(int? id)
+        public virtual ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -54,7 +54,7 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         // GET: RoadBarriers/Create
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
             return View(new RoadBarriers());
         }
@@ -64,7 +64,7 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,NumberBarriers,Description")] RoadBarriers roadBarriers, HttpPostedFileBase image = null)
+        public virtual ActionResult Create([Bind(Include = "id,NumberBarriers,Description,ImageData,ImageMimeType")] RoadBarriers roadBarriers, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         // GET: RoadBarriers/Edit/5
-        public ActionResult Edit(int? id)
+        public virtual ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -102,7 +102,7 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,NumberBarriers,Description")] RoadBarriers roadBarriers, HttpPostedFileBase image = null)
+        public virtual ActionResult Edit([Bind(Include = "id,NumberBarriers,Description,ImageData,ImageMimeType")] RoadBarriers roadBarriers, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
@@ -124,7 +124,7 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         // GET: RoadBarriers/Delete/5
-        public ActionResult Delete(int? id)
+        public virtual ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -141,7 +141,7 @@ namespace oncloud.Web.oddBase.Controllers
         // POST: RoadBarriers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public virtual ActionResult DeleteConfirmed(int id)
         {
             RoadBarriers roadBarriers = db.RoadBarriers.Find(id);
             db.RoadBarriers.Remove(roadBarriers);
@@ -149,7 +149,7 @@ namespace oncloud.Web.oddBase.Controllers
             return RedirectToAction("Index");
         }
 
-        public FileContentResult GetImage(int id)
+        public virtual FileContentResult GetImage(int id)
         {
             RoadBarriers roadBarriers = db.RoadBarriers.Find(id);
 

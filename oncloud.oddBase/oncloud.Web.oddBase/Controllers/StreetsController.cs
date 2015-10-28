@@ -14,7 +14,7 @@ using oncloud.Domain.Abstract;
 namespace oncloud.Web.oddBase.Controllers
 {
     [Authorize(Roles = "admin")]
-    public class StreetsController : Controller
+    public partial class StreetsController : Controller
     {
         private readonly DataBaseSets db;
         private class DataBaseSets : DataSets
@@ -33,13 +33,13 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         // GET: Streets
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             return View(db.IntelliSenseStreets.ToList());
         }
 
         // GET: Streets/Details/5
-        public ActionResult Details(int? id, string street)
+        public virtual ActionResult Details(int? id, string street)
         {
             if (id == null)
             {
@@ -54,7 +54,7 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         // GET: Streets/Create
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
             return View();
         }
@@ -64,7 +64,7 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,Street,Type")] IntelliSenseStreet intelliSenseStreet)
+        public virtual ActionResult Create([Bind(Include = "id,Street,Type")] IntelliSenseStreet intelliSenseStreet)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         // GET: Streets/Edit/5
-        public ActionResult Edit(int? id, string street)
+        public virtual ActionResult Edit(int? id, string street)
         {
             if (id == null)
             {
@@ -96,7 +96,7 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,Street,Type")] IntelliSenseStreet intelliSenseStreet)
+        public virtual ActionResult Edit([Bind(Include = "id,Street,Type")] IntelliSenseStreet intelliSenseStreet)
         {
             if (ModelState.IsValid)
             {
@@ -109,7 +109,7 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         // GET: Streets/Delete/5
-        public ActionResult Delete(int? id, string street)
+        public virtual ActionResult Delete(int? id, string street)
         {
             if (id == null)
             {
@@ -126,7 +126,7 @@ namespace oncloud.Web.oddBase.Controllers
         // POST: Streets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id, string street)
+        public virtual ActionResult DeleteConfirmed(int id, string street)
         {
             IntelliSenseStreet intelliSenseStreet = db.IntelliSenseStreets.Find(id, street);
             db.IntelliSenseStreets.Remove(intelliSenseStreet);
