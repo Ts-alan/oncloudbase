@@ -2,8 +2,20 @@
 @{
     ViewBag.Title = "Index";
 }
-@Html.ActionLink("Редактировать Города","Index","Cities")<br />
-@Html.ActionLink("Редактировать Разметку", "Index", "HorizontalRoadMarkings")<br />
-@Html.ActionLink("Редактировать Знаки", "Index", "RoadSigns")<br />
-@Html.ActionLink("Редактировать Ограждения", "Index", "RoadBarriers")<br />
-@Html.ActionLink("Редактировать Улицы", "Index", "Streets")<br />
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Редактирование справочников</h2>
+        <p>@Html.ActionLink("Редактировать Города", MVC.Cities.Index(), new { @class = "btn btn-default" })</p>
+        <p>@Html.ActionLink("Редактировать Разметку", MVC.HorizontalRoadMarkings.Index(), new { @class = "btn btn-default" })</p>
+        <p>@Html.ActionLink("Редактировать Знаки", MVC.RoadSigns.Index(), new { @class = "btn btn-default" })</p>
+        <p>@Html.ActionLink("Редактировать Ограждения", MVC.RoadBarriers.Index(), new { @class = "btn btn-default" })</p>
+        <p>@Html.ActionLink("Редактировать Улицы", MVC.Streets.Index(), new { @class = "btn btn-default" })</p>
+    </div>
+
+    <div class="col-md-4 col-md-push-4">
+        <h2>Управление пользователями</h2>
+       @* <p>@Html.ActionLink("Администрирование", "Index", "Аdministration", null, new { @class = "btn btn-default" })</p>*@
+        @*<p>@Html.ActionLink("Администрирование", "AdminTool", null, new { @class = "btn btn-default" })</p>*@
+    </div>
+</div>

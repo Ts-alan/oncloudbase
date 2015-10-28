@@ -7,10 +7,10 @@ using System.Web.Mvc;
 namespace oncloud.Web.oddBase.Controllers
 {
     [Authorize(Roles="admin")]
-    public class АdministrationController : Controller
+    public partial class АdministrationController : Controller
     {
         // GET: Аdministration
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             return View();
         }
