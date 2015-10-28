@@ -117,6 +117,7 @@ namespace oncloud.Web.oddBase.Controllers
             public readonly string street = "street";
             public readonly string segment = "segment";
             public readonly string SpecificationofRM = "SpecificationofRM";
+            public readonly string SpecificationofRS = "SpecificationofRS";
             public readonly string layoutScheme = "layoutScheme";
             public readonly string layoutDislocation = "layoutDislocation";
         }
@@ -193,19 +194,20 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
-        partial void SaveSuccessOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.City city, oncloud.Domain.Entities.Street street, System.Collections.Generic.ICollection<oncloud.Domain.Entities.Segment> segment, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRM> SpecificationofRM, System.Web.HttpPostedFileBase layoutScheme, System.Collections.Generic.IEnumerable<System.Web.HttpPostedFileBase> layoutDislocation);
+        partial void SaveSuccessOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.City city, oncloud.Domain.Entities.Street street, System.Collections.Generic.ICollection<oncloud.Domain.Entities.Segment> segment, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRM> SpecificationofRM, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRS> SpecificationofRS, System.Web.HttpPostedFileBase layoutScheme, System.Collections.Generic.IEnumerable<System.Web.HttpPostedFileBase> layoutDislocation);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult SaveSuccess(oncloud.Domain.Entities.City city, oncloud.Domain.Entities.Street street, System.Collections.Generic.ICollection<oncloud.Domain.Entities.Segment> segment, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRM> SpecificationofRM, System.Web.HttpPostedFileBase layoutScheme, System.Collections.Generic.IEnumerable<System.Web.HttpPostedFileBase> layoutDislocation)
+        public override System.Web.Mvc.ActionResult SaveSuccess(oncloud.Domain.Entities.City city, oncloud.Domain.Entities.Street street, System.Collections.Generic.ICollection<oncloud.Domain.Entities.Segment> segment, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRM> SpecificationofRM, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRS> SpecificationofRS, System.Web.HttpPostedFileBase layoutScheme, System.Collections.Generic.IEnumerable<System.Web.HttpPostedFileBase> layoutDislocation)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SaveSuccess);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "city", city);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "street", street);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "segment", segment);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "SpecificationofRM", SpecificationofRM);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "SpecificationofRS", SpecificationofRS);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "layoutScheme", layoutScheme);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "layoutDislocation", layoutDislocation);
-            SaveSuccessOverride(callInfo, city, street, segment, SpecificationofRM, layoutScheme, layoutDislocation);
+            SaveSuccessOverride(callInfo, city, street, segment, SpecificationofRM, SpecificationofRS, layoutScheme, layoutDislocation);
             return callInfo;
         }
 

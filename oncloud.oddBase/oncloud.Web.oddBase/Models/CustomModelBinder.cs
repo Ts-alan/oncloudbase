@@ -26,7 +26,7 @@ namespace OddBasyBY.Models
 
                 ListSurface.Add(new Segment()
                 {
-
+                    Name = i+1,
                     BreadthS = BreadthS[i],
                     LengthS = LengthS[i],
                     BreadthE = BreadthE[i],
@@ -38,7 +38,7 @@ namespace OddBasyBY.Models
         }
     }
 
-    public class CustomModelBinderForModels: DefaultModelBinder
+    public class CustomModelBinderForRM : DefaultModelBinder
     {
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
@@ -59,6 +59,29 @@ namespace OddBasyBY.Models
                 }
             }
             return ListSpecificationofRM;
+        }
+    }
+    public class CustomModelBinderForRS : DefaultModelBinder
+    {
+        public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        {
+            var request = controllerContext.HttpContext.Request;
+            List<SpecificationofRS> ListSpecificationofRS = new List<SpecificationofRS>();
+
+            List<string> ModalC = request.Form.AllKeys.Where(a => a.Contains("ModalC")).ToList();
+
+          
+            for (int i = 0; i < ModalC.Count; i++)
+            {
+                string tempValueC = request.Form.Get(ModalC.ElementAt(i));
+                string t = ModalC.ElementAt(i);
+                if (tempValueC != "")
+                {
+
+                    //ListSpecificationofRS.Add(new SpecificationofRS() { CountRS = int.Parse(tempValueC), RoadSignsIdModel = ModalC.ElementAt(i).Substring(7) });
+                }
+            }
+            return ListSpecificationofRS;
         }
     }
 }

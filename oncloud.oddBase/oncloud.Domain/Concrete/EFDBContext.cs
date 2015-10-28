@@ -27,6 +27,8 @@ namespace oncloud.Domain.Concrete
         public virtual IDbSet<IntelliSenseStreet> IntelliSenseStreet { get; set; }
         public virtual IDbSet<RoadSigns> RoadSigns { get; set; }
         public virtual IDbSet<RoadBarriers> RoadBarriers { get; set; }
+        public virtual IDbSet<layoutDislocation> layoutDislocation { get; set; }
+        public virtual IDbSet<layoutScheme> layoutScheme { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

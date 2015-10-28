@@ -264,6 +264,14 @@
     <Compile Include="Migrations\201510271953428_fix_migration_1.Designer.cs">
       <DependentUpon>201510271953428_fix_migration_1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510281328011_tableImage.cs" />
+    <Compile Include="Migrations\201510281328011_tableImage.Designer.cs">
+      <DependentUpon>201510281328011_tableImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510281331251_RoadSignsIdModel.cs" />
+    <Compile Include="Migrations\201510281331251_RoadSignsIdModel.Designer.cs">
+      <DependentUpon>201510281331251_RoadSignsIdModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -534,7 +542,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="T4MVC.tt.settings.xml" />
+    <None Include="T4MVC.tt.settings.xml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -659,6 +667,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510271953428_fix_migration_1.resx">
       <DependentUpon>201510271953428_fix_migration_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510281328011_tableImage.resx">
+      <DependentUpon>201510281328011_tableImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510281331251_RoadSignsIdModel.resx">
+      <DependentUpon>201510281331251_RoadSignsIdModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

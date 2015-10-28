@@ -31,7 +31,8 @@ namespace oncloud.Web.oddBase.Controllers
 
         public virtual ActionResult SaveSuccess(City city, Street street,
             [ModelBinder(typeof (CustomModelBinderForSegment))] ICollection<Segment> segment,
-            [ModelBinder(typeof (CustomModelBinderForModels))] ICollection<SpecificationofRM> SpecificationofRM,
+            [ModelBinder(typeof (CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
+            [ModelBinder(typeof(CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
             HttpPostedFileBase layoutScheme,IEnumerable<HttpPostedFileBase> layoutDislocation)
         {
             //if (
