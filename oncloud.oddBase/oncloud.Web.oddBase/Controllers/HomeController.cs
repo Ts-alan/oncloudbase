@@ -9,41 +9,33 @@ using oncloud.Domain.Entities;
 using oncloud.Web.oddBase.Models;
 using oncloud.Web.oddBase.Models.Home;
 using OddBasyBY.Models;
+using WebGrease.Css.Extensions;
 
 namespace oncloud.Web.oddBase.Controllers
 {
     [Authorize(Roles="user")]
-    public class HomeController : Controller
+    public partial class HomeController : Controller
     {
         private EFDbContext db = new EFDbContext();
 
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Table()
+        public virtual ActionResult Table()
         {
             Table data = new Table();
             data.Setinitialization(db);
             return View(data.GetDataModel);
         }
 
-        public ActionResult SaveSuccess(City city, Street street,
+        public virtual ActionResult SaveSuccess(City city, Street street,
             [ModelBinder(typeof (CustomModelBinderForSegment))] ICollection<Segment> segment,
-            [ModelBinder(typeof (CustomModelBinderForModels))] ICollection<SpecificationofRM> SpecificationofRM,
-            HttpPostedFileBase layoutScheme,IEnumerable<HttpPostedFileBase> layoutDislocation)
+            [ModelBinder(typeof (CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
+            [ModelBinder(typeof(CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
+            HttpPostedFileBase layoutScheme=null,IEnumerable<HttpPostedFileBase> layoutDislocation=null)
         {
-            //if (
-            //    db.Street.Any(
-            //        a =>
-            //            a.BreadthE == street.BreadthE && a.BreadthS == street.BreadthS && a.LengthE == street.LengthE &&
-            //            a.LengthS == street.LengthS))
-            //{
-            //    db.Entry(street).State = EntityState.Modified;
-            //}
-            //else
-            //{
 
 
             var streetInfo = new Street()
@@ -57,25 +49,39 @@ namespace oncloud.Web.oddBase.Controllers
                 UniqueNumber = TableAdapterExtensions.StringSymvol()
             };
             db.Street.Add(streetInfo);
-
+            
             streetInfo.Segment = segment;
             streetInfo.SpecificationofRM = SpecificationofRM;
-
+            layoutScheme imageScheme=new layoutScheme();
+            if (layoutScheme != null)
+            {
+                imageScheme.ImageData = new byte[layoutScheme.ContentLength];
+                imageScheme.ImageMimeType = layoutScheme.ContentType;
+                layoutScheme.InputStream.Read(imageScheme.ImageData, 0, layoutScheme.ContentLength);
+                imageScheme.Id = streetInfo.id;
+            }
+            db.layoutScheme.Add(imageScheme);
             db.Segment.AddRange(segment);
+
+            SpecificationofRM.ForEach(a=>a.TheHorizontalRoadMarking_id = db.TheHorizontalRoadMarking.Single(b=>b.NumberMarking==a.TheHorizontalRoadMarkingIdModel).id);
+            SpecificationofRS.ForEach(a => a.RoadSigns_id = db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id);
+
+
             db.SpecificationofRM.AddRange(SpecificationofRM);
-            //}
+
+
             db.SaveChanges();
             return RedirectToAction("Table");
         }
 
-        public ActionResult Contact()
+        public virtual ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
         }
 
-        public ActionResult AddStreet()
+        public virtual ActionResult AddStreet()
         {
             ViewBag.City = db.City.First();
 
@@ -98,7 +104,7 @@ namespace oncloud.Web.oddBase.Controllers
 
 
 
-        public ActionResult FindStreets(string term)
+        public virtual ActionResult FindStreets(string term)
         {
             var streets = from m in db.IntelliSenseStreet where m.Street.Contains(term) select m;
             var projection = from street in streets

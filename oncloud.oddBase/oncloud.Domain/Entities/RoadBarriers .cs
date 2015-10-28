@@ -10,7 +10,7 @@ namespace oncloud.Domain.Entities
 {
     public class RoadBarriers
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         [Required]
         public string NumberBarriers { get; set; }
         [Column(TypeName = "nvarchar")]

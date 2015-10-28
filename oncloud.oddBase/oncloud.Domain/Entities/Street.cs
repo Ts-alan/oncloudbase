@@ -44,6 +44,10 @@ namespace oncloud.Domain.Entities
 
         public virtual City City { get; set; }
 
+        public virtual layoutScheme layoutScheme { get; set; }
+
+        public virtual ICollection<layoutDislocation> layoutDislocation { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Segment> Segment { get; set; }
 
