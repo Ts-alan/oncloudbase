@@ -284,6 +284,10 @@
     <Compile Include="Migrations\201510291038377_MultipleImageForRS.Designer.cs">
       <DependentUpon>201510291038377_MultipleImageForRS.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510291322134_SpecificationofRSSegment.cs" />
+    <Compile Include="Migrations\201510291322134_SpecificationofRSSegment.Designer.cs">
+      <DependentUpon>201510291322134_SpecificationofRSSegment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -694,6 +698,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510291038377_MultipleImageForRS.resx">
       <DependentUpon>201510291038377_MultipleImageForRS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510291322134_SpecificationofRSSegment.resx">
+      <DependentUpon>201510291322134_SpecificationofRSSegment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

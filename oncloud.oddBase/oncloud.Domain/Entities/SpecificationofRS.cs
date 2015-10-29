@@ -16,8 +16,11 @@ namespace oncloud.Domain.Entities
         public int RoadSigns_id { get; set; }
         [NotMapped]
         public string RoadSignsIdModel { get; set; }
+         [NotMapped]
+        public int SegmentIdModel { get; set; }
+        public int SegmentId { get; set; }
 
         public virtual RoadSigns RoadSigns { get; set; }
-
+        public virtual Segment Segment { get; set; }
     }
 }

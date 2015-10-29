@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using oncloud.Domain.Concrete;
 using oncloud.Domain.Entities;
 using oncloud.Web.oddBase.Models;
@@ -35,16 +37,7 @@ namespace oncloud.Web.oddBase.Controllers
             [ModelBinder(typeof(CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
             HttpPostedFileBase layoutScheme,IEnumerable<HttpPostedFileBase> layoutDislocation)
         {
-            //if (
-            //    db.Street.Any(
-            //        a =>
-            //            a.BreadthE == street.BreadthE && a.BreadthS == street.BreadthS && a.LengthE == street.LengthE &&
-            //            a.LengthS == street.LengthS))
-            //{
-            //    db.Entry(street).State = EntityState.Modified;
-            //}
-            //else
-            //{
+         
 
 
             var streetInfo = new Street()
@@ -61,10 +54,18 @@ namespace oncloud.Web.oddBase.Controllers
 
             streetInfo.Segment = segment;
             streetInfo.SpecificationofRM = SpecificationofRM;
-
+            db.SpecificationofRS.AddRange(SpecificationofRS);
             db.Segment.AddRange(segment);
+
+            SpecificationofRS.ForEach(a =>
+            {
+                a.RoadSigns_id =
+                           db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
+                a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
+
+            });
             db.SpecificationofRM.AddRange(SpecificationofRM);
-            //}
+          
             db.SaveChanges();
             return RedirectToAction("Table");
         }

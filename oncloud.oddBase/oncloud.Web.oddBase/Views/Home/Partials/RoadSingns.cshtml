@@ -9,35 +9,47 @@
         <th>Дополнительные параметры</th>
         <th>Количество</th>
     </tr>
-    @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns)
-    {
-        if (item.NumberRoadSigns.Substring(0, 1) == (string)Session["increment"])
+        @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns)
         {
-            <tr>
-                <td>@item.NumberRoadSigns</td>
-                <td>
-                    @if (item.ImageData != null && item.IndifikatorMultipleImage == false)
+            if (item.NumberRoadSigns.Substring(0, 1) == (string)Session["increment"])
+            {
+                <tr>
+                    <td>@item.NumberRoadSigns</td>
+                    <td>
+                        @if (item.ImageData != null && item.IndifikatorMultipleImage == false)
                     {
-                        <img style="height: 100px; width: 100px" src="@Url.Action("GetImage", "RoadSigns", new {item.id})" />
-                    }
-                </td>
-                <td>@item.Description</td>
-                <td>
-                    @if (item.IndifikatorMultipleImage)
+                            <img style="height: 100px; width: 100px" src="@Url.Action("GetImage", "RoadSigns", new {item.id})" />
+                        }
+                    </td>
+                    <td>
+                        @if (item.IndifikatorMultipleImage)
                     {
                         foreach (var item2 in item.MultipleImageForRoadSigns)
                         {
-                    <tr>
-                        <td><img style="height: 100px; width: 100px" src="@Url.Action("GetImageForRS", "Home", new {item2.Id})" />
-                            
-                        </td>
-                    </tr>
-                        }
-                    }
-                    </td>
-                    <td style="vertical-align: middle"><input name="ModalC@(item.NumberRoadSigns)" type="text" /></td>
+                        <tr>
+                            <td>
+                                <img style="height: 100px; width: 100px" src="@Url.Action("GetImageForRS", "Home", new {item2.Id})" />
 
-                    </tr>
+                            </td>
+                        </tr>
+                            }
+                        }
+                        </td>
+                        <td>@item.Description</td>
+
+                        @if (item.IndifikatorMultipleImage)
+                        {
+                            foreach (var item2 in item.MultipleImageForRoadSigns)
+                            {
+                                <td style="vertical-align: middle"><input name="10ModalC@(item.NumberRoadSigns)" type="text"/></td>
+                            }
+                        }
+                        else
+                        {
+                            <td style="vertical-align: middle"><input name="11ModalC@(item.NumberRoadSigns)" type="text"/></td>
+                        }
+            </tr>
+
         }
     }
 </table>

@@ -68,28 +68,24 @@ namespace OddBasyBY.Models
         {
             var request = controllerContext.HttpContext.Request;
             List<SpecificationofRS> ListSpecificationofRS = new List<SpecificationofRS>();
-
-            List<string> ModalC = request.Form.AllKeys.Where(a => a.Contains("ModalC")).ToList();
-            int countSplit;
-            using (EFDbContext db = new EFDbContext())
+            var countRSval = request.Form.Get("CountSides");
+            if (countRSval != null)
             {
-                countSplit = db.RoadSigns.Count();
-            }
-            List <string> tList=new List<string>();
-
-            
-            for (int i = 0; i < ModalC.Count; i++)
-            {
-                string tempValueC = request.Form.Get(ModalC.ElementAt(i));
-                tList.AddRange(tempValueC.Split(','));
-                string t = ModalC.ElementAt(i);
-                if (tempValueC != "")
+                List<string> ModalC = request.Form.AllKeys.Where(a => a.Contains("ModalC")).ToList();
+                
+                for (int i = 0; i < ModalC.Count; i++)
                 {
+                    string tempValueC = request.Form.Get(ModalC.ElementAt(i));
+                    var t = ModalC.ElementAt(i);
+                    if (tempValueC != "")
+                    {
 
-                    //ListSpecificationofRS.Add(new SpecificationofRS() { CountRS = int.Parse(tempValueC), RoadSignsIdModel = ModalC.ElementAt(i).Substring(7) });
+                        ListSpecificationofRS.Add(new SpecificationofRS() { CountRS = int.Parse(tempValueC), RoadSignsIdModel = ModalC.ElementAt(i).Substring(8), SegmentIdModel =int.Parse(tempValueC.Substring(0, 1)) });
+                    }
                 }
+                return ListSpecificationofRS;
             }
-            return ListSpecificationofRS;
+            return null;
         }
     }
 }
