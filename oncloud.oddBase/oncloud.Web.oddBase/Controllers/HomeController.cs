@@ -111,6 +111,19 @@ namespace oncloud.Web.oddBase.Controllers
                 };
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
         }
+        public virtual FileContentResult GetImageForRS(int id)
+        {
+            MultipleImageForRS MultipleImageForRS = db.MultipleImageForRS.Find(id);
+
+            if (MultipleImageForRS != null)
+            {
+                return File(MultipleImageForRS.ImageData, MultipleImageForRS.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
     }
 }

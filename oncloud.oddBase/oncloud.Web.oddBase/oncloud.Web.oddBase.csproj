@@ -280,6 +280,10 @@
     <Compile Include="Migrations\201510290958495_IndifikatorMultipleImageOnlyImage.Designer.cs">
       <DependentUpon>201510290958495_IndifikatorMultipleImageOnlyImage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510291038377_MultipleImageForRS.cs" />
+    <Compile Include="Migrations\201510291038377_MultipleImageForRS.Designer.cs">
+      <DependentUpon>201510291038377_MultipleImageForRS.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -687,6 +691,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510290958495_IndifikatorMultipleImageOnlyImage.resx">
       <DependentUpon>201510290958495_IndifikatorMultipleImageOnlyImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510291038377_MultipleImageForRS.resx">
+      <DependentUpon>201510291038377_MultipleImageForRS.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

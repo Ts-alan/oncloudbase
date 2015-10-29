@@ -23,13 +23,17 @@
                 </td>
                 <td>@item.Description</td>
                 <td>
-                    @foreach (var i in item.MultipleImageForRoadSigns)
+                    @if (item.IndifikatorMultipleImage)
                     {
-                <tr>
-                    <td></td>
-                </tr>
+                        foreach (var item2 in item.MultipleImageForRoadSigns)
+                        {
+                    <tr>
+                        <td><img style="height: 100px; width: 100px" src="@Url.Action("GetImageForRS", "Home", new {item2.Id})" />
+                            
+                        </td>
+                    </tr>
+                        }
                     }
-
                     </td>
                     <td style="vertical-align: middle"><input name="ModalC@(item.NumberRoadSigns)" type="text" /></td>
 

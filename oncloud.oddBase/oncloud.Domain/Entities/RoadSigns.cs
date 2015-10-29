@@ -26,6 +26,6 @@ namespace oncloud.Domain.Entities
         public string ImageMimeType { get; set; }
         public virtual ICollection<SpecificationofRS> SpecificationofRM { get; set; }
 
-        public virtual ICollection<IndifikatorMultipleImage> MultipleImageForRoadSigns { get; set; }
+        public virtual ICollection<MultipleImageForRS> MultipleImageForRoadSigns { get; set; }
     }
 }
