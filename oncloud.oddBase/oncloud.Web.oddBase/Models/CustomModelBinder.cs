@@ -81,7 +81,7 @@ namespace OddBasyBY.Models
             for (int i = 0; i < ModalC.Count; i++)
             {
                 string tempValueC = request.Form.Get(ModalC.ElementAt(i));
-                tList.AddRange(tempValueC.Split());
+                tList.AddRange(tempValueC.Split(','));
                 string t = ModalC.ElementAt(i);
                 if (tempValueC != "")
                 {

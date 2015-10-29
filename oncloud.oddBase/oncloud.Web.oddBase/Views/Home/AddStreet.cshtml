@@ -619,25 +619,7 @@
 
         //отправка формы
         $('form[action="/Home/SaveSuccess"]').on('click', "#BlockSegment", function () {
-            //event.preventDefault();
-            //берем из формы метод передачи данных
-            //  var m_method = $(this).attr('method');
-            //  //получаем адрес скрипта на сервере, куда нужно отправить форму
-            //  var m_action = $(this).attr('action');
-            //  //получаем данные, введенные пользователем в формате input1=value1&input2=value2...,
-            //  //то есть в стандартном формате передачи данных формы
-            //  var m_data = $(this).serialize();
-            //  //var file = $('input[type=file]').fieldSerialize();
-            //  //var t = $('input[type="file"]')[0].files[0];
-            //  //m_data = m_data.concat("&layoutscheme[]=").concat(t);
 
-            //$.ajax({
-            //      type: m_method,
-            //      url: m_action,
-            //      data: m_data
-
-            //  });
-            //  currentRoute.getPaths().events.remove('dblclick', handlerSegment);
             $("#BlockSegment").css("display", "none");
             $(".setSegment").one('click', setSegment);
             myMap.geoObjects.each(function (el, index) {
@@ -909,7 +891,7 @@
      <!-- ModalRoadSigns -->
     <div class="modal fade" id="ModalRoadSigns1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 800px">
                 <div class="modal-header">
 
 
