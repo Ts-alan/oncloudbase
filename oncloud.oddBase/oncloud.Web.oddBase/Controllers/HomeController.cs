@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using oncloud.Domain.Concrete;
 using oncloud.Domain.Entities;
 using oncloud.Web.oddBase.Models;
 using oncloud.Web.oddBase.Models.Home;
 using OddBasyBY.Models;
-using WebGrease.Css.Extensions;
 
 namespace oncloud.Web.oddBase.Controllers
 {
@@ -34,8 +35,9 @@ namespace oncloud.Web.oddBase.Controllers
             [ModelBinder(typeof (CustomModelBinderForSegment))] ICollection<Segment> segment,
             [ModelBinder(typeof (CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
             [ModelBinder(typeof(CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
-            HttpPostedFileBase layoutScheme=null,IEnumerable<HttpPostedFileBase> layoutDislocation=null)
+            HttpPostedFileBase layoutScheme,IEnumerable<HttpPostedFileBase> layoutDislocation)
         {
+         
 
 
             var streetInfo = new Street()
@@ -49,27 +51,21 @@ namespace oncloud.Web.oddBase.Controllers
                 UniqueNumber = TableAdapterExtensions.StringSymvol()
             };
             db.Street.Add(streetInfo);
-            
+
             streetInfo.Segment = segment;
             streetInfo.SpecificationofRM = SpecificationofRM;
-            layoutScheme imageScheme=new layoutScheme();
-            if (layoutScheme != null)
-            {
-                imageScheme.ImageData = new byte[layoutScheme.ContentLength];
-                imageScheme.ImageMimeType = layoutScheme.ContentType;
-                layoutScheme.InputStream.Read(imageScheme.ImageData, 0, layoutScheme.ContentLength);
-                imageScheme.Id = streetInfo.id;
-            }
-            db.layoutScheme.Add(imageScheme);
+            db.SpecificationofRS.AddRange(SpecificationofRS);
             db.Segment.AddRange(segment);
 
-            SpecificationofRM.ForEach(a=>a.TheHorizontalRoadMarking_id = db.TheHorizontalRoadMarking.Single(b=>b.NumberMarking==a.TheHorizontalRoadMarkingIdModel).id);
-            SpecificationofRS.ForEach(a => a.RoadSigns_id = db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id);
+            SpecificationofRS.ForEach(a =>
+            {
+                a.RoadSigns_id =
+                           db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
+                a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
 
-
+            });
             db.SpecificationofRM.AddRange(SpecificationofRM);
-
-
+          
             db.SaveChanges();
             return RedirectToAction("Table");
         }
@@ -115,6 +111,19 @@ namespace oncloud.Web.oddBase.Controllers
                     value = street.Street + " " + street.Type
                 };
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
+        }
+        public virtual FileContentResult GetImageForRS(int id)
+        {
+            MultipleImageForRS MultipleImageForRS = db.MultipleImageForRS.Find(id);
+
+            if (MultipleImageForRS != null)
+            {
+                return File(MultipleImageForRS.ImageData, MultipleImageForRS.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
         }
 
     }

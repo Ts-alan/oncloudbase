@@ -22,6 +22,8 @@ namespace oncloud.Domain.Concrete
         public virtual DbSet<SpecificationofRM> SpecificationofRM { get; set; }
         public virtual DbSet<SpecificationofRS> SpecificationofRS { get; set; }
         public virtual DbSet<SpecificationOfRb> SpecificationOfRb { get; set; }
+
+        public virtual DbSet<MultipleImageForRS> MultipleImageForRS { get; set; }
         public virtual IDbSet<Street> Street { get; set; }
         public virtual IDbSet<TheHorizontalRoadMarking> TheHorizontalRoadMarking { get; set; }
         public virtual IDbSet<IntelliSenseStreet> IntelliSenseStreet { get; set; }

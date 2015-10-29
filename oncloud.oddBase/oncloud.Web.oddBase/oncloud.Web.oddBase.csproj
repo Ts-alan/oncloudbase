@@ -264,6 +264,30 @@
     <Compile Include="Migrations\201510271953428_fix_migration_1.Designer.cs">
       <DependentUpon>201510271953428_fix_migration_1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510281328011_tableImage.cs" />
+    <Compile Include="Migrations\201510281328011_tableImage.Designer.cs">
+      <DependentUpon>201510281328011_tableImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510281331251_RoadSignsIdModel.cs" />
+    <Compile Include="Migrations\201510281331251_RoadSignsIdModel.Designer.cs">
+      <DependentUpon>201510281331251_RoadSignsIdModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510290948354_IndifikatorMultipleIandT.cs" />
+    <Compile Include="Migrations\201510290948354_IndifikatorMultipleIandT.Designer.cs">
+      <DependentUpon>201510290948354_IndifikatorMultipleIandT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510290958495_IndifikatorMultipleImageOnlyImage.cs" />
+    <Compile Include="Migrations\201510290958495_IndifikatorMultipleImageOnlyImage.Designer.cs">
+      <DependentUpon>201510290958495_IndifikatorMultipleImageOnlyImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510291038377_MultipleImageForRS.cs" />
+    <Compile Include="Migrations\201510291038377_MultipleImageForRS.Designer.cs">
+      <DependentUpon>201510291038377_MultipleImageForRS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510291322134_SpecificationofRSSegment.cs" />
+    <Compile Include="Migrations\201510291322134_SpecificationofRSSegment.Designer.cs">
+      <DependentUpon>201510291322134_SpecificationofRSSegment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -534,7 +558,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="T4MVC.tt.settings.xml" />
+    <None Include="T4MVC.tt.settings.xml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -659,6 +683,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510271953428_fix_migration_1.resx">
       <DependentUpon>201510271953428_fix_migration_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510281328011_tableImage.resx">
+      <DependentUpon>201510281328011_tableImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510281331251_RoadSignsIdModel.resx">
+      <DependentUpon>201510281331251_RoadSignsIdModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510290948354_IndifikatorMultipleIandT.resx">
+      <DependentUpon>201510290948354_IndifikatorMultipleIandT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510290958495_IndifikatorMultipleImageOnlyImage.resx">
+      <DependentUpon>201510290958495_IndifikatorMultipleImageOnlyImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510291038377_MultipleImageForRS.resx">
+      <DependentUpon>201510291038377_MultipleImageForRS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510291322134_SpecificationofRSSegment.resx">
+      <DependentUpon>201510291322134_SpecificationofRSSegment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

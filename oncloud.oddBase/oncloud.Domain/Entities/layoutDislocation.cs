@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace oncloud.Domain.Entities
 {
-    public class layoutDislocation
+     public  class layoutDislocation
     {
         public int Id { get; set; }
         public byte[] ImageData { get; set; }

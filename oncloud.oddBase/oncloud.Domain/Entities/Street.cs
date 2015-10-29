@@ -43,6 +43,9 @@ namespace oncloud.Domain.Entities
         public string UniqueNumber { get; set; }
 
         public virtual City City { get; set; }
+        public virtual layoutScheme layoutScheme { get; set; }
+
+        public virtual ICollection<layoutDislocation> layoutDislocation { get; set; }
 
         public virtual layoutScheme layoutScheme { get; set; }
 
