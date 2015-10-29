@@ -1,16 +1,17 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Администрирование";
 }
 
 <div class="row">
     <div class="col-md-4">
         <h2>Редактирование справочников</h2>
-        <p>@Html.ActionLink("Редактировать Города", MVC.Cities.Index(), new { @class = "btn btn-default" })</p>
-        <p>@Html.ActionLink("Редактировать Разметку", MVC.HorizontalRoadMarkings.Index(), new { @class = "btn btn-default" })</p>
-        <p>@Html.ActionLink("Редактировать Знаки", MVC.RoadSigns.Index(), new { @class = "btn btn-default" })</p>
-        <p>@Html.ActionLink("Редактировать Ограждения", MVC.RoadBarriers.Index(), new { @class = "btn btn-default" })</p>
-        <p>@Html.ActionLink("Редактировать Улицы", MVC.Streets.Index(), new { @class = "btn btn-default" })</p>
+        <p>@Html.ActionLink("Редактировать справочник городов", MVC.Cities.Index(), new { @class = "btn btn-default btn-block" })</p>
+        <p>@Html.ActionLink("Редактировать справочник улиц", MVC.Streets.Index(), new { @class = "btn btn-default btn-block" })</p>
+        <p>@Html.ActionLink("Редактировать справочник разметки", MVC.HorizontalRoadMarkings.Index(), new { @class = "btn btn-default btn-block" })</p>
+        <p>@Html.ActionLink("Редактировать справочник знаков", MVC.RoadSigns.Index(), new { @class = "btn btn-default btn-block" })</p>
+        <p>@Html.ActionLink("Редактировать справочник дорожных ограждений", MVC.RoadBarriers.Index(), new { @class = "btn btn-default btn-block" })</p>
+        
     </div>
 
     <div class="col-md-4 col-md-push-4">
