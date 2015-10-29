@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using oncloud.Domain.Concrete;
 using oncloud.Domain.Entities;
 using oncloud.Web.oddBase.Models;
 
@@ -69,11 +70,18 @@ namespace OddBasyBY.Models
             List<SpecificationofRS> ListSpecificationofRS = new List<SpecificationofRS>();
 
             List<string> ModalC = request.Form.AllKeys.Where(a => a.Contains("ModalC")).ToList();
+            int countSplit;
+            using (EFDbContext db = new EFDbContext())
+            {
+                countSplit = db.RoadSigns.Count();
+            }
+            List <string> tList=new List<string>();
 
-          
+            
             for (int i = 0; i < ModalC.Count; i++)
             {
                 string tempValueC = request.Form.Get(ModalC.ElementAt(i));
+                tList.AddRange(tempValueC.Split());
                 string t = ModalC.ElementAt(i);
                 if (tempValueC != "")
                 {
