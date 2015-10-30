@@ -22,13 +22,15 @@ namespace oncloud.Web.oddBase.IdentityContextMigrations
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
-            // создаем две роли
+            // создаем роли
             var role1 = new IdentityRole { Name = "admin" };
             var role2 = new IdentityRole { Name = "user" };
+            var roleOrganizationAdmin = new IdentityRole { Name = "OrganizationAdmin" };
 
             // добавляем роли в бд
             roleManager.Create(role1);
             roleManager.Create(role2);
+            roleManager.Create(roleOrganizationAdmin);
 
             // создаем пользователей
             var admin = new ApplicationUser { Email = "testadmin@mail.ru", UserName = "testadmin@mail.ru" };
