@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using oncloud.Domain.Concrete;
 using oncloud.Domain.Entities;
 using oncloud.Web.oddBase.Models;
 
@@ -26,7 +27,7 @@ namespace OddBasyBY.Models
 
                 ListSurface.Add(new Segment()
                 {
-
+                    Name = i+1,
                     BreadthS = BreadthS[i],
                     LengthS = LengthS[i],
                     BreadthE = BreadthE[i],
@@ -38,7 +39,7 @@ namespace OddBasyBY.Models
         }
     }
 
-    public class CustomModelBinderForModels: DefaultModelBinder
+    public class CustomModelBinderForRM : DefaultModelBinder
     {
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
@@ -59,6 +60,32 @@ namespace OddBasyBY.Models
                 }
             }
             return ListSpecificationofRM;
+        }
+    }
+    public class CustomModelBinderForRS : DefaultModelBinder
+    {
+        public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        {
+            var request = controllerContext.HttpContext.Request;
+            List<SpecificationofRS> ListSpecificationofRS = new List<SpecificationofRS>();
+            var countRSval = request.Form.Get("CountSides");
+            if (countRSval != null)
+            {
+                List<string> ModalC = request.Form.AllKeys.Where(a => a.Contains("ModalC")).ToList();
+                
+                for (int i = 0; i < ModalC.Count; i++)
+                {
+                    string tempValueC = request.Form.Get(ModalC.ElementAt(i));
+                    var t = ModalC.ElementAt(i);
+                    if (tempValueC != "")
+                    {
+
+                        ListSpecificationofRS.Add(new SpecificationofRS() { CountRS = int.Parse(tempValueC), RoadSignsIdModel = ModalC.ElementAt(i).Substring(8), SegmentIdModel =int.Parse(tempValueC.Substring(0, 1)) });
+                    }
+                }
+                return ListSpecificationofRS;
+            }
+            return null;
         }
     }
 }
