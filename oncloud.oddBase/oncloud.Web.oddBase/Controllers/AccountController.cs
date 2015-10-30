@@ -161,7 +161,13 @@ namespace oncloud.Web.oddBase.Controllers
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
          
                     // Но нам надо раздать роли
-                    await UserManager.AddToRoleAsync(user.Id, "OrganizationAdmin"); 
+                    
+                    if (User.IsInRole("admin"))
+                    {
+                        await UserManager.AddToRoleAsync(user.Id, "OrganizationAdmin");    
+                    }
+
+                    await UserManager.AddToRoleAsync(user.Id, "user");
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
