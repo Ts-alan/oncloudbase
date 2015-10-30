@@ -11,7 +11,7 @@
 </ol>
 
 <p>
-    @Html.ActionLink("Добавить", MVC.RoadSigns.Create())
+    @Html.ActionLink("Добавить", MVC.RoadSigns.Create(), new {@class= "btn btn-success" })
 </p>
 <table class="table">
     <tr>
@@ -24,6 +24,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
+        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -43,6 +44,10 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Редактировать", MVC.RoadSigns.Edit(item.id), new {@class= "btn btn-primary" }) |
+            @Html.ActionLink("Удалить", MVC.RoadSigns.Delete(item.id), new { @class = "btn btn-danger" })
         </td>
     </tr>
 }

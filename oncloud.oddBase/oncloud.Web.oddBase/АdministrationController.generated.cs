@@ -76,12 +76,14 @@ namespace oncloud.Web.oddBase.Controllers
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
+            public readonly string Users = "Users";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
             public const string Index = "Index";
+            public const string Users = "Users";
         }
 
 
@@ -114,6 +116,17 @@ namespace oncloud.Web.oddBase.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
             IndexOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void UsersOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Users()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Users);
+            UsersOverride(callInfo);
             return callInfo;
         }
 

@@ -18,6 +18,8 @@ namespace oncloud.Web.oddBase.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        //private RoleManager _rol
+
         public AccountController()
         {
         }
@@ -86,7 +88,7 @@ namespace oncloud.Web.oddBase.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Неудачная попытка входа.");
                     return View(model);
             }
         }
@@ -136,7 +138,7 @@ namespace oncloud.Web.oddBase.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles="admin, OrganizationAdmin")]
         public virtual ActionResult Register()
         {
             return View();
@@ -145,7 +147,7 @@ namespace oncloud.Web.oddBase.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "admin, OrganizationAdmin")]
         [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -155,15 +157,25 @@ namespace oncloud.Web.oddBase.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    // Нам не надо заходить под этим пользователем
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+         
+                    // Но нам надо раздать роли
                     
+                    if (User.IsInRole("admin"))
+                    {
+                        await UserManager.AddToRoleAsync(user.Id, "OrganizationAdmin");    
+                    }
+
+                    await UserManager.AddToRoleAsync(user.Id, "user");
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction(MVC.Аdministration.Users());
                 }
                 AddErrors(result);
             }

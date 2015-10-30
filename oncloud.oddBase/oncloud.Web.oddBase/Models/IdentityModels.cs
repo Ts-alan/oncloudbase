@@ -30,5 +30,7 @@ namespace oncloud.Web.oddBase.Models
         {
             return new ApplicationDbContext();
         }
+
+        //public System.Data.Entity.DbSet<oncloud.Web.oddBase.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
