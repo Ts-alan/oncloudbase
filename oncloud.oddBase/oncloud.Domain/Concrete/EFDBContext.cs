@@ -57,6 +57,7 @@ namespace oncloud.Domain.Concrete
                 .WithRequired(e => e.Street)
                 .HasForeignKey(e => e.Street_id)
                 .WillCascadeOnDelete(false);
+
             //    modelBuilder.Configurations.Add(new CountryMappings());
             //    modelBuilder.Configurations.Add(new CityMappings());
         }

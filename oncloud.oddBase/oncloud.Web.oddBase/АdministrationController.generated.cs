@@ -98,10 +98,8 @@ namespace oncloud.Web.oddBase.Controllers
             public class _ViewNamesClass
             {
                 public readonly string Index = "Index";
-                public readonly string Users = "Users";
             }
             public readonly string Index = "~/Views/Аdministration/Index.cshtml";
-            public readonly string Users = "~/Views/Аdministration/Users.cshtml";
         }
     }
 

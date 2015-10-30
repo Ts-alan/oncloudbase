@@ -106,7 +106,7 @@ namespace oncloud.Web.oddBase.Controllers
         {
             if (ModelState.IsValid)
             {
-                var original_ = db.RoadBarriers.Find(roadBarriers.id);
+                var original_ = db.RoadBarriers.Find(roadBarriers.Id);
                 if (image != null)
                 {
                     original_.ImageMimeType = image.ContentType;
