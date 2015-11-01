@@ -1,13 +1,17 @@
 ﻿@model IEnumerable<oncloud.Domain.Entities.City>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Города";
 }
 
-<h2>Index</h2>
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Главная", MVC.Home.Index())</li>
+    <li>@Html.ActionLink("Администрирование", MVC.Аdministration.Index())</li>
+    <li class="active">Справочник городов</li>
+</ol>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить", MVC.Cities.Create(), new { @class = "btn btn-success" })
 </p>
 <table class="table">
     <tr>
@@ -23,9 +27,8 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.ActionLink("Редактировать", MVC.Cities.Edit(item.id), new { @class = "btn btn-primary" }) |
+            @Html.ActionLink("Удалить", MVC.Cities.Delete(item.id), new { @class = "btn btn-danger" })
         </td>
     </tr>
 }

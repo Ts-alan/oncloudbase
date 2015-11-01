@@ -1,10 +1,16 @@
 ﻿@model oncloud.Domain.Entities.City
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Редактирование города";
 }
 
-<h2>Edit</h2>
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Главная", MVC.Home.Index())</li>
+    <li>@Html.ActionLink("Администрирование", MVC.Аdministration.Index())</li>
+    <li>@Html.ActionLink("Справочник городов", MVC.Cities.Index())</li>
+    <li>@Html.ActionLink(Model.Name, MVC.Cities.Details(Model.id))</li>
+    <li class="active">Редактирование</li>
+</ol>
 
 
 @using (Html.BeginForm())
@@ -12,7 +18,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>City</h4>
+        <h4>Город</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.id)
@@ -27,15 +33,11 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

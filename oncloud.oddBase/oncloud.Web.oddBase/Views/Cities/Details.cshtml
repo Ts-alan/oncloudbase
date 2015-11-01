@@ -1,13 +1,19 @@
 ﻿@model oncloud.Domain.Entities.City
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Подробнее о городе";
 }
 
-<h2>Details</h2>
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Главная", MVC.Home.Index())</li>
+    <li>@Html.ActionLink("Администрирование", MVC.Аdministration.Index())</li>
+    <li>@Html.ActionLink("Справочник городов", MVC.Cities.Index())</li>
+    <li class="active">@Model.Name</li>
+    <li class="active">Подробно</li>
+</ol>
 
 <div>
-    <h4>City</h4>
+    <h4>Город</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -21,6 +27,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редактировать", MVC.Cities.Edit(Model.id), new { @class = "btn btn-primary" }) |
+    @Html.ActionLink("Удалить", MVC.Cities.Delete(Model.id), new { @class = "btn btn-danger" })
 </p>
