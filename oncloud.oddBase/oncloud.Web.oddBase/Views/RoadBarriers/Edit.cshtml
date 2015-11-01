@@ -1,11 +1,16 @@
 ﻿@model oncloud.Domain.Entities.RoadBarriers
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Редактирование дорожного ограждения";
 }
 
-<h2>Edit</h2>
-
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Главная", MVC.Home.Index())</li>
+    <li>@Html.ActionLink("Администрирование", MVC.Аdministration.Index())</li>
+    <li>@Html.ActionLink("Справочник дорожных огражденией", MVC.RoadBarriers.Index())</li>
+    <li>@Html.ActionLink(Model.NumberBarriers, MVC.RoadBarriers.Details(Model.Id))</li>
+    <li class="active">Редактирование</li>
+</ol>
 
 @using (Html.BeginForm("Edit", "RoadBarriers",
         FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -13,10 +18,10 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>RoadBarriers</h4>
+        <h4>Дорожное ограждение</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
             @Html.LabelFor(model => model.NumberBarriers, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -54,21 +59,17 @@
             else
             {
                 <img class="img-thumbnail" width="150" height="150"
-                     src="@Url.Action("GetImage", new { Model.id })" />
+                     src="@Url.Action("GetImage", new { Model.Id })" />
             }
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

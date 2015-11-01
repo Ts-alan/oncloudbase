@@ -12,11 +12,13 @@ namespace oncloud.Domain.Entities
     {
         public int Id { get; set; }
         [Required]
+        [Display(Name = "№")]
         public string NumberBarriers { get; set; }
         [Column(TypeName = "nvarchar")]
         [Required]
+        [Display(Name = "Описание")]
         public string Description { get; set; }
-
+        [Display(Name = "Символ")]
         public byte[] ImageData { get; set; }
         public string ImageMimeType { get; set; }
         public virtual ICollection<SpecificationOfRb> SpecificationofRM { get; set; }
