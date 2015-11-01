@@ -1,14 +1,20 @@
 ﻿@model oncloud.Domain.Entities.TheHorizontalRoadMarking
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Удаление дорожной разметки";
 }
 
-<h2>Delete</h2>
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Главная", MVC.Home.Index())</li>
+    <li>@Html.ActionLink("Администрирование", MVC.Аdministration.Index())</li>
+    <li>@Html.ActionLink("Справочник дорожной разметки", MVC.HorizontalRoadMarkings.Index())</li>
+    <li>@Html.ActionLink(Model.NumberMarking, MVC.HorizontalRoadMarkings.Details(Model.id))</li>
+    <li class="active">Удаление</li>
+</ol>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Вы уверены, что вы хотите удалить?</h3>
 <div>
-    <h4>TheHorizontalRoadMarking</h4>
+    <h4>Дорожная разметка</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -27,14 +33,26 @@
             @Html.DisplayFor(model => model.description)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageData)
+        </dt>
+        <dd>
+
+            @if (Model.ImageData != null)
+            {
+                <div class="pull-left" style="margin-right: 10px">
+                    <img class="img-thumbnail" width="75" height="75"
+                         src="@Url.Action("GetImage", new { Model.id })" />
+                </div>
+            }
+        </dd>
     </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Удалить" class="btn btn-default" />
         </div>
     }
 </div>
