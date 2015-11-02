@@ -21,6 +21,7 @@ namespace oncloud.Web.oddBase.Controllers
         {
             internal DataBaseSets(IUnitOfWork uow) : base(uow) { }
             public IDbSet<IntelliSenseStreet> IntelliSenseStreets { get { return _uow.Set<IntelliSenseStreet>(); } }
+            public IDbSet<City> Cities { get { return _uow.Set<City>(); } }
         }
 
         private readonly IUnitOfWork _unitOfWork;
@@ -35,7 +36,7 @@ namespace oncloud.Web.oddBase.Controllers
         // GET: Streets
         public virtual ActionResult Index()
         {
-            return View(db.IntelliSenseStreets.ToList());
+            return View(db.IntelliSenseStreets.Include(a=>a.City).ToList());
         }
 
         // GET: Streets/Details/5
@@ -56,6 +57,7 @@ namespace oncloud.Web.oddBase.Controllers
         // GET: Streets/Create
         public virtual ActionResult Create()
         {
+            ViewBag.Cities = new SelectList(db.Cities, "id", "Name");
             return View();
         }
 
@@ -64,7 +66,7 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult Create([Bind(Include = "id,Street,Type")] IntelliSenseStreet intelliSenseStreet)
+        public virtual ActionResult Create([Bind(Include = "id,Street,Type, CityId")] IntelliSenseStreet intelliSenseStreet)
         {
             if (ModelState.IsValid)
             {
@@ -72,7 +74,7 @@ namespace oncloud.Web.oddBase.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            ViewBag.Cities = new SelectList(db.Cities, "id", "Name");
             return View(intelliSenseStreet);
         }
 
@@ -88,6 +90,7 @@ namespace oncloud.Web.oddBase.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Cities = new SelectList(db.Cities, "id", "Name");
             return View(intelliSenseStreet);
         }
 
@@ -96,7 +99,7 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult Edit([Bind(Include = "id,Street,Type")] IntelliSenseStreet intelliSenseStreet)
+        public virtual ActionResult Edit([Bind(Include = "id,Street,Type, CityId")] IntelliSenseStreet intelliSenseStreet)
         {
             if (ModelState.IsValid)
             {
@@ -105,6 +108,7 @@ namespace oncloud.Web.oddBase.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Cities = new SelectList(db.Cities, "id", "Name");
             return View(intelliSenseStreet);
         }
 

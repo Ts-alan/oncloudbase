@@ -70,5 +70,5 @@ namespace oncloud.Domain.Concrete
         {
             Entry(entity).State = EntityState.Modified;
         }
-    }
+     }
 }

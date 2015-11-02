@@ -21,5 +21,9 @@ namespace oncloud.Domain.Entities
 
         [StringLength(50)]
         public string Type { get; set; }
+
+        public int CityId { get; set; }
+        [Display(Name = "Город")]
+        public virtual City City { get; set; }
     }
 }

@@ -24,7 +24,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.ActionLink(item.Name, MVC.Cities.Details(item.id))
         </td>
         <td>
             @Html.ActionLink("Редактировать", MVC.Cities.Edit(item.id), new { @class = "btn btn-primary" }) |

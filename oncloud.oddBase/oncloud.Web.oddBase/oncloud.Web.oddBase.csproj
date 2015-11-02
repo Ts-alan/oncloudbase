@@ -236,6 +236,10 @@
     <Compile Include="Migrations\201511021559167_StreetId1.Designer.cs">
       <DependentUpon>201511021559167_StreetId1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511021855576_add_city_to_intelliStreet.cs" />
+    <Compile Include="Migrations\201511021855576_add_city_to_intelliStreet.Designer.cs">
+      <DependentUpon>201511021855576_add_city_to_intelliStreet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -610,6 +614,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511021559167_StreetId1.resx">
       <DependentUpon>201511021559167_StreetId1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511021855576_add_city_to_intelliStreet.resx">
+      <DependentUpon>201511021855576_add_city_to_intelliStreet.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
