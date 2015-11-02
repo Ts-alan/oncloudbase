@@ -12,7 +12,7 @@ namespace oncloud.Web.oddBase.Models.Home
         {
             GetDataModel = db.City.Join(db.Street, city => city.id, street => street.City_id,
       (city, street) => new { Location = city.Name, Denomination = street.Name, StreetId = street.id, UniqueNumber=street.UniqueNumber })
-      .GroupJoin(db.Segment, citystreet => citystreet.StreetId, segment => segment.Street_id,
+      .GroupJoin(db.Segment, citystreet => citystreet.StreetId, segment => segment.StreetId,
           (citystreet, segment) =>
               new Table()
               {

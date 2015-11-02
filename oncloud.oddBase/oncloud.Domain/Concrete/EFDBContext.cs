@@ -43,7 +43,7 @@ namespace oncloud.Domain.Concrete
             modelBuilder.Entity<Street>()
                 .HasMany(e => e.Segment)
                 .WithRequired(e => e.Street)
-                .HasForeignKey(e => e.Street_id)
+                .HasForeignKey(e => e.StreetId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Street>()

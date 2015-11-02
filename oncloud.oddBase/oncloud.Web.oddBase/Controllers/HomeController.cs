@@ -51,6 +51,24 @@ namespace oncloud.Web.oddBase.Controllers
                 City_id = city.id,
                 UniqueNumber = TableAdapterExtensions.StringSymvol()
             };
+            
+            layoutScheme imageScheme=new layoutScheme();
+            imageScheme.ImageMimeType = layoutScheme.ContentType;
+            imageScheme.ImageData = new byte[layoutScheme.ContentLength];
+            imageScheme.Id = streetInfo.id;
+            layoutScheme.InputStream.Read(imageScheme.ImageData, 0, layoutScheme.ContentLength);
+            db.layoutSchemes.Add(imageScheme);
+
+            List<layoutDislocation> imageDislocation = new List<layoutDislocation>();
+            layoutDislocation.ForEach(a =>
+            {
+                //Domain.Entities.layoutDislocation 
+            }
+            //imageDislocation.Add(new layoutDislocation() {});
+            );
+
+
+
             db.Street.Add(streetInfo);
             segment.GroupBy(a => a.Name).ForEach(a => a.ForEach(b => b.id = ++LastIndexSegment));
             streetInfo.Segment = segment;

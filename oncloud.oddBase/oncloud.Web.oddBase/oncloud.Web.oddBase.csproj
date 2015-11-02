@@ -228,6 +228,10 @@
     <Compile Include="Migrations\201511021052501_StreetId.Designer.cs">
       <DependentUpon>201511021052501_StreetId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511021328041_SegmentlayoutDislocation.cs" />
+    <Compile Include="Migrations\201511021328041_SegmentlayoutDislocation.Designer.cs">
+      <DependentUpon>201511021328041_SegmentlayoutDislocation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -596,6 +600,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511021052501_StreetId.resx">
       <DependentUpon>201511021052501_StreetId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511021328041_SegmentlayoutDislocation.resx">
+      <DependentUpon>201511021328041_SegmentlayoutDislocation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

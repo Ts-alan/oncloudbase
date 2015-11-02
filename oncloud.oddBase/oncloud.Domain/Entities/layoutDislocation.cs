@@ -12,5 +12,7 @@ namespace oncloud.Domain.Entities
         public byte[] ImageData { get; set; }
         public string ImageMimeType { get; set; }
         public virtual Street Street { get; set; }
+        public virtual Segment Segment { get; set; }
+        public int SegmentId { get; set; }
     }
 }
