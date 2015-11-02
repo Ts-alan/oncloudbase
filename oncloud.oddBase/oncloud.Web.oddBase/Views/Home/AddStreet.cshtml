@@ -531,7 +531,10 @@
 
                                 $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
                                     .attr("id", "RoadBarriers" + increment).find(".buttonclose")
-                                    .attr("onclick", "cleaningRoadBarrier(" + increment + ")").end());
+                                    .attr("onclick", "cleaningRoadBarrier(" + increment + ")").end()
+                                    .find("td input").each(function (ind, element) {
+                                        $(element).attr("name", increment + $(this).attr("name").substr(1));
+                                    }).end());
                              
                             }
 
@@ -986,7 +989,7 @@
                                     <td>
                                         @item.Description
                                     </td>
-                                    <td style="vertical-align: middle"><input name="RoadBarriersMeters@(item.NumberBarriers)" type="text" /></td>
+                                    <td style="vertical-align: middle"><input name="1RoadBarriersMeters@(item.NumberBarriers)" type="text" /></td>
 
                                 </tr>
                             }

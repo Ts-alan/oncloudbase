@@ -216,6 +216,18 @@
     <Compile Include="Migrations\201511020816304_Initial.Designer.cs">
       <DependentUpon>201511020816304_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511021020167_SegmentIdModel.cs" />
+    <Compile Include="Migrations\201511021020167_SegmentIdModel.Designer.cs">
+      <DependentUpon>201511021020167_SegmentIdModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511021043372_RelashanshipTable.cs" />
+    <Compile Include="Migrations\201511021043372_RelashanshipTable.Designer.cs">
+      <DependentUpon>201511021043372_RelashanshipTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511021052501_StreetId.cs" />
+    <Compile Include="Migrations\201511021052501_StreetId.Designer.cs">
+      <DependentUpon>201511021052501_StreetId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -575,6 +587,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511020816304_Initial.resx">
       <DependentUpon>201511020816304_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511021020167_SegmentIdModel.resx">
+      <DependentUpon>201511021020167_SegmentIdModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511021043372_RelashanshipTable.resx">
+      <DependentUpon>201511021043372_RelashanshipTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511021052501_StreetId.resx">
+      <DependentUpon>201511021052501_StreetId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

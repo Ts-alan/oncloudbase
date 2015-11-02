@@ -35,6 +35,7 @@ namespace oncloud.Web.oddBase.Controllers
             [ModelBinder(typeof (CustomModelBinderForSegment))] ICollection<Segment> segment,
             [ModelBinder(typeof (CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
             [ModelBinder(typeof(CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
+            [ModelBinder(typeof(CustomModelBinderForRB))] ICollection<SpecificationOfRb> SpecificationofRB,
             HttpPostedFileBase layoutScheme,IEnumerable<HttpPostedFileBase> layoutDislocation)
         {
 
@@ -65,8 +66,15 @@ namespace oncloud.Web.oddBase.Controllers
                 a.Street_id = streetInfo.id;
 
             });
+            SpecificationofRB.ForEach(a =>
+            {
+                a.RoadBarriersId =
+                           db.RoadBarriers.Single(b => b.NumberBarriers == a.RoadBarriersIdModel).Id;
+                a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
+                a.StreetId = streetInfo.id;
 
-         
+            });
+            db.SpecificationOfRb.AddRange(SpecificationofRB);
             db.SpecificationofRM.AddRange(SpecificationofRM);
             db.SpecificationofRS.AddRange(SpecificationofRS);
             db.SaveChanges();
