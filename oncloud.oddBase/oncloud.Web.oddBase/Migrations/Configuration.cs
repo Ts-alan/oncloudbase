@@ -10,7 +10,6 @@ namespace oncloud.Web.oddBase.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "oncloud.Domain.Concrete.EFDbContext";
         }
 
         protected override void Seed(oncloud.Domain.Concrete.EFDbContext context)
