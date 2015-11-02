@@ -37,9 +37,9 @@ namespace oncloud.Web.oddBase.Controllers
             [ModelBinder(typeof(CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
             HttpPostedFileBase layoutScheme,IEnumerable<HttpPostedFileBase> layoutDislocation)
         {
-         
 
-
+            int LastIndexSegment=db.Segment.AsEnumerable().Last().id;
+            
             var streetInfo = new Street()
             {
                 Name = street.Name,
@@ -51,21 +51,24 @@ namespace oncloud.Web.oddBase.Controllers
                 UniqueNumber = TableAdapterExtensions.StringSymvol()
             };
             db.Street.Add(streetInfo);
-
+            segment.GroupBy(a => a.Name).ForEach(a => a.ForEach(b => b.id = ++LastIndexSegment));
             streetInfo.Segment = segment;
             streetInfo.SpecificationofRM = SpecificationofRM;
-            db.SpecificationofRS.AddRange(SpecificationofRS);
             db.Segment.AddRange(segment);
+
 
             SpecificationofRS.ForEach(a =>
             {
                 a.RoadSigns_id =
                            db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
                 a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
+                a.Street_id = streetInfo.id;
 
             });
+
+         
             db.SpecificationofRM.AddRange(SpecificationofRM);
-          
+            db.SpecificationofRS.AddRange(SpecificationofRS);
             db.SaveChanges();
             return RedirectToAction("Table");
         }
