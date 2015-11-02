@@ -7,13 +7,13 @@ namespace oncloud.Web.oddBase.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class SegmentlayoutDislocation : IMigrationMetadata
+    public sealed partial class StreetId1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(SegmentlayoutDislocation));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(StreetId1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201511021328041_SegmentlayoutDislocation"; }
+            get { return "201511021559167_StreetId1"; }
         }
         
         string IMigrationMetadata.Source

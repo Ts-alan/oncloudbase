@@ -29,7 +29,7 @@ namespace oncloud.Domain.Concrete
         public virtual IDbSet<IntelliSenseStreet> IntelliSenseStreet { get; set; }
         public virtual IDbSet<RoadSigns> RoadSigns { get; set; }
         public virtual IDbSet<RoadBarriers> RoadBarriers { get; set; }
-        public virtual IDbSet<layoutDislocation> layoutDislocations { get; set; }
+        public virtual DbSet<layoutDislocation> layoutDislocations { get; set; }
         public virtual IDbSet<layoutScheme> layoutSchemes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -43,7 +43,7 @@ namespace oncloud.Domain.Concrete
             modelBuilder.Entity<Street>()
                 .HasMany(e => e.Segment)
                 .WithRequired(e => e.Street)
-                .HasForeignKey(e => e.StreetId)
+                .HasForeignKey(e => e.Street_id)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Street>()

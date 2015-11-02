@@ -228,9 +228,13 @@
     <Compile Include="Migrations\201511021052501_StreetId.Designer.cs">
       <DependentUpon>201511021052501_StreetId.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201511021328041_SegmentlayoutDislocation.cs" />
-    <Compile Include="Migrations\201511021328041_SegmentlayoutDislocation.Designer.cs">
-      <DependentUpon>201511021328041_SegmentlayoutDislocation.cs</DependentUpon>
+    <Compile Include="Migrations\201511021541363_RoadSignsIdModel.cs" />
+    <Compile Include="Migrations\201511021541363_RoadSignsIdModel.Designer.cs">
+      <DependentUpon>201511021541363_RoadSignsIdModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511021559167_StreetId1.cs" />
+    <Compile Include="Migrations\201511021559167_StreetId1.Designer.cs">
+      <DependentUpon>201511021559167_StreetId1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -601,8 +605,11 @@
     <EmbeddedResource Include="Migrations\201511021052501_StreetId.resx">
       <DependentUpon>201511021052501_StreetId.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511021328041_SegmentlayoutDislocation.resx">
-      <DependentUpon>201511021328041_SegmentlayoutDislocation.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511021541363_RoadSignsIdModel.resx">
+      <DependentUpon>201511021541363_RoadSignsIdModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511021559167_StreetId1.resx">
+      <DependentUpon>201511021559167_StreetId1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

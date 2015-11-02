@@ -14,5 +14,6 @@ namespace oncloud.Domain.Entities
         public virtual Street Street { get; set; }
         public virtual Segment Segment { get; set; }
         public int SegmentId { get; set; }
+        public int StreetId { get; set; }
     }
 }
