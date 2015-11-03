@@ -17,9 +17,11 @@ namespace oncloud.Domain.Entities
         [Key]
         [Column(Order = 1)]
         [StringLength(50)]
+        [Display(Name="Улица")]
         public string Street { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Тип")]
         public string Type { get; set; }
 
         public int CityId { get; set; }
