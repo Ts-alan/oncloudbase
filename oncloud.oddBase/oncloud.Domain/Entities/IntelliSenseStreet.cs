@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,15 +17,15 @@ namespace oncloud.Domain.Entities
 		[Key]
 		[Column(Order = 1)]
 		[StringLength(50)]
-		[Display(Name = "”ÎËˆ‡")]
+		[Display(Name = "–£–ª–∏—Ü–∞")]
 		public string Street { get; set; }
 
 		[StringLength(50)]
-		[Display(Name = "“ËÔ")]
+		[Display(Name = "–¢–∏–ø")]
 		public string Type { get; set; }
 
 		public int CityId { get; set; }
-		[Display(Name = "√ÓÓ‰")]
+		[Display(Name = "–ì–æ—Ä–æ–¥")]
 		public virtual City City { get; set; }
 	}
 }
