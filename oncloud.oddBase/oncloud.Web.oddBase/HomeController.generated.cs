@@ -71,12 +71,6 @@ namespace oncloud.Web.oddBase.Controllers
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.FindStreets);
         }
-        [NonAction]
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Web.Mvc.FileContentResult GetImageForRS()
-        {
-            return new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.GetImageForRS);
-        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public HomeController Actions { get { return MVC.Home; } }
@@ -99,7 +93,6 @@ namespace oncloud.Web.oddBase.Controllers
             public readonly string Contact = "Contact";
             public readonly string AddStreet = "AddStreet";
             public readonly string FindStreets = "FindStreets";
-            public readonly string GetImageForRS = "GetImageForRS";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -111,7 +104,6 @@ namespace oncloud.Web.oddBase.Controllers
             public const string Contact = "Contact";
             public const string AddStreet = "AddStreet";
             public const string FindStreets = "FindStreets";
-            public const string GetImageForRS = "GetImageForRS";
         }
 
 
@@ -137,14 +129,6 @@ namespace oncloud.Web.oddBase.Controllers
         public class ActionParamsClass_FindStreets
         {
             public readonly string term = "term";
-        }
-        static readonly ActionParamsClass_GetImageForRS s_params_GetImageForRS = new ActionParamsClass_GetImageForRS();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_GetImageForRS GetImageForRSParams { get { return s_params_GetImageForRS; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_GetImageForRS
-        {
-            public readonly string id = "id";
         }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -260,18 +244,6 @@ namespace oncloud.Web.oddBase.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.FindStreets);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "term", term);
             FindStreetsOverride(callInfo, term);
-            return callInfo;
-        }
-
-        [NonAction]
-        partial void GetImageForRSOverride(T4MVC_System_Web_Mvc_FileContentResult callInfo, int id);
-
-        [NonAction]
-        public override System.Web.Mvc.FileContentResult GetImageForRS(int id)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.GetImageForRS);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
-            GetImageForRSOverride(callInfo, id);
             return callInfo;
         }
 

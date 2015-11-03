@@ -240,6 +240,26 @@
     <Compile Include="Migrations\201511021855576_add_city_to_intelliStreet.Designer.cs">
       <DependentUpon>201511021855576_add_city_to_intelliStreet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511031030472_relashenshipImage.cs" />
+    <Compile Include="Migrations\201511031030472_relashenshipImage.Designer.cs">
+      <DependentUpon>201511031030472_relashenshipImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511031221480_RoadSignsIdModel1.cs" />
+    <Compile Include="Migrations\201511031221480_RoadSignsIdModel1.Designer.cs">
+      <DependentUpon>201511031221480_RoadSignsIdModel1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511031405404_DescriptionFor.cs" />
+    <Compile Include="Migrations\201511031405404_DescriptionFor.Designer.cs">
+      <DependentUpon>201511031405404_DescriptionFor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511031408418_TextForDescriptionFor.cs" />
+    <Compile Include="Migrations\201511031408418_TextForDescriptionFor.Designer.cs">
+      <DependentUpon>201511031408418_TextForDescriptionFor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511031419200_Relshiship.cs" />
+    <Compile Include="Migrations\201511031419200_Relshiship.Designer.cs">
+      <DependentUpon>201511031419200_Relshiship.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -617,6 +637,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511021855576_add_city_to_intelliStreet.resx">
       <DependentUpon>201511021855576_add_city_to_intelliStreet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511031030472_relashenshipImage.resx">
+      <DependentUpon>201511031030472_relashenshipImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511031221480_RoadSignsIdModel1.resx">
+      <DependentUpon>201511031221480_RoadSignsIdModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511031405404_DescriptionFor.resx">
+      <DependentUpon>201511031405404_DescriptionFor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511031408418_TextForDescriptionFor.resx">
+      <DependentUpon>201511031408418_TextForDescriptionFor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511031419200_Relshiship.resx">
+      <DependentUpon>201511031419200_Relshiship.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

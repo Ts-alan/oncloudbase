@@ -55,11 +55,12 @@
     <Compile Include="Concrete\EFDBContext.cs" />
     <Compile Include="DAL\DataSets.cs" />
     <Compile Include="Entities\City.cs" />
+    <Compile Include="Entities\DescriptionForRS.cs" />
     <Compile Include="Entities\Increment.cs" />
     <Compile Include="Entities\IntelliSenseStreet.cs" />
     <Compile Include="Entities\layoutDislocation.cs" />
     <Compile Include="Entities\layoutScheme.cs" />
-    <Compile Include="Entities\MultipleImageForRS.cs" />
+    <Compile Include="Entities\ImageForRS.cs" />
     <Compile Include="Entities\RoadBarriers .cs" />
     <Compile Include="Entities\RoadSigns.cs" />
     <Compile Include="Entities\Segment.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Entities\SpecificationofRS.cs" />
     <Compile Include="Entities\Street.cs" />
     <Compile Include="Entities\sysdiagrams.cs" />
+    <Compile Include="Entities\TextForRS.cs" />
     <Compile Include="Entities\TheHorizontalRoadMarking.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

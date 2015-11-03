@@ -15,17 +15,11 @@ namespace oncloud.Domain.Entities
         [Required]
         [Display(Name = "№")]
         public string NumberRoadSigns { get; set; }
-        [Column(TypeName = "nvarchar")]
-        [Required]
-        [Display(Name="Описание")]
-        public string Description { get; set; }
-        [DefaultValue("false")]
-        public bool IndifikatorMultipleImage { get; set; }
-        [Display(Name = "Символ")]
-        public byte[] ImageData { get; set; }
-        public string ImageMimeType { get; set; }
         public virtual ICollection<SpecificationofRS> SpecificationofRM { get; set; }
+        public virtual ICollection<ImageForRS> ImageForRoadSigns { get; set; }
+        public virtual ICollection<DescriptionForRS> DescriptionRS { get; set; }
+        public virtual ICollection<TextForRS> TextForRS { get; set; }
+        public virtual ICollection<ImageForRS> ImageForRS { get; set; }
 
-        public virtual ICollection<MultipleImageForRS> MultipleImageForRoadSigns { get; set; }
     }
 }
