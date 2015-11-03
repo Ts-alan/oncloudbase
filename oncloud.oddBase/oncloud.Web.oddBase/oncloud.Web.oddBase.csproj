@@ -212,81 +212,33 @@
     <Compile Include="ManageController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510162258545_InitialCreate.cs" />
-    <Compile Include="Migrations\201510162258545_InitialCreate.Designer.cs">
-      <DependentUpon>201510162258545_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201511020816304_Initial.cs" />
+    <Compile Include="Migrations\201511020816304_Initial.Designer.cs">
+      <DependentUpon>201511020816304_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510211807454_upd_db.cs" />
-    <Compile Include="Migrations\201510211807454_upd_db.Designer.cs">
-      <DependentUpon>201510211807454_upd_db.cs</DependentUpon>
+    <Compile Include="Migrations\201511021020167_SegmentIdModel.cs" />
+    <Compile Include="Migrations\201511021020167_SegmentIdModel.Designer.cs">
+      <DependentUpon>201511021020167_SegmentIdModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510220714064_added_image_horizontal_road_marking.cs" />
-    <Compile Include="Migrations\201510220714064_added_image_horizontal_road_marking.Designer.cs">
-      <DependentUpon>201510220714064_added_image_horizontal_road_marking.cs</DependentUpon>
+    <Compile Include="Migrations\201511021043372_RelashanshipTable.cs" />
+    <Compile Include="Migrations\201511021043372_RelashanshipTable.Designer.cs">
+      <DependentUpon>201511021043372_RelashanshipTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510220839085_AddRoadSigns.cs" />
-    <Compile Include="Migrations\201510220839085_AddRoadSigns.Designer.cs">
-      <DependentUpon>201510220839085_AddRoadSigns.cs</DependentUpon>
+    <Compile Include="Migrations\201511021052501_StreetId.cs" />
+    <Compile Include="Migrations\201511021052501_StreetId.Designer.cs">
+      <DependentUpon>201511021052501_StreetId.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510220848201_SpecificationofRM.cs" />
-    <Compile Include="Migrations\201510220848201_SpecificationofRM.Designer.cs">
-      <DependentUpon>201510220848201_SpecificationofRM.cs</DependentUpon>
+    <Compile Include="Migrations\201511021541363_RoadSignsIdModel.cs" />
+    <Compile Include="Migrations\201511021541363_RoadSignsIdModel.Designer.cs">
+      <DependentUpon>201511021541363_RoadSignsIdModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510220912080_relashenship.cs" />
-    <Compile Include="Migrations\201510220912080_relashenship.Designer.cs">
-      <DependentUpon>201510220912080_relashenship.cs</DependentUpon>
+    <Compile Include="Migrations\201511021559167_StreetId1.cs" />
+    <Compile Include="Migrations\201511021559167_StreetId1.Designer.cs">
+      <DependentUpon>201511021559167_StreetId1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510220916203_CountRs.cs" />
-    <Compile Include="Migrations\201510220916203_CountRs.Designer.cs">
-      <DependentUpon>201510220916203_CountRs.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510221245393_added_image_road_signs.cs" />
-    <Compile Include="Migrations\201510221245393_added_image_road_signs.Designer.cs">
-      <DependentUpon>201510221245393_added_image_road_signs.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510221406352_RoadBarriers.cs" />
-    <Compile Include="Migrations\201510221406352_RoadBarriers.Designer.cs">
-      <DependentUpon>201510221406352_RoadBarriers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510260927374_SpecificationOfRb.cs" />
-    <Compile Include="Migrations\201510260927374_SpecificationOfRb.Designer.cs">
-      <DependentUpon>201510260927374_SpecificationOfRb.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510261355069_renamecolums.cs" />
-    <Compile Include="Migrations\201510261355069_renamecolums.Designer.cs">
-      <DependentUpon>201510261355069_renamecolums.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510261559592_relations.cs" />
-    <Compile Include="Migrations\201510261559592_relations.Designer.cs">
-      <DependentUpon>201510261559592_relations.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510271953428_fix_migration_1.cs" />
-    <Compile Include="Migrations\201510271953428_fix_migration_1.Designer.cs">
-      <DependentUpon>201510271953428_fix_migration_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510281328011_tableImage.cs" />
-    <Compile Include="Migrations\201510281328011_tableImage.Designer.cs">
-      <DependentUpon>201510281328011_tableImage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510281331251_RoadSignsIdModel.cs" />
-    <Compile Include="Migrations\201510281331251_RoadSignsIdModel.Designer.cs">
-      <DependentUpon>201510281331251_RoadSignsIdModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510290948354_IndifikatorMultipleIandT.cs" />
-    <Compile Include="Migrations\201510290948354_IndifikatorMultipleIandT.Designer.cs">
-      <DependentUpon>201510290948354_IndifikatorMultipleIandT.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510290958495_IndifikatorMultipleImageOnlyImage.cs" />
-    <Compile Include="Migrations\201510290958495_IndifikatorMultipleImageOnlyImage.Designer.cs">
-      <DependentUpon>201510290958495_IndifikatorMultipleImageOnlyImage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510291038377_MultipleImageForRS.cs" />
-    <Compile Include="Migrations\201510291038377_MultipleImageForRS.Designer.cs">
-      <DependentUpon>201510291038377_MultipleImageForRS.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510291322134_SpecificationofRSSegment.cs" />
-    <Compile Include="Migrations\201510291322134_SpecificationofRSSegment.Designer.cs">
-      <DependentUpon>201510291322134_SpecificationofRSSegment.cs</DependentUpon>
+    <Compile Include="Migrations\201511021855576_add_city_to_intelliStreet.cs" />
+    <Compile Include="Migrations\201511021855576_add_city_to_intelliStreet.Designer.cs">
+      <DependentUpon>201511021855576_add_city_to_intelliStreet.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -645,62 +597,26 @@
     <EmbeddedResource Include="IdentityContextMigrations\201510262114596_add_organizationId.resx">
       <DependentUpon>201510262114596_add_organizationId.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510162258545_InitialCreate.resx">
-      <DependentUpon>201510162258545_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511020816304_Initial.resx">
+      <DependentUpon>201511020816304_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510211807454_upd_db.resx">
-      <DependentUpon>201510211807454_upd_db.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511021020167_SegmentIdModel.resx">
+      <DependentUpon>201511021020167_SegmentIdModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510220714064_added_image_horizontal_road_marking.resx">
-      <DependentUpon>201510220714064_added_image_horizontal_road_marking.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511021043372_RelashanshipTable.resx">
+      <DependentUpon>201511021043372_RelashanshipTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510220839085_AddRoadSigns.resx">
-      <DependentUpon>201510220839085_AddRoadSigns.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511021052501_StreetId.resx">
+      <DependentUpon>201511021052501_StreetId.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510220848201_SpecificationofRM.resx">
-      <DependentUpon>201510220848201_SpecificationofRM.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511021541363_RoadSignsIdModel.resx">
+      <DependentUpon>201511021541363_RoadSignsIdModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510220912080_relashenship.resx">
-      <DependentUpon>201510220912080_relashenship.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511021559167_StreetId1.resx">
+      <DependentUpon>201511021559167_StreetId1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510220916203_CountRs.resx">
-      <DependentUpon>201510220916203_CountRs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510221245393_added_image_road_signs.resx">
-      <DependentUpon>201510221245393_added_image_road_signs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510221406352_RoadBarriers.resx">
-      <DependentUpon>201510221406352_RoadBarriers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510260927374_SpecificationOfRb.resx">
-      <DependentUpon>201510260927374_SpecificationOfRb.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510261355069_renamecolums.resx">
-      <DependentUpon>201510261355069_renamecolums.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510261559592_relations.resx">
-      <DependentUpon>201510261559592_relations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510271953428_fix_migration_1.resx">
-      <DependentUpon>201510271953428_fix_migration_1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510281328011_tableImage.resx">
-      <DependentUpon>201510281328011_tableImage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510281331251_RoadSignsIdModel.resx">
-      <DependentUpon>201510281331251_RoadSignsIdModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510290948354_IndifikatorMultipleIandT.resx">
-      <DependentUpon>201510290948354_IndifikatorMultipleIandT.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510290958495_IndifikatorMultipleImageOnlyImage.resx">
-      <DependentUpon>201510290958495_IndifikatorMultipleImageOnlyImage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510291038377_MultipleImageForRS.resx">
-      <DependentUpon>201510291038377_MultipleImageForRS.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510291322134_SpecificationofRSSegment.resx">
-      <DependentUpon>201510291322134_SpecificationofRSSegment.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511021855576_add_city_to_intelliStreet.resx">
+      <DependentUpon>201511021855576_add_city_to_intelliStreet.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

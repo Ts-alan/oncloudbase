@@ -11,12 +11,17 @@ namespace oncloud.Domain.Entities
     public class SpecificationOfRb
     {
         public int Id { get; set; }
-        public string Length { get; set; }
-        public virtual Street Street { get; set; }
-
-        public int RoadBarriers_id { get; set; }
+        public int Length { get; set; }
+       
+        [NotMapped]
+        public int SegmentIdModel { get; set; }
+        public int SegmentId { get; set; }
+        public int RoadBarriersId { get; set; }
+        public int StreetId { get; set; }
         [NotMapped]
         public string RoadBarriersIdModel { get; set; }
         public virtual RoadBarriers RoadBarriers { get; set; }
+        public virtual Segment Segment { get; set; }
+        public virtual Street Street { get; set; }
     }
 }

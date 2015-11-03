@@ -35,7 +35,8 @@ namespace oncloud.Web.oddBase.Controllers
             [ModelBinder(typeof (CustomModelBinderForSegment))] ICollection<Segment> segment,
             [ModelBinder(typeof (CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
             [ModelBinder(typeof(CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
-            HttpPostedFileBase layoutScheme,IEnumerable<HttpPostedFileBase> layoutDislocation)
+            [ModelBinder(typeof(CustomModelBinderForRB))] ICollection<SpecificationOfRb> SpecificationofRB,
+            HttpPostedFileBase layoutScheme=null,IEnumerable<HttpPostedFileBase> layoutDislocation=null)
         {
 
             int LastIndexSegment=db.Segment.AsEnumerable().Last().id;
@@ -50,13 +51,42 @@ namespace oncloud.Web.oddBase.Controllers
                 City_id = city.id,
                 UniqueNumber = TableAdapterExtensions.StringSymvol()
             };
+            
+ 
+
+
+
             db.Street.Add(streetInfo);
             segment.GroupBy(a => a.Name).ForEach(a => a.ForEach(b => b.id = ++LastIndexSegment));
             streetInfo.Segment = segment;
             streetInfo.SpecificationofRM = SpecificationofRM;
             db.Segment.AddRange(segment);
-
-
+            if (layoutScheme != null)
+            {
+                layoutScheme imageScheme = new layoutScheme();
+                imageScheme.ImageMimeType = layoutScheme.ContentType;
+                imageScheme.ImageData = new byte[layoutScheme.ContentLength];
+                imageScheme.Id = streetInfo.id;
+                layoutScheme.InputStream.Read(imageScheme.ImageData, 0, layoutScheme.ContentLength);
+                db.layoutSchemes.Add(imageScheme);
+            }
+            if (layoutDislocation != null)
+            {
+                List<layoutDislocation> imageDislocations = new List<layoutDislocation>();
+                layoutDislocation imageDislocation;
+                layoutDislocation.ForEach(a =>
+                {
+                    imageDislocation = new layoutDislocation();
+                    imageDislocation.ImageMimeType = a.ContentType;
+                    imageDislocation.ImageData = new byte[a.ContentLength];
+                    a.InputStream.Read(imageDislocation.ImageData, 0, a.ContentLength);
+                    imageDislocation.StreetId = streetInfo.id;
+                    imageDislocation.SegmentId = LastIndexSegment;
+                    imageDislocations.Add(imageDislocation);
+                }
+                    );
+                db.layoutDislocations.AddRange(imageDislocations);
+            }
             SpecificationofRS.ForEach(a =>
             {
                 a.RoadSigns_id =
@@ -65,8 +95,15 @@ namespace oncloud.Web.oddBase.Controllers
                 a.Street_id = streetInfo.id;
 
             });
+            SpecificationofRB.ForEach(a =>
+            {
+                a.RoadBarriersId =
+                           db.RoadBarriers.Single(b => b.NumberBarriers == a.RoadBarriersIdModel).Id;
+                a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
+                a.StreetId = streetInfo.id;
 
-         
+            });
+            db.SpecificationOfRb.AddRange(SpecificationofRB);
             db.SpecificationofRM.AddRange(SpecificationofRM);
             db.SpecificationofRS.AddRange(SpecificationofRS);
             db.SaveChanges();

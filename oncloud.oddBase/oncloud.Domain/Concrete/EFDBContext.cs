@@ -29,8 +29,8 @@ namespace oncloud.Domain.Concrete
         public virtual IDbSet<IntelliSenseStreet> IntelliSenseStreet { get; set; }
         public virtual IDbSet<RoadSigns> RoadSigns { get; set; }
         public virtual IDbSet<RoadBarriers> RoadBarriers { get; set; }
-        public virtual IDbSet<layoutDislocation> layoutDislocation { get; set; }
-        public virtual IDbSet<layoutScheme> layoutScheme { get; set; }
+        public virtual DbSet<layoutDislocation> layoutDislocations { get; set; }
+        public virtual IDbSet<layoutScheme> layoutSchemes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -70,5 +70,5 @@ namespace oncloud.Domain.Concrete
         {
             Entry(entity).State = EntityState.Modified;
         }
-    }
+     }
 }

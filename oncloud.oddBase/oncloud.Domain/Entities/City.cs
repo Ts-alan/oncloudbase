@@ -20,6 +20,7 @@ namespace oncloud.Domain.Entities
         public int id { get; set; }
 
         [Required]
+        [Display(Name="Наименование")]
         public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

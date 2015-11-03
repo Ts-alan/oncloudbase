@@ -88,4 +88,31 @@ namespace OddBasyBY.Models
             return null;
         }
     }
+
+    public class CustomModelBinderForRB : DefaultModelBinder
+    {
+        public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        {
+            var request = controllerContext.HttpContext.Request;
+            List<SpecificationOfRb> ListSpecificationofRS = new List<SpecificationOfRb>();
+            var countRSval = request.Form.Get("CountSides");
+            if (countRSval != null)
+            {
+                List<string> ModalM = request.Form.AllKeys.Where(a => a.Contains("RoadBarriersMeters")).ToList();
+
+                for (int i = 0; i < ModalM.Count; i++)
+                {
+                    string tempValueM = request.Form.Get(ModalM.ElementAt(i));
+
+                    if (tempValueM != "")
+                    {
+
+                        ListSpecificationofRS.Add(new SpecificationOfRb() {Length = int.Parse(tempValueM),SegmentIdModel  = int.Parse(ModalM.ElementAt(i).Substring(0, 1)),RoadBarriersIdModel = ModalM.ElementAt(i).Substring(19) });
+                    }
+                }
+                return ListSpecificationofRS;
+            }
+            return null;
+        }
+    }
 }

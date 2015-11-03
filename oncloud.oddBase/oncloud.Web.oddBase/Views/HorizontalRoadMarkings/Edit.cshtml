@@ -1,19 +1,23 @@
 ﻿@model oncloud.Domain.Entities.TheHorizontalRoadMarking
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Редактирование дорожной разметки";
 }
 
-<h2>Edit</h2>
-
-
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Главная", MVC.Home.Index())</li>
+    <li>@Html.ActionLink("Администрирование", MVC.Аdministration.Index())</li>
+    <li>@Html.ActionLink("Справочник дорожной разметки", MVC.HorizontalRoadMarkings.Index())</li>
+    <li>@Html.ActionLink(Model.NumberMarking, MVC.HorizontalRoadMarkings.Details(Model.id))</li>
+    <li class="active">Редактирование</li>
+</ol>
 @using (Html.BeginForm("Edit", "HorizontalRoadMarkings",
         FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>TheHorizontalRoadMarking</h4>
+        <h4>Дорожная разметка</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.id)
@@ -62,15 +66,11 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
