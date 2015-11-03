@@ -393,12 +393,26 @@
             $(element).val("");
         });
     }
+    function cleaningModalMackUp() {
+
+        $("#ModalMackUp input").each(function (indx, element) {
+            $(element).val("");
+        });
+        $('[data-target="#ModalMackUp"]').removeClass("btn-danger");
+        $('[data-target="#ModalMackUp"]').addClass("btn-default");
+    }
 
     function cleaningRoadBarrier(par) {
 
         $("#RoadBarriers" + par + " input").each(function (indx, element) {
             $(element).val("");
         });
+    }
+    //изменения цвета
+    function changeColor() {
+
+        $('[data-target="#ModalMackUp"]').removeClass("btn-default");
+        $('[data-target="#ModalMackUp"]').addClass("btn-danger");
     }
 
     //задание координат
@@ -795,8 +809,8 @@
             <b><u>1.Наименование улицы</u></b>
             <div>
                 @Html.Hidden("City.id", (int)ViewBag.City.id)
-                @Html.Label("Выбирите город", new { @for = "City.Name" }) @Html.TextBox("City.Name", (string)ViewBag.City.Name, new { id = "city" })
-                @Html.Label("Выбирите улицу", new { @for = "Street.Name" }) @Html.TextBox("Street.Name", null, new { id = "street" })
+                @Html.Label("Выбирите город", new { @for = "City.Name" }) @Html.TextBox("City.Name", (string)ViewBag.City.Name, new { id = "city" ,@readonly=""})
+                @Html.Label("Выбирите улицу", new { @for = "Street.Name" }) @Html.TextBox("Street.Name", null, new { id = "street"})
             </div>
             <div>
                 <button type="button" class="btn btn-default" onclick="search()">Показать на карте</button>
@@ -805,13 +819,13 @@
             <b><u>2.Координаты улицы</u></b>
             <div>Начальнаты начала</div>
             <div>
-                @Html.Label("Широта", new { @for = "Street.BreadthS" }) @Html.TextBox("Street.BreadthS", null, new { id = "breadthS" })
-                @Html.Label("Долгота", new { @for = "Street.LengthS" }) @Html.TextBox("Street.LengthS", null, new { id = "lengthS" })
+                @Html.Label("Широта", new { @for = "Street.BreadthS" }) @Html.TextBox("Street.BreadthS", null, new { id = "breadthS", @readonly = "" })
+                @Html.Label("Долгота", new { @for = "Street.LengthS" }) @Html.TextBox("Street.LengthS", null, new { id = "lengthS", @readonly = "" })
             </div>
             <div>Координаты конца</div>
             <div>
-                @Html.Label("Широта", new { @for = "Street.BreadthE" }) @Html.TextBox("Street.BreadthE", null, new { id = "breadthE" })
-                @Html.Label("Долгота", new { @for = "Street.LengthE" }) @Html.TextBox("Street.LengthE", null, new { id = "lengthE" })
+                @Html.Label("Широта", new { @for = "Street.BreadthE" }) @Html.TextBox("Street.BreadthE", null, new { id = "breadthE", @readonly = "" })
+                @Html.Label("Долгота", new { @for = "Street.LengthE" }) @Html.TextBox("Street.LengthE", null, new { id = "lengthE", @readonly = "" })
             </div>
             <div>
                 <button type="button" onclick="SetCoords()" class="btn btn-default">Задать/Изменить координаты</button>
@@ -893,8 +907,8 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
-                    <button type="button" id="closeModalMackUp" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary" onclick="changeColor()" data-dismiss="modal">Сохранить</button>
+                    <button type="button" id="closeModalMackUp" onclick="cleaningModalMackUp()"  class="btn btn-default" data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>
@@ -1043,6 +1057,6 @@
                                         </div>
                                     </div>
                                     <div style="margin-left: 60%;margin-top: 60px">
-                                        @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-success", style = "float:left" })   <button class="btn btn-warning">Сохранить</button>
+                                        @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-default", style = "float:left" })   <button class="btn btn-primary">Сохранить</button>
                                     </div>
                                     }
