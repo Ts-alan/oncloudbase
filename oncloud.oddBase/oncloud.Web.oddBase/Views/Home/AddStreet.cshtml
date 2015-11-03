@@ -204,75 +204,79 @@
     }
     //задать координаты
     function SetCoords() {
-        if (countElementSegGlobal.length == 0) {
+        if ($("#blockStreet").css("display") == "none") {
+            if (countElementSegGlobal.length == 0) {
 
 
-            if (currentRoute != undefined) {
-                $("#blockStreetCoord").css("display", "inline");
-                myMap.geoObjects.add(currentRoute);
-                currentRoute.editor.start({ editWayPoints: true });
+                if (currentRoute != undefined) {
+                    $("#blockStreetCoord").css("display", "inline");
+                    myMap.geoObjects.add(currentRoute);
+                    currentRoute.editor.start({ editWayPoints: true });
 
-                $("#blockStreetCoord").parent().prev().children("input").each(function (indx, element) {
-                    $(element).removeAttr("readonly");
+                    $("#blockStreetCoord").parent().prev().children("input").each(function(indx, element) {
+                        $(element).removeAttr("readonly");
 
-                });
+                    });
 
-                $("#blockStreetCoord").parent().prev().prev().prev().children("input").each(function (indx, element) {
-                    $(element).removeAttr("readonly");
-                });
+                    $("#blockStreetCoord").parent().prev().prev().prev().children("input").each(function(indx, element) {
+                        $(element).removeAttr("readonly");
+                    });
 
-            } else {
-                handlerRoute = function (e) {
+                } else {
+                    handlerRoute = function(e) {
 
-                    var coords = e.get('coords');
-                    if (counterArr < 2) {
-                        Arr[counterArr] = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
+                        var coords = e.get('coords');
+                        if (counterArr < 2) {
+                            Arr[counterArr] = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
 
-                    }
-                    if (counterArr == 0) {
-                        firstPointRoute = new ymaps.GeoObject({
-                            geometry: {
-                                type: "Point", // тип геометрии - точка
-                                coordinates: [Arr[0][0], Arr[0][1]] // координаты точки
+                        }
+                        if (counterArr == 0) {
+                            firstPointRoute = new ymaps.GeoObject({
+                                geometry: {
+                                    type: "Point", // тип геометрии - точка
+                                    coordinates: [Arr[0][0], Arr[0][1]] // координаты точки
+                                },
+                                properties: {
+                                    iconContent: "Начало улицы",
+                                    balloonContentHeader: "<a href='#' onclick='setHandlerS()'>Удалить Обьект</a>",
+                                    balloonContent: "[" + coords[0].toPrecision(6) + "," + coords[1].toPrecision(6) + "]"
+                                }
                             },
-                            properties: {
-                                iconContent: "Начало улицы",
-                                balloonContentHeader: "<a href='#' onclick='setHandlerS()'>Удалить Обьект</a>",
-                                balloonContent: "[" + coords[0].toPrecision(6) + "," + coords[1].toPrecision(6) + "]"
-                            }
-                        },
-                        { draggable: true, preset: "islands#darkGreenStretchyIcon" });
-                        firstPointRoute.events.add("dragend", function (e) {
+                            { draggable: true, preset: "islands#darkGreenStretchyIcon" });
+                            firstPointRoute.events.add("dragend", function(e) {
 
-                            var coords = firstPointRoute.geometry.getCoordinates();
-                            Arr[0] = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
-                            //изменение координат при пертягивание метки
-                            var object = e.get('target');
-                            object.properties.set("balloonContent", "[" + coords[0].toPrecision(6) + "," + coords[1].toPrecision(6) + "]");
+                                var coords = firstPointRoute.geometry.getCoordinates();
+                                Arr[0] = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
+                                //изменение координат при пертягивание метки
+                                var object = e.get('target');
+                                object.properties.set("balloonContent", "[" + coords[0].toPrecision(6) + "," + coords[1].toPrecision(6) + "]");
 
-                        });
+                            });
 
-                        myMap.geoObjects.add(firstPointRoute);
-                        identifierForDelete++;
+                            myMap.geoObjects.add(firstPointRoute);
+                            identifierForDelete++;
+                        }
+                        counterArr++;
+
+                        if (Arr.length == 2) {
+
+                            SetRoute(Arr);
+                            //задать несколько маршрутов
+                            //Arr = [];
+                            //counterArr = 0;
+                            myMap.events.remove('dblclick', handlerRoute);
+
+                        }
                     }
-                    counterArr++;
 
-                    if (Arr.length == 2) {
+                    myMap.events.add('dblclick', handlerRoute);
 
-                        SetRoute(Arr);
-                        //задать несколько маршрутов
-                        //Arr = [];
-                        //counterArr = 0;
-                        myMap.events.remove('dblclick', handlerRoute);
-
-                    }
                 }
-
-                myMap.events.add('dblclick', handlerRoute);
-
+            } else {
+                alert('Вы не можете редактировать улицу пока на нем находится хотя бы один участок');
             }
         } else {
-            alert('Вы не можете редактировать улицу пока на нем находится хотя бы один участок');
+            alert("Вы не быбрали или не сохранили улицу");
         }
     }
     //удаление сегмента
@@ -391,7 +395,7 @@
     }
 
     function cleaningRoadBarrier(par) {
- 
+
         $("#RoadBarriers" + par + " input").each(function (indx, element) {
             $(element).val("");
         });
@@ -484,8 +488,8 @@
                                 if (increment == 5) {
                                     $("#segment4+div").remove();
                                     $("#interData").after('<div style="float: left"  >' +
-                                        '<button type="button"  class="btn btn-success setSegment">Задать/Изменить координаты</button>' +
-                                        '<button id="BlockSegment" type="button" class="btn btn-warning">Сохранить</button>' +
+                                        '<button type="button"  class="btn btn-default setSegment">Задать/Изменить координаты</button>' +
+                                        '<button id="BlockSegment" type="button" class="btn btn-primary">Сохранить</button>' +
                                         '</div>');
 
                                 }
@@ -525,9 +529,9 @@
 
                                 $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
                                  .attr("id", "ModalRoadSigns" + increment).find(".buttonclose")
-                                 .attr("onclick", "cleaningRoadSigns(" + increment + ")").end().find("td input").each(function(ind, element) {
+                                 .attr("onclick", "cleaningRoadSigns(" + increment + ")").end().find("td input").each(function (ind, element) {
                                      $(element).attr("name", increment + $(this).attr("name").substr(1));
-                                    }).end());
+                                 }).end());
 
                                 $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
                                     .attr("id", "RoadBarriers" + increment).find(".buttonclose")
@@ -535,7 +539,7 @@
                                     .find("td input").each(function (ind, element) {
                                         $(element).attr("name", increment + $(this).attr("name").substr(1));
                                     }).end());
-                             
+
                             }
 
                             $("#CountSides").val(increment); $("#breadthSegS" + increment).attr("value", tempData[0]);
@@ -658,11 +662,14 @@
 
         //заблокировать наименовае улицы
         $("#blockStreet").click(function () {
-            $(this).parent().prev().children("input").each(function (indx, element) {
-                $(element).attr("readonly", "");
-            });
-            $(this).css("display", "none");
-
+            if ($(this).parent().prev().children("input").eq(2).val() != '') {
+                $(this).parent().prev().children("input").each(function(indx, element) {
+                    $(element).attr("readonly", "");
+                });
+                $(this).css("display", "none");
+            } else {
+                alert("Введите название улицы");
+            }
         });
         //заблокировать поля  улицы и убрать координаты
         $("#blockStreetCoord").click(function () {
@@ -735,21 +742,21 @@
         margin-bottom: 10px;
     }
 
-    .file_upload > input {
-        max-width: 284px;
-    }
+        .file_upload > input {
+            max-width: 284px;
+        }
 
-    .file_upload input[type=file] {
-        position: absolute;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        transform: scale(1);
-        letter-spacing: 10em; /* IE 9 fix */
-        -ms-transform: scale(1); /* IE 9 fix */
-        opacity: 0;
-        cursor: pointer;
-    }
+        .file_upload input[type=file] {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            transform: scale(1);
+            letter-spacing: 10em; /* IE 9 fix */
+            -ms-transform: scale(1); /* IE 9 fix */
+            opacity: 0;
+            cursor: pointer;
+        }
     /*модальное окно*/
     .modal-dialog {
         width: 645px;
@@ -792,8 +799,8 @@
                 @Html.Label("Выбирите улицу", new { @for = "Street.Name" }) @Html.TextBox("Street.Name", null, new { id = "street" })
             </div>
             <div>
-                <button type="button" class="btn btn-success " onclick="search()">Показать на карте</button>
-                <button type="button" id="blockStreet" class="btn btn-warning">Сохранить</button>
+                <button type="button" class="btn btn-default" onclick="search()">Показать на карте</button>
+                <button type="button" id="blockStreet" class="btn btn-primary">Сохранить</button>
             </div>
             <b><u>2.Координаты улицы</u></b>
             <div>Начальнаты начала</div>
@@ -807,8 +814,8 @@
                 @Html.Label("Долгота", new { @for = "Street.LengthE" }) @Html.TextBox("Street.LengthE", null, new { id = "lengthE" })
             </div>
             <div>
-                <button type="button" onclick="SetCoords()" class="btn btn-success ">Задать/Изменить координаты</button>
-                <button type="button" id="blockStreetCoord" class="btn btn-warning">Сохранить</button>
+                <button type="button" onclick="SetCoords()" class="btn btn-default">Задать/Изменить координаты</button>
+                <button type="button" id="blockStreetCoord" class="btn btn-primary">Сохранить</button>
             </div>
             <b><u>3.Количество и координаты участков улицы</u></b>
             <div>
@@ -835,8 +842,8 @@
             <div id="segment4">
             </div>
             <div>
-                <button type="button" class="btn btn-success setSegment">Задать/Изменить координаты</button>
-                <button id="BlockSegment" type="button" class="btn btn-warning">Сохранить</button>
+                <button type="button" class="btn btn-default setSegment">Задать/Изменить координаты</button>
+                <button id="BlockSegment" type="button" class="btn btn-primary">Сохранить</button>
             </div>
 
         </div>
@@ -961,81 +968,81 @@
         </div>
     </div>
         <!-- RoadBarriers  -->
-        <div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" style="width: 1000px" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
+                                    <div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" style="width: 1000px" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
 
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>№ Дорожного ограждения</th>
-                                <th>Картинка</th>
-                                <th>Описание</th>
-                                <th>Квадратные метры</th>
-                            </tr>
-                            @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadBarriers>)ViewBag.RoadBarriers)
-                            {
-                                <tr>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table table-bordered">
+                                                        <tr>
+                                                            <th>№ Дорожного ограждения</th>
+                                                            <th>Картинка</th>
+                                                            <th>Описание</th>
+                                                            <th>Квадратные метры</th>
+                                                        </tr>
+                                                        @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadBarriers>)ViewBag.RoadBarriers)
+                                                        {
+                                                            <tr>
 
-                                    <td>@item.NumberBarriers</td>
-                                    <td>
-                                        @if (item.ImageData != null)
-                                        {
-                                            <img style="width: 100px;height: 100px" src="@Url.Action("GetImage",  "RoadBarriers", new { item.Id})" />
-                                        }
-                                    </td>
-                                    <td>
-                                        @item.Description
-                                    </td>
-                                    <td style="vertical-align: middle"><input name="1RoadBarriersMeters@(item.NumberBarriers)" type="text" /></td>
+                                                                <td>@item.NumberBarriers</td>
+                                                                <td>
+                                                                    @if (item.ImageData != null)
+                                                                    {
+                                                                        <img style="width: 100px;height: 100px" src="@Url.Action("GetImage",  "RoadBarriers", new { item.Id})" />
+                                                                    }
+                                                                </td>
+                                                                <td>
+                                                                    @item.Description
+                                                                </td>
+                                                                <td style="vertical-align: middle"><input name="1RoadBarriersMeters@(item.NumberBarriers)" type="text" /></td>
 
-                                </tr>
-                            }
+                                                            </tr>
+                                                        }
 
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
-                        <button type="button" id="closeModalMackUp" onclick="cleaningRoadBarrier(1)" class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
+                                                    <button type="button" id="closeModalMackUp" onclick="cleaningRoadBarrier(1)" class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
-        <div style="clear: both">
-            <div>
-                <b><u>4.Ввод данных</u></b>
-            </div>
-            <div class="file_upload  col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                <button class="btn btn-default" type="button">Загрузить компоновочную схему</button>
-                <input name="layoutScheme" type="file">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Ввести спецификацию разметки</button>
-            </div>
-            <div style="clear: both" class="DataOfRoad1">
-                <div>
-                    <b><u>Участок 1</u></b>
-                </div>
+                                    <div style="clear: both">
+                                        <div>
+                                            <b><u>4.Ввод данных</u></b>
+                                        </div>
+                                        <div class="file_upload  col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <button class="btn btn-default" type="button">Загрузить компоновочную схему</button>
+                                            <input name="layoutScheme" type="file">
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Ввести спецификацию разметки</button>
+                                        </div>
+                                        <div style="clear: both" class="DataOfRoad1">
+                                            <div>
+                                                <b><u>Участок 1</u></b>
+                                            </div>
 
-                <div class="file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-                    <button type="button" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
-                    <input name="layoutDislocation" type="file">
-                </div>
-                <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Ввести данные о дорожных знаках</button>
-                </div>
-                <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#RoadBarriers1">
-                        Ввести данные о дорожных ограждениях
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div style="margin-left: 60%;margin-top: 60px">
-            @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-success" ,style="float:left"})   <button class="btn btn-warning">Сохранить</button>
-        </div>
-        }
+                                            <div class="file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+                                                <button type="button" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
+                                                <input name="layoutDislocation" type="file">
+                                            </div>
+                                            <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Ввести данные о дорожных знаках</button>
+                                            </div>
+                                            <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#RoadBarriers1">
+                                                    Ввести данные о дорожных ограждениях
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-left: 60%;margin-top: 60px">
+                                        @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-success", style = "float:left" })   <button class="btn btn-warning">Сохранить</button>
+                                    </div>
+                                    }
