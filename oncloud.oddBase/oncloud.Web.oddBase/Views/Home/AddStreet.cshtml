@@ -501,6 +501,7 @@
                             }
 
                             if (increment > 4) {
+
                                 if (increment == 5) {
                                     $("#segment4+div").remove();
                                     $("#interData+h5").css("clear", "left");
@@ -508,7 +509,6 @@
                                         '<button type="button"  class="btn btn-default setSegment">Задать/Изменить координаты</button>' +
                                         '<button id="BlockSegment" type="button" class="btn btn-primary">Сохранить</button>' +
                                         '</div>');
-
                                 }
                                 if (tempDataFor3 == increment) {
                                     $("#interData").before('<div class="form-group" style="margin-top: 10px"><div id="segment' + increment + '" style="width: 30.2%;float: left;height: 115px"></div><div id="segment' + (increment + 1) + '" style="width:29%;float: left;height: 115px"></div><div id="segment' + (increment + 2) + '" style="width: 39.8%;float: left;height: 115px"></div></div>');
@@ -557,9 +557,9 @@
                                         $(element).attr("name", increment + $(this).attr("name").substr(1));
                                     }).end());
 
-                                var widthBlockDiv = $("#blockDiv").css("height");
-                                //console.log((parseInt(widthBlockDiv.substring(0, widthBlockDiv.length - 2)) + 60).toString());
-                                $("#blockDiv").css("height", (parseInt(widthBlockDiv.substring(0, widthBlockDiv.length - 2)) + 54).toString());
+                                //var widthBlockDiv = $(".blockDiv").css("height");
+                               
+                                //$(".blockDiv").css("height", (parseInt(widthBlockDiv.substring(0, widthBlockDiv.length - 2)) + 60).toString());
                             }
 
                             $("#CountSides").val(increment); $("#breadthSegS" + increment).attr("value", tempData[0]);
@@ -645,9 +645,15 @@
             }
         }
 
+        function BlockForm() {
+            alert("Вы не сохранили координаты участков");
+            return false;
+        }
 
         //отправка формы
         $('form[action="/Home/SaveSuccess"]').on('click', "#BlockSegment", function () {
+       
+            $('form[action="/Home/SaveSuccess"]').off("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
 
             $("#BlockSegment").css("display", "none");
             $(".setSegment").one('click', setSegment);
@@ -663,10 +669,9 @@
                 }
 
             });
-
-
         });
 
+        $('form[action="/Home/SaveSuccess"]').on("click", "#blockElement button,#blockElement input,#blockForm button",BlockForm);
 
 
         $(".setSegment").one('click', setSegment);
@@ -1034,40 +1039,39 @@
                                     </div>
 
                                     <div>
-                                    <div style="clear: both">
-                                        <div>
-                                            <b><u>4.Ввод данных</u></b>
-                                        </div>
-                                        <div class="file_upload  col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                            <button class="btn btn-default" type="button">Загрузить компоновочную схему</button>
-                                            <input name="layoutScheme" type="file">
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Ввести спецификацию разметки</button>
-                                        </div>
-                                        <div style="clear: both" class="DataOfRoad1">
-                                            <div>
-                                                <b><u>Участок 1</u></b>
-                                            </div>
+        <div id="blockElement" style="clear: both">
+            <div>
+                <b><u>4.Ввод данных</u></b>
+            </div>
+            <div class="file_upload  col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <button class="btn btn-default" type="button">Загрузить компоновочную схему</button>
+                <input name="layoutScheme" type="file">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Ввести спецификацию разметки</button>
+            </div>
+            <div style="clear: both" class="DataOfRoad1">
+                <div>
+                    <b><u>Участок 1</u></b>
+                </div>
 
-                                            <div class="file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-                                                <button type="button" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
-                                                <input name="layoutDislocation" type="file">
-                                            </div>
-                                            <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Ввести данные о дорожных знаках</button>
-                                            </div>
-                                            <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#RoadBarriers1">
-                                                    Ввести данные о дорожных ограждениях
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                         </div>
-                                        <div style="margin-left: 60%; margin-top: 60px">
-                                            @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-default", style = "float:left" }) <button class="btn btn-primary">Сохранить</button>
-                                        </div>
+                <div class="file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+                    <button type="button" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
+                    <input name="layoutDislocation" type="file">
+                </div>
+                <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Ввести данные о дорожных знаках</button>
+                </div>
+                <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#RoadBarriers1">
+                        Ввести данные о дорожных ограждениях
+                    </button>
+                </div>
+            </div>
+        </div>
+                </div>
+            <div id="blockForm" style="margin-left: 60%; margin-top: 60px">
+                @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-default", style = "float:left" }) <button class="btn btn-primary">Сохранить</button>
+            </div>
                                    
                                     }
-@*<div id="blockDiv" style="width: 100%; height: 130px; background-color: green; position: absolute; top: 870px"></div>*@
