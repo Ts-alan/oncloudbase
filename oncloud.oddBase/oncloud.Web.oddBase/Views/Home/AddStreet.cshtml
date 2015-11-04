@@ -213,17 +213,17 @@
                     myMap.geoObjects.add(currentRoute);
                     currentRoute.editor.start({ editWayPoints: true });
 
-                    $("#blockStreetCoord").parent().prev().children("input").each(function(indx, element) {
+                    $("#blockStreetCoord").parent().prev().children("input").each(function (indx, element) {
                         $(element).removeAttr("readonly");
 
                     });
 
-                    $("#blockStreetCoord").parent().prev().prev().prev().children("input").each(function(indx, element) {
+                    $("#blockStreetCoord").parent().prev().prev().prev().children("input").each(function (indx, element) {
                         $(element).removeAttr("readonly");
                     });
 
                 } else {
-                    handlerRoute = function(e) {
+                    handlerRoute = function (e) {
 
                         var coords = e.get('coords');
                         if (counterArr < 2) {
@@ -243,7 +243,7 @@
                                 }
                             },
                             { draggable: true, preset: "islands#darkGreenStretchyIcon" });
-                            firstPointRoute.events.add("dragend", function(e) {
+                            firstPointRoute.events.add("dragend", function (e) {
 
                                 var coords = firstPointRoute.geometry.getCoordinates();
                                 Arr[0] = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
@@ -370,6 +370,8 @@
                 "<button type='button' class='btn btn-success setSegment'>Задать/Изменить координаты</button>" +
                  "<button id='BlockSegment' class='btn btn-warning'>Сохранить</button>" +
             "</div>");
+
+            $("#interData+h5").css("clear", "none");
             tempDataFor3 = 5;
         }
 
@@ -501,6 +503,7 @@
                             if (increment > 4) {
                                 if (increment == 5) {
                                     $("#segment4+div").remove();
+                                    $("#interData+h5").css("clear", "left");
                                     $("#interData").after('<div style="float: left"  >' +
                                         '<button type="button"  class="btn btn-default setSegment">Задать/Изменить координаты</button>' +
                                         '<button id="BlockSegment" type="button" class="btn btn-primary">Сохранить</button>' +
@@ -554,6 +557,9 @@
                                         $(element).attr("name", increment + $(this).attr("name").substr(1));
                                     }).end());
 
+                                var widthBlockDiv = $("#blockDiv").css("height");
+                                //console.log((parseInt(widthBlockDiv.substring(0, widthBlockDiv.length - 2)) + 60).toString());
+                                $("#blockDiv").css("height", (parseInt(widthBlockDiv.substring(0, widthBlockDiv.length - 2)) + 54).toString());
                             }
 
                             $("#CountSides").val(increment); $("#breadthSegS" + increment).attr("value", tempData[0]);
@@ -677,7 +683,7 @@
         //заблокировать наименовае улицы
         $("#blockStreet").click(function () {
             if ($(this).parent().prev().children("input").eq(2).val() != '') {
-                $(this).parent().prev().children("input").each(function(indx, element) {
+                $(this).parent().prev().children("input").each(function (indx, element) {
                     $(element).attr("readonly", "");
                 });
                 $(this).css("display", "none");
@@ -809,8 +815,8 @@
             <b><u>1.Наименование улицы</u></b>
             <div>
                 @Html.Hidden("City.id", (int)ViewBag.City.id)
-                @Html.Label("Выбирите город", new { @for = "City.Name" }) @Html.TextBox("City.Name", (string)ViewBag.City.Name, new { id = "city" ,@readonly=""})
-                @Html.Label("Выбирите улицу", new { @for = "Street.Name" }) @Html.TextBox("Street.Name", null, new { id = "street"})
+                @Html.Label("Выбирите город", new { @for = "City.Name" }) @Html.TextBox("City.Name", (string)ViewBag.City.Name, new { id = "city", @readonly = "" })
+                @Html.Label("Выбирите улицу", new { @for = "Street.Name" }) @Html.TextBox("Street.Name", null, new { id = "street" })
             </div>
             <div>
                 <button type="button" class="btn btn-default" onclick="search()">Показать на карте</button>
@@ -831,6 +837,7 @@
                 <button type="button" onclick="SetCoords()" class="btn btn-default">Задать/Изменить координаты</button>
                 <button type="button" id="blockStreetCoord" class="btn btn-primary">Сохранить</button>
             </div>
+            <h5>После сохранения координат улицы, появляется возможность задавать координаты участков</h5>
             <b><u>3.Количество и координаты участков улицы</u></b>
             <div>
                 @Html.Label("Количество участков", new { @for = "CountSides", style = "margin-right: 20px" }) @Html.TextBox("CountSides", null, new { id = "CountSides", style = "width: 40px", @readonly = "" })
@@ -864,6 +871,7 @@
 
     </div>
     <div id="interData"></div>
+    <h5>После сохранения координат участков, появляется возможность вводить информацию об участках</h5>
     <!-- ModalMackUp -->
     <div class="modal fade" id="ModalMackUp" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
         <div class="modal-dialog" style="width: 1000px" role="document">
@@ -908,7 +916,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="changeColor()" data-dismiss="modal">Сохранить</button>
-                    <button type="button" id="closeModalMackUp" onclick="cleaningModalMackUp()"  class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    <button type="button" id="closeModalMackUp" onclick="cleaningModalMackUp()" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>
@@ -1025,7 +1033,7 @@
                                         </div>
                                     </div>
 
-
+                                    <div>
                                     <div style="clear: both">
                                         <div>
                                             <b><u>4.Ввод данных</u></b>
@@ -1056,7 +1064,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div style="margin-left: 60%;margin-top: 60px">
-                                        @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-default", style = "float:left" })   <button class="btn btn-primary">Сохранить</button>
-                                    </div>
+                                         </div>
+                                        <div style="margin-left: 60%; margin-top: 60px">
+                                            @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-default", style = "float:left" }) <button class="btn btn-primary">Сохранить</button>
+                                        </div>
+                                   
                                     }
+@*<div id="blockDiv" style="width: 100%; height: 130px; background-color: green; position: absolute; top: 870px"></div>*@
