@@ -25,13 +25,13 @@ using System.Web.Routing;
 using T4MVC;
 namespace oncloud.Web.oddBase.Controllers
 {
-    public partial class АdministrationController
+    public partial class AdministrationController
     {
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public АdministrationController() { }
+        public AdministrationController() { }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        protected АdministrationController(Dummy d) { }
+        protected AdministrationController(Dummy d) { }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         protected RedirectToRouteResult RedirectToAction(ActionResult result)
@@ -59,15 +59,29 @@ namespace oncloud.Web.oddBase.Controllers
             return RedirectToActionPermanent(taskResult.Result);
         }
 
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> LockUser()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.LockUser);
+            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> UnLockUser()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.UnLockUser);
+            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public АdministrationController Actions { get { return MVC.Аdministration; } }
+        public AdministrationController Actions { get { return MVC.Administration; } }
         [GeneratedCode("T4MVC", "2.0")]
         public readonly string Area = "";
         [GeneratedCode("T4MVC", "2.0")]
-        public readonly string Name = "Аdministration";
+        public readonly string Name = "Administration";
         [GeneratedCode("T4MVC", "2.0")]
-        public const string NameConst = "Аdministration";
+        public const string NameConst = "Administration";
 
         static readonly ActionNamesClass s_actions = new ActionNamesClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -77,6 +91,8 @@ namespace oncloud.Web.oddBase.Controllers
         {
             public readonly string Index = "Index";
             public readonly string Users = "Users";
+            public readonly string LockUser = "LockUser";
+            public readonly string UnLockUser = "UnLockUser";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -84,9 +100,27 @@ namespace oncloud.Web.oddBase.Controllers
         {
             public const string Index = "Index";
             public const string Users = "Users";
+            public const string LockUser = "LockUser";
+            public const string UnLockUser = "UnLockUser";
         }
 
 
+        static readonly ActionParamsClass_LockUser s_params_LockUser = new ActionParamsClass_LockUser();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_LockUser LockUserParams { get { return s_params_LockUser; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_LockUser
+        {
+            public readonly string userId = "userId";
+        }
+        static readonly ActionParamsClass_UnLockUser s_params_UnLockUser = new ActionParamsClass_UnLockUser();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_UnLockUser UnLockUserParams { get { return s_params_UnLockUser; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_UnLockUser
+        {
+            public readonly string userId = "userId";
+        }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ViewsClass Views { get { return s_views; } }
@@ -98,15 +132,17 @@ namespace oncloud.Web.oddBase.Controllers
             public class _ViewNamesClass
             {
                 public readonly string Index = "Index";
+                public readonly string Users = "Users";
             }
-            public readonly string Index = "~/Views/Аdministration/Index.cshtml";
+            public readonly string Index = "~/Views/Administration/Index.cshtml";
+            public readonly string Users = "~/Views/Administration/Users.cshtml";
         }
     }
 
     [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-    public partial class T4MVC_АdministrationController : oncloud.Web.oddBase.Controllers.АdministrationController
+    public partial class T4MVC_AdministrationController : oncloud.Web.oddBase.Controllers.AdministrationController
     {
-        public T4MVC_АdministrationController() : base(Dummy.Instance) { }
+        public T4MVC_AdministrationController() : base(Dummy.Instance) { }
 
         [NonAction]
         partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
@@ -123,11 +159,35 @@ namespace oncloud.Web.oddBase.Controllers
         partial void UsersOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Users()
+        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> Users()
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Users);
             UsersOverride(callInfo);
-            return callInfo;
+            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
+        }
+
+        [NonAction]
+        partial void LockUserOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string userId);
+
+        [NonAction]
+        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> LockUser(string userId)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.LockUser);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "userId", userId);
+            LockUserOverride(callInfo, userId);
+            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
+        }
+
+        [NonAction]
+        partial void UnLockUserOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string userId);
+
+        [NonAction]
+        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> UnLockUser(string userId)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.UnLockUser);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "userId", userId);
+            UnLockUserOverride(callInfo, userId);
+            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
         }
 
     }
