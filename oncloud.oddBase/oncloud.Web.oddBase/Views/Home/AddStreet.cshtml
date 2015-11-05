@@ -546,8 +546,8 @@
                                                                     "<b><u>Участок " + increment + "</u></b>" +
                                                                 "</div>" +
                                                                 "<div class='file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
-                                                                    "<button type='button' class='btn btn-default'>Загрузить Дислокацию ТСОДД</button> " +
-                                                                "<input name='layoutDislocation'type='file'>" +
+                                                                    "<button type='button' id='changeColorDislocation" + increment + "'  class='btn btn-default'>Загрузить Дислокацию ТСОДД</button> " +
+                                                                "<input name='layoutDislocation' onchange=\"$('#changeColorDislocation" + increment + "').removeClass('btn-default').addClass('btn-danger');\" type='file'>" +
                                                                 "</div>" +
                                                                 "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
                                                                     "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + increment + "'>Ввести данные о дорожных знаках</button>" +
@@ -769,9 +769,10 @@
                 $(element).val("");
             });
         });
-        //создание клона формы
+
 
     });
+
 </script>
 <style>
     /*стили на для Upload кнопки*/
@@ -1060,8 +1061,8 @@
                 <b><u>4.Ввод данных</u></b>
             </div>
             <div class="file_upload  col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                <button class="btn btn-default" type="button">Загрузить компоновочную схему</button>
-                <input name="layoutScheme" type="file">
+                <button class="btn btn-default" id="changeColorScheme1" type="button">Загрузить компоновочную схему</button>
+                <input onchange='$("#changeColorScheme1").removeClass("btn-default").addClass("btn-danger");' name="layoutScheme" type="file">
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Ввести спецификацию разметки</button>
@@ -1072,8 +1073,8 @@
                 </div>
 
                 <div class="file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-                    <button type="button" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
-                    <input name="layoutDislocation" type="file">
+                    <button type="button" id="changeColorDislocation1" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
+                    <input name="layoutDislocation" onchange='$("#changeColorDislocation1").removeClass("btn-default").addClass("btn-danger");' type="file">
                 </div>
                 <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Ввести данные о дорожных знаках</button>
