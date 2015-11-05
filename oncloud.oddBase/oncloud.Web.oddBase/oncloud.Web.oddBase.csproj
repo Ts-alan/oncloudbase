@@ -275,6 +275,10 @@
     <Compile Include="Migrations\201511050949100_AddColums.Designer.cs">
       <DependentUpon>201511050949100_AddColums.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511052111566_multiple_rs.cs" />
+    <Compile Include="Migrations\201511052111566_multiple_rs.Designer.cs">
+      <DependentUpon>201511052111566_multiple_rs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -674,6 +678,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511050949100_AddColums.resx">
       <DependentUpon>201511050949100_AddColums.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511052111566_multiple_rs.resx">
+      <DependentUpon>201511052111566_multiple_rs.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
