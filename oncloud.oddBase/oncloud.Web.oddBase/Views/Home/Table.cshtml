@@ -57,7 +57,7 @@
             <td>
                 <a href="#">Просмотреть данные улицы</a><br>
                 <a href="#">Изменить</a><br>
-                <a href="#">Удалить</a><br>
+                @Html.ActionLink("Удалить","DeleteStreet",new {id=item.IdStreet})
             </td>
         </tr>
     }

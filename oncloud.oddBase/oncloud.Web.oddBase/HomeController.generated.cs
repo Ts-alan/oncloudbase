@@ -67,6 +67,12 @@ namespace oncloud.Web.oddBase.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult DeleteStreet()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteStreet);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult FindStreets()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.FindStreets);
@@ -92,6 +98,7 @@ namespace oncloud.Web.oddBase.Controllers
             public readonly string SaveSuccess = "SaveSuccess";
             public readonly string Contact = "Contact";
             public readonly string AddStreet = "AddStreet";
+            public readonly string DeleteStreet = "DeleteStreet";
             public readonly string FindStreets = "FindStreets";
         }
 
@@ -103,6 +110,7 @@ namespace oncloud.Web.oddBase.Controllers
             public const string SaveSuccess = "SaveSuccess";
             public const string Contact = "Contact";
             public const string AddStreet = "AddStreet";
+            public const string DeleteStreet = "DeleteStreet";
             public const string FindStreets = "FindStreets";
         }
 
@@ -121,6 +129,14 @@ namespace oncloud.Web.oddBase.Controllers
             public readonly string SpecificationofRB = "SpecificationofRB";
             public readonly string layoutScheme = "layoutScheme";
             public readonly string layoutDislocation = "layoutDislocation";
+        }
+        static readonly ActionParamsClass_DeleteStreet s_params_DeleteStreet = new ActionParamsClass_DeleteStreet();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_DeleteStreet DeleteStreetParams { get { return s_params_DeleteStreet; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_DeleteStreet
+        {
+            public readonly string id = "id";
         }
         static readonly ActionParamsClass_FindStreets s_params_FindStreets = new ActionParamsClass_FindStreets();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -232,6 +248,18 @@ namespace oncloud.Web.oddBase.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.AddStreet);
             AddStreetOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void DeleteStreetOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult DeleteStreet(int id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteStreet);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            DeleteStreetOverride(callInfo, id);
             return callInfo;
         }
 

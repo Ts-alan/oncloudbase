@@ -264,6 +264,14 @@
     <Compile Include="Migrations\201511050748441_resetTableRoadSigns.Designer.cs">
       <DependentUpon>201511050748441_resetTableRoadSigns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511050927223_DeleteTable.cs" />
+    <Compile Include="Migrations\201511050927223_DeleteTable.Designer.cs">
+      <DependentUpon>201511050927223_DeleteTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511050949100_AddColums.cs" />
+    <Compile Include="Migrations\201511050949100_AddColums.Designer.cs">
+      <DependentUpon>201511050949100_AddColums.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -571,7 +579,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\Table.cshtml" />
     <Content Include="Views\Home\AddStreet.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\HorizontalRoadMarkings\Create.cshtml" />
@@ -606,6 +613,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>T4MVC.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\Home\Table.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -659,6 +667,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511050748441_resetTableRoadSigns.resx">
       <DependentUpon>201511050748441_resetTableRoadSigns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511050927223_DeleteTable.resx">
+      <DependentUpon>201511050927223_DeleteTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511050949100_AddColums.resx">
+      <DependentUpon>201511050949100_AddColums.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

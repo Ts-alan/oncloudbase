@@ -33,7 +33,7 @@ namespace oncloud.Web.oddBase.Controllers
 
         public virtual ActionResult SaveSuccess(City city, Street street,
             [ModelBinder(typeof (CustomModelBinderForSegment))] ICollection<Segment> segment,
-            [ModelBinder(typeof (CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
+            [ModelBinder(typeof(CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
             [ModelBinder(typeof(CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
             [ModelBinder(typeof(CustomModelBinderForRB))] ICollection<SpecificationOfRb> SpecificationofRB,
             HttpPostedFileBase layoutScheme=null,IEnumerable<HttpPostedFileBase> layoutDislocation=null)
@@ -138,7 +138,32 @@ namespace oncloud.Web.oddBase.Controllers
             return View();
         }
 
+        public virtual ActionResult DeleteStreet(int id)
+        {
+            Street street = db.Street.Find(id);
+            if (street.layoutScheme != null)
+                db.layoutSchemes.Remove(street.layoutScheme);
 
+            if (street.layoutDislocation != null)
+                db.layoutDislocations.RemoveRange(street.layoutDislocation);
+           
+            if (street.SpecificationofRM != null)
+                db.SpecificationofRM.RemoveRange(street.SpecificationofRM);
+
+            if (street.SpecificationOfRb != null)
+                    db.SpecificationOfRb.RemoveRange(street.SpecificationOfRb);
+
+            if (street.Segment != null)
+                db.Segment.RemoveRange(street.Segment);
+
+            if (street.SpecificationofRS != null)
+                db.SpecificationofRS.RemoveRange(street.SpecificationofRS);
+            db.Street.Remove(street);
+
+
+            db.SaveChanges();
+            return RedirectToAction("Table");
+        }
 
         public virtual ActionResult FindStreets(string term)
         {

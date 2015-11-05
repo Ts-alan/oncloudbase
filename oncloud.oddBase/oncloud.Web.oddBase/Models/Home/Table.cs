@@ -11,7 +11,7 @@ namespace oncloud.Web.oddBase.Models.Home
         public void Setinitialization(EFDbContext db)
         {
             GetDataModel = db.City.Join(db.Street, city => city.id, street => street.City_id,
-      (city, street) => new { Location = city.Name, Denomination = street.Name, StreetId = street.id, UniqueNumber=street.UniqueNumber })
+      (city, street) => new { Location = city.Name, Denomination = street.Name, StreetId = street.id, UniqueNumber=street.UniqueNumber,IdStreet=street.id })
       .GroupJoin(db.Segment, citystreet => citystreet.StreetId, segment => segment.Street_id,
           (citystreet, segment) =>
               new Table()
@@ -19,7 +19,8 @@ namespace oncloud.Web.oddBase.Models.Home
                   Denomination = citystreet.Denomination,
                   Location = citystreet.Location,
                   NumberSegment = segment.Count(),
-                  UniqueNumber= citystreet.UniqueNumber
+                  UniqueNumber= citystreet.UniqueNumber,
+                  IdStreet= citystreet.IdStreet
               });
          }
         public IEnumerable<Table> GetDataModel { get; set; }
@@ -27,5 +28,6 @@ namespace oncloud.Web.oddBase.Models.Home
         public string Location { get; set; }
         public string Denomination { get; set; }
         public string UniqueNumber { get; set; }
+        public int IdStreet { get; set; }
     }
 }
