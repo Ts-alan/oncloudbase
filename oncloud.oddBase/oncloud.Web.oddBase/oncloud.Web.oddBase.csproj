@@ -260,6 +260,10 @@
     <Compile Include="Migrations\201511031419200_Relshiship.Designer.cs">
       <DependentUpon>201511031419200_Relshiship.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511050748441_resetTableRoadSigns.cs" />
+    <Compile Include="Migrations\201511050748441_resetTableRoadSigns.Designer.cs">
+      <DependentUpon>201511050748441_resetTableRoadSigns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -652,6 +656,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511031419200_Relshiship.resx">
       <DependentUpon>201511031419200_Relshiship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511050748441_resetTableRoadSigns.resx">
+      <DependentUpon>201511050748441_resetTableRoadSigns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

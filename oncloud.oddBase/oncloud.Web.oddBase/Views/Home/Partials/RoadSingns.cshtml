@@ -6,7 +6,6 @@
         <th>№ знака</th>
         <th>Картинка</th>
         <th>Описание</th>
-        <th>Дополнительные параметры</th>
         <th>Количество</th>
     </tr>
     @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns)
@@ -16,29 +15,15 @@
             <tr>
                 <td>@item.NumberRoadSigns</td>
                 <td>
-                    @if (item.ImageForRoadSigns.Count() == 1)
+                    @if (item.ImageData != null)
                     {
                         <img style="height: 100px; width: 100px" src="@Url.Action("GetImage", "RoadSigns", new {item.id})" />
                     }
                 </td>
-                <td>
-                    @if (item.ImageForRoadSigns.Count() >= 1)
-                    {
-                        foreach (var item2 in item.ImageForRoadSigns)
-                        {
-                    <tr>
-                        <td>
-                            @*<img style="height: 100px; width: 100px" src="@Url.Action("GetImageForRS", "Home", new {item2.Id})" />*@
+                <td>@item.Description</td>
+                <td style="vertical-align: middle"><input name="ModalC@(item.NumberRoadSigns)" type="text" /></td>
 
-                        </td>
-                    </tr>
-                        }
-                    }
-                 </td>
-                    <td>@*@item.Description*@</td>
-                    <td style="vertical-align: middle"><input name="11ModalC@(item.NumberRoadSigns)" type="text" /></td>
-           </tr>
+            </tr>
         }
     }
-
 </table>

@@ -1,16 +1,11 @@
 ﻿@model oncloud.Domain.Entities.RoadSigns
 
 @{
-    ViewBag.Title = "Редактирование дорожного знака";
+    ViewBag.Title = "Edit";
 }
 
-<ol class="breadcrumb">
-    <li>@Html.ActionLink("Главная", MVC.Home.Index())</li>
-    <li>@Html.ActionLink("Администрирование", MVC.Аdministration.Index())</li>
-    <li>@Html.ActionLink("Справочник дорожных знаков", MVC.RoadSigns.Index())</li>
-    <li>@Html.ActionLink(Model.NumberRoadSigns, MVC.RoadSigns.Details(Model.id))</li>
-    <li class="active">Редактирование</li>
-</ol>
+<h2>Edit</h2>
+
 
 @using (Html.BeginForm("Edit", "RoadSigns",
         FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -18,7 +13,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Дорожный знак</h4>
+        <h4>RoadSigns</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.id)
@@ -65,11 +60,15 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Сохранить" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -64,15 +64,15 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult Create([Bind(Include = "id,NumberRoadSigns,Description,ImageData,ImageMimeType")] RoadSigns roadSigns, HttpPostedFileBase image = null)
+        public virtual ActionResult Create([Bind(Include = "id,NumberMarking,Description,ImageData,ImageMimeType")] RoadSigns roadSigns, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
                 if (image != null)
                 {
-                    //roadSigns.ImageMimeType = image.ContentType;
-                    //roadSigns.ImageData = new byte[image.ContentLength];
-                    //image.InputStream.Read(roadSigns.ImageData, 0, image.ContentLength);
+                    roadSigns.ImageMimeType = image.ContentType;
+                    roadSigns.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(roadSigns.ImageData, 0, image.ContentLength);
                 }
                 db.RoadSigns.Add(roadSigns);
                 db.SaveChanges();
@@ -102,21 +102,21 @@ namespace oncloud.Web.oddBase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult Edit([Bind(Include = "id,NumberRoadSigns,Description,ImageData,ImageMimeType")] RoadSigns roadSigns, HttpPostedFileBase image = null)
+        public virtual ActionResult Edit([Bind(Include = "id,NumberMarking,Description,ImageData,ImageMimeType")] RoadSigns roadSigns, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
-                var original_roadSign = db.RoadSigns.Find(roadSigns.id); 
+                var original_roadSign = db.RoadSigns.Find(roadSigns.id);
                 if (image != null)
                 {
-                    //original_roadSign.ImageMimeType = image.ContentType;
-                    //original_roadSign.ImageData = new byte[image.ContentLength];
-                    //image.InputStream.Read(original_roadSign.ImageData, 0, image.ContentLength);
+                    original_roadSign.ImageMimeType = image.ContentType;
+                    original_roadSign.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(original_roadSign.ImageData, 0, image.ContentLength);
                 }
                 //db.SetEntryModified(roadSigns);
                 //db.Entry(roadSigns).State = EntityState.Modified;
                 original_roadSign.NumberRoadSigns = roadSigns.NumberRoadSigns;
-                //original_roadSign.Description = roadSigns.Description;
+                original_roadSign.Description = roadSigns.Description;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -155,15 +155,13 @@ namespace oncloud.Web.oddBase.Controllers
 
             if (roadSigns != null)
             {
-                //return File(roadSigns.ImageData, roadSigns.ImageMimeType);
-                return null;
+                return File(roadSigns.ImageData, roadSigns.ImageMimeType);
             }
             else
             {
                 return null;
             }
         }
-
 
         protected override void Dispose(bool disposing)
         {

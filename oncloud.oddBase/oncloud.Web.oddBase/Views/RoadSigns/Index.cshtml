@@ -1,17 +1,13 @@
 ﻿@model IEnumerable<oncloud.Domain.Entities.RoadSigns>
 
 @{
-    ViewBag.Title = "Дорожные знаки";
+    ViewBag.Title = "Index";
 }
 
-<ol class="breadcrumb">
-    <li>@Html.ActionLink("Главная", MVC.Home.Index())</li>
-    <li>@Html.ActionLink("Администрирование", MVC.Аdministration.Index())</li>
-    <li class="active">Справочник дорожных знаков</li>
-</ol>
+<h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Добавить", MVC.RoadSigns.Create(), new {@class= "btn btn-success" })
+    @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
@@ -34,20 +30,21 @@
             {
                 <div class="pull-left" style="margin-right: 10px">
                     <img class="img-thumbnail" width="75" height="75"
-                         src="@Url.Action(MVC.RoadSigns.GetImage(item.id))" />
+                         src="@Url.Action("GetImage", new { item.id })" />
                 </div>
             }
 
         </td>
         <td>
-            @Html.ActionLink(item.NumberRoadSigns, MVC.RoadSigns.Details(item.id))
+            @Html.DisplayFor(modelItem => item.NumberRoadSigns)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Редактировать", MVC.RoadSigns.Edit(item.id), new {@class= "btn btn-primary" }) |
-            @Html.ActionLink("Удалить", MVC.RoadSigns.Delete(item.id), new { @class = "btn btn-danger" })
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
         </td>
     </tr>
 }
