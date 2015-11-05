@@ -394,6 +394,9 @@
         $("#ModalRoadSigns" + par + " input").each(function (indx, element) {
             $(element).val("");
         });
+
+        $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-danger");
+        $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-default");
     }
     function cleaningModalMackUp() {
 
@@ -409,12 +412,24 @@
         $("#RoadBarriers" + par + " input").each(function (indx, element) {
             $(element).val("");
         });
+        $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-danger");
+        $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-default");
     }
     //изменения цвета
-    function changeColor() {
+    function changeColorMackUp() {
 
         $('[data-target="#ModalMackUp"]').removeClass("btn-default");
         $('[data-target="#ModalMackUp"]').addClass("btn-danger");
+    }
+
+    function changeColorRoadSigns(par) {
+        $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-default");
+        $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-danger");
+    }
+
+    function changeColorRoadBarriers(par) {
+        $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-default");
+        $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-danger");
     }
 
     //задание координат
@@ -548,14 +563,14 @@
                                  .attr("id", "ModalRoadSigns" + increment).find(".buttonclose")
                                  .attr("onclick", "cleaningRoadSigns(" + increment + ")").end().find("td input").each(function (ind, element) {
                                      $(element).attr("name", increment + $(this).attr("name").substr(1));
-                                 }).end());
+                                 }).end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + increment + ")").end());
 
                                 $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
                                     .attr("id", "RoadBarriers" + increment).find(".buttonclose")
                                     .attr("onclick", "cleaningRoadBarrier(" + increment + ")").end()
                                     .find("td input").each(function (ind, element) {
                                         $(element).attr("name", increment + $(this).attr("name").substr(1));
-                                    }).end());
+                                    }).end().find(".buttonSave").attr("onclick","changeColorRoadBarriers("+ increment +")").end());
 
                                 //var widthBlockDiv = $(".blockDiv").css("height");
                                
@@ -827,6 +842,7 @@
                 <button type="button" class="btn btn-default" onclick="search()">Показать на карте</button>
                 <button type="button" id="blockStreet" class="btn btn-primary">Сохранить</button>
             </div>
+            <h5>После сохранения наименования улицы, появляется возможность задавать ее координаты</h5>
             <b><u>2.Координаты улицы</u></b>
             <div>Начальнаты начала</div>
             <div>
@@ -920,7 +936,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="changeColor()" data-dismiss="modal">Сохранить</button>
+                    <button type="button" class="btn btn-primary" onclick="changeColorMackUp()" data-dismiss="modal">Сохранить</button>
                     <button type="button" id="closeModalMackUp" onclick="cleaningModalMackUp()" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
@@ -988,57 +1004,57 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
+                    <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadSigns(1)" data-dismiss="modal">Сохранить</button>
                     <button type="button" class="btn btn-default buttonclose" onclick="cleaningRoadSigns(1)" data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>
     </div>
         <!-- RoadBarriers  -->
-                                    <div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
-                                        <div class="modal-dialog" style="width: 1000px" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
+        <div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" style="width: 1000px" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
 
-                                                </div>
-                                                <div class="modal-body">
-                                                    <table class="table table-bordered">
-                                                        <tr>
-                                                            <th>№ Дорожного ограждения</th>
-                                                            <th>Картинка</th>
-                                                            <th>Описание</th>
-                                                            <th>Квадратные метры</th>
-                                                        </tr>
-                                                        @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadBarriers>)ViewBag.RoadBarriers)
-                                                        {
-                                                            <tr>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>№ Дорожного ограждения</th>
+                                <th>Картинка</th>
+                                <th>Описание</th>
+                                <th>Квадратные метры</th>
+                            </tr>
+                            @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadBarriers>)ViewBag.RoadBarriers)
+                            {
+                                <tr>
 
-                                                                <td>@item.NumberBarriers</td>
-                                                                <td>
-                                                                    @if (item.ImageData != null)
-                                                                    {
-                                                                        <img style="width: 100px;height: 100px" src="@Url.Action("GetImage",  "RoadBarriers", new { item.Id})" />
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    @item.Description
-                                                                </td>
-                                                                <td style="vertical-align: middle"><input name="1RoadBarriersMeters@(item.NumberBarriers)" type="text" /></td>
+                                    <td>@item.NumberBarriers</td>
+                                    <td>
+                                        @if (item.ImageData != null)
+                                        {
+                                            <img style="width: 100px;height: 100px" src="@Url.Action("GetImage",  "RoadBarriers", new { item.Id})" />
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.Description
+                                    </td>
+                                    <td style="vertical-align: middle"><input name="1RoadBarriersMeters@(item.NumberBarriers)" type="text" /></td>
 
-                                                            </tr>
-                                                        }
+                                </tr>
+                            }
 
-                                                    </table>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
-                                                    <button type="button" id="closeModalMackUp" onclick="cleaningRoadBarrier(1)" class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadBarriers(1)" data-dismiss="modal">Сохранить</button>
+                        <button type="button" id="closeModalMackUp" onclick="cleaningRoadBarrier(1)" class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                    <div>
+        <div>
         <div id="blockElement" style="clear: both">
             <div>
                 <b><u>4.Ввод данных</u></b>
