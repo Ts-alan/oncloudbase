@@ -177,6 +177,9 @@
     <Compile Include="AccountController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
+    <Compile Include="AdministrationController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -193,7 +196,7 @@
     <Compile Include="Controllers\RoadBarriersController.cs" />
     <Compile Include="Controllers\RoadSignsController.cs" />
     <Compile Include="Controllers\StreetsController.cs" />
-    <Compile Include="Controllers\АdministrationController.cs" />
+    <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -260,18 +263,6 @@
     <Compile Include="Migrations\201511031419200_Relshiship.Designer.cs">
       <DependentUpon>201511031419200_Relshiship.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201511050748441_resetTableRoadSigns.cs" />
-    <Compile Include="Migrations\201511050748441_resetTableRoadSigns.Designer.cs">
-      <DependentUpon>201511050748441_resetTableRoadSigns.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201511050927223_DeleteTable.cs" />
-    <Compile Include="Migrations\201511050927223_DeleteTable.Designer.cs">
-      <DependentUpon>201511050927223_DeleteTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201511050949100_AddColums.cs" />
-    <Compile Include="Migrations\201511050949100_AddColums.Designer.cs">
-      <DependentUpon>201511050949100_AddColums.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -297,9 +288,6 @@
     <Compile Include="T4MVC.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="АdministrationController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -579,6 +567,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Home\Table.cshtml" />
     <Content Include="Views\Home\AddStreet.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\HorizontalRoadMarkings\Create.cshtml" />
@@ -591,7 +580,7 @@
     <Content Include="Views\Cities\Details.cshtml" />
     <Content Include="Views\Cities\Edit.cshtml" />
     <Content Include="Views\Cities\Index.cshtml" />
-    <Content Include="Views\Аdministration\Index.cshtml" />
+    <Content Include="Views\Administration\Index.cshtml" />
     <Content Include="Views\Streets\Create.cshtml" />
     <Content Include="Views\Streets\Delete.cshtml" />
     <Content Include="Views\Streets\Details.cshtml" />
@@ -613,7 +602,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>T4MVC.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\Home\Table.cshtml" />
+    <Content Include="Views\Administration\Users.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -664,15 +653,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511031419200_Relshiship.resx">
       <DependentUpon>201511031419200_Relshiship.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511050748441_resetTableRoadSigns.resx">
-      <DependentUpon>201511050748441_resetTableRoadSigns.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511050927223_DeleteTable.resx">
-      <DependentUpon>201511050927223_DeleteTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511050949100_AddColums.resx">
-      <DependentUpon>201511050949100_AddColums.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

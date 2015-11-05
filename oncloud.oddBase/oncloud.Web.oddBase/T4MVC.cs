@@ -28,6 +28,7 @@ using T4MVC;
 public static partial class MVC
 {
     public static oncloud.Web.oddBase.Controllers.AccountController Account = new oncloud.Web.oddBase.Controllers.T4MVC_AccountController();
+    public static oncloud.Web.oddBase.Controllers.AdministrationController Administration = new oncloud.Web.oddBase.Controllers.T4MVC_AdministrationController();
     public static oncloud.Web.oddBase.Controllers.CitiesController Cities = new oncloud.Web.oddBase.Controllers.T4MVC_CitiesController();
     public static oncloud.Web.oddBase.Controllers.HomeController Home = new oncloud.Web.oddBase.Controllers.T4MVC_HomeController();
     public static oncloud.Web.oddBase.Controllers.HorizontalRoadMarkingsController HorizontalRoadMarkings = new oncloud.Web.oddBase.Controllers.T4MVC_HorizontalRoadMarkingsController();
@@ -35,7 +36,6 @@ public static partial class MVC
     public static oncloud.Web.oddBase.Controllers.RoadBarriersController RoadBarriers = new oncloud.Web.oddBase.Controllers.T4MVC_RoadBarriersController();
     public static oncloud.Web.oddBase.Controllers.RoadSignsController RoadSigns = new oncloud.Web.oddBase.Controllers.T4MVC_RoadSignsController();
     public static oncloud.Web.oddBase.Controllers.StreetsController Streets = new oncloud.Web.oddBase.Controllers.T4MVC_StreetsController();
-    public static oncloud.Web.oddBase.Controllers.АdministrationController Аdministration = new oncloud.Web.oddBase.Controllers.T4MVC_АdministrationController();
     public static T4MVC.SharedController Shared = new T4MVC.SharedController();
 }
 

@@ -18,8 +18,6 @@ namespace oncloud.Web.oddBase.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        //private RoleManager _rol
-
         public AccountController()
         {
         }
@@ -175,7 +173,7 @@ namespace oncloud.Web.oddBase.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction(MVC.Аdministration.Users());
+					return RedirectToAction(MVC.Administration.Users());
                 }
                 AddErrors(result);
             }

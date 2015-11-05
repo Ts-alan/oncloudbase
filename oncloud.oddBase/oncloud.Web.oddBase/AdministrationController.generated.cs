@@ -25,13 +25,13 @@ using System.Web.Routing;
 using T4MVC;
 namespace oncloud.Web.oddBase.Controllers
 {
-    public partial class АdministrationController
+    public partial class AdministrationController
     {
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public АdministrationController() { }
+        public AdministrationController() { }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        protected АdministrationController(Dummy d) { }
+        protected AdministrationController(Dummy d) { }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         protected RedirectToRouteResult RedirectToAction(ActionResult result)
@@ -61,13 +61,13 @@ namespace oncloud.Web.oddBase.Controllers
 
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public АdministrationController Actions { get { return MVC.Аdministration; } }
+        public AdministrationController Actions { get { return MVC.Administration; } }
         [GeneratedCode("T4MVC", "2.0")]
         public readonly string Area = "";
         [GeneratedCode("T4MVC", "2.0")]
-        public readonly string Name = "Аdministration";
+        public readonly string Name = "Administration";
         [GeneratedCode("T4MVC", "2.0")]
-        public const string NameConst = "Аdministration";
+        public const string NameConst = "Administration";
 
         static readonly ActionNamesClass s_actions = new ActionNamesClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -98,15 +98,17 @@ namespace oncloud.Web.oddBase.Controllers
             public class _ViewNamesClass
             {
                 public readonly string Index = "Index";
+                public readonly string Users = "Users";
             }
-            public readonly string Index = "~/Views/Аdministration/Index.cshtml";
+            public readonly string Index = "~/Views/Administration/Index.cshtml";
+            public readonly string Users = "~/Views/Administration/Users.cshtml";
         }
     }
 
     [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-    public partial class T4MVC_АdministrationController : oncloud.Web.oddBase.Controllers.АdministrationController
+    public partial class T4MVC_AdministrationController : oncloud.Web.oddBase.Controllers.AdministrationController
     {
-        public T4MVC_АdministrationController() : base(Dummy.Instance) { }
+        public T4MVC_AdministrationController() : base(Dummy.Instance) { }
 
         [NonAction]
         partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
@@ -123,11 +125,11 @@ namespace oncloud.Web.oddBase.Controllers
         partial void UsersOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Users()
+        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> Users()
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Users);
             UsersOverride(callInfo);
-            return callInfo;
+            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
         }
 
     }
