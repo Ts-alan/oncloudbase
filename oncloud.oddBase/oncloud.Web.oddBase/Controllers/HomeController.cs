@@ -14,7 +14,7 @@ using OddBasyBY.Models;
 
 namespace oncloud.Web.oddBase.Controllers
 {
-    [Authorize(Roles="user")]
+    [Authorize(Roles = "user")]
     public partial class HomeController : Controller
     {
         private EFDbContext db = new EFDbContext();
@@ -33,14 +33,14 @@ namespace oncloud.Web.oddBase.Controllers
 
         public virtual ActionResult SaveSuccess(City city, Street street,
             [ModelBinder(typeof (CustomModelBinderForSegment))] ICollection<Segment> segment,
-            [ModelBinder(typeof(CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
-            [ModelBinder(typeof(CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
-            [ModelBinder(typeof(CustomModelBinderForRB))] ICollection<SpecificationOfRb> SpecificationofRB,
-            HttpPostedFileBase layoutScheme=null,IEnumerable<HttpPostedFileBase> layoutDislocation=null)
+            [ModelBinder(typeof (CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
+            [ModelBinder(typeof (CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
+            [ModelBinder(typeof (CustomModelBinderForRB))] ICollection<SpecificationOfRb> SpecificationofRB,
+            HttpPostedFileBase layoutScheme = null, IEnumerable<HttpPostedFileBase> layoutDislocation = null)
         {
 
-            int LastIndexSegment=db.Segment.AsEnumerable().Last().id;
-            
+            int LastIndexSegment = db.Segment.AsEnumerable().Last().id;
+
             var streetInfo = new Street()
             {
                 Name = street.Name,
@@ -51,8 +51,8 @@ namespace oncloud.Web.oddBase.Controllers
                 City_id = city.id,
                 UniqueNumber = TableAdapterExtensions.StringSymvol()
             };
-            
- 
+
+
 
 
 
@@ -90,7 +90,7 @@ namespace oncloud.Web.oddBase.Controllers
             SpecificationofRS.ForEach(a =>
             {
                 a.RoadSigns_id =
-                           db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
+                    db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
                 a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
                 a.Street_id = streetInfo.id;
 
@@ -98,7 +98,7 @@ namespace oncloud.Web.oddBase.Controllers
             SpecificationofRB.ForEach(a =>
             {
                 a.RoadBarriersId =
-                           db.RoadBarriers.Single(b => b.NumberBarriers == a.RoadBarriersIdModel).Id;
+                    db.RoadBarriers.Single(b => b.NumberBarriers == a.RoadBarriersIdModel).Id;
                 a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
                 a.StreetId = streetInfo.id;
 
@@ -146,12 +146,12 @@ namespace oncloud.Web.oddBase.Controllers
 
             if (street.layoutDislocation != null)
                 db.layoutDislocations.RemoveRange(street.layoutDislocation);
-           
+
             if (street.SpecificationofRM != null)
                 db.SpecificationofRM.RemoveRange(street.SpecificationofRM);
 
             if (street.SpecificationOfRb != null)
-                    db.SpecificationOfRb.RemoveRange(street.SpecificationOfRb);
+                db.SpecificationOfRb.RemoveRange(street.SpecificationOfRb);
 
             if (street.Segment != null)
                 db.Segment.RemoveRange(street.Segment);
@@ -164,7 +164,12 @@ namespace oncloud.Web.oddBase.Controllers
             db.SaveChanges();
             return RedirectToAction("Table");
         }
-
+        public ActionResult EditStreets(int id)
+        {
+            ViewBag.City = db.City.First();
+            Street street = db.Street.Find(id);
+            return View(street);
+        }
         public virtual ActionResult FindStreets(string term)
         {
             var streets = from m in db.IntelliSenseStreet where m.Street.Contains(term) select m;
@@ -177,19 +182,5 @@ namespace oncloud.Web.oddBase.Controllers
                 };
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
         }
-        //public virtual FileContentResult GetImageForRS(int id)
-        //{
-            //ImageForRS MultipleImageForRS = db.;
-
-            //if (MultipleImageForRS != null)
-            //{
-            //    return File(MultipleImageForRS.ImageData, MultipleImageForRS.ImageMimeType);
-            //}
-            //else
-            //{
-            //    return null;
-            //}
-        //}
-
     }
 }

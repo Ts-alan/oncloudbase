@@ -56,7 +56,7 @@
             <td>@item.NumberSegment</td>
             <td>
                 <a href="#">Просмотреть данные улицы</a><br>
-                <a href="#">Изменить</a><br>
+                @Html.ActionLink("Изменить", "EditStreets", new { id = item.IdStreet })
                 @Html.ActionLink("Удалить","DeleteStreet",new {id=item.IdStreet})
             </td>
         </tr>
