@@ -68,5 +68,7 @@ namespace oncloud.Domain.Concrete
         {
             Entry(entity).State = EntityState.Modified;
         }
+
+        //public IDbSet<oncloud.Domain.Entities.RoadSignItem> RoadSignItems { get; set; }
      }
 }

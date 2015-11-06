@@ -24,30 +24,40 @@
         <dd>
             @Html.DisplayFor(model => model.NumberRoadSigns)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageData)
-        </dt>
-        <dd>
-
-            @if (Model.ImageData != null)
-            {
-                <div class="pull-left" style="margin-right: 10px">
-                    <img class="img-thumbnail" width="75" height="75"
-                         src="@Url.Action("GetImage", new { Model.id })" />
-                </div>
-            }
-        </dd>
-
     </dl>
+    <br />
+    <h5>@Html.DisplayNameFor(model => model.RoadSignItems)</h5>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => (new oncloud.Domain.Entities.RoadSignItem()).Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => (new oncloud.Domain.Entities.RoadSignItem()).ImageData)
+            </th>
+        </tr>
+
+        @foreach (var rsItem in Model.RoadSignItems)
+        {
+
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => rsItem.Description)
+                </td>
+                <td>
+                    @if (rsItem.ImageData != null)
+                    {
+                        <div class="pull-left" style="margin-right: 10px">
+                            <img class="img-thumbnail" width="75" height="75"
+                                 src="@Url.Action(MVC.RoadSigns.GetImage(rsItem.Id, rsItem.Hallmark))" />
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()

@@ -1,35 +1,31 @@
-﻿@model oncloud.Domain.Entities.RoadBarriers
+﻿@model oncloud.Domain.Entities.RoadSignItem
 
 @{
-    ViewBag.Title = "Редактирование дорожного ограждения";
+    ViewBag.Title = "Редактирование обозначения дорожного знака";
 }
 
 <ol class="breadcrumb">
     <li>@Html.ActionLink("Главная", MVC.Home.Index())</li>
     <li>@Html.ActionLink("Администрирование", MVC.Administration.Index())</li>
-    <li>@Html.ActionLink("Справочник дорожных огражденией", MVC.RoadBarriers.Index())</li>
-    <li>@Html.ActionLink(Model.NumberBarriers, MVC.RoadBarriers.Details(Model.Id))</li>
+    <li>@Html.ActionLink("Справочник дорожных знаков", MVC.RoadSigns.Index())</li>
+    <li>@Html.ActionLink(Model.RoadSign.NumberRoadSigns, MVC.RoadSigns.Details(Model.RoadSign.id))</li>
+    <li class="active">Обозначения</li>
+    <li class="active">@Model.Hallmark</li>
     <li class="active">Редактирование</li>
 </ol>
 
-@using (Html.BeginForm("Edit", "RoadBarriers",
+@using (Html.BeginForm("EditItem", "RoadSigns",
         FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Дорожное ограждение</h4>
+        <h4>Дорожный знак</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NumberBarriers, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NumberBarriers, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NumberBarriers, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        @Html.HiddenFor(model => model.Hallmark)
+        @*@Html.Hidden("OriginalHallMark", Model.Hallmark)*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -59,7 +55,7 @@
             else
             {
                 <img class="img-thumbnail" width="150" height="150"
-                     src="@Url.Action("GetImage", new { Model.Id })" />
+                     src="@Url.Action("GetImage", new { Model.Id, Model.Hallmark })" />
             }
         </div>
 

@@ -619,6 +619,9 @@
       <LastGenOutput>T4MVC.cs</LastGenOutput>
     </Content>
     <Content Include="Views\Administration\Users.cshtml" />
+    <Content Include="Views\RoadSigns\CreateItem.cshtml" />
+    <Content Include="Views\RoadSigns\EditItem.cshtml" />
+    <Content Include="Views\RoadSigns\DeleteItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -64,6 +64,18 @@ namespace oncloud.Web.oddBase.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult CreateItem()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.CreateItem);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult EditItem()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.EditItem);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult Edit()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Edit);
@@ -79,6 +91,12 @@ namespace oncloud.Web.oddBase.Controllers
         public virtual System.Web.Mvc.ActionResult DeleteConfirmed()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteConfirmed);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult DeleteItem()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteItem);
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -104,10 +122,13 @@ namespace oncloud.Web.oddBase.Controllers
         {
             public readonly string Index = "Index";
             public readonly string Details = "Details";
+            public readonly string CreateItem = "CreateItem";
+            public readonly string EditItem = "EditItem";
             public readonly string Create = "Create";
             public readonly string Edit = "Edit";
             public readonly string Delete = "Delete";
             public readonly string DeleteConfirmed = "Delete";
+            public readonly string DeleteItem = "DeleteItem";
             public readonly string GetImage = "GetImage";
         }
 
@@ -116,10 +137,13 @@ namespace oncloud.Web.oddBase.Controllers
         {
             public const string Index = "Index";
             public const string Details = "Details";
+            public const string CreateItem = "CreateItem";
+            public const string EditItem = "EditItem";
             public const string Create = "Create";
             public const string Edit = "Edit";
             public const string Delete = "Delete";
             public const string DeleteConfirmed = "Delete";
+            public const string DeleteItem = "DeleteItem";
             public const string GetImage = "GetImage";
         }
 
@@ -132,6 +156,27 @@ namespace oncloud.Web.oddBase.Controllers
         {
             public readonly string id = "id";
         }
+        static readonly ActionParamsClass_CreateItem s_params_CreateItem = new ActionParamsClass_CreateItem();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_CreateItem CreateItemParams { get { return s_params_CreateItem; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_CreateItem
+        {
+            public readonly string id = "id";
+            public readonly string roadSignItem = "roadSignItem";
+            public readonly string image = "image";
+        }
+        static readonly ActionParamsClass_EditItem s_params_EditItem = new ActionParamsClass_EditItem();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_EditItem EditItemParams { get { return s_params_EditItem; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_EditItem
+        {
+            public readonly string id = "id";
+            public readonly string hallmark = "hallmark";
+            public readonly string roadSignItem = "roadSignItem";
+            public readonly string image = "image";
+        }
         static readonly ActionParamsClass_Create s_params_Create = new ActionParamsClass_Create();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_Create CreateParams { get { return s_params_Create; } }
@@ -139,7 +184,6 @@ namespace oncloud.Web.oddBase.Controllers
         public class ActionParamsClass_Create
         {
             public readonly string roadSigns = "roadSigns";
-            public readonly string image = "image";
         }
         static readonly ActionParamsClass_Edit s_params_Edit = new ActionParamsClass_Edit();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -149,7 +193,6 @@ namespace oncloud.Web.oddBase.Controllers
         {
             public readonly string id = "id";
             public readonly string roadSigns = "roadSigns";
-            public readonly string image = "image";
         }
         static readonly ActionParamsClass_Delete s_params_Delete = new ActionParamsClass_Delete();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -166,6 +209,16 @@ namespace oncloud.Web.oddBase.Controllers
         public class ActionParamsClass_DeleteConfirmed
         {
             public readonly string id = "id";
+            public readonly string hallmark = "hallmark";
+        }
+        static readonly ActionParamsClass_DeleteItem s_params_DeleteItem = new ActionParamsClass_DeleteItem();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_DeleteItem DeleteItemParams { get { return s_params_DeleteItem; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_DeleteItem
+        {
+            public readonly string id = "id";
+            public readonly string hallmark = "hallmark";
         }
         static readonly ActionParamsClass_GetImage s_params_GetImage = new ActionParamsClass_GetImage();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -174,6 +227,7 @@ namespace oncloud.Web.oddBase.Controllers
         public class ActionParamsClass_GetImage
         {
             public readonly string id = "id";
+            public readonly string hallmark = "hallmark";
         }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -186,15 +240,21 @@ namespace oncloud.Web.oddBase.Controllers
             public class _ViewNamesClass
             {
                 public readonly string Create = "Create";
+                public readonly string CreateItem = "CreateItem";
                 public readonly string Delete = "Delete";
+                public readonly string DeleteItem = "DeleteItem";
                 public readonly string Details = "Details";
                 public readonly string Edit = "Edit";
+                public readonly string EditItem = "EditItem";
                 public readonly string Index = "Index";
             }
             public readonly string Create = "~/Views/RoadSigns/Create.cshtml";
+            public readonly string CreateItem = "~/Views/RoadSigns/CreateItem.cshtml";
             public readonly string Delete = "~/Views/RoadSigns/Delete.cshtml";
+            public readonly string DeleteItem = "~/Views/RoadSigns/DeleteItem.cshtml";
             public readonly string Details = "~/Views/RoadSigns/Details.cshtml";
             public readonly string Edit = "~/Views/RoadSigns/Edit.cshtml";
+            public readonly string EditItem = "~/Views/RoadSigns/EditItem.cshtml";
             public readonly string Index = "~/Views/RoadSigns/Index.cshtml";
         }
     }
@@ -228,6 +288,57 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
+        partial void CreateItemOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult CreateItem(int id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.CreateItem);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            CreateItemOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void CreateItemOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.RoadSignItem roadSignItem, System.Web.HttpPostedFileBase image);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult CreateItem(oncloud.Domain.Entities.RoadSignItem roadSignItem, System.Web.HttpPostedFileBase image)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.CreateItem);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "roadSignItem", roadSignItem);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "image", image);
+            CreateItemOverride(callInfo, roadSignItem, image);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void EditItemOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int? id, string hallmark);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult EditItem(int? id, string hallmark)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.EditItem);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "hallmark", hallmark);
+            EditItemOverride(callInfo, id, hallmark);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void EditItemOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.RoadSignItem roadSignItem, System.Web.HttpPostedFileBase image);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult EditItem(oncloud.Domain.Entities.RoadSignItem roadSignItem, System.Web.HttpPostedFileBase image)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.EditItem);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "roadSignItem", roadSignItem);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "image", image);
+            EditItemOverride(callInfo, roadSignItem, image);
+            return callInfo;
+        }
+
+        [NonAction]
         partial void CreateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
@@ -239,15 +350,14 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
-        partial void CreateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.RoadSigns roadSigns, System.Web.HttpPostedFileBase image);
+        partial void CreateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.RoadSigns roadSigns);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Create(oncloud.Domain.Entities.RoadSigns roadSigns, System.Web.HttpPostedFileBase image)
+        public override System.Web.Mvc.ActionResult Create(oncloud.Domain.Entities.RoadSigns roadSigns)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Create);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "roadSigns", roadSigns);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "image", image);
-            CreateOverride(callInfo, roadSigns, image);
+            CreateOverride(callInfo, roadSigns);
             return callInfo;
         }
 
@@ -264,15 +374,14 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
-        partial void EditOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.RoadSigns roadSigns, System.Web.HttpPostedFileBase image);
+        partial void EditOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.RoadSigns roadSigns);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Edit(oncloud.Domain.Entities.RoadSigns roadSigns, System.Web.HttpPostedFileBase image)
+        public override System.Web.Mvc.ActionResult Edit(oncloud.Domain.Entities.RoadSigns roadSigns)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Edit);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "roadSigns", roadSigns);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "image", image);
-            EditOverride(callInfo, roadSigns, image);
+            EditOverride(callInfo, roadSigns);
             return callInfo;
         }
 
@@ -301,14 +410,41 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
-        partial void GetImageOverride(T4MVC_System_Web_Mvc_FileContentResult callInfo, int id);
+        partial void DeleteItemOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int? id, string hallmark);
 
         [NonAction]
-        public override System.Web.Mvc.FileContentResult GetImage(int id)
+        public override System.Web.Mvc.ActionResult DeleteItem(int? id, string hallmark)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteItem);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "hallmark", hallmark);
+            DeleteItemOverride(callInfo, id, hallmark);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void DeleteConfirmedOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id, string hallmark);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult DeleteConfirmed(int id, string hallmark)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteConfirmed);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "hallmark", hallmark);
+            DeleteConfirmedOverride(callInfo, id, hallmark);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void GetImageOverride(T4MVC_System_Web_Mvc_FileContentResult callInfo, int id, string hallmark);
+
+        [NonAction]
+        public override System.Web.Mvc.FileContentResult GetImage(int id, string hallmark)
         {
             var callInfo = new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.GetImage);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
-            GetImageOverride(callInfo, id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "hallmark", hallmark);
+            GetImageOverride(callInfo, id, hallmark);
             return callInfo;
         }
 

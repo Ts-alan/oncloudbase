@@ -13,8 +13,10 @@ namespace oncloud.Domain.Entities
     {
         public int id { get; set; }
         [Required]
+        [Display(Name = "№")]
         public string NumberRoadSigns { get; set; }
 
+        [Display(Name = "Обозначения")]
         public virtual ICollection<RoadSignItem> RoadSignItems { get; set; }
         //public virtual ICollection<SpecificationofRS> SpecificationofRM { get; set; }
     }
@@ -29,11 +31,14 @@ namespace oncloud.Domain.Entities
         [Key]
         [Column(Order = 1)]
         [Display(Name = "Маркер")]
+        [Required]
         public string Hallmark { get; set; }
-
+        [Display(Name = "Описание")]
         public string Description { get; set; }
-
+        [Display(Name = "Символ")]
         public byte[] ImageData { get; set; }
         public string ImageMimeType { get; set; }
+
+        public RoadSigns RoadSign { get; set; }
     }
 }

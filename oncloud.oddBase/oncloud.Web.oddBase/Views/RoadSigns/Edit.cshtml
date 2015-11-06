@@ -12,8 +12,7 @@
     <li class="active">Редактирование</li>
 </ol>
 
-@using (Html.BeginForm("Edit", "RoadSigns",
-        FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
@@ -30,44 +29,52 @@
                 @Html.ValidationMessageFor(model => model.NumberRoadSigns, "", new { @class = "text-danger" })
             </div>
         </div>
+        <br />
+        <h5>@Html.DisplayNameFor(model => model.RoadSignItems)</h5>
+        <p>
+            @Html.ActionLink("Добавить", MVC.RoadSigns.CreateItem(Model.id), new { @class = "btn btn-success" })
+        </p>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Description, 10, 55, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => (new oncloud.Domain.Entities.RoadSignItem()).Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => (new oncloud.Domain.Entities.RoadSignItem()).ImageData)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>*@
+                <th></th>
+            </tr>
 
-        <div class="form-group">
-            <div style="position:relative;">
-                <label>Картинка</label>
-                <a class='btn' href='javascript:;'>
-                    Выберите файл...
-                    <input type="file" name="Image" size="40"
-                           style="position:absolute;z-index:2;top:0;
-                                left:0;filter: alpha(opacity=0); opacity:0;
-                                background-color:transparent;color:transparent;"
-                           onchange='$("#upload-file-info").html($(this).val());'>
-                </a>
-                <span class='label label-info' id="upload-file-info"></span>
-            </div>
-            @if (Model.ImageData == null)
+            @foreach (var rsItem in Model.RoadSignItems)
             {
-                <div class="form-control-static">Нет картинки</div>
-            }
-            else
-            {
-                <img class="img-thumbnail" width="150" height="150"
-                     src="@Url.Action("GetImage", new { Model.id })" />
-            }
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Сохранить" class="btn btn-default" />
-            </div>
-        </div>
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => rsItem.Description)
+                    </td>
+                    <td>
+                        @if (rsItem.ImageData != null)
+                        {
+                            <div class="pull-left" style="margin-right: 10px">
+                                <img class="img-thumbnail" width="75" height="75"
+                                     src="@Url.Action(MVC.RoadSigns.GetImage(rsItem.Id, rsItem.Hallmark))" />
+                            </div>
+                        }
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Редактировать", MVC.RoadSigns.EditItem(rsItem.Id, rsItem.Hallmark), new { @class = "btn btn-primary" }) |
+                        @Html.ActionLink("Удалить", MVC.RoadSigns.DeleteItem(rsItem.Id, rsItem.Hallmark), new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </table>
+        
     </div>
 }
 

@@ -1,30 +1,31 @@
-﻿@model oncloud.Domain.Entities.RoadBarriers
+﻿@model oncloud.Domain.Entities.RoadSignItem
 
 @{
-    ViewBag.Title = "Уаление дорожного ограждения";
+    ViewBag.Title = "Удаление обозначения дорожного знака";
 }
 
 <ol class="breadcrumb">
     <li>@Html.ActionLink("Главная", MVC.Home.Index())</li>
     <li>@Html.ActionLink("Администрирование", MVC.Administration.Index())</li>
-    <li>@Html.ActionLink("Справочник дорожных ограждений", MVC.RoadBarriers.Index())</li>
-    <li>@Html.ActionLink(Model.NumberBarriers, MVC.RoadBarriers.Details(Model.Id))</li>
+    <li>@Html.ActionLink("Справочник дорожных знаков", MVC.RoadSigns.Index())</li>
+    <li>@Html.ActionLink(Model.RoadSign.NumberRoadSigns, MVC.RoadSigns.Details(Model.RoadSign.id))</li>
+    <li class="active">Обозначения</li>
+    <li class="active">@Model.Hallmark</li>
     <li class="active">Удаление</li>
 </ol>
 
 <h3>Вы уверены, что вы хотите удалить?</h3>
 <div>
-    <h4>Дорожное ограждение</h4>
+    <h4>Обозначение дорожного знака</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.NumberBarriers)
+            @Html.DisplayNameFor(model => model.Hallmark)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NumberBarriers)
+            @Html.DisplayFor(model => model.Hallmark)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -42,14 +43,16 @@
             {
                 <div class="pull-left" style="margin-right: 10px">
                     <img class="img-thumbnail" width="75" height="75"
-                         src="@Url.Action("GetImage", new { Model.Id })" />
+                         src="@Url.Action("GetImage", new { Model.Id, Model.Hallmark })" />
                 </div>
             }
         </dd>
 
     </dl>
+    
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
