@@ -205,7 +205,7 @@
     }
     //задать координаты
     function SetCoords() {
-        if ($("#blockStreet").css("display") == "none") {
+       
             if (countElementSegGlobal.length == 0) {
 
 
@@ -276,9 +276,7 @@
             } else {
                 alert('Вы не можете редактировать улицу пока на нем находится хотя бы один участок');
             }
-        } else {
-            alert("Вы не выбрали или не сохранили улицу");
-        }
+        
     }
     //удаление сегмента
     function deleteSegment(index) {
@@ -836,9 +834,9 @@
         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
             <b><u>1.Наименование улицы</u></b>
             <div>
-                @Html.Hidden("City.id", (int)ViewBag.City.id)
-                @Html.Label("Выбирите город", new { @for = "City.Name" }) @Html.TextBox("City.Name", (string)ViewBag.City.Name, new { id = "city", @readonly = "" })
-                @Html.Label("Выбирите улицу", new { @for = "Street.Name" }) @Html.TextBox("Street.Name", null, new { id = "street" })
+                @Html.HiddenFor(a=>a.City.id)
+                @Html.Label("Выбирите город", new { @for = "City.Name" }) @Html.TextBoxFor(a=>a.City.Name)
+                @Html.Label("Выбирите улицу", new { @for = "Street.Name" })@Html.TextBoxFor(a=>a.Name, null, new { id = "street" })
             </div>
             <div>
                 <button type="button" class="btn btn-default" onclick="search()">Показать на карте</button>
@@ -848,13 +846,13 @@
             <b><u>2.Координаты улицы</u></b>
             <div>Начальнаты начала</div>
             <div>
-                @Html.Label("Широта", new { @for = "Street.BreadthS" }) @Html.TextBox("Street.BreadthS", null, new { id = "breadthS", @readonly = "" })
-                @Html.Label("Долгота", new { @for = "Street.LengthS" }) @Html.TextBox("Street.LengthS", null, new { id = "lengthS", @readonly = "" })
+                @Html.Label("Широта", new { @for = "Street.BreadthS" }) @Html.TextBoxFor(a=>a.BreadthS, null, new { id = "breadthS", @readonly = "" , Name= "Street.BreadthS" })
+                @Html.Label("Долгота", new { @for = "Street.LengthS" }) @Html.TextBoxFor(a=>a.LengthS, null, new { id = "lengthS", @readonly = "", Name = "Street.LengthS" })
             </div>
             <div>Координаты конца</div>
             <div>
-                @Html.Label("Широта", new { @for = "Street.BreadthE" }) @Html.TextBox("Street.BreadthE", null, new { id = "breadthE", @readonly = "" })
-                @Html.Label("Долгота", new { @for = "Street.LengthE" }) @Html.TextBox("Street.LengthE", null, new { id = "lengthE", @readonly = "" })
+                @Html.Label("Широта", new { @for = "Street.BreadthE" }) @Html.TextBoxFor(a=>a.BreadthE, null, new { id = "breadthE", @readonly = "", Name = "Street.BreadthE" })
+                @Html.Label("Долгота", new { @for = "Street.LengthE" }) @Html.TextBoxFor(a=>a.LengthE, null, new { id = "lengthE", @readonly = "", Name = "Street.LengthE" })
             </div>
             <div>
                 <button type="button" onclick="SetCoords()" class="btn btn-default">Задать/Изменить координаты</button>
@@ -863,20 +861,19 @@
             <h5>После сохранения координат улицы, появляется возможность задавать координаты участков</h5>
             <b><u>3.Количество и координаты участков улицы</u></b>
             <div>
-                @Html.Label("Количество участков", new { @for = "CountSides", style = "margin-right: 20px" }) @Html.TextBox("CountSides", null, new { id = "CountSides", style = "width: 40px", @readonly = "" })
-
+                @Html.Label("Количество участков", new { @for = "CountSides", style = "margin-right: 20px" }) @Html.TextBoxFor(a=>a.Segment.Count, null, new { id = "CountSides", style = "width: 40px", @readonly = "", Name = "CountSides" })
             </div>
             <div id="segment1">
                 <b><u>Координаты участка 1</u></b>
                 <div>Начальнаты начала</div>
                 <div>
-                    @Html.Label("Широта", new { @for = "Segment.BreadthS" }) @Html.TextBox("Segment.BreadthS", null, new { id = "breadthSegS1", @readonly = "" })
-                    @Html.Label("Долгота", new { @for = "Segment.LengthS" }) @Html.TextBox("Segment.LengthS", null, new { id = "lengthSegS1", @readonly = "" })
+                    @Html.Label("Широта", new { @for = "Segment.BreadthS" }) @Html.TextBoxFor(a=>a.BreadthS, null, new { id = "breadthSegS1", @readonly = "", Name = "Segment.BreadthS" })
+                    @Html.Label("Долгота", new { @for = "Segment.LengthS" }) @Html.TextBoxFor(a=>a.LengthS, null, new { id = "lengthSegS1", @readonly = "",Name = "Segment.LengthS" })
                 </div>
                 <div>Координаты конца</div>
                 <div>
-                    @Html.Label("Широта", new { @for = "Segment.BreadthE" }) @Html.TextBox("Segment.BreadthE", null, new { id = "breadthSegE1", @readonly = "" })
-                    @Html.Label("Долгота", new { @for = "Segment.LengthE" }) @Html.TextBox("Segment.LengthE", null, new { id = "lengthSegE1", @readonly = "" })
+                    @Html.Label("Широта", new { @for = "Segment.BreadthE" }) @Html.TextBoxFor(a=>a.BreadthE, null, new { id = "breadthSegE1", @readonly = "", Name = "Segment.LengthS" })
+                    @Html.Label("Долгота", new { @for = "Segment.LengthE" }) @Html.TextBoxFor(a=>a.LengthE, null, new { id = "lengthSegE1", @readonly = "", Name = "Segment.LengthE" })
                 </div>
             </div>
             <div id="segment2">

@@ -166,8 +166,21 @@ namespace oncloud.Web.oddBase.Controllers
         }
         public ActionResult EditStreets(int id)
         {
-            ViewBag.City = db.City.First();
             Street street = db.Street.Find(id);
+            ViewBag.RoadMarking = db.TheHorizontalRoadMarking.ToList().OrderBy(a =>
+            {
+                if (a.NumberMarking.Substring(2).LastIndexOf(".") == -1)
+                {
+                    return int.Parse(a.NumberMarking.Substring(2).Replace(".", ","));
+                }
+                else
+                {
+                    return int.Parse(a.NumberMarking.Substring(2, a.NumberMarking.Substring(2).LastIndexOf("."))
+                        .Replace(".", ","));
+                }
+            });
+            ViewBag.RoadSigns = db.RoadSigns.ToList();
+            ViewBag.RoadBarriers = db.RoadBarriers.ToList();
             return View(street);
         }
         public virtual ActionResult FindStreets(string term)
