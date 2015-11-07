@@ -11,52 +11,46 @@
 </ol>
 
 <p>
-    @Html.ActionLink("Добавить", MVC.RoadSigns.Create(), new {@class= "btn btn-success" })
+    @Html.ActionLink("Добавить", MVC.RoadSigns.Create(), new { @class = "btn btn-success" })
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.RoadSignItems)
+            @Html.DisplayNameFor(model => model.ImageData)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.NumberRoadSigns)
         </th>
-        @*<th>
+        <th>
             @Html.DisplayNameFor(model => model.Description)
-        </th>*@
+        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        @*<td>
-            @item.RoadSignItems.Count
-        </td>*@
-        <td>
-            @foreach (var rsItem in item.RoadSignItems)
-            {
-                
-                if (rsItem.ImageData != null)
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if (item.ImageData != null)
                 {
                     <div class="pull-left" style="margin-right: 10px">
                         <img class="img-thumbnail" width="75" height="75"
-                             src="@Url.Action(MVC.RoadSigns.GetImage(rsItem.Id, rsItem.Hallmark))" />
+                             src="@Url.Action(MVC.RoadSigns.GetImage(item.id))" />
                     </div>
                 }
-            }
 
-        </td>
-        <td>
-            @Html.ActionLink(item.NumberRoadSigns, MVC.RoadSigns.Details(item.id))
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>*@
-        <td>
-            @Html.ActionLink("Редактировать", MVC.RoadSigns.Edit(item.id), new {@class= "btn btn-primary" }) |
-            @Html.ActionLink("Удалить", MVC.RoadSigns.Delete(item.id), new { @class = "btn btn-danger" })
-        </td>
-    </tr>
-}
+            </td>
+            <td>
+                @Html.ActionLink(item.NumberRoadSigns, MVC.RoadSigns.Details(item.id))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", MVC.RoadSigns.Edit(item.id), new { @class = "btn btn-primary" }) |
+                @Html.ActionLink("Удалить", MVC.RoadSigns.Delete(item.id), new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
 
 </table>

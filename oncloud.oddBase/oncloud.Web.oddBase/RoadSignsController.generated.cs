@@ -104,6 +104,12 @@ namespace oncloud.Web.oddBase.Controllers
         {
             return new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.GetImage);
         }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.FileContentResult GetItemImage()
+        {
+            return new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.GetItemImage);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public RoadSignsController Actions { get { return MVC.RoadSigns; } }
@@ -130,6 +136,7 @@ namespace oncloud.Web.oddBase.Controllers
             public readonly string DeleteConfirmed = "Delete";
             public readonly string DeleteItem = "DeleteItem";
             public readonly string GetImage = "GetImage";
+            public readonly string GetItemImage = "GetItemImage";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -145,6 +152,7 @@ namespace oncloud.Web.oddBase.Controllers
             public const string DeleteConfirmed = "Delete";
             public const string DeleteItem = "DeleteItem";
             public const string GetImage = "GetImage";
+            public const string GetItemImage = "GetItemImage";
         }
 
 
@@ -184,6 +192,7 @@ namespace oncloud.Web.oddBase.Controllers
         public class ActionParamsClass_Create
         {
             public readonly string roadSigns = "roadSigns";
+            public readonly string image = "image";
         }
         static readonly ActionParamsClass_Edit s_params_Edit = new ActionParamsClass_Edit();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -193,6 +202,7 @@ namespace oncloud.Web.oddBase.Controllers
         {
             public readonly string id = "id";
             public readonly string roadSigns = "roadSigns";
+            public readonly string image = "image";
         }
         static readonly ActionParamsClass_Delete s_params_Delete = new ActionParamsClass_Delete();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -225,6 +235,14 @@ namespace oncloud.Web.oddBase.Controllers
         public ActionParamsClass_GetImage GetImageParams { get { return s_params_GetImage; } }
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionParamsClass_GetImage
+        {
+            public readonly string id = "id";
+        }
+        static readonly ActionParamsClass_GetItemImage s_params_GetItemImage = new ActionParamsClass_GetItemImage();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_GetItemImage GetItemImageParams { get { return s_params_GetItemImage; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_GetItemImage
         {
             public readonly string id = "id";
             public readonly string hallmark = "hallmark";
@@ -350,14 +368,15 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
-        partial void CreateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.RoadSigns roadSigns);
+        partial void CreateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.RoadSigns roadSigns, System.Web.HttpPostedFileBase image);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Create(oncloud.Domain.Entities.RoadSigns roadSigns)
+        public override System.Web.Mvc.ActionResult Create(oncloud.Domain.Entities.RoadSigns roadSigns, System.Web.HttpPostedFileBase image)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Create);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "roadSigns", roadSigns);
-            CreateOverride(callInfo, roadSigns);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "image", image);
+            CreateOverride(callInfo, roadSigns, image);
             return callInfo;
         }
 
@@ -374,14 +393,15 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
-        partial void EditOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.RoadSigns roadSigns);
+        partial void EditOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.RoadSigns roadSigns, System.Web.HttpPostedFileBase image);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Edit(oncloud.Domain.Entities.RoadSigns roadSigns)
+        public override System.Web.Mvc.ActionResult Edit(oncloud.Domain.Entities.RoadSigns roadSigns, System.Web.HttpPostedFileBase image)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Edit);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "roadSigns", roadSigns);
-            EditOverride(callInfo, roadSigns);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "image", image);
+            EditOverride(callInfo, roadSigns, image);
             return callInfo;
         }
 
@@ -436,15 +456,27 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
-        partial void GetImageOverride(T4MVC_System_Web_Mvc_FileContentResult callInfo, int id, string hallmark);
+        partial void GetImageOverride(T4MVC_System_Web_Mvc_FileContentResult callInfo, int id);
 
         [NonAction]
-        public override System.Web.Mvc.FileContentResult GetImage(int id, string hallmark)
+        public override System.Web.Mvc.FileContentResult GetImage(int id)
         {
             var callInfo = new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.GetImage);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            GetImageOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void GetItemImageOverride(T4MVC_System_Web_Mvc_FileContentResult callInfo, int id, string hallmark);
+
+        [NonAction]
+        public override System.Web.Mvc.FileContentResult GetItemImage(int id, string hallmark)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.GetItemImage);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "hallmark", hallmark);
-            GetImageOverride(callInfo, id, hallmark);
+            GetItemImageOverride(callInfo, id, hallmark);
             return callInfo;
         }
 

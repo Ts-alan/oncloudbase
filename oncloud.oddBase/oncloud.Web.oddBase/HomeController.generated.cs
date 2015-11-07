@@ -73,6 +73,12 @@ namespace oncloud.Web.oddBase.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult EditStreets()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.EditStreets);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult FindStreets()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.FindStreets);
@@ -99,6 +105,7 @@ namespace oncloud.Web.oddBase.Controllers
             public readonly string Contact = "Contact";
             public readonly string AddStreet = "AddStreet";
             public readonly string DeleteStreet = "DeleteStreet";
+            public readonly string EditStreets = "EditStreets";
             public readonly string FindStreets = "FindStreets";
         }
 
@@ -111,6 +118,7 @@ namespace oncloud.Web.oddBase.Controllers
             public const string Contact = "Contact";
             public const string AddStreet = "AddStreet";
             public const string DeleteStreet = "DeleteStreet";
+            public const string EditStreets = "EditStreets";
             public const string FindStreets = "FindStreets";
         }
 
@@ -138,6 +146,14 @@ namespace oncloud.Web.oddBase.Controllers
         {
             public readonly string id = "id";
         }
+        static readonly ActionParamsClass_EditStreets s_params_EditStreets = new ActionParamsClass_EditStreets();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_EditStreets EditStreetsParams { get { return s_params_EditStreets; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_EditStreets
+        {
+            public readonly string id = "id";
+        }
         static readonly ActionParamsClass_FindStreets s_params_FindStreets = new ActionParamsClass_FindStreets();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_FindStreets FindStreetsParams { get { return s_params_FindStreets; } }
@@ -159,12 +175,14 @@ namespace oncloud.Web.oddBase.Controllers
                 public readonly string About = "About";
                 public readonly string AddStreet = "AddStreet";
                 public readonly string Contact = "Contact";
+                public readonly string EditStreets = "EditStreets";
                 public readonly string Index = "Index";
                 public readonly string Table = "Table";
             }
             public readonly string About = "~/Views/Home/About.cshtml";
             public readonly string AddStreet = "~/Views/Home/AddStreet.cshtml";
             public readonly string Contact = "~/Views/Home/Contact.cshtml";
+            public readonly string EditStreets = "~/Views/Home/EditStreets.cshtml";
             public readonly string Index = "~/Views/Home/Index.cshtml";
             public readonly string Table = "~/Views/Home/Table.cshtml";
             static readonly _PartialsClass s_Partials = new _PartialsClass();
@@ -260,6 +278,18 @@ namespace oncloud.Web.oddBase.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteStreet);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             DeleteStreetOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void EditStreetsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult EditStreets(int id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.EditStreets);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            EditStreetsOverride(callInfo, id);
             return callInfo;
         }
 

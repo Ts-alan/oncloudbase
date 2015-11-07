@@ -16,7 +16,15 @@ namespace oncloud.Domain.Entities
         [Display(Name = "№")]
         public string NumberRoadSigns { get; set; }
 
-        [Display(Name = "Обозначения")]
+        [Required]
+        [Display(Name = "Описание")]
+        public string Description { get; set; }
+        [Display(Name = "Символ")]
+        public byte[] ImageData { get; set; }
+        public string ImageMimeType { get; set; }
+
+
+        [Display(Name = "Маркеры")]
         public virtual ICollection<RoadSignItem> RoadSignItems { get; set; }
         //public virtual ICollection<SpecificationofRS> SpecificationofRM { get; set; }
     }

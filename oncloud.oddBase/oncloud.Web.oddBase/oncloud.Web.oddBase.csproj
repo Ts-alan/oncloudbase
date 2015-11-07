@@ -279,6 +279,10 @@
     <Compile Include="Migrations\201511052111566_multiple_rs.Designer.cs">
       <DependentUpon>201511052111566_multiple_rs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511072043356_return_roadsign_fields.cs" />
+    <Compile Include="Migrations\201511072043356_return_roadsign_fields.Designer.cs">
+      <DependentUpon>201511072043356_return_roadsign_fields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -685,6 +689,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511052111566_multiple_rs.resx">
       <DependentUpon>201511052111566_multiple_rs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511072043356_return_roadsign_fields.resx">
+      <DependentUpon>201511072043356_return_roadsign_fields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

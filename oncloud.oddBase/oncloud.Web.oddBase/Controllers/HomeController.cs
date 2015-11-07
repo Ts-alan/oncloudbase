@@ -164,7 +164,7 @@ namespace oncloud.Web.oddBase.Controllers
             db.SaveChanges();
             return RedirectToAction("Table");
         }
-        public ActionResult EditStreets(int id)
+        public virtual ActionResult EditStreets(int id)
         {
             Street street = db.Street.Find(id);
             ViewBag.RoadMarking = db.TheHorizontalRoadMarking.ToList().OrderBy(a =>
