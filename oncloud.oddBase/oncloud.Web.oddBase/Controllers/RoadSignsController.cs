@@ -150,7 +150,7 @@ namespace oncloud.Web.oddBase.Controllers
                 }
                 db.RoadSigns.Add(roadSigns);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction(MVC.RoadSigns.Details(roadSigns.id));
             }
 
             return View(roadSigns);

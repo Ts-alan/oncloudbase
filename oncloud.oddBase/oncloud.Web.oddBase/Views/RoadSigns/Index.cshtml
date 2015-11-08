@@ -38,6 +38,19 @@
                              src="@Url.Action(MVC.RoadSigns.GetImage(item.id))" />
                     </div>
                 }
+                else
+                {
+                    foreach (var rsItem in item.RoadSignItems)
+                    {
+                        if (rsItem.ImageData != null)
+                        {
+                            <div class="pull-left" style="margin-right: 10px">
+                                <img class="img-thumbnail" width="75" height="75"
+                                     src="@Url.Action(MVC.RoadSigns.GetItemImage(rsItem.Id, rsItem.Hallmark))" />
+                            </div>
+                        }
+                    }
+                }
 
             </td>
             <td>
