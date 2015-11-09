@@ -11,6 +11,10 @@
 
         tableToGrid("#table", {
             height: 700,
+ 
+            onSelectRow: function(rowid, e) {
+                $('#' + rowid).parents('table').resetSelection();
+            },
             colNames: [
                 "№ улицы", "Населенный пункт", "Наименование",
                 "Количество участков", "     "

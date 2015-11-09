@@ -7,11 +7,12 @@
 
 <script type="text/javascript">
     ymaps.ready(init);
-    var myMap, myPlacemark, Arr = [[]], counterArr = 0, handlerRoute, currentRoute, firstPointRoute,
-        endPointRoute, position, identifierForDelete = 0, increment = 1, tempData, tempDataFor3 = 5,
-        objects, identifierForDelBallon = true, CountObjectInMap, transfercurrentRoute,
-        massSegment = [], handlerSegment, countElementSegGlobal = new Object();
+    var myMap,myPlacemark,Arr = [[]],counterArr = 0,handlerRoute,currentRoute,
+        firstPointRoute,endPointRoute,position,identifierForDelete = 0,
+        increment = 1,tempData,tempDataFor3 = 5,objects,identifierForDelBallon = true,
+        CountObjectInMap,transfercurrentRoute,massSegment = [],handlerSegment,countElementSegGlobal = new Object();
     countElementSegGlobal.length = 0;
+
     function init() {
 
         myMap = new ymaps.Map("map", {
@@ -22,10 +23,64 @@
 
         myMap.behaviors.disable(["dblClickZoom"]);
 
+        ymaps.route([
+                ['@Model.BreadthS','@Model.LengthS' ],
+                ['@Model.BreadthE','@Model.LengthE']
+            ],
+            {
+                mapStateAutoApply: true,
+                removeViaPoints: true
+
+            }
+        ).then(
+
+            function (route) {
+
+                route.events.add('dragend', function(e) {
+
+                    Arr[0] = [ '@Model.BreadthS','@Model.LengthS'];
+                    Arr[1] = ['@Model.BreadthE','@Model.LengthE'];
+                });
 
 
-    }
+                route.editor.start({
+                    editWayPoints: true
+                });
 
+                var points = route.getWayPoints();
+                points.get(0).properties.set("iconContent", "Начало улицы");
+                points.get(0).properties.set("balloonContentHeader", "<a href='#' onclick='setHandlerS()'>Удалить Обьект</a>");
+                points.get(0).options.set('preset', 'islands#darkGreenStretchyIcon');
+
+
+                points.get(1).properties.set("iconContent", "Конец улицы");
+                points.get(1).properties.set("balloonContentHeader", "<a href='#' onclick='setHandlerE()'>Удалить Обьект</a>");
+                points.get(1).options.set("preset", "islands#darkGreenStretchyIcon");
+
+                route.getPaths().options.set({
+
+                    //можно выставить настройки графики маршруту
+                    strokeColor: '0000ffff',
+                    opacity: 0.9
+                });
+                currentRoute = route;
+                currentRoute.getPaths().options.set({
+
+                    //можно выставить настройки графики маршруту
+                    strokeColor: '0000ffff',
+                    opacity: 0.9,
+                    strokeWidth: 4,
+                    mapStateAutoApply: true
+                });
+                myMap.geoObjects.add(route.getPaths());
+                identifierForDelete = 0;
+                //заполнение переменных
+                $("#breadthS").val(Arr[0][0]);
+                $("#lengthS").val(Arr[0][1]);
+                $("#breadthE").val(Arr[1][0]);
+                $("#lengthE").val(Arr[1][1]);
+            });
+   }
     function SetRoute(Arr) {
 
         if (currentRoute != undefined) {
@@ -205,7 +260,7 @@
     }
     //задать координаты
     function SetCoords() {
-       
+
             if (countElementSegGlobal.length == 0) {
 
 
@@ -276,7 +331,7 @@
             } else {
                 alert('Вы не можете редактировать улицу пока на нем находится хотя бы один участок');
             }
-        
+
     }
     //удаление сегмента
     function deleteSegment(index) {
