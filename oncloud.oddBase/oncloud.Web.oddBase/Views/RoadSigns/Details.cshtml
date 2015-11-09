@@ -49,6 +49,7 @@
     <h5>@Html.DisplayNameFor(model => model.RoadSignItems)</h5>
     <table class="table">
         <tr>
+            <th>№ п/п</th>
             <th>
                 @Html.DisplayNameFor(model => (new oncloud.Domain.Entities.RoadSignItem()).Description)
             </th>
@@ -56,12 +57,12 @@
                 @Html.DisplayNameFor(model => (new oncloud.Domain.Entities.RoadSignItem()).ImageData)
             </th>
         </tr>
-
+        @{int npp = 0;}
         @foreach (var rsItem in Model.RoadSignItems)
         {
-
+            
             <tr>
-
+                <td>@(++npp)</td>
                 <td>
                     @Html.DisplayFor(modelItem => rsItem.Description)
                 </td>

@@ -9,8 +9,7 @@
     <li>@Html.ActionLink("Администрирование", MVC.Administration.Index())</li>
     <li>@Html.ActionLink("Справочник дорожных знаков", MVC.RoadSigns.Index())</li>
     <li>@Html.ActionLink(Model.RoadSign.NumberRoadSigns, MVC.RoadSigns.Details(Model.RoadSign.id))</li>
-    <li class="active">Обозначения</li>
-    <li class="active">Добавление</li>
+    <li class="active">Добавление маркера</li>
 </ol>
 @using (Html.BeginForm("CreateItem", "RoadSigns",
         FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -18,7 +17,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Обозначение дорожного знака</h4>
+        <h4>Маркер дорожного знака</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @*<div class="form-group">
@@ -30,13 +29,14 @@
         </div>*@
         @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
+        @Html.HiddenFor(model=>model.Hallmark)
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Hallmark, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Hallmark, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Hallmark, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })

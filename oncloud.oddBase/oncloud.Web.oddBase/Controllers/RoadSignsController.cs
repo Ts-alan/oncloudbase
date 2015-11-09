@@ -60,7 +60,7 @@ namespace oncloud.Web.oddBase.Controllers
         public virtual ActionResult CreateItem(int id)
         {
             RoadSigns roadSign = db.RoadSigns.Find(id);
-            return View(new RoadSignItem() { Id = id, RoadSign = roadSign });
+            return View(new RoadSignItem() { Id = id, RoadSign = roadSign, Hallmark = Guid.NewGuid().ToString() });
         }
 
         [HttpPost]
@@ -80,7 +80,7 @@ namespace oncloud.Web.oddBase.Controllers
                 roadSign.RoadSignItems.Add(roadSignItem);
                 db.SetEntryModified(roadSign);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction(MVC.RoadSigns.Edit(roadSignItem.Id));
             }
 
             return View(roadSignItem);
@@ -123,7 +123,7 @@ namespace oncloud.Web.oddBase.Controllers
                 //db.Entry(roadSigns).State = EntityState.Modified;
                 original_roadSignItem.Description = roadSignItem.Description;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction(MVC.RoadSigns.Edit(roadSignItem.Id));
             }
             return View(roadSignItem);
         }
@@ -150,7 +150,7 @@ namespace oncloud.Web.oddBase.Controllers
                 }
                 db.RoadSigns.Add(roadSigns);
                 db.SaveChanges();
-                return RedirectToAction(MVC.RoadSigns.Details(roadSigns.id));
+                return RedirectToAction(MVC.RoadSigns.Edit(roadSigns.id));
             }
 
             return View(roadSigns);
@@ -252,7 +252,7 @@ namespace oncloud.Web.oddBase.Controllers
             roadSign.RoadSignItems.Remove(roadSignItem);
             db.SetEntryModified(roadSign);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction(MVC.RoadSigns.Edit(id));
         }
 
         public virtual FileContentResult GetImage(int id)

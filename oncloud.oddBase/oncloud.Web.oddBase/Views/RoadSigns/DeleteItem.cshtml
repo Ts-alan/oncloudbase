@@ -9,23 +9,21 @@
     <li>@Html.ActionLink("Администрирование", MVC.Administration.Index())</li>
     <li>@Html.ActionLink("Справочник дорожных знаков", MVC.RoadSigns.Index())</li>
     <li>@Html.ActionLink(Model.RoadSign.NumberRoadSigns, MVC.RoadSigns.Details(Model.RoadSign.id))</li>
-    <li class="active">Обозначения</li>
-    <li class="active">@Model.Hallmark</li>
-    <li class="active">Удаление</li>
+    <li class="active">Удаление маркера</li>
 </ol>
 
 <h3>Вы уверены, что вы хотите удалить?</h3>
 <div>
-    <h4>Обозначение дорожного знака</h4>
+    <h4>Маркер дорожного знака</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Hallmark)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Hallmark)
-        </dd>
+        </dd>*@
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
