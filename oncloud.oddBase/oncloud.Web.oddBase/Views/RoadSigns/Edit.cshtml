@@ -49,6 +49,7 @@
                                 background-color:transparent;color:transparent;"
                            onchange='$("#upload-file-info").html($(this).val());'>
                 </a>
+
                 <span class='label label-info' id="upload-file-info"></span>
             </div>
             @if (Model.ImageData == null)
@@ -69,6 +70,7 @@
 
         <table class="table">
             <tr>
+                <th>№ п/п</th>
                 <th>
                     @Html.DisplayNameFor(model => (new oncloud.Domain.Entities.RoadSignItem()).Description)
                 </th>
@@ -80,12 +82,12 @@
                 </th>*@
                 <th></th>
             </tr>
-
+            @{int npp = 0;}
             @foreach (var rsItem in Model.RoadSignItems)
             {
 
                 <tr>
-
+                    <td>@(++npp)</td>
                     <td>
                         @Html.DisplayFor(modelItem => rsItem.Description)
                     </td>
