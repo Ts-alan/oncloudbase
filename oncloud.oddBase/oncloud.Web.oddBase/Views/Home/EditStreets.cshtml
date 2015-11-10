@@ -10,7 +10,7 @@
     ymaps.ready(init);
     var myMap, myPlacemark, Arr = [[]], counterArr = 0, handlerRoute, currentRoute,
         firstPointRoute, endPointRoute, position, identifierForDelete = 0,
-        increment = 1, tempData, tempDataFor3 = 5, objects, identifierForDelBallon = true,
+        increment = 1, tempData, tempDataFor3 = 5, objects, identifierForDelBallon = true, CoordinatesforFirstLoad,
         CountObjectInMap, transfercurrentRoute, massSegment = [], handlerSegment, countElementSegGlobal = new Object();
     countElementSegGlobal.length = 0;
 
@@ -78,26 +78,10 @@
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 }))');
+                 var segment = [], myCircle = [];
                  for (var i = 0; i < "@Model.Segment.Count"; i++) {
-
-                     var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
-                      edges = [];
-
-                     // Переберем все сегменты и разобьем их на отрезки.
-                     pathsObjects.each(function (path) {
-                         var coordinates = path.geometry.getCoordinates();
-                         for (var i = 1, l = coordinates.length; i < l; i++) {
-                             edges.push({
-                                 type: 'LineString',
-                                 coordinates: [coordinates[i], coordinates[i - 1]]
-
-                             });
-                         }
-                     });
-
-                     CountObjectInMap = edges.length;
-                    
-                     var segment = new ymaps.GeoObject({
+                     
+                      segment[i] = new ymaps.GeoObject({
                          geometry: {
                              type: "Point", // тип геометрии - точка
                              coordinates: [DataOfSegment[i].BreadthS, DataOfSegment[i].LengthE] // координаты точки
@@ -114,53 +98,140 @@
                                         draggable: true
                                     });
 
-                     var myCircle = new ymaps.Circle([[DataOfSegment[i].BreadthS, DataOfSegment[i].LengthE], 3], null, { draggable: true,visible:false});
+                      myCircle[i] = new ymaps.Circle([[DataOfSegment[i].BreadthS, DataOfSegment[i].LengthE], 3], null, { draggable: true,visible:false});
 
-                     myMap.geoObjects.add(myCircle);
-                     myMap.geoObjects.add(segment);
+                     myMap.geoObjects.add(myCircle[i]);
+                     myMap.geoObjects.add(segment[i]);
+                     if (i >= 2 && i <= 4) {
 
-                     objects = ymaps.geoQuery([myCircle]);
+                         $("#segment" + i).html(
+                             '<b><u>Координаты участка ' + i + '</u></b>' +
+                             '<div>Начальнаты начала</div>' +
+                             '<div><label for="Segment.BreadthS">Широта</label> <input id="breadthSegS' + i + '" name="Segment.BreadthS" readonly="" type="text" value="">' +
+                             '<label for="Segment.LengthS">Долгота</label> <input id="lengthSegS' + i + '" name="Segment.LengthS" readonly="" type="text" value="">' +
+                             '</div><div>Координаты конца</div><div>' +
+                             '<label for="Segment.BreadthE">Широта</label> <input id="breadthSegE' + i + '" name="Segment.BreadthE" readonly="" type="text" value="">' +
+                             '<label for="Segment.LengthE">Долгота</label> <input id="lengthSegE' + i + '" name="Segment.LengthE" readonly="" type="text" value=""></div></div>'
+                             );
+                     }
 
-                     var tempCoordinates;
-                     segment.events.add('dragstart', function () {
-                         tempCoordinates = segment.geometry._xl[0];
-                     });
-                     var Edit = increment;
-                     segment.events.add('drag', function (e) {
+                     if (i > 4) {
 
-                         $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
-                         $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
-                         $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
-                         $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
-                     });
-
-
-                     segment.events.add('dragend', function (e) {
-
-                         var routeObjects = ymaps.geoQuery(edges).setOptions('visible', false).addToMap(myMap);
-                         myCircle.geometry.setCoordinates(
-                            segment.geometry._xl[0]
-                         );
-
-                         var boundaryObjects = routeObjects.searchIntersect(myCircle);
-
-
-                         if (boundaryObjects._xg.length == 0) {
-
-                             segment.geometry.setCoordinates(tempCoordinates);
-
-                             $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
-                             $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
-                             $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
-                             $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                         if (i == 5) {
+                             $("#segment4+div").remove();
+                             $("#interData+h5").css("clear", "left");
+                             $("#interData").after('<div style="float: left"  >' +
+                                 '<button type="button"  class="btn btn-default setSegment">Задать/Изменить координаты</button>' +
+                                 '<button id="BlockSegment" type="button" class="btn btn-primary">Сохранить</button>' +
+                                 '</div>');
                          }
+                         if (tempDataFor3 == i) {
+                             $("#interData").before('<div class="form-group" style="margin-top: 10px"><div id="segment' + i + '" style="width: 30.2%;float: left;height: 115px"></div><div id="segment' + (i + 1) + '" style="width:29%;float: left;height: 115px"></div><div id="segment' + (i + 2) + '" style="width: 39.8%;float: left;height: 115px"></div></div>');
+                             tempDataFor3 = tempDataFor3 + 3;
+                         }
+                         $("#segment" + i).html('<b><u>Координаты участка ' + i + '</u></b>' +
+                             '<div>Начальнаты начала</div>' +
+                             '<div><label for="Segment.BreadthS">Широта</label> <input id="breadthSegS' + i + '" name="Segment.BreadthS" readonly="" type="text" value="">' +
+                             '<label for="Segment.LengthS">Долгота</label> <input id="lengthSegS' + i + '" name="Segment.LengthS" readonly="" type="text" value="">' +
+                             '</div><div>Координаты конца</div>' +
+                             '<div>' +
+                             '<label for="Segment.BreadthE">Широта</label> <input id="breadthSegE' + i + '" name="Segment.BreadthE" readonly="" type="text" value="">' +
+                             '<label for="Segment.LengthE">Долгота</label> <input id="lengthSegE' + i + '" name="Segment.LengthE" readonly="" type="text" value=""></div><div>' +
+                             '</div></div>'
+                         );
+                     }
+                     if (i != 1) {
+                         $('[class^="DataOfRoad"]:last').after("<div style='clear: both' class='DataOfRoad" + i + "'>" +
+                                                         "<div>" +
+                                                             "<b><u>Участок " + i + "</u></b>" +
+                                                         "</div>" +
+                                                         "<div class='file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
+                                                             "<button type='button' id='changeColorDislocation" + i+ "'  class='btn btn-default'>Загрузить Дислокацию ТСОДД</button> " +
+                                                         "<input name='layoutDislocation' onchange=\"$('#changeColorDislocation" + i + "').removeClass('btn-default').addClass('btn-danger');\" type='file'>" +
+                                                         "</div>" +
+                                                         "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
+                                                             "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + i + "'>Ввести данные о дорожных знаках</button>" +
+                                                         "</div>" +
+                                                         "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' >" +
+                                                            "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#RoadBarriers" + i + "'>Ввести данные о дорожных ограждениях</button>" +
+                                                         "</div>" +
+                                                       "</div>");
+}
+                     //objects = ymaps.geoQuery([myCircle]);
+                     //var tempCoordinates;
+                     //segment.events.add('dragstart', function () {
+                     //    tempCoordinates = segment.geometry._xl[0];
+                     //});
+                     //var Edit = increment;
+                     //segment.events.add('drag', function (e) {
 
-                     });
-                     tempData = [DataOfSegment[i].BreadthS, DataOfSegment[i].LengthE];
+                     //    $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                     //    $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                     //    $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                     //    $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                     //});
+
+
+                     //segment.events.add('dragend', function (e) {
+
+                     //    var routeObjects = ymaps.geoQuery(edges).setOptions('visible', false).addToMap(myMap);
+                     //    myCircle.geometry.setCoordinates(
+                     //       segment.geometry._xl[0]
+                     //    );
+
+                     //    var boundaryObjects = routeObjects.searchIntersect(myCircle);
+
+
+                     //    if (boundaryObjects._xg.length == 0) {
+
+                     //        segment.geometry.setCoordinates(tempCoordinates);
+
+                     //        $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                     //        $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                     //        $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                     //        $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                     //    }
+
+                     //});
                      massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                      increment++;
                  }
+                 var ind=0;
+                 myMap.geoObjects.each(function (el, i) {
+                     for(var j = 0;j<massSegment.length;j++) {
+                         if (i == massSegment[j])
+                           
+                         el.events.add('dragstart', function () {
+                             CoordinatesforFirstLoad = el.geometry._dp[0];
+                             
+                         });
+                         //el.events.add('dragend', function () {
+                         //    console.log(currentRoute);
+                         //    var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
+                         //    edges = [];
+                             
+                         //    // Переберем все сегменты и разобьем их на отрезки.
+                         //    pathsObjects.each(function (path) {
+                         //        var coordinates = path.geometry.getCoordinates();
+                         //        for (var i = 1, l = coordinates.length; i < l; i++) {
+                         //            edges.push({
+                         //                type: 'LineString',
+                         //                coordinates: [coordinates[i], coordinates[i - 1]]
 
+                         //            });
+                         //        }
+                         //    });
+
+                         //    CountObjectInMap = edges.length;
+                         //       var routeObjects = ymaps.geoQuery(edges).setOptions('visible', false).addToMap(myMap);
+                         //       myMap.geoObjects.get(massSegment[ind] + 1).geometry.setCoordinates(
+                         //           myMap.geoObjects.get(massSegment[ind]).geometry._dp[0]
+                         //        );
+                         //        var boundaryObjects = routeObjects.searchIntersect(myMap.geoObjects.get(massSegment[ind]+1));
+                         //    ind++;
+                         //});
+                     }
+                 });
              });
 
 

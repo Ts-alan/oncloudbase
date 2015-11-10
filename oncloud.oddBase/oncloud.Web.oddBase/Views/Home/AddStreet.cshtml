@@ -463,19 +463,7 @@
                     countElementSegGlobal.length++;
 
                     var coords = e.get('coords');
-
-                    ymaps.route([
-                            tempData,
-                            [coords[0].toPrecision(6), coords[1].toPrecision(6)]
-                    ],
-                        {
-                            mapStateAutoApply: true,
-                            removeViaPoints: true
-                        }
-                    ).then(
-                        function (route) {
-
-
+                    
                             var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
                             edges = [];
 
@@ -491,16 +479,6 @@
                                 }
                             });
                             CountObjectInMap = edges.length;
-
-
-                            route.getPaths().options.set({
-
-                                //можно выставить настройки графики маршруту
-                                strokeColor: '#FF0000',
-                                opacity: 0.9,
-                                strokeWidth: 4
-                            });
-
 
                             if (increment >= 2 && increment <= 4) {
 
@@ -653,7 +631,7 @@
                             tempData = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
                             massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                             increment++;
-                        });
+                       
                 }
                 currentRoute.getPaths().events.add('dblclick', handlerSegment);
 
