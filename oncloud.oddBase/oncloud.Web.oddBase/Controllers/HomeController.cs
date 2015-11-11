@@ -51,16 +51,29 @@ namespace oncloud.Web.oddBase.Controllers
                 City_id = city.id,
                 UniqueNumber = TableAdapterExtensions.StringSymvol()
             };
-
-
-
-
-
+            
             db.Street.Add(streetInfo);
             segment.GroupBy(a => a.Name).ForEach(a => a.ForEach(b => b.id = ++LastIndexSegment));
             streetInfo.Segment = segment;
             streetInfo.SpecificationofRM = SpecificationofRM;
+            foreach (var instance in SpecificationofRM)
+            {
+                if (db.TheHorizontalRoadMarking.Any(a => a.NumberMarking == instance.TheHorizontalRoadMarkingIdModel))
+                {
+                    try
+                    {
+                        instance.TheHorizontalRoadMarking_id =
+                            db.TheHorizontalRoadMarking.Single(
+                                a => a.NumberMarking == instance.TheHorizontalRoadMarkingIdModel).id;
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
             db.Segment.AddRange(segment);
+            
+
             if (layoutScheme != null)
             {
                 layoutScheme imageScheme = new layoutScheme();

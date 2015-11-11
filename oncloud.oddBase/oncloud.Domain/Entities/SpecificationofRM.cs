@@ -16,7 +16,7 @@ namespace oncloud.Domain.Entities
         public int TheHorizontalRoadMarking_id { get; set; }
         [NotMapped]
         public string TheHorizontalRoadMarkingIdModel { get; set; }
-        [Required]
+       
         public virtual TheHorizontalRoadMarking TheHorizontalRoadMarking { get; set; }
         public virtual Street Street { get; set; }
 

@@ -56,7 +56,7 @@ namespace OddBasyBY.Models
                 if (tempValueL != "" && tempValueA != "")
                 {
 
-                    ListSpecificationofRM.Add(new SpecificationofRM() {length = tempValueL, area = tempValueA});
+                    ListSpecificationofRM.Add(new SpecificationofRM() {length = tempValueL, area = tempValueA,TheHorizontalRoadMarkingIdModel = ModalsA.ElementAt(i).Substring(7) });
                 }
             }
             return ListSpecificationofRM;

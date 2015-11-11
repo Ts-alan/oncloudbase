@@ -35,8 +35,8 @@
         ).then(
              function (route) {
                  route.events.add('dragend', function (e) {
-                    Arr[0] = [route.requestPoints[0][0].toString().substr(0, 7), route.requestPoints[0][1].toString().substr(0, 7)];
-                    Arr[1] = [route.requestPoints[1][0].toString().substr(0, 7), route.requestPoints[1][1].toString().substr(0, 7)];
+                     Arr[0] = [route.requestPoints[0][0].toString().substr(0, 7), route.requestPoints[0][1].toString().substr(0, 7)];
+                     Arr[1] = [route.requestPoints[1][0].toString().substr(0, 7), route.requestPoints[1][1].toString().substr(0, 7)];
                  });
                  route.editor.start({
                      editWayPoints: true
@@ -79,9 +79,10 @@
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 }))');
                  var segment = [], myCircle = [];
+                 console.log(DataOfSegment);
                  for (var i = 0; i < "@Model.Segment.Count"; i++) {
-                     
-                      segment[i] = new ymaps.GeoObject({
+
+                     segment[i] = new ymaps.GeoObject({
                          geometry: {
                              type: "Point", // тип геометрии - точка
                              coordinates: [DataOfSegment[i].BreadthS, DataOfSegment[i].LengthE] // координаты точки
@@ -93,31 +94,31 @@
                              balloonContent: "[" + DataOfSegment[i].BreadthS + "," + DataOfSegment[i].LengthE + "]"
                          }
                      },
-                                    {
-                                        preset: "islands#blueCircleIcon",
-                                        draggable: true
-                                    });
+                                   {
+                                       preset: "islands#blueCircleIcon",
+                                       draggable: true
+                                   });
 
-                      myCircle[i] = new ymaps.Circle([[DataOfSegment[i].BreadthS, DataOfSegment[i].LengthE], 3], null, { draggable: true,visible:false});
+                     myCircle[i] = new ymaps.Circle([[DataOfSegment[i].BreadthS, DataOfSegment[i].LengthE], 3], null, { draggable: true, visible: false });
 
                      myMap.geoObjects.add(myCircle[i]);
                      myMap.geoObjects.add(segment[i]);
-                     if (i >= 2 && i <= 4) {
+                     if (i + 1 >= 1 && i + 1 <= 4) {
 
-                         $("#segment" + i).html(
-                             '<b><u>Координаты участка ' + i + '</u></b>' +
+                         $("#segment" + (i + 1)).html(
+                             '<b><u>Координаты участка ' + (i + 1) + '</u></b>' +
                              '<div>Начальнаты начала</div>' +
-                             '<div><label for="Segment.BreadthS">Широта</label> <input id="breadthSegS' + i + '" name="Segment.BreadthS" readonly="" type="text" value="">' +
-                             '<label for="Segment.LengthS">Долгота</label> <input id="lengthSegS' + i + '" name="Segment.LengthS" readonly="" type="text" value="">' +
+                             '<div><label for="Segment.BreadthS">Широта</label> <input id="breadthSegS' + (i + 1) + '" name="Segment.BreadthS" value="' + DataOfSegment[i].BreadthS + '" readonly="" type="text" value="">' +
+                             '<label for="Segment.LengthS">Долгота</label> <input id="lengthSegS' + (i + 1) + '" name="Segment.LengthS" value="' + DataOfSegment[i].LengthS + '" readonly="" type="text" value="">' +
                              '</div><div>Координаты конца</div><div>' +
-                             '<label for="Segment.BreadthE">Широта</label> <input id="breadthSegE' + i + '" name="Segment.BreadthE" readonly="" type="text" value="">' +
-                             '<label for="Segment.LengthE">Долгота</label> <input id="lengthSegE' + i + '" name="Segment.LengthE" readonly="" type="text" value=""></div></div>'
+                             '<label for="Segment.BreadthE">Широта</label> <input id="breadthSegE' + (i + 1) + '" name="Segment.BreadthE" value="' + DataOfSegment[i].BreadthE + '" readonly="" type="text" value="">' +
+                             '<label for="Segment.LengthE">Долгота</label> <input id="lengthSegE' + (i + 1) + '" name="Segment.LengthE" value="' + DataOfSegment[i].LengthE + '" readonly="" type="text" value=""></div></div>'
                              );
                      }
 
-                     if (i > 4) {
+                     if ((i + 1) > 4) {
 
-                         if (i == 5) {
+                         if ((i + 1) == 5) {
                              $("#segment4+div").remove();
                              $("#interData+h5").css("clear", "left");
                              $("#interData").after('<div style="float: left"  >' +
@@ -125,38 +126,38 @@
                                  '<button id="BlockSegment" type="button" class="btn btn-primary">Сохранить</button>' +
                                  '</div>');
                          }
-                         if (tempDataFor3 == i) {
-                             $("#interData").before('<div class="form-group" style="margin-top: 10px"><div id="segment' + i + '" style="width: 30.2%;float: left;height: 115px"></div><div id="segment' + (i + 1) + '" style="width:29%;float: left;height: 115px"></div><div id="segment' + (i + 2) + '" style="width: 39.8%;float: left;height: 115px"></div></div>');
+                         if (tempDataFor3 == (i + 1)) {
+                             $("#interData").before('<div class="form-group" style="margin-top: 10px"><div id="segment' + (i + 1) + '" style="width: 30.2%;float: left;height: 115px"></div><div id="segment' + (i + 2) + '" style="width:29%;float: left;height: 115px"></div><div id="segment' + (i + 3) + '" style="width: 39.8%;float: left;height: 115px"></div></div>');
                              tempDataFor3 = tempDataFor3 + 3;
                          }
-                         $("#segment" + i).html('<b><u>Координаты участка ' + i + '</u></b>' +
+                         $("#segment" + (i + 1)).html('<b><u>Координаты участка ' + (i + 1) + '</u></b>' +
                              '<div>Начальнаты начала</div>' +
-                             '<div><label for="Segment.BreadthS">Широта</label> <input id="breadthSegS' + i + '" name="Segment.BreadthS" readonly="" type="text" value="">' +
-                             '<label for="Segment.LengthS">Долгота</label> <input id="lengthSegS' + i + '" name="Segment.LengthS" readonly="" type="text" value="">' +
+                             '<div><label for="Segment.BreadthS">Широта</label> <input id="breadthSegS' + (i + 1) + '" name="Segment.BreadthS" value="' + DataOfSegment[i].BreadthS + '"  readonly="" type="text" value="">' +
+                             '<label for="Segment.LengthS">Долгота</label> <input id="lengthSegS' + (i + 1) + '" name="Segment.LengthS" value="' + DataOfSegment[i].LengthS + '" readonly="" type="text" value="">' +
                              '</div><div>Координаты конца</div>' +
                              '<div>' +
-                             '<label for="Segment.BreadthE">Широта</label> <input id="breadthSegE' + i + '" name="Segment.BreadthE" readonly="" type="text" value="">' +
-                             '<label for="Segment.LengthE">Долгота</label> <input id="lengthSegE' + i + '" name="Segment.LengthE" readonly="" type="text" value=""></div><div>' +
+                             '<label for="Segment.BreadthE">Широта</label> <input id="breadthSegE' + (i + 1) + '" name="Segment.BreadthE" value="' + DataOfSegment[i].BreadthE + '" readonly="" type="text" value="">' +
+                             '<label for="Segment.LengthE">Долгота</label> <input id="lengthSegE' + (i + 1) + '" name="Segment.LengthE" value="' + DataOfSegment[i].LengthE + '" readonly="" type="text" value=""></div><div>' +
                              '</div></div>'
                          );
                      }
-                     if (i != 1) {
-                         $('[class^="DataOfRoad"]:last').after("<div style='clear: both' class='DataOfRoad" + i + "'>" +
+                     if (i + 1 != 1) {
+                         $('[class^="DataOfRoad"]:last').after("<div style='clear: both' class='DataOfRoad" + (i + 1) + "'>" +
                                                          "<div>" +
-                                                             "<b><u>Участок " + i + "</u></b>" +
+                                                             "<b><u>Участок " + (i + 1) + "</u></b>" +
                                                          "</div>" +
                                                          "<div class='file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
-                                                             "<button type='button' id='changeColorDislocation" + i+ "'  class='btn btn-default'>Загрузить Дислокацию ТСОДД</button> " +
-                                                         "<input name='layoutDislocation' onchange=\"$('#changeColorDislocation" + i + "').removeClass('btn-default').addClass('btn-danger');\" type='file'>" +
+                                                             "<button type='button' id='changeColorDislocation" + (i + 1) + "'  class='btn btn-default'>Загрузить Дислокацию ТСОДД</button> " +
+                                                         "<input name='layoutDislocation' onchange=\"$('#changeColorDislocation" + (i + 1) + "').removeClass('btn-default').addClass('btn-danger');\" type='file'>" +
                                                          "</div>" +
                                                          "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
-                                                             "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + i + "'>Ввести данные о дорожных знаках</button>" +
+                                                             "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + (i + 1) + "'>Ввести данные о дорожных знаках</button>" +
                                                          "</div>" +
                                                          "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' >" +
-                                                            "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#RoadBarriers" + i + "'>Ввести данные о дорожных ограждениях</button>" +
+                                                            "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#RoadBarriers" + (i + 1) + "'>Ввести данные о дорожных ограждениях</button>" +
                                                          "</div>" +
                                                        "</div>");
-}
+                     }
                      //objects = ymaps.geoQuery([myCircle]);
                      //var tempCoordinates;
                      //segment.events.add('dragstart', function () {
@@ -196,20 +197,20 @@
                      massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                      increment++;
                  }
-                 var ind=0;
+                 var ind = 0;
                  myMap.geoObjects.each(function (el, i) {
-                     for(var j = 0;j<massSegment.length;j++) {
+                     for (var j = 0; j < massSegment.length; j++) {
                          if (i == massSegment[j])
-                           
-                         el.events.add('dragstart', function () {
-                             CoordinatesforFirstLoad = el.geometry._dp[0];
-                             
-                         });
+
+                             el.events.add('dragstart', function () {
+                                 CoordinatesforFirstLoad = el.geometry._dp[0];
+
+                             });
                          //el.events.add('dragend', function () {
                          //    console.log(currentRoute);
                          //    var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
                          //    edges = [];
-                             
+
                          //    // Переберем все сегменты и разобьем их на отрезки.
                          //    pathsObjects.each(function (path) {
                          //        var coordinates = path.geometry.getCoordinates();
@@ -733,7 +734,7 @@
                                     $("#interData+h5").css("clear", "left");
                                     $("#interData").after('<div style="float: left"  >' +
                                         '<button type="button"  class="btn btn-default setSegment">Задать/Изменить координаты</button>' +
-                                        '<button id="BlockSegment" type="button" class="btn btn-primary">Сохранить</button>' +
+                                        '<button id="BlockSegment" type="button" style="display: none" class="btn btn-primary">Сохранить</button>' +
                                         '</div>');
                                 }
                                 if (tempDataFor3 == increment) {
@@ -783,9 +784,7 @@
                                         $(element).attr("name", increment + $(this).attr("name").substr(1));
                                     }).end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + increment + ")").end());
 
-                                //var widthBlockDiv = $(".blockDiv").css("height");
 
-                                //$(".blockDiv").css("height", (parseInt(widthBlockDiv.substring(0, widthBlockDiv.length - 2)) + 60).toString());
                             }
 
                             $("#CountSides").val(increment); $("#breadthSegS" + increment).attr("value", tempData[0]);
@@ -897,7 +896,7 @@
             });
         });
 
-        $('form[action="/Home/SaveSuccess"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
+        //$('form[action="/Home/SaveSuccess"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
 
 
         $(".setSegment").one('click', setSegment);
@@ -1052,7 +1051,7 @@
             </div>
             <div>
                 <button type="button" class="btn btn-default" onclick="search()">Показать на карте</button>
-                <button type="button" id="blockStreet" class="btn btn-primary">Сохранить</button>
+                <button type="button" id="blockStreet" class="btn btn-primary" style="display: none">Сохранить</button>
             </div>
             <h5>После сохранения наименования улицы, появляется возможность задавать ее координаты</h5>
             <b><u>2.Координаты улицы</u></b>
@@ -1068,7 +1067,7 @@
             </div>
             <div>
                 <button type="button" onclick="SetCoords()" class="btn btn-default">Задать/Изменить координаты</button>
-                <button type="button" id="blockStreetCoord" class="btn btn-primary">Сохранить</button>
+                <button type="button" id="blockStreetCoord" class="btn btn-primary" style="display: none">Сохранить</button>
             </div>
             <h5>После сохранения координат улицы, появляется возможность задавать координаты участков</h5>
             <b><u>3.Количество и координаты участков улицы</u></b>
@@ -1076,17 +1075,7 @@
                 @Html.Label("Количество участков", new { @for = "CountSides", style = "margin-right: 20px" }) @Html.TextBoxFor(a => a.Segment.Count, null, new { id = "CountSides", style = "width: 40px", @readonly = "", Name = "CountSides" })
             </div>
             <div id="segment1">
-                <b><u>Координаты участка 1</u></b>
-                <div>Начальнаты начала</div>
-                <div>
-                    @Html.Label("Широта", new { @for = "Segment.BreadthS" }) @Html.TextBoxFor(a => a.BreadthS, null, new { id = "breadthSegS1", @readonly = "", Name = "Segment.BreadthS" })
-                    @Html.Label("Долгота", new { @for = "Segment.LengthS" }) @Html.TextBoxFor(a => a.LengthS, null, new { id = "lengthSegS1", @readonly = "", Name = "Segment.LengthS" })
-                </div>
-                <div>Координаты конца</div>
-                <div>
-                    @Html.Label("Широта", new { @for = "Segment.BreadthE" }) @Html.TextBoxFor(a => a.BreadthE, null, new { id = "breadthSegE1", @readonly = "", Name = "Segment.LengthS" })
-                    @Html.Label("Долгота", new { @for = "Segment.LengthE" }) @Html.TextBoxFor(a => a.LengthE, null, new { id = "lengthSegE1", @readonly = "", Name = "Segment.LengthE" })
-                </div>
+
             </div>
             <div id="segment2">
             </div>
@@ -1096,7 +1085,7 @@
             </div>
             <div>
                 <button type="button" class="btn btn-default setSegment">Задать/Изменить координаты</button>
-                <button id="BlockSegment" type="button" class="btn btn-primary">Сохранить</button>
+                <button id="BlockSegment" type="button" class="btn btn-primary" style="display: none">Сохранить</button>
             </div>
 
         </div>
@@ -1128,7 +1117,6 @@
                         @foreach (var item in (IEnumerable<oncloud.Domain.Entities.TheHorizontalRoadMarking>)ViewBag.RoadMarking)
                         {
                             <tr>
-
                                 <td>@item.NumberMarking</td>
                                 <td>
                                     @if (item.ImageData != null)
@@ -1139,8 +1127,45 @@
                                 <td>
                                     @item.description
                                 </td>
-                                <td style="vertical-align: middle"><input name="ModalsL@(item.NumberMarking)" type="text" /></td>
-                                <td style="vertical-align: middle"><input name="ModalsA@(item.NumberMarking)" type="text" /></td>
+                            
+                                    @if (Model.SpecificationofRM.Any(a=>a.TheHorizontalRoadMarking_id == item.id))
+                                    {
+                                        <td style="vertical-align: middle">
+                                            @try
+                                            {
+                                                if (Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).length == null)
+                                                {
+                                                    <input name="ModalsL@(item.NumberMarking)" value="" type="text"/>
+                                                }
+                                                else
+                                                {
+                                                    <input name="ModalsL@(item.NumberMarking)" value="@Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).length" type="text"/>
+                                                }
+                                            }
+                                            catch  { }
+                                        </td>
+                                        <td style="vertical-align: middle">
+                                            @try
+                                            {
+                                                if (Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).area == null)
+                                                {
+                                                    <input name="ModalsA@(item.NumberMarking)" type="text"/>
+                                                }
+                                                else
+                                                {
+                                                    <input name="ModalsA@(item.NumberMarking)" value="@Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).area" type="text"/>
+                                                }
+                                            }
+                                            catch { }
+                                        </td>
+                                       
+                                    }
+                                    else
+                                    {
+                                        <td style="vertical-align: middle"><input name="ModalsL@(item.NumberMarking)" type="text" /></td>
+                                        <td style="vertical-align: middle"><input name="ModalsA@(item.NumberMarking)" type="text" /></td>
+                                    }
+                                
                             </tr>
                         }
 
