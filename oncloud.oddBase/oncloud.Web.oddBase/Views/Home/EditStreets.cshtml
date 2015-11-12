@@ -79,8 +79,13 @@
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 }))');
+                 var DataOfRoadSings=JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationofRS.Select(a=>new {a.CountRS,a.Segment.Name})
+                                                , Formatting.None,
+                    new JsonSerializerSettings() {
+                        ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    }))');
                  var segment = [], myCircle = [];
-                 console.log(DataOfSegment);
+                
                  for (var i = 0; i < "@Model.Segment.Count"; i++) {
 
                      segment[i] = new ymaps.GeoObject({
@@ -159,6 +164,18 @@
                                                          "</div>" +
                                                        "</div>");
                      }
+                     $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
+                               .attr("id", "ModalRoadSigns" + (i+1)).find(".buttonclose")
+                               .attr("onclick", "cleaningRoadSigns(" + (i + 1) + ")").end().find("td input").each(function (ind, element) {
+                                   $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
+                               }).end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + (i + 1) + ")").end());
+
+                     $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
+                         .attr("id", "RoadBarriers" + (i + 1)).find(".buttonclose")
+                         .attr("onclick", "cleaningRoadBarrier(" + (i + 1) + ")").end()
+                         .find("td input").each(function (ind, element) {
+                             $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
+                         }).end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + (i + 1) + ")").end());
                      //objects = ymaps.geoQuery([myCircle]);
                      //var tempCoordinates;
                      //segment.events.add('dragstart', function () {
@@ -198,7 +215,7 @@
                      massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                      increment++;
                  }
-                 var ind = 0;
+                 
                  myMap.geoObjects.each(function (el, i) {
                      for (var j = 0; j < massSegment.length; j++) {
                          if (i == massSegment[j])
@@ -948,8 +965,7 @@
                     strokeWidth: 4
                 });
                 //var segments= currentRoute.getPaths().get(0).getSegments();
-                //console.log(segments[0].getCoordinates());
-                //console.log(currentRoute.getPaths().get(0).state.get('hover'));
+
                 tempData = Arr[0];
 
                 myMap.geoObjects.add(currentRoute.getPaths());

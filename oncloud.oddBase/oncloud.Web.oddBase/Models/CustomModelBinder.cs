@@ -80,12 +80,14 @@ namespace OddBasyBY.Models
 
                     if (tempValueC != "")
                     {
-
+                        var t2 = ModalC.ElementAt(i).IndexOf("M");
+                        var t = ModalC.ElementAt(i).Substring(0, ModalC.ElementAt(i).IndexOf("M"));
+                       
                         ListSpecificationofRS.Add(new SpecificationofRS()
                         {
                             CountRS = int.Parse(tempValueC),
-                            RoadSignsIdModel = ModalC.ElementAt(i).Substring(8),
-                            SegmentIdModel = int.Parse(ModalC.ElementAt(i).Substring(0, 1))
+                            RoadSignsIdModel = ModalC.ElementAt(i).Substring(ModalC.ElementAt(i).IndexOf("C") + 1),
+                            SegmentIdModel = int.Parse(ModalC.ElementAt(i).Substring(0,ModalC.ElementAt(i).IndexOf("M")))
                         });
                     }
                 }
@@ -116,8 +118,8 @@ namespace OddBasyBY.Models
                         ListSpecificationofRS.Add(new SpecificationOfRb()
                         {
                             Length = int.Parse(tempValueM),
-                            SegmentIdModel = int.Parse(ModalM.ElementAt(i).Substring(0, 1)),
-                            RoadBarriersIdModel = ModalM.ElementAt(i).Substring(19)
+                            SegmentIdModel = int.Parse(ModalM.ElementAt(i).Substring(0, ModalM.ElementAt(i).IndexOf("M"))),
+                            RoadBarriersIdModel = ModalM.ElementAt(i).Substring(ModalM.ElementAt(i).IndexOf("C")+1)
                         });
                     }
                 }

@@ -22,13 +22,13 @@
                     }
                 </td>
                 <td>@item.Description</td>
-                <td>
+                <td style="padding: 0px">
                     <table >
 
                         @foreach (var item2 in item.RoadSignItems)
                         {
                             <tr>
-                                <td>
+                                <td style="padding: 8px 0">
                                    
                                     @if (item2.ImageData != null)
                                     {
@@ -44,7 +44,7 @@
                         }
                     </table>
                 </td>
-                <td style="vertical-align: middle"><input name="ModalC@(item.NumberRoadSigns)" type="text" /></td>
+                <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text" /></td>
 
             </tr>
         }
