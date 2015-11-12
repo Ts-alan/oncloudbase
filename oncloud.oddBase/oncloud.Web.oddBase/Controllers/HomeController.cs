@@ -208,5 +208,13 @@ namespace oncloud.Web.oddBase.Controllers
                 };
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }
