@@ -464,21 +464,7 @@
 
                     var coords = e.get('coords');
                     
-                            var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
-                            edges = [];
-
-                            // Переберем все сегменты и разобьем их на отрезки.
-                            pathsObjects.each(function (path) {
-                                var coordinates = path.geometry.getCoordinates();
-                                for (var i = 1, l = coordinates.length; i < l; i++) {
-                                    edges.push({
-                                        type: 'LineString',
-                                        coordinates: [coordinates[i], coordinates[i - 1]]
-
-                                    });
-                                }
-                            });
-                            CountObjectInMap = edges.length;
+                          
 
                             if (increment >= 2 && increment <= 4) {
 
@@ -550,9 +536,7 @@
                                         $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
                                     }).end().find(".buttonSave").attr("onclick","changeColorRoadBarriers("+ increment +")").end());
 
-                                //var widthBlockDiv = $(".blockDiv").css("height");
-                               
-                                //$(".blockDiv").css("height", (parseInt(widthBlockDiv.substring(0, widthBlockDiv.length - 2)) + 60).toString());
+
                             }
 
                             $("#CountSides").val(increment); $("#breadthSegS" + increment).attr("value", tempData[0]);
@@ -577,15 +561,7 @@
                             });
 
                             var myCircle = new ymaps.Circle([[coords[0].toPrecision(6), coords[1].toPrecision(6)], 3], null, { draggable: true, visible: false });
-                            //Добавление пути сегмента на карту
 
-                            //if (parseInt(myMap.geoObjects.getLength()) > CountObjectInMap+1) {
-                            //    myMap.geoObjects.splice(CountObjectInMap + 2, 1, route.getPaths());
-
-                            //} else {
-                            //    myMap.geoObjects.add(route.getPaths());
-
-                            //}
 
                             myMap.geoObjects.add(myCircle);
                             myMap.geoObjects.add(segment);
@@ -608,7 +584,7 @@
 
                             segment.events.add('dragend', function (e) {
 
-                                var routeObjects = ymaps.geoQuery(edges).setOptions('visible', false).addToMap(myMap);
+                                var routeObjects = ymaps.geoQuery(currentRoute).setOptions('visible', false).addToMap(myMap);
                                 myCircle.geometry.setCoordinates(
                                    segment.geometry._xl[0]
                                 );

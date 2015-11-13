@@ -1,6 +1,14 @@
 ﻿
 @model  IEnumerable<oncloud.Domain.Entities.RoadSigns>
-
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".equationStart").each(function (index, domElement) {
+            console.log($(domElement).css("height"));
+            $(".equationEnd").eq(index).css("width", $(domElement).css("width"));
+        }
+            );
+    });
+</script>
 <table class="table table-bordered">
     <tr>
         <th>№ знака</th>
@@ -23,28 +31,46 @@
                 </td>
                 <td>@item.Description</td>
                 <td style="padding: 0px">
-                    <table >
-
+                    <table>
                         @foreach (var item2 in item.RoadSignItems)
                         {
                             <tr>
-                                <td style="padding: 8px 0">
-                                   
+                                <td class="equationStart" style="padding: 8px 0;">
+
                                     @if (item2.ImageData != null)
                                     {
                                         <img style="height: 100px; width: 100px" src="@Url.Action("GetItemImage", "RoadSigns", new {id = item2.Id, hallmark = item2.Hallmark})" />
                                     }
-                                    
+
                                     else
                                     {
-                                    @item2.Description;
+                                        @item2.Description;
                                     }
                                 </td>
                             </tr>
                         }
                     </table>
                 </td>
-                <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text" /></td>
+                @if (item.RoadSignItems.FirstOrDefault() != null)
+                {
+                    <td style="padding: 0px">
+
+                        <table>
+
+                            @foreach (var item2 in item.RoadSignItems)
+                            {
+                                <tr>
+                                    <td class="equationEnd" style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text" /></td>
+                                </tr>
+                            }
+
+                        </table>
+                    </td>
+                }
+                else
+                {
+                    <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text" /></td>
+                }
 
             </tr>
         }
