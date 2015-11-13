@@ -434,6 +434,12 @@
 
     //задание координат
     $(document).ready(function () {
+        //выравнивение таблицы
+        $(".equationStart").each(function (index, domElement) {
+            console.log($(domElement).css("height"));
+            $(".equationEnd").eq(index).css("height", $(domElement).children().css("height"));
+        }
+    );
         $('[data-target="#ModalTable"]').click(function () {
 
             var textStreet = $('[name="Street.Name"]').val();

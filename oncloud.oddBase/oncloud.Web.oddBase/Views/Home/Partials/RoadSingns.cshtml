@@ -1,14 +1,6 @@
 ﻿
 @model  IEnumerable<oncloud.Domain.Entities.RoadSigns>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".equationStart").each(function (index, domElement) {
-            console.log($(domElement).css("height"));
-            $(".equationEnd").eq(index).css("width", $(domElement).css("width"));
-        }
-            );
-    });
-</script>
+
 <table class="table table-bordered">
     <tr>
         <th>№ знака</th>
@@ -34,8 +26,8 @@
                     <table>
                         @foreach (var item2 in item.RoadSignItems)
                         {
-                            <tr>
-                                <td class="equationStart" style="padding: 8px 0;">
+                            <tr >
+                                <td class="equationStart" style="padding: 8px 0">
 
                                     @if (item2.ImageData != null)
                                     {
@@ -45,8 +37,9 @@
                                     else
                                     {
                                         @item2.Description;
+                                      
                                     }
-                                </td>
+                              </td>
                             </tr>
                         }
                     </table>
