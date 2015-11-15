@@ -6,7 +6,7 @@
         <th>№ знака</th>
         <th>Картинка</th>
         <th>Описание</th>
-        <th>Маркер</th>
+        <th width="101px">Маркер</th>
         <th>Количество</th>
     </tr>
     @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns)
@@ -22,12 +22,15 @@
                     }
                 </td>
                 <td>@item.Description</td>
-                <td style="padding: 0px">
-                    <table>
-                        @foreach (var item2 in item.RoadSignItems)
-                        {
-                            <tr >
-                                <td class="equationStart" style="padding: 8px 0">
+                @if (item.RoadSignItems.FirstOrDefault() != null)
+                {
+                    <td colspan="2" style="padding: 0px">
+                        <table class=" table-bordered">
+
+                            @foreach (var item2 in item.RoadSignItems)
+                            {
+                            <tr>
+                                <td style="padding: 8px 0">
 
                                     @if (item2.ImageData != null)
                                     {
@@ -36,25 +39,13 @@
 
                                     else
                                     {
-                                        @item2.Description;
-                                      
+                                        @item2.Description
+                                        ;
+
                                     }
-                              </td>
+                                </td>
+                                <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text" /></td>
                             </tr>
-                        }
-                    </table>
-                </td>
-                @if (item.RoadSignItems.FirstOrDefault() != null)
-                {
-                    <td style="padding: 0px">
-
-                        <table>
-
-                            @foreach (var item2 in item.RoadSignItems)
-                            {
-                                <tr>
-                                    <td class="equationEnd" style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text" /></td>
-                                </tr>
                             }
 
                         </table>
@@ -62,7 +53,8 @@
                 }
                 else
                 {
-                    <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text" /></td>
+                <td width="100px"></td>
+                <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text" /></td>
                 }
 
             </tr>
