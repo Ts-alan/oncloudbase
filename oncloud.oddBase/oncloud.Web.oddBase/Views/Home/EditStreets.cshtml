@@ -79,13 +79,20 @@
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 }))');
-                 var DataOfRoadSings=JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationofRS.Select(a=>new {a.CountRS,a.Segment})
+                 var DataOfRoadSings = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationofRS.Select(a=>new {a.CountRS,a.Segment.Name,a.RoadSigns.NumberRoadSigns})
                                                 , Formatting.None,
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     }))');
-                 var segment = [], myCircle = [];
                  console.log(DataOfRoadSings);
+                 for (var i=0; i < DataOfRoadSings.length; i++) {
+
+                     $("[name='" + DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString() + "']")
+                     .attr("value", DataOfRoadSings[i].CountRS);
+                 }
+                 
+                 var segment = [], myCircle = [];
+                
                  for (var i = 0; i < "@Model.Segment.Count"; i++) {
 
                      segment[i] = new ymaps.GeoObject({

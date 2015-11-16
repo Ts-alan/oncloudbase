@@ -38,9 +38,15 @@ namespace oncloud.Web.oddBase.Controllers
             [ModelBinder(typeof (CustomModelBinderForRB))] ICollection<SpecificationOfRb> SpecificationofRB,
             HttpPostedFileBase layoutScheme = null, [ModelBinder(typeof(CustomModelBinderForlayoutDislocation))] List<HttpPostedFileBase> layoutDislocation = null)
         {
-
-            int LastIndexSegment = db.Segment.AsEnumerable().Last().id;
-
+            int LastIndexSegment;
+            if (db.Segment.Any())
+            {
+                LastIndexSegment = db.Segment.AsEnumerable().Last().id;
+            }
+            else
+            {
+                LastIndexSegment = 0;
+            }
             var streetInfo = new Street()
             {
                 Name = street.Name,
@@ -102,7 +108,7 @@ namespace oncloud.Web.oddBase.Controllers
             }
             SpecificationofRS.ForEach(a =>
             {
-                a.RoadSigns_id =
+                a.RoadSignsId=
                     db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
                 a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
                 a.Street_id = streetInfo.id;
