@@ -76,19 +76,20 @@ namespace OddBasyBY.Models
 
                 for (int i = 0; i < ModalC.Count; i++)
                 {
-                    string tempValueC = request.Form.Get(ModalC.ElementAt(i));
-
-                    if (tempValueC != "")
+                    string[] tempValueC = request.Form.Get(ModalC.ElementAt(i)).Split(',');
+                    foreach (var item in tempValueC)
                     {
-                        var t2 = ModalC.ElementAt(i).IndexOf("M");
-                        var t = ModalC.ElementAt(i).Substring(0, ModalC.ElementAt(i).IndexOf("M"));
-                       
-                        ListSpecificationofRS.Add(new SpecificationofRS()
+                        if (item != "")
                         {
-                            CountRS = int.Parse(tempValueC),
-                            RoadSignsIdModel = ModalC.ElementAt(i).Substring(ModalC.ElementAt(i).IndexOf("C") + 1),
-                            SegmentIdModel = int.Parse(ModalC.ElementAt(i).Substring(0,ModalC.ElementAt(i).IndexOf("M")))
-                        });
+
+                            ListSpecificationofRS.Add(new SpecificationofRS()
+                            {
+                                CountRS = int.Parse(item),
+                                RoadSignsIdModel = ModalC.ElementAt(i).Substring(ModalC.ElementAt(i).IndexOf("C") + 1),
+                                SegmentIdModel =
+                                    int.Parse(ModalC.ElementAt(i).Substring(0, ModalC.ElementAt(i).IndexOf("M")))
+                            });
+                        }
                     }
                 }
                 return ListSpecificationofRS;
