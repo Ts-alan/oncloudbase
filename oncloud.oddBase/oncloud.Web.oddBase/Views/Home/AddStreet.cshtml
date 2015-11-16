@@ -517,7 +517,7 @@
                                                                 "</div>" +
                                                                 "<div class='file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
                                                                     "<button type='button' id='changeColorDislocation" + increment + "'  class='btn btn-default'>Загрузить Дислокацию ТСОДД</button> " +
-                                                                "<input name='layoutDislocation' onchange=\"$('#changeColorDislocation" + increment + "').removeClass('btn-default').addClass('btn-danger');\" type='file'>" +
+                                                                "<input name='layoutDislocation" + increment + "' onchange=\"$('#changeColorDislocation" + increment + "').removeClass('btn-default').addClass('btn-danger');\" type='file'>" +
                                                                 "</div>" +
                                                                 "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
                                                                     "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + increment + "'>Ввести данные о дорожных знаках</button>" +
@@ -615,7 +615,7 @@
                             increment++;
                        
                 }
-                currentRoute.getPaths().events.add('dblclick', handlerSegment);
+                currentRoute.getPaths().events.add('click', handlerSegment);
 
             }
         }
@@ -1034,7 +1034,7 @@
 
                 <div class="file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
                     <button type="button" id="changeColorDislocation1" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
-                    <input name="layoutDislocation" onchange='$("#changeColorDislocation1").removeClass("btn-default").addClass("btn-danger");' type="file">
+                    <input name="layoutDislocation1" onchange='$("#changeColorDislocation1").removeClass("btn-default").addClass("btn-danger");' type="file">
                 </div>
                 <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Ввести данные о дорожных знаках</button>

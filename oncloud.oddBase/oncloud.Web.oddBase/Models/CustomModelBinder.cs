@@ -129,4 +129,28 @@ namespace OddBasyBY.Models
             return null;
         }
     }
+    public class CustomModelBinderForlayoutDislocation : DefaultModelBinder
+    {
+        public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        {
+            var request = controllerContext.HttpContext.Request;
+            List<layoutDislocation> ListSpecificationofRM = new List<layoutDislocation>();
+
+            List<string> Dislocation = request.Form.AllKeys.Where(a => a.Contains("layoutDislocation")).ToList();
+           
+            for (int i = 0; i < Dislocation.Count; i++)
+            {
+                string tempDislocation = request.Form.Get(Dislocation.ElementAt(i));
+                
+
+                //if (ListSpecificationofRM != "")
+                //{
+
+                //    ListSpecificationofRM.Add(new SpecificationofRM() { length = tempValueL, area = tempValueA, TheHorizontalRoadMarkingIdModel = ModalsA.ElementAt(i).Substring(7) });
+                //}
+                int h = 0;
+            }
+            return null;
+        }
+    }
 }

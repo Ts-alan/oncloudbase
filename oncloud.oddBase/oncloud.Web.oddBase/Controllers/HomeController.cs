@@ -36,7 +36,7 @@ namespace oncloud.Web.oddBase.Controllers
             [ModelBinder(typeof (CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
             [ModelBinder(typeof (CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
             [ModelBinder(typeof (CustomModelBinderForRB))] ICollection<SpecificationOfRb> SpecificationofRB,
-            HttpPostedFileBase layoutScheme = null, IEnumerable<HttpPostedFileBase> layoutDislocation = null)
+            HttpPostedFileBase layoutScheme = null, [ModelBinder(typeof(CustomModelBinderForlayoutDislocation))] List<HttpPostedFileBase> layoutDislocation = null)
         {
 
             int LastIndexSegment = db.Segment.AsEnumerable().Last().id;
@@ -193,6 +193,7 @@ namespace oncloud.Web.oddBase.Controllers
                 }
             });
             ViewBag.RoadSigns = db.RoadSigns.ToList();
+            
             ViewBag.RoadBarriers = db.RoadBarriers.ToList();
             return View(street);
         }
