@@ -107,7 +107,7 @@ namespace OddBasyBY.Models
             var countRSval = request.Form.Get("CountSides");
             if (countRSval != null)
             {
-                List<string> ModalM = request.Form.AllKeys.Where(a => a.Contains("RoadBarriersMeters")).ToList();
+                List<string> ModalM = request.Form.AllKeys.Where(a => a.Contains("RoadBarriers")).ToList();
 
                 for (int i = 0; i < ModalM.Count; i++)
                 {
@@ -119,8 +119,8 @@ namespace OddBasyBY.Models
                         ListSpecificationofRS.Add(new SpecificationOfRb()
                         {
                             Length = int.Parse(tempValueM),
-                            SegmentIdModel = int.Parse(ModalM.ElementAt(i).Substring(0, ModalM.ElementAt(i).IndexOf("M"))),
-                            RoadBarriersIdModel = ModalM.ElementAt(i).Substring(ModalM.ElementAt(i).IndexOf("C")+1)
+                            SegmentIdModel = int.Parse(ModalM.ElementAt(i).Substring(0, ModalM.ElementAt(i).IndexOf("R"))),
+                            RoadBarriersIdModel = ModalM.ElementAt(i).Substring(ModalM.ElementAt(i).IndexOf("s")+1)
                         });
                     }
                 }

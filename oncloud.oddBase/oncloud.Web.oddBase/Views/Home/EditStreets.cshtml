@@ -84,13 +84,12 @@
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     }))');
-                 console.log(DataOfRoadSings);
-                 for (var i=0; i < DataOfRoadSings.length; i++) {
-
-                     $("[name='" + DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString() + "']")
-                     .attr("value", DataOfRoadSings[i].CountRS);
-                 }
-                 
+                 var DataOfRoadBarriers = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationOfRb.Select(a=>new {a.Segment.Name,a.Length,a.RoadBarriers.NumberBarriers})
+                                                , Formatting.None,
+                    new JsonSerializerSettings() {
+                        ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    }))');
+             
                  var segment = [], myCircle = [];
                 
                  for (var i = 0; i < "@Model.Segment.Count"; i++) {
@@ -183,46 +182,30 @@
                          .find("td input").each(function (ind, element) {
                              $(element).attr("name", (i + 1).toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
                          }).end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + (i + 1) + ")").end());
-                     //objects = ymaps.geoQuery([myCircle]);
-                     //var tempCoordinates;
-                     //segment.events.add('dragstart', function () {
-                     //    tempCoordinates = segment.geometry._xl[0];
-                     //});
-                     //var Edit = increment;
-                     //segment.events.add('drag', function (e) {
-
-                     //    $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
-                     //    $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
-                     //    $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
-                     //    $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
-                     //});
-
-
-                     //segment.events.add('dragend', function (e) {
-
-                     //    var routeObjects = ymaps.geoQuery(edges).setOptions('visible', false).addToMap(myMap);
-                     //    myCircle.geometry.setCoordinates(
-                     //       segment.geometry._xl[0]
-                     //    );
-
-                     //    var boundaryObjects = routeObjects.searchIntersect(myCircle);
-
-
-                     //    if (boundaryObjects._xg.length == 0) {
-
-                     //        segment.geometry.setCoordinates(tempCoordinates);
-
-                     //        $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
-                     //        $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
-                     //        $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
-                     //        $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
-                     //    }
-
-                     //});
+               
                      massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                      increment++;
                  }
-                 
+
+                 var multiplicity,incrementMul=0;
+                 for (var i = 0; i < DataOfRoadSings.length; i++) {
+                     if (multiplicity != undefined) {
+                         if (multiplicity == DataOfRoadSings[i].Name) {
+                             incrementMul++;
+                         } else {
+                             incrementMul = 0;
+                         }
+                     }
+                     multiplicity = DataOfRoadSings[i].Name;
+                     $("[name='" + DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString() + "']").eq(incrementMul)
+                     .attr("value", DataOfRoadSings[i].CountRS);
+                 }
+                 console.log(DataOfRoadBarriers);
+                 for (var i = 0; i < DataOfRoadBarriers.length; i++) {
+                     $("[name='" + DataOfRoadBarriers[i].Name.toString() + "RoadBarriers" + DataOfRoadBarriers[i].NumberBarriers.toString() + "']")
+                    .attr("value", DataOfRoadBarriers[i].Length);
+                 }
+
                  myMap.geoObjects.each(function (el, i) {
                      for (var j = 0; j < massSegment.length; j++) {
                          if (i == massSegment[j])
@@ -1196,7 +1179,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="closeModalMackUp" onclick="cleaningModalMackUp()" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    <button type="button" id="closeModalMackUp" @*onclick="cleaningModalMackUp()"*@ class="btn btn-default" data-dismiss="modal">Закрыть</button>
                     <button type="button" class="btn btn-primary" onclick="changeColorMackUp()" data-dismiss="modal">Сохранить</button>
                 </div>
             </div>
@@ -1264,7 +1247,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default buttonclose" onclick="cleaningRoadSigns(1)" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-default buttonclose" @*onclick="cleaningRoadSigns(1)"*@ data-dismiss="modal">Закрыть</button>
                     <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadSigns(1)" data-dismiss="modal">Сохранить</button>
                 </div>
             </div>
@@ -1299,7 +1282,7 @@
                                 <td>
                                     @item.Description
                                 </td>
-                                <td style="vertical-align: middle"><input name="1RoadBarriersMeters@(item.NumberBarriers)" type="text" /></td>
+                                <td style="vertical-align: middle"><input name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
 
                             </tr>
                         }
@@ -1307,7 +1290,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="closeModalMackUp" onclick="cleaningRoadBarrier(1)" class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
+                    <button type="button" id="closeModalMackUp" @*onclick="cleaningRoadBarrier(1)"*@ class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
                     <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadBarriers(1)" data-dismiss="modal">Сохранить</button>
                 </div>
             </div>
