@@ -534,7 +534,7 @@
                                     .attr("id", "RoadBarriers" + increment).find(".buttonclose")
                                     .attr("onclick", "cleaningRoadBarrier(" + increment + ")").end()
                                     .find("td input").each(function (ind, element) {
-                                        $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
+                                        $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
                                     }).end().find(".buttonSave").attr("onclick","changeColorRoadBarriers("+ increment +")").end());
 
 
