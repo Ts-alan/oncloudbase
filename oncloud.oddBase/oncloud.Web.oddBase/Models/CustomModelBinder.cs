@@ -134,23 +134,29 @@ namespace OddBasyBY.Models
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             var request = controllerContext.HttpContext.Request;
-            List<layoutDislocation> ListSpecificationofRM = new List<layoutDislocation>();
 
-            List<string> Dislocation = request.Form.AllKeys.Where(a => a.Contains("layoutDislocation")).ToList();
+            List<ModelLayoutDislocation> ModelLayoutDislocation = new List<ModelLayoutDislocation>();
+
+            List<string> Dislocation = request.Files.AllKeys.Where(a => a.Contains("layoutDislocation")).ToList();
            
             for (int i = 0; i < Dislocation.Count; i++)
             {
-                string tempDislocation = request.Form.Get(Dislocation.ElementAt(i));
-                
+                HttpPostedFileBase File = request.Files.Get(Dislocation.ElementAt(i));
+                if(File.ContentLength!=0)
+                ModelLayoutDislocation.Add(new ModelLayoutDislocation() {SegmentId =int.Parse(Dislocation.ElementAt(i).Substring(17)),File = File});
 
-                //if (ListSpecificationofRM != "")
-                //{
-
-                //    ListSpecificationofRM.Add(new SpecificationofRM() { length = tempValueL, area = tempValueA, TheHorizontalRoadMarkingIdModel = ModalsA.ElementAt(i).Substring(7) });
-                //}
-                int h = 0;
             }
-            return null;
+
+
+               
+            
+            return ModelLayoutDislocation;
         }
+     }
+
+    public class ModelLayoutDislocation
+    {
+        public HttpPostedFileBase File { get; set; }
+        public int SegmentId { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace oncloud.Web.oddBase.Controllers
             [ModelBinder(typeof (CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
             [ModelBinder(typeof (CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
             [ModelBinder(typeof (CustomModelBinderForRB))] ICollection<SpecificationOfRb> SpecificationofRB,
-            HttpPostedFileBase layoutScheme = null, [ModelBinder(typeof(CustomModelBinderForlayoutDislocation))] List<HttpPostedFileBase> layoutDislocation = null)
+            HttpPostedFileBase layoutScheme = null, [ModelBinder(typeof(CustomModelBinderForlayoutDislocation))] List<ModelLayoutDislocation> layoutDislocation = null)
         {
             int LastIndexSegment;
             if (db.Segment.Any())
@@ -96,11 +96,11 @@ namespace oncloud.Web.oddBase.Controllers
                 layoutDislocation.ForEach(a =>
                 {
                     imageDislocation = new layoutDislocation();
-                    imageDislocation.ImageMimeType = a.ContentType;
-                    imageDislocation.ImageData = new byte[a.ContentLength];
-                    a.InputStream.Read(imageDislocation.ImageData, 0, a.ContentLength);
+                    imageDislocation.ImageMimeType = a.File.ContentType;
+                    imageDislocation.ImageData = new byte[a.File.ContentLength];
+                    a.File.InputStream.Read(imageDislocation.ImageData, 0, a.File.ContentLength);
                     imageDislocation.StreetId = streetInfo.id;
-                    imageDislocation.SegmentId = LastIndexSegment;
+                    imageDislocation.SegmentId = a.SegmentId;
                     imageDislocations.Add(imageDislocation);
                 }
                     );
