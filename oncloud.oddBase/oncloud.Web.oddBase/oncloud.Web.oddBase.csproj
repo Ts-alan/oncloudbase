@@ -295,6 +295,10 @@
     <Compile Include="Migrations\201511161533247_AddRoadSings.Designer.cs">
       <DependentUpon>201511161533247_AddRoadSings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511171542038_ListUniqueNumber.cs" />
+    <Compile Include="Migrations\201511171542038_ListUniqueNumber.Designer.cs">
+      <DependentUpon>201511171542038_ListUniqueNumber.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -713,6 +717,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511161533247_AddRoadSings.resx">
       <DependentUpon>201511161533247_AddRoadSings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511171542038_ListUniqueNumber.resx">
+      <DependentUpon>201511171542038_ListUniqueNumber.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

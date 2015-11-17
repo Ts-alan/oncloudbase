@@ -29,7 +29,7 @@ namespace oncloud.Domain.Concrete
         public virtual IDbSet<RoadBarriers> RoadBarriers { get; set; }
         public virtual DbSet<layoutDislocation> layoutDislocations { get; set; }
         public virtual IDbSet<layoutScheme> layoutSchemes { get; set; }
-
+        public virtual IDbSet<ListUniqueNumber> ListUniqueNumber { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<City>()

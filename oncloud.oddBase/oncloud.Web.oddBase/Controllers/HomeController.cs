@@ -177,6 +177,7 @@ namespace oncloud.Web.oddBase.Controllers
 
             if (street.SpecificationofRS != null)
                 db.SpecificationofRS.RemoveRange(street.SpecificationofRS);
+            db.ListUniqueNumber.Add(new ListUniqueNumber() {UniqueNumber = street.UniqueNumber});
             db.Street.Remove(street);
 
 

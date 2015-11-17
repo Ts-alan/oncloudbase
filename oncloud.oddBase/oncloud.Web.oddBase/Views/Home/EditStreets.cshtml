@@ -97,13 +97,13 @@
                      segment[i] = new ymaps.GeoObject({
                          geometry: {
                              type: "Point", // тип геометрии - точка
-                             coordinates: [DataOfSegment[i].BreadthS, DataOfSegment[i].LengthE] // координаты точки
+                             coordinates: [DataOfSegment[i].BreadthE, DataOfSegment[i].LengthE] // координаты точки
 
                          },
                          properties: {
                              iconContent: increment,
                              balloonContentHeader: "<a href='#' onclick='deleteSegment(" + increment + ")'>Удалить Обьект</a>",
-                             balloonContent: "[" + DataOfSegment[i].BreadthS + "," + DataOfSegment[i].LengthE + "]"
+                             balloonContent: "[" + DataOfSegment[i].BreadthE + "," + DataOfSegment[i].LengthE + "]"
                          }
                      },
                                    {
@@ -200,7 +200,7 @@
                      $("[name='" + DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString() + "']").eq(incrementMul)
                      .attr("value", DataOfRoadSings[i].CountRS);
                  }
-                 console.log(DataOfRoadBarriers);
+                 
                  for (var i = 0; i < DataOfRoadBarriers.length; i++) {
                      $("[name='" + DataOfRoadBarriers[i].Name.toString() + "RoadBarriers" + DataOfRoadBarriers[i].NumberBarriers.toString() + "']")
                     .attr("value", DataOfRoadBarriers[i].Length);

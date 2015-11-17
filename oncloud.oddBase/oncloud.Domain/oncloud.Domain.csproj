@@ -59,6 +59,7 @@
     <Compile Include="Entities\IntelliSenseStreet.cs" />
     <Compile Include="Entities\layoutDislocation.cs" />
     <Compile Include="Entities\layoutScheme.cs" />
+    <Compile Include="Entities\ListUniqueNumber .cs" />
     <Compile Include="Entities\RoadBarriers .cs" />
     <Compile Include="Entities\RoadSigns.cs" />
     <Compile Include="Entities\Segment.cs" />

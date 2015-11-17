@@ -20,7 +20,7 @@ namespace OddBasyBY.Models
             string[] BreadthS = request.Form.Get("Segment.BreadthS").Split(new Char[] {','});
             string[] BreadthE = request.Form.Get("Segment.BreadthE").Split(new Char[] {','});
             string[] LengthS = request.Form.Get("Segment.LengthS").Split(new Char[] {','});
-            string[] LengthE = request.Form.Get("Segment.LengthS").Split(new Char[] {','});
+            string[] LengthE = request.Form.Get("Segment.LengthE").Split(new Char[] {','});
 
             for (int i = 0; i < BreadthS.Count(); i++)
             {
