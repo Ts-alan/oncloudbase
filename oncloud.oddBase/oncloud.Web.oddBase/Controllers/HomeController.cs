@@ -77,6 +77,7 @@ namespace oncloud.Web.oddBase.Controllers
                     }
                 }
             }
+
             db.Segment.AddRange(segment);
             
 
@@ -89,6 +90,15 @@ namespace oncloud.Web.oddBase.Controllers
                 layoutScheme.InputStream.Read(imageScheme.ImageData, 0, layoutScheme.ContentLength);
                 db.layoutSchemes.Add(imageScheme);
             }
+ 
+            SpecificationofRS.ForEach(a =>
+            {
+                a.RoadSignsId=
+                    db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
+                a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
+                a.Street_id = streetInfo.id;
+
+            });
             if (layoutDislocation != null)
             {
                 List<layoutDislocation> imageDislocations = new List<layoutDislocation>();
@@ -100,20 +110,12 @@ namespace oncloud.Web.oddBase.Controllers
                     imageDislocation.ImageData = new byte[a.File.ContentLength];
                     a.File.InputStream.Read(imageDislocation.ImageData, 0, a.File.ContentLength);
                     imageDislocation.StreetId = streetInfo.id;
-                    imageDislocation.SegmentId = a.SegmentId;
+                    imageDislocation.SegmentId = segment.Single(c=>c.Name==a.SegmentId).id;
                     imageDislocations.Add(imageDislocation);
                 }
                     );
                 db.layoutDislocations.AddRange(imageDislocations);
             }
-            SpecificationofRS.ForEach(a =>
-            {
-                a.RoadSignsId=
-                    db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
-                a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
-                a.Street_id = streetInfo.id;
-
-            });
             SpecificationofRB.ForEach(a =>
             {
                 a.RoadBarriersId =
@@ -200,7 +202,11 @@ namespace oncloud.Web.oddBase.Controllers
                 }
             });
             ViewBag.RoadSigns = db.RoadSigns.ToList();
-            ViewBag.layoutScheme = street.layoutScheme;
+
+            ViewBag.layoutDislocation = db.layoutDislocations.Where(a=>a.StreetId==id).Select(a=>a.Segment.Name).ToList();
+
+            ViewBag.layoutScheme = db.layoutSchemes.SingleOrDefault(a=>a.Id==id);
+          
             ViewBag.RoadBarriers = db.RoadBarriers.ToList();
             return View(street);
         }
