@@ -53,7 +53,7 @@ namespace OddBasyBY.Models
                 string tempValueL = request.Form.Get(ModelsL.ElementAt(i));
                 string tempValueA = request.Form.Get(ModalsA.ElementAt(i));
 
-                if (tempValueL != "" && tempValueA != "")
+                if (tempValueL != "" || tempValueA != "")
                 {
 
                     ListSpecificationofRM.Add(new SpecificationofRM() {length = tempValueL, area = tempValueA,TheHorizontalRoadMarkingIdModel = ModalsA.ElementAt(i).Substring(7) });
