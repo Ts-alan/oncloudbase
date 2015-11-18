@@ -160,7 +160,7 @@
                                                          "</div>" +
                                                          "<div class='file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
                                                              "<button type='button' id='changeColorDislocation" + (i + 1) + "'  class='btn btn-default'>Загрузить Дислокацию ТСОДД</button> " +
-                                                         "<input name='layoutDislocation' onchange=\"$('#changeColorDislocation" + (i + 1) + "').removeClass('btn-default').addClass('btn-danger');\" type='file'>" +
+                                                         "<input name='layoutDislocation" + (i + 1) + "' onchange=\"$('#changeColorDislocation" + (i + 1) + "').removeClass('btn-default').addClass('btn-danger');\" type='file'>" +
                                                          "</div>" +
                                                          "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
                                                              "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + (i + 1) + "'>Ввести данные о дорожных знаках</button>" +
@@ -205,42 +205,42 @@
                      $("[name='" + DataOfRoadBarriers[i].Name.toString() + "RoadBarriers" + DataOfRoadBarriers[i].NumberBarriers.toString() + "']")
                     .attr("value", DataOfRoadBarriers[i].Length);
                  }
+                 console.log('@Model.layoutScheme.ImageData');
+                 //myMap.geoObjects.each(function (el, i) {
+                 //    for (var j = 0; j < massSegment.length; j++) {
+                 //        if (i == massSegment[j])
 
-                 myMap.geoObjects.each(function (el, i) {
-                     for (var j = 0; j < massSegment.length; j++) {
-                         if (i == massSegment[j])
+                     //            el.events.add('dragstart', function () {
+                     //                CoordinatesforFirstLoad = el.geometry._dp[0];
 
-                             el.events.add('dragstart', function () {
-                                 CoordinatesforFirstLoad = el.geometry._dp[0];
+                     //            });
+                     //el.events.add('dragend', function () {
+                     //    console.log(currentRoute);
+                     //    var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
+                     //    edges = [];
 
-                             });
-                         //el.events.add('dragend', function () {
-                         //    console.log(currentRoute);
-                         //    var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
-                         //    edges = [];
+                     //    // Переберем все сегменты и разобьем их на отрезки.
+                     //    pathsObjects.each(function (path) {
+                     //        var coordinates = path.geometry.getCoordinates();
+                     //        for (var i = 1, l = coordinates.length; i < l; i++) {
+                     //            edges.push({
+                     //                type: 'LineString',
+                     //                coordinates: [coordinates[i], coordinates[i - 1]]
 
-                         //    // Переберем все сегменты и разобьем их на отрезки.
-                         //    pathsObjects.each(function (path) {
-                         //        var coordinates = path.geometry.getCoordinates();
-                         //        for (var i = 1, l = coordinates.length; i < l; i++) {
-                         //            edges.push({
-                         //                type: 'LineString',
-                         //                coordinates: [coordinates[i], coordinates[i - 1]]
+                     //            });
+                     //        }
+                     //    });
 
-                         //            });
-                         //        }
-                         //    });
-
-                         //    CountObjectInMap = edges.length;
-                         //       var routeObjects = ymaps.geoQuery(edges).setOptions('visible', false).addToMap(myMap);
-                         //       myMap.geoObjects.get(massSegment[ind] + 1).geometry.setCoordinates(
-                         //           myMap.geoObjects.get(massSegment[ind]).geometry._dp[0]
-                         //        );
-                         //        var boundaryObjects = routeObjects.searchIntersect(myMap.geoObjects.get(massSegment[ind]+1));
-                         //    ind++;
-                         //});
-                     }
-                 });
+                     //    CountObjectInMap = edges.length;
+                     //       var routeObjects = ymaps.geoQuery(edges).setOptions('visible', false).addToMap(myMap);
+                     //       myMap.geoObjects.get(massSegment[ind] + 1).geometry.setCoordinates(
+                     //           myMap.geoObjects.get(massSegment[ind]).geometry._dp[0]
+                     //        );
+                     //        var boundaryObjects = routeObjects.searchIntersect(myMap.geoObjects.get(massSegment[ind]+1));
+                     //    ind++;
+                     //});
+                     //    }
+                     //});
              });
 
 

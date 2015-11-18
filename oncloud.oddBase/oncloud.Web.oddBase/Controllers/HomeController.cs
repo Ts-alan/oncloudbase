@@ -200,7 +200,7 @@ namespace oncloud.Web.oddBase.Controllers
                 }
             });
             ViewBag.RoadSigns = db.RoadSigns.ToList();
-            
+            ViewBag.layoutScheme = street.layoutScheme;
             ViewBag.RoadBarriers = db.RoadBarriers.ToList();
             return View(street);
         }

@@ -27,6 +27,16 @@ namespace oncloud.Web.oddBase.Models
 
         public static string StringSymvol(string TypeConstruction = "BB")
         {
+            using (EFDbContext context = new EFDbContext())
+            {
+                if (context.ListUniqueNumber.Any())
+                {
+                    string ListId= context.ListUniqueNumber.Select(a=>a.UniqueNumber).First();
+                    context.ListUniqueNumber.Remove(context.ListUniqueNumber.First());
+                    context.SaveChanges();
+                    return ListId;
+                }
+            }
             string SymbolString = "";
             int number = Increment();
             for (int s = 8; s > number.ToString().Length; s--)
