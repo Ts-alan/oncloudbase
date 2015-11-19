@@ -643,6 +643,7 @@
     <Content Include="Views\RoadSigns\EditItem.cshtml" />
     <Content Include="Views\RoadSigns\DeleteItem.cshtml" />
     <Content Include="Views\Home\EditStreets.cshtml" />
+    <Content Include="Views\Home\Review.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

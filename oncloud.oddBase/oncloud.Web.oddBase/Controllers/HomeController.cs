@@ -159,7 +159,7 @@ namespace oncloud.Web.oddBase.Controllers
             return View();
         }
 
-        public virtual ActionResult DeleteStreet(int id)
+        public void DeleteDataStreet(int id)
         {
             Street street = db.Street.Find(id);
             if (street.layoutScheme != null)
@@ -179,13 +179,16 @@ namespace oncloud.Web.oddBase.Controllers
 
             if (street.SpecificationofRS != null)
                 db.SpecificationofRS.RemoveRange(street.SpecificationofRS);
-            db.ListUniqueNumber.Add(new ListUniqueNumber() {UniqueNumber = street.UniqueNumber});
+            db.ListUniqueNumber.Add(new ListUniqueNumber() { UniqueNumber = street.UniqueNumber });
             db.Street.Remove(street);
-
-
             db.SaveChanges();
+        }
+        public virtual ActionResult DeleteStreet(int id)
+        {
+            DeleteDataStreet(id);
             return RedirectToAction("Table");
         }
+        [HttpGet]
         public virtual ActionResult EditStreets(int id)
         {
             Street street = db.Street.Find(id);
@@ -213,7 +216,7 @@ namespace oncloud.Web.oddBase.Controllers
             ViewBag.RoadBarriers = db.RoadBarriers.ToList();
             return View(street);
         }
-
+        [HttpPost]
         public ActionResult EditStreets(
             City city, Street street,
             [ModelBinder(typeof(CustomModelBinderForSegment))] ICollection<Segment> segment,
@@ -222,16 +225,9 @@ namespace oncloud.Web.oddBase.Controllers
             [ModelBinder(typeof(CustomModelBinderForRB))] ICollection<SpecificationOfRb> SpecificationofRB,
             HttpPostedFileBase layoutScheme = null, [ModelBinder(typeof(CustomModelBinderForlayoutDislocation))] List<ModelLayoutDislocation> layoutDislocation = null)
         {
-          
-            int LastIndexSegment;
-            if (db.Segment.Any())
-            {
-                LastIndexSegment = db.Segment.AsEnumerable().Last().id;
-            }
-            else
-            {
-                LastIndexSegment = 0;
-            }
+           
+            int LastIndexSegment =street.id;
+            Street streetForUniqueNumber = db.Street.Find(street.id);
             var streetInfo = new Street()
             {
                 Name = street.Name,
@@ -240,9 +236,10 @@ namespace oncloud.Web.oddBase.Controllers
                 LengthE = street.LengthE,
                 LengthS = street.LengthS,
                 City_id = city.id,
-                UniqueNumber = TableAdapterExtensions.StringSymvol()
+                UniqueNumber = streetForUniqueNumber.UniqueNumber
             };
-
+            DeleteDataStreet(street.id);
+        
             db.Street.Add(streetInfo);
             segment.GroupBy(a => a.Name).ForEach(a => a.ForEach(b => b.id = ++LastIndexSegment));
             streetInfo.Segment = segment;
@@ -314,9 +311,14 @@ namespace oncloud.Web.oddBase.Controllers
             db.SpecificationofRS.AddRange(SpecificationofRS);
             db.SaveChanges();
 
-            return View();
+            return RedirectToAction("Table");
         }
 
+        public ActionResult Review(int id)
+        {
+            Street street = db.Street.Find(id);
+            return View(street);
+        }
         public virtual ActionResult FindStreets(string term)
         {
             var streets = from m in db.IntelliSenseStreet where m.Street.Contains(term) select m;

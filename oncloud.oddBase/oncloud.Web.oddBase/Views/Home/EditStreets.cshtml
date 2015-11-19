@@ -225,6 +225,7 @@
                                                          "</div>" +
                                                        "</div>");
                      }
+                     if(i!=0){
                      $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
                                .attr("id", "ModalRoadSigns" + (i + 1)).find(".buttonclose")
                                .attr("onclick", "cleaningRoadSigns(" + (i + 1) + ")").end().find("td input").each(function (ind, element) {
@@ -237,7 +238,7 @@
                          .find("td input").each(function (ind, element) {
                              $(element).attr("name", (i + 1).toString() + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
                          }).end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + (i + 1) + ")").end());
-
+                     }
                      massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                      increment++;
                  }
@@ -1131,7 +1132,7 @@
             <div>
                 @Html.HiddenFor(a => a.City.id)
                 @Html.Label("Выбирите город", new { @for = "City.Name" }) @Html.TextBoxFor(a => a.City.Name)
-                @Html.Label("Выбирите улицу", new { @for = "Street.Name" })@Html.TextBoxFor(a => a.Name, null, new { id = "street" })
+                @Html.Label("Выбирите улицу", new { @for = "Street.Name" })@Html.TextBoxFor(a => a.Name, null, new { id = "street", Name = "Street.Name" })
             </div>
             <div>
                 <button type="button" class="btn btn-default" onclick="search()">Показать на карте</button>
@@ -1140,7 +1141,7 @@
             <h5>После сохранения наименования улицы, появляется возможность задавать ее координаты</h5>
             <b><u>2.Координаты улицы</u></b>
             <div>Начальнаты начала</div>
-            @Html.HiddenFor(a=>a.id)
+              <input type="hidden" name="Street.id" value="@Model.id">
             <div>
                 @Html.Label("Широта", new { @for = "Street.BreadthS" }) @Html.TextBoxFor(a => a.BreadthS, null, new { id = "breadthS", @readonly = "", Name = "Street.BreadthS" })
                 @Html.Label("Долгота", new { @for = "Street.LengthS" }) @Html.TextBoxFor(a => a.LengthS, null, new { id = "lengthS", @readonly = "", Name = "Street.LengthS" })
