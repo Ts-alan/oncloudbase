@@ -84,16 +84,30 @@
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     }))');
-                 var DataOfRoadBarriers = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationOfRb.Select(a=>new {a.Segment.Name,a.Length,a.RoadBarriers.NumberBarriers})
-                                                , Formatting.None,
-                    new JsonSerializerSettings() {
-                        ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                    }))');
+                 var DataOfRoadBarriers = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationOfRb.Select(a => new {a.Segment.Name, a.Length, a.RoadBarriers.NumberBarriers})
+                                                          , Formatting.None,
+                                                          new JsonSerializerSettings()
+                                                          {
+                                                              ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                                                          }))');
 
-              
 
-                 for (var i = 0; i < "@Model.Segment.Count"; i++) {
 
+                 var setSegment = function (i) {
+                     var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
+                   edges = [];
+
+                     // Переберем все сегменты и разобьем их на отрезки.
+                     pathsObjects.each(function (path) {
+                         var coordinates = path.geometry.getCoordinates();
+                         for (var i = 1, l = coordinates.length; i < l; i++) {
+                             edges.push({
+                                 type: 'LineString',
+                                 coordinates: [coordinates[i], coordinates[i - 1]]
+
+                             });
+                         }
+                     });
                    var  segment = new ymaps.GeoObject({
                          geometry: {
                              type: "Point", // тип геометрии - точка
@@ -134,7 +148,7 @@
 
                      segment.events.add('dragend', function (e) {
 
-                         var routeObjects = ymaps.geoQuery(currentRoute).setOptions('visible', false).addToMap(myMap);
+                         var routeObjects = ymaps.geoQuery(edges).setOptions('visible', false).addToMap(myMap);
                          myCircle.geometry.setCoordinates(
                             segment.geometry._xl[0]
                          );
@@ -250,7 +264,9 @@
                          changeColor = DataOfRoadSings[i].Name;
                      }
                  }
-
+                 for (var i = 0; i < "@Model.Segment.Count"; i++) {
+                     setSegment(i);
+                 }
                  for (var i = 0; i < DataOfRoadBarriers.length; i++) {
                      $("[name='" + DataOfRoadBarriers[i].Name.toString() + "RoadBarriers" + DataOfRoadBarriers[i].NumberBarriers.toString() + "']")
                     .attr("value", DataOfRoadBarriers[i].Length);
@@ -1100,7 +1116,7 @@
 </style>
 <h2 style="text-align: center">Карточка улицы</h2>
 
-@using (Html.BeginForm("SaveSuccess", "Home", null, FormMethod.Post, new
+@using (Html.BeginForm("EditStreets", "Home", null, FormMethod.Post, new
 {
     enctype = "multipart/form-data"
 }))
@@ -1124,6 +1140,7 @@
             <h5>После сохранения наименования улицы, появляется возможность задавать ее координаты</h5>
             <b><u>2.Координаты улицы</u></b>
             <div>Начальнаты начала</div>
+            @Html.HiddenFor(a=>a.id)
             <div>
                 @Html.Label("Широта", new { @for = "Street.BreadthS" }) @Html.TextBoxFor(a => a.BreadthS, null, new { id = "breadthS", @readonly = "", Name = "Street.BreadthS" })
                 @Html.Label("Долгота", new { @for = "Street.LengthS" }) @Html.TextBoxFor(a => a.LengthS, null, new { id = "lengthS", @readonly = "", Name = "Street.LengthS" })

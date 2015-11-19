@@ -189,6 +189,9 @@ namespace oncloud.Web.oddBase.Controllers
         public virtual ActionResult EditStreets(int id)
         {
             Street street = db.Street.Find(id);
+
+            Session["idStreet"] = street.id;
+
             ViewBag.RoadMarking = db.TheHorizontalRoadMarking.ToList().OrderBy(a =>
             {
                 if (a.NumberMarking.Substring(2).LastIndexOf(".") == -1)
@@ -210,6 +213,110 @@ namespace oncloud.Web.oddBase.Controllers
             ViewBag.RoadBarriers = db.RoadBarriers.ToList();
             return View(street);
         }
+
+        public ActionResult EditStreets(
+            City city, Street street,
+            [ModelBinder(typeof(CustomModelBinderForSegment))] ICollection<Segment> segment,
+            [ModelBinder(typeof(CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
+            [ModelBinder(typeof(CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
+            [ModelBinder(typeof(CustomModelBinderForRB))] ICollection<SpecificationOfRb> SpecificationofRB,
+            HttpPostedFileBase layoutScheme = null, [ModelBinder(typeof(CustomModelBinderForlayoutDislocation))] List<ModelLayoutDislocation> layoutDislocation = null)
+        {
+          
+            int LastIndexSegment;
+            if (db.Segment.Any())
+            {
+                LastIndexSegment = db.Segment.AsEnumerable().Last().id;
+            }
+            else
+            {
+                LastIndexSegment = 0;
+            }
+            var streetInfo = new Street()
+            {
+                Name = street.Name,
+                BreadthS = street.BreadthS,
+                BreadthE = street.BreadthE,
+                LengthE = street.LengthE,
+                LengthS = street.LengthS,
+                City_id = city.id,
+                UniqueNumber = TableAdapterExtensions.StringSymvol()
+            };
+
+            db.Street.Add(streetInfo);
+            segment.GroupBy(a => a.Name).ForEach(a => a.ForEach(b => b.id = ++LastIndexSegment));
+            streetInfo.Segment = segment;
+            streetInfo.SpecificationofRM = SpecificationofRM;
+            foreach (var instance in SpecificationofRM)
+            {
+                if (db.TheHorizontalRoadMarking.Any(a => a.NumberMarking == instance.TheHorizontalRoadMarkingIdModel))
+                {
+                    try
+                    {
+                        instance.TheHorizontalRoadMarking_id =
+                            db.TheHorizontalRoadMarking.Single(
+                                a => a.NumberMarking == instance.TheHorizontalRoadMarkingIdModel).id;
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+
+            db.Segment.AddRange(segment);
+
+
+            if (layoutScheme != null)
+            {
+                layoutScheme imageScheme = new layoutScheme();
+                imageScheme.ImageMimeType = layoutScheme.ContentType;
+                imageScheme.ImageData = new byte[layoutScheme.ContentLength];
+                imageScheme.Id = streetInfo.id;
+                layoutScheme.InputStream.Read(imageScheme.ImageData, 0, layoutScheme.ContentLength);
+                db.layoutSchemes.Add(imageScheme);
+            }
+
+            SpecificationofRS.ForEach(a =>
+            {
+                a.RoadSignsId =
+                    db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
+                a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
+                a.Street_id = streetInfo.id;
+
+            });
+            if (layoutDislocation != null)
+            {
+                List<layoutDislocation> imageDislocations = new List<layoutDislocation>();
+                layoutDislocation imageDislocation;
+                layoutDislocation.ForEach(a =>
+                {
+                    imageDislocation = new layoutDislocation();
+                    imageDislocation.ImageMimeType = a.File.ContentType;
+                    imageDislocation.ImageData = new byte[a.File.ContentLength];
+                    a.File.InputStream.Read(imageDislocation.ImageData, 0, a.File.ContentLength);
+                    imageDislocation.StreetId = streetInfo.id;
+                    imageDislocation.SegmentId = segment.Single(c => c.Name == a.SegmentId).id;
+                    imageDislocations.Add(imageDislocation);
+                }
+                    );
+                db.layoutDislocations.AddRange(imageDislocations);
+            }
+            SpecificationofRB.ForEach(a =>
+            {
+                a.RoadBarriersId =
+                    db.RoadBarriers.Single(b => b.NumberBarriers == a.RoadBarriersIdModel).Id;
+                a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
+                a.StreetId = streetInfo.id;
+
+            });
+            db.SpecificationOfRb.AddRange(SpecificationofRB);
+            db.SpecificationofRM.AddRange(SpecificationofRM);
+            db.SpecificationofRS.AddRange(SpecificationofRS);
+            db.SaveChanges();
+
+            return View();
+        }
+
         public virtual ActionResult FindStreets(string term)
         {
             var streets = from m in db.IntelliSenseStreet where m.Street.Contains(term) select m;
