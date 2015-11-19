@@ -60,12 +60,12 @@ namespace oncloud.Web.oddBase.Controllers
         public virtual ActionResult CreateItem(int id)
         {
             RoadSigns roadSign = db.RoadSigns.Find(id);
-            return View(new RoadSignItem() { Id = id, RoadSign = roadSign, Hallmark = Guid.NewGuid().ToString() });
+            return View(new RoadSignItem() { Id = id, RoadSign = roadSign, Hallmark = Guid.NewGuid().ToString(), ItemOrder = roadSign.RoadSignItems.Count > 0? roadSign.RoadSignItems.Max(rsi=>rsi.ItemOrder)+1:0 });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult CreateItem([Bind(Include = "Id, Hallmark, Description,ImageData,ImageMimeType")] RoadSignItem roadSignItem, HttpPostedFileBase image = null)
+        public virtual ActionResult CreateItem([Bind(Include = "Id, Hallmark, Description,ImageData,ImageMimeType, ItemOrder")] RoadSignItem roadSignItem, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
@@ -108,7 +108,7 @@ namespace oncloud.Web.oddBase.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult EditItem([Bind(Include = "id,Hallmark,Description,ImageData,ImageMimeType")] RoadSignItem roadSignItem, HttpPostedFileBase image = null)
+        public virtual ActionResult EditItem([Bind(Include = "id,Hallmark,Description,ImageData,ImageMimeType, ItemOrder")] RoadSignItem roadSignItem, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
@@ -122,6 +122,7 @@ namespace oncloud.Web.oddBase.Controllers
                 //db.SetEntryModified(roadSigns);
                 //db.Entry(roadSigns).State = EntityState.Modified;
                 original_roadSignItem.Description = roadSignItem.Description;
+                original_roadSignItem.ItemOrder = roadSignItem.ItemOrder;
                 db.SaveChanges();
                 return RedirectToAction(MVC.RoadSigns.Edit(roadSignItem.Id));
             }

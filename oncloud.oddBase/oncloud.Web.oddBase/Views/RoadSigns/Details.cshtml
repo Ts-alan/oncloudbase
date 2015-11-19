@@ -58,7 +58,7 @@
             </th>
         </tr>
         @{int npp = 0;}
-        @foreach (var rsItem in Model.RoadSignItems)
+        @foreach (var rsItem in Model.RoadSignItems.OrderBy(i=>i.ItemOrder))
         {
             
             <tr>
