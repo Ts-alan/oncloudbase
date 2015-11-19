@@ -724,8 +724,11 @@
                 $(element).val("");
             });
         });
-
-
+        //отмена клавиши esc для модальных окон
+        $('.modal').modal({
+            keyboard: false,
+            show:false
+        });
     });
 
 </script>

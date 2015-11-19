@@ -90,11 +90,11 @@
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     }))');
 
-                 var segment = [], myCircle = [];
+              
 
                  for (var i = 0; i < "@Model.Segment.Count"; i++) {
 
-                     segment[i] = new ymaps.GeoObject({
+                   var  segment = new ymaps.GeoObject({
                          geometry: {
                              type: "Point", // тип геометрии - точка
                              coordinates: [DataOfSegment[i].BreadthE, DataOfSegment[i].LengthE] // координаты точки
@@ -111,10 +111,51 @@
                                        draggable: true
                                    });
 
-                     myCircle[i] = new ymaps.Circle([[DataOfSegment[i].BreadthS, DataOfSegment[i].LengthE], 3], null, { draggable: true, visible: false });
+                   var  myCircle = new ymaps.Circle([[DataOfSegment[i].BreadthS, DataOfSegment[i].LengthE], 3], null, { draggable: true, visible: false });
 
-                     myMap.geoObjects.add(myCircle[i]);
-                     myMap.geoObjects.add(segment[i]);
+                     myMap.geoObjects.add(myCircle);
+                     myMap.geoObjects.add(segment);
+                     objects = ymaps.geoQuery([myCircle]);
+
+                     var tempCoordinates;
+                     segment.events.add('dragstart', function () {
+                         tempCoordinates = segment.geometry._xl[0];
+                         console.log(tempCoordinates);
+                     });
+                     var Edit = increment;
+                     segment.events.add('drag', function (e) {
+
+                         $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                         $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                         $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                         $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                     });
+
+
+                     segment.events.add('dragend', function (e) {
+
+                         var routeObjects = ymaps.geoQuery(currentRoute).setOptions('visible', false).addToMap(myMap);
+                         myCircle.geometry.setCoordinates(
+                            segment.geometry._xl[0]
+                         );
+
+                         var boundaryObjects = routeObjects.searchIntersect(myCircle);
+
+
+                         if (boundaryObjects._xg.length == 0) {
+
+                             segment.geometry.setCoordinates(tempCoordinates);
+
+                             $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                             $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                             $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                             $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                         }
+                     });
+
+
+
+
                      if (i + 1 >= 1 && i + 1 <= 4) {
 
                          $("#segment" + (i + 1)).html(
@@ -187,7 +228,7 @@
                      increment++;
                  }
 
-                 var multiplicity, incrementMul = 0,changeColor;
+                 var multiplicity, incrementMul = 0, changeColor;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
                      if (multiplicity != undefined) {
                          if (multiplicity == DataOfRoadSings[i].Name) {
@@ -209,7 +250,7 @@
                          changeColor = DataOfRoadSings[i].Name;
                      }
                  }
-                 
+
                  for (var i = 0; i < DataOfRoadBarriers.length; i++) {
                      $("[name='" + DataOfRoadBarriers[i].Name.toString() + "RoadBarriers" + DataOfRoadBarriers[i].NumberBarriers.toString() + "']")
                     .attr("value", DataOfRoadBarriers[i].Length);
@@ -234,10 +275,10 @@
                      $('#changeColorDislocation' + MassLD[j] + '').addClass("btn-danger");
                  }
                  $('[name*="ModalsL"]').each(function (index, element) {
-                     
+
                      if ($(element).val() != '') {
                          changeColorMackUp();
-                        
+
                          return false;
                      };
                  });
@@ -995,7 +1036,18 @@
                 $(element).val("");
             });
         });
+        //отмена клавиши esc для модальных окон
+        $('body').keydown(function (eventObject) {
+            if (eventObject.which == 27) {
+                eventObject.preventDefault();
 
+            };
+        });
+        //отмена клавиши esc для модальных окон
+        $('.modal').modal({
+            keyboard: false,
+            show: false
+        });
 
     });
 
@@ -1143,45 +1195,45 @@
                                 <td>
                                     @item.description
                                 </td>
-                            
-                                    @if (Model.SpecificationofRM.Any(a=>a.TheHorizontalRoadMarking_id == item.id))
-                                    {
-                                        <td style="vertical-align: middle">
-                                            @try
+
+                                @if (Model.SpecificationofRM.Any(a => a.TheHorizontalRoadMarking_id == item.id))
+                                {
+                                    <td style="vertical-align: middle">
+                                        @try
+                                        {
+                                            if (Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).length == null)
                                             {
-                                                if (Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).length == null)
-                                                {
-                                                    <input name="ModalsL@(item.NumberMarking)" value="" type="text"/>
-                                                }
-                                                else
-                                                {
-                                                    <input name="ModalsL@(item.NumberMarking)" value="@Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).length" type="text"/>
-                                                }
+                                                <input name="ModalsL@(item.NumberMarking)" value="" type="text" />
                                             }
-                                            catch  { }
-                                        </td>
+                                            else
+                                            {
+                                                <input name="ModalsL@(item.NumberMarking)" value="@Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).length" type="text" />
+                                            }
+                                        }
+                                        catch { }
+                                    </td>
                                         <td style="vertical-align: middle">
                                             @try
                                             {
                                                 if (Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).area == null)
                                                 {
-                                                    <input name="ModalsA@(item.NumberMarking)" type="text"/>
+                                                    <input name="ModalsA@(item.NumberMarking)" type="text" />
                                                 }
                                                 else
                                                 {
-                                                    <input name="ModalsA@(item.NumberMarking)" value="@Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).area" type="text"/>
+                                                    <input name="ModalsA@(item.NumberMarking)" value="@Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).area" type="text" />
                                                 }
                                             }
                                             catch { }
                                         </td>
-                                       
-                                    }
-                                    else
-                                    {
-                                        <td style="vertical-align: middle"><input name="ModalsL@(item.NumberMarking)" type="text" /></td>
+
+                                }
+                                else
+                                {
+                                    <td style="vertical-align: middle"><input name="ModalsL@(item.NumberMarking)" type="text" /></td>
                                         <td style="vertical-align: middle"><input name="ModalsA@(item.NumberMarking)" type="text" /></td>
-                                    }
-                                
+                                }
+
                             </tr>
                         }
 
@@ -1263,83 +1315,83 @@
         </div>
     </div>
         <!-- RoadBarriers  -->
-    <div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" style="width: 1000px" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
+                                    <div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" style="width: 1000px" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
 
-                </div>
-                <div class="modal-body">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>№ </th>
-                            <th>Картинка</th>
-                            <th>Описание</th>
-                            <th>Погонные метры</th>
-                        </tr>
-                        @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadBarriers>)ViewBag.RoadBarriers)
-                        {
-                            <tr>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table table-bordered">
+                                                        <tr>
+                                                            <th>№ </th>
+                                                            <th>Картинка</th>
+                                                            <th>Описание</th>
+                                                            <th>Погонные метры</th>
+                                                        </tr>
+                                                        @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadBarriers>)ViewBag.RoadBarriers)
+                                                        {
+                                                            <tr>
 
-                                <td>@item.NumberBarriers</td>
-                                <td>
-                                    @if (item.ImageData != null)
-                                    {
-                                        <img style="width: 100px;height: 100px" src="@Url.Action("GetImage",  "RoadBarriers", new { item.Id})" />
+                                                                <td>@item.NumberBarriers</td>
+                                                                <td>
+                                                                    @if (item.ImageData != null)
+                                                                    {
+                                                                        <img style="width: 100px;height: 100px" src="@Url.Action("GetImage",  "RoadBarriers", new { item.Id})" />
+                                                                    }
+                                                                </td>
+                                                                <td>
+                                                                    @item.Description
+                                                                </td>
+                                                                <td style="vertical-align: middle"><input name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
+
+                                                            </tr>
+                                                        }
+
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" id="closeModalMackUp" @*onclick="cleaningRoadBarrier(1)"*@ class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
+                                                    <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadBarriers(1)" data-dismiss="modal">Сохранить</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div id="blockElement" style="clear: both">
+                                            <div>
+                                                <b><u>4.Ввод данных</u></b>
+                                            </div>
+                                            <div class="file_upload  col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                <button class="btn btn-default" id="changeColorScheme1" type="button">Загрузить компоновочную схему</button>
+                                                <input onchange='$("#changeColorScheme1").removeClass("btn-default").addClass("btn-danger");' name="layoutScheme" type="file">
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Ввести спецификацию разметки</button>
+                                            </div>
+                                            <div style="clear: both" class="DataOfRoad1">
+                                                <div>
+                                                    <b><u>Участок 1</u></b>
+                                                </div>
+
+                                                <div class="file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+                                                    <button type="button" id="changeColorDislocation1" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
+                                                    <input name="layoutDislocation1" onchange='$("#changeColorDislocation1").removeClass("btn-default").addClass("btn-danger");' type="file">
+                                                </div>
+                                                <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Ввести данные о дорожных знаках</button>
+                                                </div>
+                                                <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#RoadBarriers1">
+                                                        Ввести данные о дорожных ограждениях
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="blockForm" style="margin-left: 60%; margin-top: 60px">
+                                        @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-default", style = "float:left" }) <button class="btn btn-primary">Сохранить</button>
+                                    </div>
+
                                     }
-                                </td>
-                                <td>
-                                    @item.Description
-                                </td>
-                                <td style="vertical-align: middle"><input name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
-
-                            </tr>
-                        }
-
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="closeModalMackUp" @*onclick="cleaningRoadBarrier(1)"*@ class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadBarriers(1)" data-dismiss="modal">Сохранить</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div>
-        <div id="blockElement" style="clear: both">
-            <div>
-                <b><u>4.Ввод данных</u></b>
-            </div>
-            <div class="file_upload  col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                <button class="btn btn-default" id="changeColorScheme1" type="button">Загрузить компоновочную схему</button>
-                <input onchange='$("#changeColorScheme1").removeClass("btn-default").addClass("btn-danger");' name="layoutScheme" type="file">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Ввести спецификацию разметки</button>
-            </div>
-            <div style="clear: both" class="DataOfRoad1">
-                <div>
-                    <b><u>Участок 1</u></b>
-                </div>
-
-                <div class="file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-                    <button type="button" id="changeColorDislocation1" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
-                    <input name="layoutDislocation1" onchange='$("#changeColorDislocation1").removeClass("btn-default").addClass("btn-danger");' type="file">
-                </div>
-                <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Ввести данные о дорожных знаках</button>
-                </div>
-                <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#RoadBarriers1">
-                        Ввести данные о дорожных ограждениях
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="blockForm" style="margin-left: 60%; margin-top: 60px">
-        @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-default", style = "float:left" }) <button class="btn btn-primary">Сохранить</button>
-    </div>
-
-    }
