@@ -303,6 +303,14 @@
     <Compile Include="Migrations\201511192118493_add_rs_item_order.Designer.cs">
       <DependentUpon>201511192118493_add_rs_item_order.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511201507134_deleteId.cs" />
+    <Compile Include="Migrations\201511201507134_deleteId.Designer.cs">
+      <DependentUpon>201511201507134_deleteId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511201509589_AddId.cs" />
+    <Compile Include="Migrations\201511201509589_AddId.Designer.cs">
+      <DependentUpon>201511201509589_AddId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -728,6 +736,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511192118493_add_rs_item_order.resx">
       <DependentUpon>201511192118493_add_rs_item_order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511201507134_deleteId.resx">
+      <DependentUpon>201511201507134_deleteId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511201509589_AddId.resx">
+      <DependentUpon>201511201509589_AddId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

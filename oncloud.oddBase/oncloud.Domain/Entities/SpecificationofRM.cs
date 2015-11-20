@@ -13,10 +13,10 @@ namespace oncloud.Domain.Entities
         public string length { get; set; }
         public string area { get; set; }
         public int Street_id { get; set; }
-        public int TheHorizontalRoadMarking_id { get; set; }
+        public int TheHorizontalRoadMarkingId { get; set; }
         [NotMapped]
         public string TheHorizontalRoadMarkingIdModel { get; set; }
-       
+
         public virtual TheHorizontalRoadMarking TheHorizontalRoadMarking { get; set; }
         public virtual Street Street { get; set; }
 

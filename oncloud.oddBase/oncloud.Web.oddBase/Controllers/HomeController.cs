@@ -68,7 +68,7 @@ namespace oncloud.Web.oddBase.Controllers
                 {
                     try
                     {
-                        instance.TheHorizontalRoadMarking_id =
+                        instance.TheHorizontalRoadMarkingId =
                             db.TheHorizontalRoadMarking.Single(
                                 a => a.NumberMarking == instance.TheHorizontalRoadMarkingIdModel).id;
                     }
@@ -250,7 +250,7 @@ namespace oncloud.Web.oddBase.Controllers
                 {
                     try
                     {
-                        instance.TheHorizontalRoadMarking_id =
+                        instance.TheHorizontalRoadMarkingId =
                             db.TheHorizontalRoadMarking.Single(
                                 a => a.NumberMarking == instance.TheHorizontalRoadMarkingIdModel).id;
                     }
