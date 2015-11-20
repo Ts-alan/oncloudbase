@@ -228,13 +228,13 @@
                      if(i!=0){
                      $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
                                .attr("id", "ModalRoadSigns" + (i + 1)).find(".buttonclose")
-                               .attr("onclick", "cleaningRoadSigns(" + (i + 1) + ")").end().find("td input").each(function (ind, element) {
+                               /*.attr("onclick", "cleaningRoadSigns(" + (i + 1) + ")")*/.end().find("td input").each(function (ind, element) {
                                    $(element).attr("name", (i + 1).toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
                                }).end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + (i + 1) + ")").end());
 
                      $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
                          .attr("id", "RoadBarriers" + (i + 1)).find(".buttonclose")
-                         .attr("onclick", "cleaningRoadBarrier(" + (i + 1) + ")").end()
+                         /*.attr("onclick", "cleaningRoadBarrier(" + (i + 1) + ")")*/.end()
                          .find("td input").each(function (ind, element) {
                              $(element).attr("name", (i + 1).toString() + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
                          }).end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + (i + 1) + ")").end());
@@ -243,6 +243,10 @@
                      increment++;
                  }
 
+
+                 for (var i = 0; i < "@Model.Segment.Count"; i++) {
+                     setSegment(i);
+                 }
                  var multiplicity, incrementMul = 0, changeColor;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
                      if (multiplicity != undefined) {
@@ -264,9 +268,6 @@
                          changeColorRoadSigns(DataOfRoadSings[i].Name);
                          changeColor = DataOfRoadSings[i].Name;
                      }
-                 }
-                 for (var i = 0; i < "@Model.Segment.Count"; i++) {
-                     setSegment(i);
                  }
                  for (var i = 0; i < DataOfRoadBarriers.length; i++) {
                      $("[name='" + DataOfRoadBarriers[i].Name.toString() + "RoadBarriers" + DataOfRoadBarriers[i].NumberBarriers.toString() + "']")
@@ -1053,13 +1054,7 @@
                 $(element).val("");
             });
         });
-        //отмена клавиши esc для модальных окон
-        $('body').keydown(function (eventObject) {
-            if (eventObject.which == 27) {
-                eventObject.preventDefault();
 
-            };
-        });
         //отмена клавиши esc для модальных окон
         $('.modal').modal({
             keyboard: false,

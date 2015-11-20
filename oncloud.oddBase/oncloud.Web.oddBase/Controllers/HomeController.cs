@@ -331,6 +331,19 @@ namespace oncloud.Web.oddBase.Controllers
                 };
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
         }
+        public  FileContentResult GetImageLayoutScheme(int id)
+        {
+            layoutScheme LayoutScheme = db.layoutSchemes.Find(id);
+
+            if (LayoutScheme != null)
+            {
+                return File(LayoutScheme.ImageData, LayoutScheme.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
