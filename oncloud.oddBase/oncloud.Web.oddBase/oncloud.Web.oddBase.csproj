@@ -299,6 +299,10 @@
     <Compile Include="Migrations\201511171542038_ListUniqueNumber.Designer.cs">
       <DependentUpon>201511171542038_ListUniqueNumber.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511192118493_add_rs_item_order.cs" />
+    <Compile Include="Migrations\201511192118493_add_rs_item_order.Designer.cs">
+      <DependentUpon>201511192118493_add_rs_item_order.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -721,6 +725,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511171542038_ListUniqueNumber.resx">
       <DependentUpon>201511171542038_ListUniqueNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511192118493_add_rs_item_order.resx">
+      <DependentUpon>201511192118493_add_rs_item_order.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

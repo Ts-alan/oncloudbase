@@ -46,7 +46,10 @@ namespace oncloud.Domain.Entities
         [Display(Name = "Символ")]
         public byte[] ImageData { get; set; }
         public string ImageMimeType { get; set; }
-
+        
+        [DefaultValue(0)]
+        [Display(Name = "Очерёдность")]
+        public int ItemOrder { get; set; }
         public RoadSigns RoadSign { get; set; }
     }
 }
