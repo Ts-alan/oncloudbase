@@ -311,6 +311,14 @@
     <Compile Include="Migrations\201511201509589_AddId.Designer.cs">
       <DependentUpon>201511201509589_AddId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511230817332_Delete Street_id.cs" />
+    <Compile Include="Migrations\201511230817332_Delete Street_id.Designer.cs">
+      <DependentUpon>201511230817332_Delete Street_id.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511230819059_AddStreetId.cs" />
+    <Compile Include="Migrations\201511230819059_AddStreetId.Designer.cs">
+      <DependentUpon>201511230819059_AddStreetId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -742,6 +750,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511201509589_AddId.resx">
       <DependentUpon>201511201509589_AddId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511230817332_Delete Street_id.resx">
+      <DependentUpon>201511230817332_Delete Street_id.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511230819059_AddStreetId.resx">
+      <DependentUpon>201511230819059_AddStreetId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

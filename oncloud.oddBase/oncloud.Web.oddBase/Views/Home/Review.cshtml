@@ -2,6 +2,7 @@
 @model  oncloud.Domain.Entities.Street
 @{
     ViewBag.Title = "EditStreets";
+    int index1=0, index2 = -1;
 }
 
 
@@ -250,5 +251,86 @@
             </div>
         </div>
     </div>
-</div>                     
+</div>
+<h3>Спецификация горизонтальной дорожной разметки</h3>
+<table class="table table-bordered" style="width: 33%">
+    <tr>
+        <th>№ разметки</th>
+        <th>Длина (м.пог) / штуки</th>
+        <th>Площадь (м.кв)</th>
+    </tr>
+    @foreach (var item in Model.SpecificationofRM)
+    {
+        <tr>
+            <td>@item.TheHorizontalRoadMarking.NumberMarking</td>
+            <td>@item.length</td>
+            <td>@item.area</td>
+        </tr>
+    }
+    <tr >
+        <td><b>Итого</b></td>
+        <td>@Model.SpecificationofRM.Sum(a=> int.Parse(a.length))</td>
+        <td>@Model.SpecificationofRM.Sum(a => int.Parse(a.area))</td>
+    </tr>
+</table>
 
+<table class="table table-bordered" style="width: 33%">
+    <tr>
+        <th>№ знака</th>
+        <th>Маркер</th>
+        <th>Количество</th>
+    </tr>
+    @foreach (var item in Model.SpecificationofRS.GroupBy(a=>new { a.RoadSigns.NumberRoadSigns,a.RoadSigns.RoadSignItems}))
+    {
+        <tr>
+            <td>@item.Key.NumberRoadSigns</td>
+            @if (item.Key.RoadSignItems.FirstOrDefault() != null)
+                {
+                <td colspan="2" style="padding: 0px">
+                    <table class=" table-bordered">
+
+                        @foreach (var item2 in item.Key.RoadSignItems.GroupBy(a=>new {a.ImageData,a.Description,a.RoadSign,a.Id,a.Hallmark}))
+
+                        {
+                            <tr>
+                                <td style="padding: 8px 0">
+
+                                    @if (item2.Key.ImageData != null)
+                                    {
+                                        <img style="height: 100px; width: 100px" src="@Url.Action("GetItemImage", "RoadSigns", new {id = item2.Key.Id, hallmark = item2.Key.Hallmark})"/>
+                                    }
+
+                                    else
+                                    {
+                                        @item2.Key.Description;
+
+                                    }
+                                </td>
+                                <td style="vertical-align: middle">@*@item2.Key.RoadSign.SpecificationofRM.Sum(a =>
+                                                                   {
+                                                                      
+                                                                      if (index2 != item.Key.RoadSignItems.ElementAt(++index2).RoadSign.SpecificationofRM.Count)
+                                                                      {
+
+                                                                          return 0;
+                                                                      }
+                                                                      else
+                                                                      {
+                                                                          return  a.CountRS;
+                                                                      }
+                                                                  })*@</td>
+                            </tr>
+                            index1++;
+                        }
+
+                    </table>
+                </td>
+            }
+            else
+            {
+                <td width="100px"></td>
+                <td style="vertical-align: middle">@item.Sum(a=>a.CountRS)</td>
+            }
+        </tr>
+    }
+</table>

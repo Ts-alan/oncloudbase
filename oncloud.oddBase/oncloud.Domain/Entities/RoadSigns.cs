@@ -26,7 +26,7 @@ namespace oncloud.Domain.Entities
 
         [Display(Name = "Маркеры")]
         public virtual ICollection<RoadSignItem> RoadSignItems { get; set; }
-        //public virtual ICollection<SpecificationofRS> SpecificationofRM { get; set; }
+        public virtual ICollection<SpecificationofRS> SpecificationofRM { get; set; }
     }
 
     public class RoadSignItem

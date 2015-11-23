@@ -1209,18 +1209,18 @@
                                     @item.description
                                 </td>
 
-                                @if (Model.SpecificationofRM.Any(a => a.TheHorizontalRoadMarking_id == item.id))
+                                @if (Model.SpecificationofRM.Any(a => a.TheHorizontalRoadMarkingId == item.id))
                                 {
                                     <td style="vertical-align: middle">
                                         @try
                                         {
-                                            if (Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).length == null)
+                                            if (Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarkingId == item.id).length == null)
                                             {
                                                 <input name="ModalsL@(item.NumberMarking)" value="" type="text" />
                                             }
                                             else
                                             {
-                                                <input name="ModalsL@(item.NumberMarking)" value="@Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).length" type="text" />
+                                                <input name="ModalsL@(item.NumberMarking)" value="@Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarkingId == item.id).length" type="text" />
                                             }
                                         }
                                         catch { }
@@ -1228,13 +1228,13 @@
                                         <td style="vertical-align: middle">
                                             @try
                                             {
-                                                if (Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).area == null)
+                                                if (Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarkingId == item.id).area == null)
                                                 {
                                                     <input name="ModalsA@(item.NumberMarking)" type="text" />
                                                 }
                                                 else
                                                 {
-                                                    <input name="ModalsA@(item.NumberMarking)" value="@Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarking_id == item.id).area" type="text" />
+                                                    <input name="ModalsA@(item.NumberMarking)" value="@Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarkingId == item.id).area" type="text" />
                                                 }
                                             }
                                             catch { }
