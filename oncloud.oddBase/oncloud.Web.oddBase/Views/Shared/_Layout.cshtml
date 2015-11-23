@@ -39,10 +39,12 @@
     <div style="margin-top: 35px" class="container-fluid body-content">
 
         @RenderBody()
+        <div style="clear: both">
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - OnCloud</p>
-        </footer>
+            <footer>
+                <p>&copy; @DateTime.Now.Year - OnCloud</p>
+            </footer>
+        </div>
     </div>
 
     @RenderSection("scripts", required: false)
