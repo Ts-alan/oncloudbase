@@ -344,6 +344,20 @@ namespace oncloud.Web.oddBase.Controllers
                 return null;
             }
         }
+
+        public FileContentResult LayoutDislocation(int id)
+        {
+            layoutDislocation layoutDislocation = db.layoutDislocations.Find(id);
+
+            if (layoutDislocation != null)
+            {
+                return File(layoutDislocation.ImageData, layoutDislocation.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

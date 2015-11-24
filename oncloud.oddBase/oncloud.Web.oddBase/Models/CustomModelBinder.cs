@@ -118,7 +118,7 @@ namespace OddBasyBY.Models
 
                         ListSpecificationofRS.Add(new SpecificationOfRb()
                         {
-                            Length = int.Parse(tempValueM),
+                            Length = Double.Parse(tempValueM),
                             SegmentIdModel = int.Parse(ModalM.ElementAt(i).Substring(0, ModalM.ElementAt(i).IndexOf("R"))),
                             RoadBarriersIdModel = ModalM.ElementAt(i).Substring(ModalM.ElementAt(i).IndexOf("s")+1)
                         });

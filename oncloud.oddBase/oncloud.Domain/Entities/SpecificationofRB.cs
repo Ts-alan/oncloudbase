@@ -11,7 +11,7 @@ namespace oncloud.Domain.Entities
     public class SpecificationOfRb
     {
         public int Id { get; set; }
-        public int Length { get; set; }
+        public double Length { get; set; }
        
         [NotMapped]
         public int SegmentIdModel { get; set; }

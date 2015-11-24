@@ -319,6 +319,10 @@
     <Compile Include="Migrations\201511230819059_AddStreetId.Designer.cs">
       <DependentUpon>201511230819059_AddStreetId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511241407481_doubleforSpecificationRb.cs" />
+    <Compile Include="Migrations\201511241407481_doubleforSpecificationRb.Designer.cs">
+      <DependentUpon>201511241407481_doubleforSpecificationRb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -757,6 +761,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511230819059_AddStreetId.resx">
       <DependentUpon>201511230819059_AddStreetId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511241407481_doubleforSpecificationRb.resx">
+      <DependentUpon>201511241407481_doubleforSpecificationRb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

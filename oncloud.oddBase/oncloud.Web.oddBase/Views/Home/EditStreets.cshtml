@@ -92,7 +92,7 @@
                                                           }))');
 
 
-
+              
                  var setSegment = function (i) {
                      var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
                    edges = [];
@@ -256,14 +256,15 @@
                  var multiplicity, incrementMul = 0, changeColor;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
                      if (multiplicity != undefined) {
-                         if (multiplicity == DataOfRoadSings[i].Name) {
+                         if (multiplicity == DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString()) {
                              incrementMul++;
                          } else {
                              incrementMul = 0;
                          }
                      }
-                     multiplicity = DataOfRoadSings[i].Name;
-                     $("[name='" + DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString() + "']").eq(incrementMul)
+                     multiplicity = DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString();
+
+                   $("[name='" + DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString() + "']").eq(incrementMul)
                      .attr("value", DataOfRoadSings[i].CountRS);
                      if (changeColor != undefined) {
                          if (changeColor != DataOfRoadSings[i].Name) {
