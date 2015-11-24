@@ -40,6 +40,9 @@ namespace oncloud.Web.oddBase
                       "~/Content/GridSystemForTable.css"
                     ));
 
+            bundles.Add(new StyleBundle("~/Content/CSSTableGenerator").Include(
+            "~/Content/csstablegenerator.css"
+            ));
             bundles.Add(new StyleBundle("~/bundles/jquery.form").Include(
                        "~/Scripts/jquery.form/jquery.form.js",
                        "~/Scripts/jquery.form/jquery.form.min.js"

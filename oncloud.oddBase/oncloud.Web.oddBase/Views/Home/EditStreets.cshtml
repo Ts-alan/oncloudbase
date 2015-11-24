@@ -12,7 +12,7 @@
         firstPointRoute, endPointRoute, position, identifierForDelete = 0,
         increment = 1, tempData, tempDataFor3 = 5, objects, identifierForDelBallon = true, CoordinatesforFirstLoad,
         CountObjectInMap, transfercurrentRoute, massSegment = [], handlerSegment, countElementSegGlobal = new Object();
-    countElementSegGlobal.length = 0;
+    countElementSegGlobal.length = 0, incForTab1 = 8, incForTab2=8;
 
     function init() {
 
@@ -230,7 +230,13 @@
                                .attr("id", "ModalRoadSigns" + (i + 1)).find(".buttonclose")
                                /*.attr("onclick", "cleaningRoadSigns(" + (i + 1) + ")")*/.end().find("td input").each(function (ind, element) {
                                    $(element).attr("name", (i + 1).toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
-                               }).end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + (i + 1) + ")").end());
+                               }).end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + (i + 1) + ")").end().find("li a").each(function(ind, element) {
+                                   $(element).attr("href", "#tab"+incForTab1);
+                                   incForTab1++;
+                               }).end().find('[role="tabpanel"]').each(function(ind, element) {
+                                   $(element).attr("id", "tab" + incForTab2);
+                                   incForTab2++;
+                               }).end());
 
                      $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
                          .attr("id", "RoadBarriers" + (i + 1)).find(".buttonclose")
