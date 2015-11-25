@@ -286,56 +286,56 @@ namespace oncloud.Web.oddBase.Controllers
                 a.Street_id = streetInfo.id;
 
             });
-            if (layoutDislocation.Count != 0 || OldLayoutDislocation.Count != 0)
-            {
-                List<layoutDislocation> imageDislocations = new List<layoutDislocation>();
-                layoutDislocation imageDislocation;
-                if (OldLayoutDislocation.Count!=0)
-                {
-                    foreach (var item in OldLayoutDislocation)
-                    {
-                        if (layoutDislocation.Count != 0)
-                        {
-                            if (layoutDislocation.Any(a => a.SegmentId == item.SegmentName))
-                            {
-                                item.StreetId = streetInfo.id;
-                                item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
-                                imageDislocations.Add(item);
-                                layoutDislocation.Remove(layoutDislocation.Single(a => a.SegmentId == item.SegmentName));
-                            }
-                        }
-                        else
-                        {
-                            item.StreetId = streetInfo.id;
-                            item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
-                            imageDislocations.Add(item);
-                        }
-                    }
-                }
-                if (layoutDislocation != null)
-                {
-                    layoutDislocation.ForEach(a =>
-                    {
-                        imageDislocation = new layoutDislocation();
-                        imageDislocation.ImageMimeType = a.File.ContentType;
-                        imageDislocation.ImageData = new byte[a.File.ContentLength];
-                        a.File.InputStream.Read(imageDislocation.ImageData, 0, a.File.ContentLength);
-                        imageDislocation.StreetId = streetInfo.id;
-                        imageDislocation.SegmentId = segment.Single(c => c.Name == a.SegmentId).id;
-                        imageDislocations.Add(imageDislocation);
-                    }
-                        );
-                }
-                db.layoutDislocations.AddRange(imageDislocations);
-            }
-            SpecificationofRB.ForEach(a =>
-            {
-                a.RoadBarriersId =
-                    db.RoadBarriers.Single(b => b.NumberBarriers == a.RoadBarriersIdModel).Id;
-                a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
-                a.StreetId = streetInfo.id;
+            //if (layoutDislocation.Count != 0 || OldLayoutDislocation.Count != 0)
+            //{
+            //    List<layoutDislocation> imageDislocations = new List<layoutDislocation>();
+            //    layoutDislocation imageDislocation;
+            //    if (OldLayoutDislocation.Count!=0)
+            //    {
+            //        foreach (var item in OldLayoutDislocation)
+            //        {
+            //            if (layoutDislocation.Count != 0)
+            //            {
+            //                if (layoutDislocation.Any(a => a.SegmentId == item.SegmentName))
+            //                {
+            //                    item.StreetId = streetInfo.id;
+            //                    item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
+            //                    imageDislocations.Add(item);
+            //                    layoutDislocation.Remove(layoutDislocation.Single(a => a.SegmentId == item.SegmentName));
+            //                }
+            //            }
+            //            else
+            //            {
+            //                item.StreetId = streetInfo.id;
+            //                item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
+            //                imageDislocations.Add(item);
+            //            }
+            //        }
+            //    }
+            //    if (layoutDislocation.Count !=0)
+            //    {
+            //        layoutDislocation.ForEach(a =>
+            //        {
+            //            imageDislocation = new layoutDislocation();
+            //            imageDislocation.ImageMimeType = a.File.ContentType;
+            //            imageDislocation.ImageData = new byte[a.File.ContentLength];
+            //            a.File.InputStream.Read(imageDislocation.ImageData, 0, a.File.ContentLength);
+            //            imageDislocation.StreetId = streetInfo.id;
+            //            imageDislocation.SegmentId = segment.Single(c => c.Name == a.SegmentId).id;
+            //            imageDislocations.Add(imageDislocation);
+            //        }
+            //            );
+            //    }
+            //    db.layoutDislocations.AddRange(imageDislocations);
+            //}
+            //SpecificationofRB.ForEach(a =>
+            //{
+            //    a.RoadBarriersId =
+            //        db.RoadBarriers.Single(b => b.NumberBarriers == a.RoadBarriersIdModel).Id;
+            //    a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
+            //    a.StreetId = streetInfo.id;
 
-            });
+            //});
             db.SpecificationOfRb.AddRange(SpecificationofRB);
             db.SpecificationofRM.AddRange(SpecificationofRM);
             db.SpecificationofRS.AddRange(SpecificationofRS);
