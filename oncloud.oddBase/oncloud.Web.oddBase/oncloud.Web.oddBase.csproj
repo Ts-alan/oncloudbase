@@ -323,6 +323,18 @@
     <Compile Include="Migrations\201511241407481_doubleforSpecificationRb.Designer.cs">
       <DependentUpon>201511241407481_doubleforSpecificationRb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511251939472_DeleteRelashenship.cs" />
+    <Compile Include="Migrations\201511251939472_DeleteRelashenship.Designer.cs">
+      <DependentUpon>201511251939472_DeleteRelashenship.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511251944168_addrelashenship.cs" />
+    <Compile Include="Migrations\201511251944168_addrelashenship.Designer.cs">
+      <DependentUpon>201511251944168_addrelashenship.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511251950519_ChangeDislocationTCODD.cs" />
+    <Compile Include="Migrations\201511251950519_ChangeDislocationTCODD.Designer.cs">
+      <DependentUpon>201511251950519_ChangeDislocationTCODD.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -764,6 +776,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511241407481_doubleforSpecificationRb.resx">
       <DependentUpon>201511241407481_doubleforSpecificationRb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511251939472_DeleteRelashenship.resx">
+      <DependentUpon>201511251939472_DeleteRelashenship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511251944168_addrelashenship.resx">
+      <DependentUpon>201511251944168_addrelashenship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511251950519_ChangeDislocationTCODD.resx">
+      <DependentUpon>201511251950519_ChangeDislocationTCODD.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

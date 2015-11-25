@@ -110,7 +110,7 @@ namespace oncloud.Web.oddBase.Controllers
                     imageDislocation.ImageData = new byte[a.File.ContentLength];
                     a.File.InputStream.Read(imageDislocation.ImageData, 0, a.File.ContentLength);
                     imageDislocation.StreetId = streetInfo.id;
-                    imageDislocation.SegmentId = segment.Single(c=>c.Name==a.SegmentId).id;
+                    imageDislocation.Id = segment.Single(c => c.Name == a.SegmentId).id;
                     imageDislocations.Add(imageDislocation);
                 }
                     );
@@ -209,7 +209,7 @@ namespace oncloud.Web.oddBase.Controllers
             });
             ViewBag.RoadSigns = db.RoadSigns.ToList();
 
-            ViewBag.layoutDislocation = db.layoutDislocations.Where(a=>a.StreetId==id).Select(a=>a.Segment.Name).ToList();
+            ViewBag.layoutDislocation = db.layoutDislocations.Where(a => a.StreetId == id).Select(a => a.Segment.Name).ToList();
 
             ViewBag.layoutScheme = db.layoutSchemes.SingleOrDefault(a=>a.Id==id);
           
@@ -240,8 +240,14 @@ namespace oncloud.Web.oddBase.Controllers
             };
             List<layoutDislocation> OldLayoutDislocation =
                 db.layoutDislocations.Include("Segment").AsEnumerable().Where(a => a.StreetId == streetForUniqueNumber.id).
-                Select(a=>new layoutDislocation() {Id = a.Id,Segment = a.Segment,
-                    ImageData = a.ImageData,ImageMimeType = a.ImageMimeType,SegmentName = a.Segment.Name}).ToList();
+                Select(a => new layoutDislocation()
+                {
+                    Id = a.Id,
+                    Segment = a.Segment,
+                    ImageData = a.ImageData,
+                    ImageMimeType = a.ImageMimeType,
+                    SegmentName = a.Segment.Name
+                }).ToList();
 
             DeleteDataStreet(street.id);
         
