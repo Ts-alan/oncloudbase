@@ -238,6 +238,11 @@ namespace oncloud.Web.oddBase.Controllers
                 City_id = city.id,
                 UniqueNumber = streetForUniqueNumber.UniqueNumber
             };
+            List<layoutDislocation> OldLayoutDislocation =
+                db.layoutDislocations.Include("Segment").AsEnumerable().Where(a => a.StreetId == streetForUniqueNumber.id).
+                Select(a=>new layoutDislocation() {Id = a.Id,Segment = a.Segment,
+                    ImageData = a.ImageData,ImageMimeType = a.ImageMimeType,SegmentName = a.Segment.Name}).ToList();
+
             DeleteDataStreet(street.id);
         
             db.Street.Add(streetInfo);
@@ -260,7 +265,7 @@ namespace oncloud.Web.oddBase.Controllers
                 }
             }
 
-            db.Segment.AddRange(segment);
+
 
 
             if (layoutScheme != null)
@@ -281,21 +286,46 @@ namespace oncloud.Web.oddBase.Controllers
                 a.Street_id = streetInfo.id;
 
             });
-            if (layoutDislocation != null)
+            if (layoutDislocation.Count != 0 || OldLayoutDislocation.Count != 0)
             {
                 List<layoutDislocation> imageDislocations = new List<layoutDislocation>();
                 layoutDislocation imageDislocation;
-                layoutDislocation.ForEach(a =>
+                if (OldLayoutDislocation.Count!=0)
                 {
-                    imageDislocation = new layoutDislocation();
-                    imageDislocation.ImageMimeType = a.File.ContentType;
-                    imageDislocation.ImageData = new byte[a.File.ContentLength];
-                    a.File.InputStream.Read(imageDislocation.ImageData, 0, a.File.ContentLength);
-                    imageDislocation.StreetId = streetInfo.id;
-                    imageDislocation.SegmentId = segment.Single(c => c.Name == a.SegmentId).id;
-                    imageDislocations.Add(imageDislocation);
+                    foreach (var item in OldLayoutDislocation)
+                    {
+                        if (layoutDislocation.Count != 0)
+                        {
+                            if (layoutDislocation.Any(a => a.SegmentId == item.SegmentName))
+                            {
+                                item.StreetId = streetInfo.id;
+                                item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
+                                imageDislocations.Add(item);
+                                layoutDislocation.Remove(layoutDislocation.Single(a => a.SegmentId == item.SegmentName));
+                            }
+                        }
+                        else
+                        {
+                            item.StreetId = streetInfo.id;
+                            item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
+                            imageDislocations.Add(item);
+                        }
+                    }
                 }
-                    );
+                if (layoutDislocation != null)
+                {
+                    layoutDislocation.ForEach(a =>
+                    {
+                        imageDislocation = new layoutDislocation();
+                        imageDislocation.ImageMimeType = a.File.ContentType;
+                        imageDislocation.ImageData = new byte[a.File.ContentLength];
+                        a.File.InputStream.Read(imageDislocation.ImageData, 0, a.File.ContentLength);
+                        imageDislocation.StreetId = streetInfo.id;
+                        imageDislocation.SegmentId = segment.Single(c => c.Name == a.SegmentId).id;
+                        imageDislocations.Add(imageDislocation);
+                    }
+                        );
+                }
                 db.layoutDislocations.AddRange(imageDislocations);
             }
             SpecificationofRB.ForEach(a =>
@@ -309,6 +339,7 @@ namespace oncloud.Web.oddBase.Controllers
             db.SpecificationOfRb.AddRange(SpecificationofRB);
             db.SpecificationofRM.AddRange(SpecificationofRM);
             db.SpecificationofRS.AddRange(SpecificationofRS);
+            db.Segment.AddRange(segment);
             db.SaveChanges();
 
             return RedirectToAction("Table");

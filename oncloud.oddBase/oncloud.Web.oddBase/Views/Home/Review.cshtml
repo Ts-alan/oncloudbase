@@ -258,13 +258,13 @@
     <h3>Спецификация дорожных ограждений</h3>
     <table id="table3">
         <tr>
-            <th>№ </th>
+            <th>Описание</th>
             <th>Погонные метры</th>
         </tr>
-        @foreach (var item in Model.SpecificationOfRb.GroupBy(a => a.RoadBarriers.NumberBarriers))
+        @foreach (var item in Model.SpecificationOfRb.GroupBy(a =>new { a.RoadBarriers.NumberBarriers,a.RoadBarriers.Description}))
         {
             <tr>
-                <td>@item.Key</td>
+                <td>@item.Key.Description</td>
                 <td>@item.Sum(a => a.Length)</td>
 
             </tr>
