@@ -243,7 +243,6 @@ namespace oncloud.Web.oddBase.Controllers
                 Select(a => new layoutDislocation()
                 {
                     Id = a.Id,
-                    Segment = a.Segment,
                     ImageData = a.ImageData,
                     ImageMimeType = a.ImageMimeType,
                     SegmentName = a.Segment.Name
@@ -251,10 +250,15 @@ namespace oncloud.Web.oddBase.Controllers
 
             DeleteDataStreet(street.id);
         
-            db.Street.Add(streetInfo);
-            segment.GroupBy(a => a.Name).ForEach(a => a.ForEach(b => b.id = ++LastIndexSegment));
-            streetInfo.Segment = segment;
+            var newstreet= db.Street.Add(streetInfo);
+            db.SaveChanges();
+            segment.GroupBy(a => a.Name).ForEach(a => a.ForEach(b => { b.id = ++LastIndexSegment;
+                                                                         b.Street_id = newstreet.id;
+            }));
+
             streetInfo.SpecificationofRM = SpecificationofRM;
+            var newsegment= db.Segment.AddRange(segment);
+            db.SaveChanges();
             foreach (var instance in SpecificationofRM)
             {
                 if (db.TheHorizontalRoadMarking.Any(a => a.NumberMarking == instance.TheHorizontalRoadMarkingIdModel))
@@ -279,7 +283,7 @@ namespace oncloud.Web.oddBase.Controllers
                 layoutScheme imageScheme = new layoutScheme();
                 imageScheme.ImageMimeType = layoutScheme.ContentType;
                 imageScheme.ImageData = new byte[layoutScheme.ContentLength];
-                imageScheme.Id = streetInfo.id;
+                imageScheme.Id = newstreet.id;
                 layoutScheme.InputStream.Read(imageScheme.ImageData, 0, layoutScheme.ContentLength);
                 db.layoutSchemes.Add(imageScheme);
             }
@@ -288,64 +292,70 @@ namespace oncloud.Web.oddBase.Controllers
             {
                 a.RoadSignsId =
                     db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
-                a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
-                a.Street_id = streetInfo.id;
+                a.SegmentId = newsegment.Single(c => c.Name == a.SegmentIdModel).id;
+                a.Street_id = newstreet.id;
 
             });
-            //if (layoutDislocation.Count != 0 || OldLayoutDislocation.Count != 0)
-            //{
-            //    List<layoutDislocation> imageDislocations = new List<layoutDislocation>();
-            //    layoutDislocation imageDislocation;
-            //    if (OldLayoutDislocation.Count!=0)
-            //    {
-            //        foreach (var item in OldLayoutDislocation)
-            //        {
-            //            if (layoutDislocation.Count != 0)
-            //            {
-            //                if (layoutDislocation.Any(a => a.SegmentId == item.SegmentName))
-            //                {
-            //                    item.StreetId = streetInfo.id;
-            //                    item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
-            //                    imageDislocations.Add(item);
-            //                    layoutDislocation.Remove(layoutDislocation.Single(a => a.SegmentId == item.SegmentName));
-            //                }
-            //            }
-            //            else
-            //            {
-            //                item.StreetId = streetInfo.id;
-            //                item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
-            //                imageDislocations.Add(item);
-            //            }
-            //        }
-            //    }
-            //    if (layoutDislocation.Count !=0)
-            //    {
-            //        layoutDislocation.ForEach(a =>
-            //        {
-            //            imageDislocation = new layoutDislocation();
-            //            imageDislocation.ImageMimeType = a.File.ContentType;
-            //            imageDislocation.ImageData = new byte[a.File.ContentLength];
-            //            a.File.InputStream.Read(imageDislocation.ImageData, 0, a.File.ContentLength);
-            //            imageDislocation.StreetId = streetInfo.id;
-            //            imageDislocation.SegmentId = segment.Single(c => c.Name == a.SegmentId).id;
-            //            imageDislocations.Add(imageDislocation);
-            //        }
-            //            );
-            //    }
-            //    db.layoutDislocations.AddRange(imageDislocations);
-            //}
-            //SpecificationofRB.ForEach(a =>
-            //{
-            //    a.RoadBarriersId =
-            //        db.RoadBarriers.Single(b => b.NumberBarriers == a.RoadBarriersIdModel).Id;
-            //    a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
-            //    a.StreetId = streetInfo.id;
+            List<layoutDislocation> imageDislocations = new List<layoutDislocation>();
+            layoutDislocation imageDislocation;
+            
+            if (layoutDislocation.Count != 0 || OldLayoutDislocation.Count != 0)
+            {
+                
+                if (OldLayoutDislocation.Count != 0)
+                {
+                    foreach (var item in OldLayoutDislocation)
+                    {
+                        if (layoutDislocation.Count != 0)
+                        {
+                            if (layoutDislocation.Any(a => a.SegmentId == item.SegmentName))
+                            {
+                                item.StreetId = streetInfo.id;
+                                item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
+                                imageDislocations.Add(item);
+                                layoutDislocation.Remove(layoutDislocation.Single(a => a.SegmentId == item.SegmentName));
+                            }
+                        }
+                        else
+                        {
 
-            //});
+                            item.StreetId = newstreet.id;
+                            item.SegmentId = newsegment.Single(c => c.Name == item.SegmentName).id;
+                            
+                            imageDislocations.Add(item);
+                        }
+                    }
+                }
+                if (layoutDislocation.Count != 0)
+                {
+                    layoutDislocation.ForEach(a =>
+                    {
+                        imageDislocation = new layoutDislocation();
+                        imageDislocation.ImageMimeType = a.File.ContentType;
+                        imageDislocation.ImageData = new byte[a.File.ContentLength];
+                        a.File.InputStream.Read(imageDislocation.ImageData, 0, a.File.ContentLength);
+                        imageDislocation.StreetId = streetInfo.id;
+                        imageDislocation.SegmentId = segment.Single(c => c.Name == a.SegmentId).id;
+                        imageDislocations.Add(imageDislocation);
+                    }
+                        );
+                }
+
+            }
+            db.layoutDislocations.AddRange(imageDislocations);
+            db.SaveChanges();
+            SpecificationofRB.ForEach(a =>
+            {
+                a.RoadBarriersId =
+                    db.RoadBarriers.Single(b => b.NumberBarriers == a.RoadBarriersIdModel).Id;
+                a.SegmentId = segment.Single(c => c.Name == a.SegmentIdModel).id;
+                a.StreetId = streetInfo.id;
+
+            });
             db.SpecificationOfRb.AddRange(SpecificationofRB);
             db.SpecificationofRM.AddRange(SpecificationofRM);
             db.SpecificationofRS.AddRange(SpecificationofRS);
-            db.Segment.AddRange(segment);
+            
             db.SaveChanges();
 
             return RedirectToAction("Table");
