@@ -21,7 +21,7 @@ namespace OddBasyBY.Models
             string[] BreadthE = request.Form.Get("Segment.BreadthE").Split(new Char[] {','});
             string[] LengthS = request.Form.Get("Segment.LengthS").Split(new Char[] {','});
             string[] LengthE = request.Form.Get("Segment.LengthE").Split(new Char[] {','});
-
+            string[] ChangeDislocationTCODD = request.Form.Get("Segment.ChangeDislocationTCODD").Split(new Char[] { ',' });
             for (int i = 0; i < BreadthS.Count(); i++)
             {
 
@@ -31,7 +31,8 @@ namespace OddBasyBY.Models
                     BreadthS = BreadthS[i],
                     LengthS = LengthS[i],
                     BreadthE = BreadthE[i],
-                    LengthE = LengthE[i]
+                    LengthE = LengthE[i],
+                    ChangeDislocationTCODD = bool.Parse(ChangeDislocationTCODD[i])
                 });
 
             }

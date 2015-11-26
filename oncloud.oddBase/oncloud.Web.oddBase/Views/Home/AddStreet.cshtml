@@ -279,6 +279,14 @@
             alert("Вы не выбрали или не сохранили улицу");
         }
     }
+    //изменения цвета
+    function setColorSegment(index,object) {
+        if ($(object).val() == "true")
+            myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#redCircleIcon");
+        else {
+            myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
+        }
+    }
     //удаление сегмента
     function deleteSegment(index) {
 
@@ -382,6 +390,7 @@
                 $(element).find("u").text("Участок " + (ind + 1));
                 $(element).find("[data-target^='#ModalRoadSigns']").attr("data-target", "#ModalRoadSigns" + (ind + 1));
                 $(element).find("[data-target^='#RoadBarriers']").attr("data-target", "#RoadBarriers" + (ind + 1));
+                $(element).find("[onchange^='setColorSegment']").attr("onchange", "setColorSegment("+ (ind + 1)+",this)");
             }
         });
         increment = massSegment.length + 1;
@@ -533,6 +542,13 @@
                                                                 "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' >" +
                                                                    "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#RoadBarriers" + increment + "'>Ввести данные о дорожных ограждениях</button>" +
                                                                 "</div>" +
+                                                                "<div style='clear: both'>"+
+                                                                            "<b>Участок требует изменения дислокации ТСОДД</b>"+
+                                                                             "<select id='Segment_ChangeDislocationTCODD' onchange='setColorSegment(" + increment + ",this)' name='Segment.ChangeDislocationTCODD'>" +
+                                                                                "<option value='true'>Да</option>"+
+                                                                                 "<option selected='selected' value='false'>Нет</option>"+
+                                                                              "</select>"+
+                                                                 "</div>"+
                                                               "</div>");
 
                                 //вставка модальных окон
@@ -1061,7 +1077,19 @@
                         Ввести данные о дорожных ограждениях
                     </button>
                 </div>
+                <div style="clear: both" >
+                    <b>Участок требует изменения дислокации ТСОДД</b>
+                    @Html.DropDownList("Segment.ChangeDislocationTCODD",
+                    new SelectListItem[]
+                    {
+                        new SelectListItem() {Text = "Да", Value = "true"},
+                        new SelectListItem() {Text = "Нет", Value = "false", Selected = true}
+                    },new {onchange= "setColorSegment(1,this)" })
+                </div>
+
             </div>
+         
+
         </div>
                 </div>
             <div id="blockForm" style="margin-left: 60%; margin-top: 60px">
