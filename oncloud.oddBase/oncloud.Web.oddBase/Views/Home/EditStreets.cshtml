@@ -229,16 +229,16 @@
                                  "</div>";
                              if (DataOfSegment[i].ChangeDislocationTCODD == true) {
                                  stringSegment += "<div style='clear: both'>" +
-                                     "<b>Участок требует изменения дислокации ТСОДД</b>" +
-                                     "<select id='Segment_ChangeDislocationTCODD' onchange='setColorSegment(" + (i + 1) + ",this)' name='Segment.ChangeDislocationTCODD'>" +
+                                     "Участок требует изменения дислокации ТСОДД" +
+                                     "<select id='Segment_ChangeDislocationTCODD' name='Segment.ChangeDislocationTCODD' onchange='setColorSegment(" + (i + 1) + ",this)' name='Segment.ChangeDislocationTCODD'>" +
                                      "<option selected='selected' value='true'>Да</option>" +
                                      "<option  value='false'>Нет</option>" +
                                      "</select>" +
                                      "</div></div>";
                              } else {
                                  stringSegment += "<div style='clear: both'>" +
-                                   "<b>Участок требует изменения дислокации ТСОДД</b>" +
-                                   "<select id='Segment_ChangeDislocationTCODD' onchange='setColorSegment(" + (i + 1) + ",this)' name='Segment.ChangeDislocationTCODD'>" +
+                                   "Участок требует изменения дислокации ТСОДД" +
+                                   "<select id='Segment_ChangeDislocationTCODD'  name='Segment.ChangeDislocationTCODD' onchange='setColorSegment(" + (i + 1) + ",this)' name='Segment.ChangeDislocationTCODD'>" +
                                    "<option  value='true'>Да</option>" +
                                    "<option selected='selected' value='false'>Нет</option>" +
                                    "</select>" +
@@ -1439,7 +1439,7 @@
                       new SelectListItem() {Text = "Да", Value = "True"},
                       new SelectListItem() {Text = "Нет", Value = "False"}
                     }, "Value", "Text", Model.Segment.First().ChangeDislocationTCODD
-                    ), new { onchange = "setColorSegment(1,this)" })
+                    ), new { onchange = "setColorSegment(1,this)",Name="Segment.ChangeDislocationTCODD" })
             </div>
         </div>
     </div>
