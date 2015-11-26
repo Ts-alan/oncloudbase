@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using oncloud.Domain.Concrete;
+using oncloud.Domain.Entities;
 
 namespace oncloud.Web.oddBase.Models.Home
 {
@@ -20,7 +21,8 @@ namespace oncloud.Web.oddBase.Models.Home
                   Location = citystreet.Location,
                   NumberSegment = segment.Count(),
                   UniqueNumber= citystreet.UniqueNumber,
-                  IdStreet= citystreet.IdStreet
+                  IdStreet= citystreet.IdStreet,
+                  Segments= segment
               });
          }
         public IEnumerable<Table> GetDataModel { get; set; }
@@ -29,5 +31,6 @@ namespace oncloud.Web.oddBase.Models.Home
         public string Denomination { get; set; }
         public string UniqueNumber { get; set; }
         public int IdStreet { get; set; }
+        public IEnumerable<Segment> Segments { get; set; }
     }
 }

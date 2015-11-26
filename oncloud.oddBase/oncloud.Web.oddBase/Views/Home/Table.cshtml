@@ -16,7 +16,7 @@
             },
             colNames: [
                 "№ улицы", "Населенный пункт", "Наименование",
-                "Количество участков", "     "
+                "Количество участков","Учаски трубущие изменения ТСОДД", "     "
             ],
             forceFit: false,
             cmTemplate: { "resizable": false, sortable: false },
@@ -25,6 +25,7 @@
                 { name: "Населенный_пункт", align: "center" },
                 { name: "Наименование", align: "center" },
                 { name: "Количество_участков", align: "center" },
+                { name: "Участки_требующие_изменения_ТСОДД", align: "center" },
                 { name: "Столбце_действия", align: "center" }
             ]
         });
@@ -47,6 +48,7 @@
         <th>Населенный_пункт</th>
         <th> Наименование </th>
         <th> Количество_участков</th>
+        <th>Участки_требующие_изменения_ТСОДД</th>
         <th>Столбце_действия</th>
     </tr>
 
@@ -57,6 +59,25 @@
             <td>@item.Location</td>
             <td>@item.Denomination</td>
             <td>@item.NumberSegment</td>
+            <td>
+                
+                @if (item.Segments.Any(a => a.ChangeDislocationTCODD))
+                {
+                    for (var j = 0; j < item.Segments.Count(); j++)
+                    {
+                        if (item.Segments.ElementAt(j).ChangeDislocationTCODD)
+                        {
+                            <div>@item.Segments.ElementAt(j).Name</div>
+
+                        }
+                    }
+                }
+                else
+                {
+                    <div>------------</div>
+                }
+                    
+            </td>
             <td>
                 @Html.ActionLink("Просмотреть данные улицы", "Review", new { id = item.IdStreet })
                 @Html.ActionLink("Изменить", "EditStreets", new { id = item.IdStreet })
