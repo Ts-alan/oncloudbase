@@ -335,6 +335,14 @@
     <Compile Include="Migrations\201511251950519_ChangeDislocationTCODD.Designer.cs">
       <DependentUpon>201511251950519_ChangeDislocationTCODD.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511262019314_deleteRelashen.cs" />
+    <Compile Include="Migrations\201511262019314_deleteRelashen.Designer.cs">
+      <DependentUpon>201511262019314_deleteRelashen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511262024291_addRelasehn.cs" />
+    <Compile Include="Migrations\201511262024291_addRelasehn.Designer.cs">
+      <DependentUpon>201511262024291_addRelasehn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -785,6 +793,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511251950519_ChangeDislocationTCODD.resx">
       <DependentUpon>201511251950519_ChangeDislocationTCODD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511262019314_deleteRelashen.resx">
+      <DependentUpon>201511262019314_deleteRelashen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511262024291_addRelasehn.resx">
+      <DependentUpon>201511262024291_addRelasehn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

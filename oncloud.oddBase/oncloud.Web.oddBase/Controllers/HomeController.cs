@@ -110,7 +110,7 @@ namespace oncloud.Web.oddBase.Controllers
                     imageDislocation.ImageData = new byte[a.File.ContentLength];
                     a.File.InputStream.Read(imageDislocation.ImageData, 0, a.File.ContentLength);
                     imageDislocation.StreetId = streetInfo.id;
-                    imageDislocation.Id = segment.Single(c => c.Name == a.SegmentId).id;
+                    imageDislocation.SegmentId= segment.Single(c => c.Name == a.SegmentId).id;
                     imageDislocations.Add(imageDislocation);
                 }
                     );

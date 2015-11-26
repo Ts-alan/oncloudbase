@@ -22,7 +22,7 @@ namespace oncloud.Domain.Entities
         public bool ChangeDislocationTCODD { get; set; }
         public int Street_id { get; set; }
         public virtual ICollection<SpecificationofRS> SpecificationofRS { get; set; }
-        public virtual layoutDislocation layoutDislocation { get; set; }
+        public virtual ICollection<layoutDislocation> layoutDislocation { get; set; }
 
         public virtual ICollection<SpecificationOfRb> SpecificationofRB { get; set; }
         public virtual Street Street { get; set; }

@@ -10,13 +10,13 @@ namespace oncloud.Domain.Entities
 {
      public  class layoutDislocation
     {
-        [Key, ForeignKey("Segment")]
+        
         public int Id { get; set; }
         public byte[] ImageData { get; set; }
         public string ImageMimeType { get; set; }
         public virtual Street Street { get; set; }
         public virtual Segment Segment { get; set; }
-
+        public int SegmentId { get; set; }
         public int StreetId { get; set; }
         [NotMapped]
         public int SegmentName { get; set; }
