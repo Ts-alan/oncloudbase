@@ -74,7 +74,7 @@
 
                  myMap.geoObjects.add(route.getPaths());
                  identifierForDelete = 0;
-                 var DataOfSegment = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.Segment.Select(a=>new {a.LengthS,a.LengthE,a.BreadthE,a.BreadthS})
+                 var DataOfSegment = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.Segment.Select(a=>new {a.LengthS,a.LengthE,a.BreadthE,a.BreadthS,a.ChangeDislocationTCODD})
                                                 , Formatting.None,
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -110,7 +110,10 @@
                                          preset: "islands#blueCircleIcon",
 
                                      });
+                     if (DataOfSegment[i].ChangeDislocationTCODD == true) {
 
+                         segment.options.set("preset", "islands#redCircleIcon");
+                     }
                      myMap.geoObjects.add(segment);
                      if (i != 0) {
                          $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()

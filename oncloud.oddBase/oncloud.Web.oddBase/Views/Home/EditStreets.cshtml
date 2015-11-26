@@ -92,7 +92,7 @@
                                                           }))');
 
 
-              
+                
                  var setSegment = function (i) {
                      var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
                    edges = [];
@@ -109,22 +109,25 @@
                          }
                      });
                    var  segment = new ymaps.GeoObject({
-                         geometry: {
-                             type: "Point", // тип геометрии - точка
-                             coordinates: [DataOfSegment[i].BreadthE, DataOfSegment[i].LengthE] // координаты точки
+                                                         geometry: {
+                                                             type: "Point", // тип геометрии - точка
+                                                             coordinates: [DataOfSegment[i].BreadthE, DataOfSegment[i].LengthE] // координаты точки
 
-                         },
-                         properties: {
-                             iconContent: increment,
-                             balloonContentHeader: "<a href='#' onclick='deleteSegment(" + increment + ")'>Удалить Обьект</a>",
-                             balloonContent: "[" + DataOfSegment[i].BreadthE + "," + DataOfSegment[i].LengthE + "]"
-                         }
-                     },
-                                   {
-                                       preset: "islands#blueCircleIcon",
-                                       draggable: true
-                                   });
-
+                                                         },
+                                                         properties: {
+                                                             iconContent: increment,
+                                                             balloonContentHeader: "<a href='#' onclick='deleteSegment(" + increment + ")'>Удалить Обьект</a>",
+                                                             balloonContent: "[" + DataOfSegment[i].BreadthE + "," + DataOfSegment[i].LengthE + "]"
+                                                         }
+                                                                        },
+                                                    {
+                                                        preset: "islands#blueCircleIcon",
+                                                        draggable: true
+                                                    });
+                   if (DataOfSegment[i].ChangeDislocationTCODD == true) {
+                     
+                       segment.options.set("preset", "islands#redCircleIcon");
+                   }
                    var  myCircle = new ymaps.Circle([[DataOfSegment[i].BreadthS, DataOfSegment[i].LengthE], 3], null, { draggable: true, visible: false });
 
                      myMap.geoObjects.add(myCircle);
@@ -134,7 +137,7 @@
                      var tempCoordinates;
                      segment.events.add('dragstart', function () {
                          tempCoordinates = segment.geometry._xl[0];
-                         console.log(tempCoordinates);
+                       
                      });
                      var Edit = increment;
                      segment.events.add('drag', function (e) {
@@ -208,7 +211,7 @@
                              '</div></div>'
                          );
                      }
-                     if (i + 1 != 1) {
+                     if ((i + 1) != 1) {
                          $('[class^="DataOfRoad"]:last').after(function (indx) {
                              var stringSegment = "<div style='clear: both' class='DataOfRoad" + (i + 1) + "'>" +
                                  "<div>" +
@@ -223,8 +226,6 @@
                                  "</div>" +
                                  "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' >" +
                                  "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#RoadBarriers" + (i + 1) + "'>Ввести данные о дорожных ограждениях</button>" +
-                                 "</div>" +
-                               
                                  "</div>";
                              if (DataOfSegment[i].ChangeDislocationTCODD == true) {
                                  stringSegment += "<div style='clear: both'>" +
@@ -233,7 +234,7 @@
                                      "<option selected='selected' value='true'>Да</option>" +
                                      "<option  value='false'>Нет</option>" +
                                      "</select>" +
-                                     "</div>";
+                                     "</div></div>";
                              } else {
                                  stringSegment += "<div style='clear: both'>" +
                                    "<b>Участок требует изменения дислокации ТСОДД</b>" +
@@ -241,7 +242,7 @@
                                    "<option  value='true'>Да</option>" +
                                    "<option selected='selected' value='false'>Нет</option>" +
                                    "</select>" +
-                                   "</div>";
+                                   "</div></div>";
                              }
                              return stringSegment;
                          });
@@ -1431,12 +1432,14 @@
             </div>
             <div style="clear: both">
                 <b>Участок требует изменения дислокации ТСОДД</b>
-               @Html.DropDownListFor(a=>a.Segment.First().ChangeDislocationTCODD,
-                    new SelectListItem[]
+               @Html.DropDownListFor(a=> a.Segment.First().ChangeDislocationTCODD,
+               new SelectList(
+                    new []
                     {
-                        new SelectListItem() {Text = "Да", Value = "true"},
-                        new SelectListItem() {Text = "Нет", Value = "false"}
-                    }, new { onchange = "setColorSegment(1,this)" })
+                      new SelectListItem() {Text = "Да", Value = "True"},
+                      new SelectListItem() {Text = "Нет", Value = "False"}
+                    }, "Value", "Text", Model.Segment.First().ChangeDislocationTCODD
+                    ), new { onchange = "setColorSegment(1,this)" })
             </div>
         </div>
     </div>
