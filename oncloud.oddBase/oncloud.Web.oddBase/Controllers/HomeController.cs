@@ -251,14 +251,14 @@ namespace oncloud.Web.oddBase.Controllers
             DeleteDataStreet(street.id);
         
             var newstreet= db.Street.Add(streetInfo);
-            db.SaveChanges();
+            
             segment.GroupBy(a => a.Name).ForEach(a => a.ForEach(b => { b.id = ++LastIndexSegment;
                                                                          b.Street_id = newstreet.id;
             }));
 
             streetInfo.SpecificationofRM = SpecificationofRM;
             var newsegment= db.Segment.AddRange(segment);
-            db.SaveChanges();
+           
             foreach (var instance in SpecificationofRM)
             {
                 if (db.TheHorizontalRoadMarking.Any(a => a.NumberMarking == instance.TheHorizontalRoadMarkingIdModel))
@@ -306,24 +306,21 @@ namespace oncloud.Web.oddBase.Controllers
                 {
                     foreach (var item in OldLayoutDislocation)
                     {
-                        if (layoutDislocation.Count != 0)
-                        {
-                            if (layoutDislocation.Any(a => a.SegmentId == item.SegmentName))
+    
+                            if (layoutDislocation.Count != 0&&layoutDislocation.Any(a => a.SegmentId == item.SegmentName))
                             {
                                 item.StreetId = streetInfo.id;
                                 item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
                                 imageDislocations.Add(item);
                                 layoutDislocation.Remove(layoutDislocation.Single(a => a.SegmentId == item.SegmentName));
                             }
-                        }
-                        else
-                        {
-
-                            item.StreetId = newstreet.id;
-                            item.SegmentId = newsegment.Single(c => c.Name == item.SegmentName).id;
-                            
-                            imageDislocations.Add(item);
-                        }
+                        
+                            else
+                            {
+                                item.StreetId = newstreet.id;
+                                item.SegmentId = newsegment.Single(c => c.Name == item.SegmentName).id;
+                                imageDislocations.Add(item);
+                            }
                     }
                 }
                 if (layoutDislocation.Count != 0)

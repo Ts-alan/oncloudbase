@@ -147,10 +147,7 @@ namespace OddBasyBY.Models
                 ModelLayoutDislocation.Add(new ModelLayoutDislocation() {SegmentId =int.Parse(Dislocation.ElementAt(i).Substring(17)),File = File});
 
             }
-
-
-               
-            
+             
             return ModelLayoutDislocation;
         }
      }

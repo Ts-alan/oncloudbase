@@ -344,6 +344,17 @@
 
 
     }
+    //изменения цвета
+    function setColorSegment(index, object) {
+        console.log(index);
+        console.log(myMap.geoObjects.get(massSegment[index - 1]));
+        if ($(object).val() == "true")
+            myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#redCircleIcon");
+        else {
+            myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
+        }
+    }
+
     function SetRoute(Arr) {
 
         if (currentRoute != undefined) {
@@ -1431,13 +1442,13 @@
                 </button>
             </div>
             <div style="clear: both">
-                <b>Участок требует изменения дислокации ТСОДД</b>
+                Участок требует изменения дислокации ТСОДД
                @Html.DropDownListFor(a=> a.Segment.First().ChangeDislocationTCODD,
                new SelectList(
                     new []
                     {
-                      new SelectListItem() {Text = "Да", Value = "True"},
-                      new SelectListItem() {Text = "Нет", Value = "False"}
+                      new SelectListItem() {Text = "Да", Value = "true"},
+                      new SelectListItem() {Text = "Нет", Value = "false"}
                     }, "Value", "Text", Model.Segment.First().ChangeDislocationTCODD
                     ), new { onchange = "setColorSegment(1,this)",Name="Segment.ChangeDislocationTCODD" })
             </div>
