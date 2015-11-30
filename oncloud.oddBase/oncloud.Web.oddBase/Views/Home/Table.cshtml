@@ -31,6 +31,10 @@
         });
 
     });
+
+    function setStreet(object) {
+        $("#idDelete").attr("href", "/Home/DeleteStreet/" + $(object).attr("idDelete"));
+    }
 </script>
 <style type="text/css">
  td {
@@ -41,7 +45,7 @@
 <h2>Таблица Улиц</h2>
 
 @Html.ActionLink("+ Создать карточку улицы", "AddStreet", null, new { @class = "btn btn-default" ,style="margin-bottom: 15px" })
-<table id="table" class="table-bordered" cellpadding="5" >
+<table id="table" class="table-bordered" cellpadding="5">
     <tr>
 
         <th>№_улицы</th>
@@ -60,7 +64,7 @@
             <td>@item.Denomination</td>
             <td>@item.NumberSegment</td>
             <td>
-                
+
                 @if (item.Segments.Any(a => a.ChangeDislocationTCODD))
                 {
                     for (var j = 0; j < item.Segments.Count(); j++)
@@ -76,17 +80,34 @@
                 {
                     <div>------------</div>
                 }
-                    
+
             </td>
             <td>
-                @Html.ActionLink("Просмотреть данные улицы", "Review", new { id = item.IdStreet })
-                @Html.ActionLink("Изменить", "EditStreets", new { id = item.IdStreet })
-                @Html.ActionLink("Удалить","DeleteStreet",new {id=item.IdStreet})
+                @Html.ActionLink("Просмотреть данные улицы", "Review", new {id = item.IdStreet})
+                @Html.ActionLink("Изменить", "EditStreets", new {id = item.IdStreet})
+                <a  href="#DeleteStructures"  role="button" onclick="setStreet(this)" idDelete="@item.IdStreet" data-toggle="modal">Удалить </a>
             </td>
         </tr>
     }
 
 </table>
+<div id="DeleteStructures" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Удаление улицы</h4>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены, что хотите удалить эту улицу?&hellip;</p>
+            </div>
+            <div class="modal-footer">
+                @Html.ActionLink("Да, удалить", "DeleteStreet", null,new { id = "idDelete", @class = "btn btn-danger"})
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

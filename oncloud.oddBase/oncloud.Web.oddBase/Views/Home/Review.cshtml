@@ -74,7 +74,7 @@
 
                  myMap.geoObjects.add(route.getPaths());
                  identifierForDelete = 0;
-                 var DataOfSegment = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.Segment.Select(a=>new {a.LengthS,a.LengthE,a.BreadthE,a.BreadthS,a.ChangeDislocationTCODD})
+                 var DataOfSegment = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.Segment.Select(a=>new {a.LengthS,a.LengthE,a.BreadthE,a.BreadthS,a.ChangeDislocationTCODD,IdSegment= a.layoutDislocation.Select(b=>b.Id).SingleOrDefault()})
                                                 , Formatting.None,
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -92,9 +92,9 @@
                                                           }))');
 
 
-
+              
                  var setSegment = function (i) {
-
+                   
                      var segment = new ymaps.GeoObject({
                          geometry: {
                              type: "Point", // тип геометрии - точка
@@ -103,12 +103,11 @@
                          },
                          properties: {
                              iconContent: increment,
-                             balloonContent: "[" + DataOfSegment[i].BreadthE + "," + DataOfSegment[i].LengthE + "]",
-                             balloonContentHeader: " <button type='button'  data-toggle='modal'  data-target='#layoutDislocation' class='btn btn-default'>Посмотреть дислокацию ТСОДД</button>"
+                             balloonContentHeader: " <a type='button' href='#'  data-toggle='modal' onclick='setTCODD(this)' IdSegment=" + DataOfSegment[i].IdSegment + " data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a>"
                          }
                      },
                                      {
-                                         preset: "islands#blueCircleIcon",
+                                         preset: "islands#blueCircleIcon"
 
                                      });
                      if (DataOfSegment[i].ChangeDislocationTCODD == true) {
@@ -176,7 +175,9 @@
             cmTemplate: { "resizable": false, sortable: false }
         });
     });
-
+    function setTCODD(object) {
+        $("#TCODD").attr("src", "/Home/LayoutDislocation/" + $(object).attr("IdSegment"));
+    }
 </script>
 <style>
 
@@ -343,14 +344,10 @@
                 <h4 class="modal-title" id="myModalLabel">Компоновочная схема</h4>
             </div>
             <div class="modal-body">
-                @try
-                {
-                    <img src="@Url.Action("LayoutDislocation", "Home", new {id = Model.layoutDislocation.Single(a=>a.Segment.Name==1)})" />
-                }
-                catch
-                {
-                    <h3>ислокацию ТСОДД не загружена</h3>
-                }
+              
+                    <img id="TCODD" alt="дислокацию ТСОДД не загружена" src="@Url.Action("LayoutDislocation", "Home")" />
+                
+          
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>

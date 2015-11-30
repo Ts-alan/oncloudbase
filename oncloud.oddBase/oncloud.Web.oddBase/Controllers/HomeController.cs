@@ -251,7 +251,7 @@ namespace oncloud.Web.oddBase.Controllers
              }).ToList();
             
             layoutScheme OdllayoutScheme =
-                db.layoutSchemes.Include("Street").AsEnumerable().Single(a => a.Id == streetForUniqueNumber.id);
+                db.layoutSchemes.Include("Street").AsEnumerable().SingleOrDefault(a => a.Id == streetForUniqueNumber.id);
  
             DeleteDataStreet(street.id,true);
 
@@ -319,20 +319,20 @@ namespace oncloud.Web.oddBase.Controllers
                     foreach (var item in OldLayoutDislocation)
                     {
 
-                        if (layoutDislocation.Count != 0 && layoutDislocation.Any(a => a.SegmentId == item.SegmentName))
+                        if (layoutDislocation.Count != 0 && layoutDislocation.Any(a => a.SegmentId != item.SegmentId))
                         {
                             item.StreetId = streetInfo.id;
                             item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
                             imageDislocations.Add(item);
-                            layoutDislocation.Remove(layoutDislocation.Single(a => a.SegmentId == item.SegmentName));
+                            layoutDislocation.Remove(layoutDislocation.Single(a => a.SegmentId == item.SegmentId));
                         }
 
-                        else
-                        {
-                            item.StreetId = newstreet.id;
-                            item.SegmentId = newsegment.Single(c => c.Name == item.SegmentName).id;
-                            imageDislocations.Add(item);
-                        }
+                        //else
+                        //{
+                        //    item.StreetId = newstreet.id;
+                        //    item.SegmentId = newsegment.Single(c => c.Name == item.SegmentName).id;
+                        //    imageDislocations.Add(item);
+                        //}
                     }
                 }
                 if (layoutDislocation.Count != 0)
