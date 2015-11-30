@@ -103,7 +103,8 @@
                          },
                          properties: {
                              iconContent: increment,
-                             balloonContent: "[" + DataOfSegment[i].BreadthE + "," + DataOfSegment[i].LengthE + "]"
+                             balloonContent: "[" + DataOfSegment[i].BreadthE + "," + DataOfSegment[i].LengthE + "]",
+                             balloonContentHeader: " <button type='button'  data-toggle='modal'  data-target='#layoutDislocation' class='btn btn-default'>Посмотреть дислокацию ТСОДД</button>"
                          }
                      },
                                      {
@@ -165,9 +166,15 @@
             keyboard: false,
             show: false
         });
-        tableToGrid("#table1");
-        tableToGrid("#table2");
-        tableToGrid("#table3");
+        tableToGrid("#table1", {
+            cmTemplate: { "resizable": false, sortable: false }
+        });
+        tableToGrid("#table2", {
+            cmTemplate: { "resizable": false, sortable: false }
+        });
+        tableToGrid("#table3", {
+            cmTemplate: { "resizable": false, sortable: false }
+        });
     });
 
 </script>
@@ -205,6 +212,16 @@
         <h3>1. Место расположения</h3>
         <h4>г. @Model.City.Name  @Model.Name</h4>
         <h3>2. Количество участков- <span> @Model.Segment.Count</span></h3>
+        <h3>3. Количество участков <br> подлежащих редактированию- <span>  
+            @if (Model.Segment.Any(a => a.ChangeDislocationTCODD))
+            {
+                @Model.Segment.Where(a => a.ChangeDislocationTCODD).Count();
+            }
+            else
+            {
+              @: 0
+            }
+        </span></h3>
         <button style="margin-top: 230px" type="button" class="btn btn-default" data-toggle="modal" data-target="#LayoutScheme">
             Просмотр компоновочной схемы
         </button>
