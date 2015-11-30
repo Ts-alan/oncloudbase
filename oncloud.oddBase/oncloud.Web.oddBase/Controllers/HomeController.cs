@@ -319,12 +319,12 @@ namespace oncloud.Web.oddBase.Controllers
                     foreach (var item in OldLayoutDislocation)
                     {
 
-                        if (layoutDislocation.Count != 0 && layoutDislocation.Any(a => a.SegmentId != item.SegmentId))
+                        if (layoutDislocation.Count != 0 && layoutDislocation.Any(a => a.SegmentId != item.SegmentName))
                         {
                             item.StreetId = streetInfo.id;
                             item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
                             imageDislocations.Add(item);
-                            layoutDislocation.Remove(layoutDislocation.Single(a => a.SegmentId == item.SegmentId));
+                            //layoutDislocation.Remove(layoutDislocation.Single(a => a.SegmentId == item.SegmentName));
                         }
 
                         //else
@@ -348,6 +348,10 @@ namespace oncloud.Web.oddBase.Controllers
                         imageDislocations.Add(imageDislocation);
                     }
                         );
+                }
+                else
+                {
+                    imageDislocations.AddRange(OldLayoutDislocation);
                 }
 
             }
