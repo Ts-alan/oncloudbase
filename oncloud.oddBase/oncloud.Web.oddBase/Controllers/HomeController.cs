@@ -160,7 +160,7 @@ namespace oncloud.Web.oddBase.Controllers
             return View();
         }
 
-        public void DeleteDataStreet(int id)
+        public void DeleteDataStreet(int id,bool isEdit)
         {
             Street street = db.Street.Find(id);
             if (street.layoutScheme != null)
@@ -180,13 +180,14 @@ namespace oncloud.Web.oddBase.Controllers
 
             if (street.SpecificationofRS != null)
                 db.SpecificationofRS.RemoveRange(street.SpecificationofRS);
+            if(isEdit==false)
             db.ListUniqueNumber.Add(new ListUniqueNumber() { UniqueNumber = street.UniqueNumber });
             db.Street.Remove(street);
             db.SaveChanges();
         }
         public virtual ActionResult DeleteStreet(int id)
         {
-            DeleteDataStreet(id);
+            DeleteDataStreet(id,false);
             return RedirectToAction("Table");
         }
         [HttpGet]
@@ -248,16 +249,17 @@ namespace oncloud.Web.oddBase.Controllers
                  ImageMimeType = a.ImageMimeType,
                  SegmentName = a.Segment.Name
              }).ToList();
-            //layoutScheme OdllayoutScheme = db.layoutSchemes.AsEnumerable().Select(a=>new layoutScheme
-            //{
-            //    Id=a.Id,
-            //   ImageData = a.ImageData,
-            //   ImageMimeType = a.ImageMimeType
+            
+            layoutScheme OdllayoutScheme =
+                db.layoutSchemes.Include("Street").AsEnumerable().Single(a => a.Id == streetForUniqueNumber.id);
+ 
+            DeleteDataStreet(street.id,true);
 
-            //}).SingleOrDefault(a => a.Id == streetForUniqueNumber.layoutScheme.Id);
-
-            DeleteDataStreet(street.id);
-
+            if (OdllayoutScheme != null)
+            {
+                OdllayoutScheme.Id = streetInfo.id;
+                OdllayoutScheme.Street = null;
+            }
             var newstreet = db.Street.Add(streetInfo);
 
             segment.GroupBy(a => a.Name).ForEach(a => a.ForEach(b =>
@@ -297,22 +299,15 @@ namespace oncloud.Web.oddBase.Controllers
                 layoutScheme.InputStream.Read(imageScheme.ImageData, 0, layoutScheme.ContentLength);
                 db.layoutSchemes.Add(imageScheme);
             }
-            //else
-            //{
-            //    if (OdllayoutScheme != null)
-            //    {
-            //        db.layoutSchemes.Add(OdllayoutScheme);
-            //    }
-            //}
-
-            SpecificationofRS.ForEach(a =>
+            else
             {
-                a.RoadSignsId =
-                    db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
-                a.SegmentId = newsegment.Single(c => c.Name == a.SegmentIdModel).id;
-                a.Street_id = newstreet.id;
+                if (OdllayoutScheme != null)
+                {
+                    db.layoutSchemes.Add(OdllayoutScheme);
+                }
+            }
+            db.SaveChanges();
 
-            });
             List<layoutDislocation> imageDislocations = new List<layoutDislocation>();
             layoutDislocation imageDislocation;
 
@@ -357,7 +352,7 @@ namespace oncloud.Web.oddBase.Controllers
 
             }
             db.layoutDislocations.AddRange(imageDislocations);
-            db.SaveChanges();
+            
             SpecificationofRB.ForEach(a =>
             {
                 a.RoadBarriersId =
@@ -366,8 +361,18 @@ namespace oncloud.Web.oddBase.Controllers
                 a.StreetId = streetInfo.id;
 
             });
+            SpecificationofRS.ForEach(a =>
+            {
+                a.RoadSignsId =
+                    db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
+                a.SegmentId = newsegment.Single(c => c.Name == a.SegmentIdModel).id;
+                a.Street_id = streetInfo.id;
+
+            });
             db.SpecificationOfRb.AddRange(SpecificationofRB);
+            
             db.SpecificationofRM.AddRange(SpecificationofRM);
+          
             db.SpecificationofRS.AddRange(SpecificationofRS);
 
             db.SaveChanges();
