@@ -351,12 +351,21 @@ namespace oncloud.Web.oddBase.Controllers
                 }
                 else
                 {
-                    imageDislocations.AddRange(OldLayoutDislocation);
+                    if (OldLayoutDislocation.Count != 0)
+                    {
+                        foreach (var item in OldLayoutDislocation)
+                        {
+                            item.StreetId = streetInfo.id;
+                            item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
+                            imageDislocations.Add(item);
+                          
+                        }
+                    }
                 }
 
             }
             db.layoutDislocations.AddRange(imageDislocations);
-            
+            db.SaveChanges();
             SpecificationofRB.ForEach(a =>
             {
                 a.RoadBarriersId =
