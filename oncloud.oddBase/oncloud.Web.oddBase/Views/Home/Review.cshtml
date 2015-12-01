@@ -84,12 +84,12 @@
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     }))');
-                 var DataOfRoadBarriers = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationOfRb.Select(a => new {a.Segment.Name, a.Length, a.RoadBarriers.NumberBarriers})
+                 @*var DataOfRoadBarriers = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationOfRb.Select(a => new {a.Segment.Name, a.Length, a.RoadBarriers.NumberBarriers})
                                                           , Formatting.None,
                                                           new JsonSerializerSettings()
                                                           {
                                                               ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                                                          }))');
+                                                          }))');*@
 
 
               
@@ -160,11 +160,6 @@
 
     $(document).ready(function () {
 
-        //отмена клавиши esc для модальных окон
-        $('.modal').modal({
-            keyboard: false,
-            show: false
-        });
         tableToGrid("#table1", {
             cmTemplate: { "resizable": false, sortable: false }
         });
@@ -183,7 +178,7 @@
 
     /*модальное окно*/
     .modal-dialog {
-        width: 645px;
+        width: 75%;
     }
 
     td input {
@@ -262,7 +257,18 @@
             <th>№ знака</th>
             <th>Количество</th>
         </tr>
-        @foreach (var item in Model.SpecificationofRS.GroupBy(a => new { a.RoadSigns.NumberRoadSigns }))
+        @foreach (var item in Model.SpecificationofRS.GroupBy(a => new { a.RoadSigns.NumberRoadSigns }).OrderBy(a =>
+        {
+            if (a.Key.NumberRoadSigns.Substring(2).LastIndexOf(".") == -1)
+            {
+                return int.Parse(a.Key.NumberRoadSigns.Substring(2).Replace(".", ","));
+            }
+            else
+            {
+                return int.Parse(a.Key.NumberRoadSigns.Substring(2, a.Key.NumberRoadSigns.Substring(2).LastIndexOf(".")));
+
+            }
+        }))
         {
             <tr>
                 <td>@item.Key.NumberRoadSigns</td>
@@ -315,9 +321,9 @@
 <div class="modal fade" id="LayoutScheme" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="border-width:0px">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Компоновочная схема</h4>
+            
             </div>
             <div class="modal-body">
                 @try
@@ -329,7 +335,7 @@
                     <h3>Компоновочная схема не загружена</h3>
                 }
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer"  style="border-width:0px">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
@@ -339,9 +345,9 @@
 <div class="modal fade" id="layoutDislocation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="border-width:0px ">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Компоновочная схема</h4>
+              
             </div>
             <div class="modal-body">
               
@@ -349,7 +355,7 @@
                 
           
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="border-width:0px ">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Table";
+    string NumberTCODD="";
 }
 
 
@@ -16,7 +17,7 @@
             },
             colNames: [
                 "№ улицы", "Населенный пункт", "Наименование",
-                "Количество участков","Учаски трубущие изменения ТСОДД", "     "
+                "Количество участков", "Номера участков требующие изменения ТСОДД", "     "
             ],
             forceFit: false,
             cmTemplate: { "resizable": false, sortable: false },
@@ -25,7 +26,7 @@
                 { name: "Населенный_пункт", align: "center" },
                 { name: "Наименование", align: "center" },
                 { name: "Количество_участков", align: "center" },
-                { name: "Участки_требующие_изменения_ТСОДД", align: "center" },
+                { name: "Номера_участков_требующие_изменения_ТСОДД", align: "center" },
                 { name: "Столбце_действия", align: "center" }
             ]
         });
@@ -52,7 +53,7 @@
         <th>Населенный_пункт</th>
         <th> Наименование </th>
         <th> Количество_участков</th>
-        <th>Участки_требующие_изменения_ТСОДД</th>
+        <th>Номера_участков_требующие_изменения_ТСОДД</th>
         <th>Столбце_действия</th>
     </tr>
 
@@ -71,10 +72,11 @@
                     {
                         if (item.Segments.ElementAt(j).ChangeDislocationTCODD)
                         {
-                            <div>@item.Segments.ElementAt(j).Name</div>
-
+                            
+                                NumberTCODD += ","+item.Segments.ElementAt(j).Name.ToString();
                         }
                     }
+                    @NumberTCODD.Substring(1)
                 }
                 else
                 {
@@ -83,9 +85,9 @@
 
             </td>
             <td>
-                @Html.ActionLink("Просмотреть данные улицы", "Review", new {id = item.IdStreet})
-                @Html.ActionLink("Изменить", "EditStreets", new {id = item.IdStreet})
-                <a  href="#DeleteStructures"  role="button" onclick="setStreet(this)" idDelete="@item.IdStreet" data-toggle="modal">Удалить </a>
+               <div>@Html.ActionLink("Просмотреть данные улицы", "Review", new {id = item.IdStreet})</div>
+               <div>@Html.ActionLink("Изменить", "EditStreets", new {id = item.IdStreet})</div>
+               <div><a  href="#DeleteStructures"  role="button" onclick="setStreet(this)" idDelete="@item.IdStreet" data-toggle="modal">Удалить </a></div>
             </td>
         </tr>
     }
