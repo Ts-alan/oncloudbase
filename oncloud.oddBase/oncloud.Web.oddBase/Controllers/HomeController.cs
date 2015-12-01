@@ -12,6 +12,7 @@ using oncloud.Domain.Entities;
 using oncloud.Web.oddBase.Models;
 using oncloud.Web.oddBase.Models.Home;
 using OddBasyBY.Models;
+using WebGrease.Css.Extensions;
 
 namespace oncloud.Web.oddBase.Controllers
 {
@@ -60,7 +61,7 @@ namespace oncloud.Web.oddBase.Controllers
             };
 
             db.Street.Add(streetInfo);
-            segment.GroupBy(a => a.Name).ForEach(a => a.ForEach(b => b.id = ++LastIndexSegment));
+            AjaxMinExtensions.ForEach(segment.GroupBy(a => a.Name), a => AjaxMinExtensions.ForEach(a, b => b.id = ++LastIndexSegment));
             streetInfo.Segment = segment;
             streetInfo.SpecificationofRM = SpecificationofRM;
             foreach (var instance in SpecificationofRM)
@@ -92,7 +93,7 @@ namespace oncloud.Web.oddBase.Controllers
                 db.layoutSchemes.Add(imageScheme);
             }
 
-            SpecificationofRS.ForEach(a =>
+            AjaxMinExtensions.ForEach(SpecificationofRS, a =>
             {
                 a.RoadSignsId =
                     db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
@@ -117,7 +118,7 @@ namespace oncloud.Web.oddBase.Controllers
                     );
                 db.layoutDislocations.AddRange(imageDislocations);
             }
-            SpecificationofRB.ForEach(a =>
+            AjaxMinExtensions.ForEach(SpecificationofRB, a =>
             {
                 a.RoadBarriersId =
                     db.RoadBarriers.Single(b => b.NumberBarriers == a.RoadBarriersIdModel).Id;
@@ -261,16 +262,16 @@ namespace oncloud.Web.oddBase.Controllers
                 OdllayoutScheme.Street = null;
             }
             var newstreet = db.Street.Add(streetInfo);
-
-            segment.GroupBy(a => a.Name).ForEach(a => a.ForEach(b =>
+            db.SaveChanges();
+            AjaxMinExtensions.ForEach(segment.GroupBy(a => a.Name), a => AjaxMinExtensions.ForEach(a, b =>
             {
                 b.id = ++LastIndexSegment;
                 b.Street_id = newstreet.id;
             }));
-
-            streetInfo.SpecificationofRM = SpecificationofRM;
+            
+            SpecificationofRM.ToList().ForEach(a=>a.StreetId = newstreet.id);
             var newsegment = db.Segment.AddRange(segment);
-
+            
             foreach (var instance in SpecificationofRM)
             {
                 if (db.TheHorizontalRoadMarking.Any(a => a.NumberMarking == instance.TheHorizontalRoadMarkingIdModel))
@@ -286,10 +287,8 @@ namespace oncloud.Web.oddBase.Controllers
                     }
                 }
             }
-
-
-
-
+           
+            
             if (layoutScheme != null)
             {
                 layoutScheme imageScheme = new layoutScheme();
@@ -306,7 +305,7 @@ namespace oncloud.Web.oddBase.Controllers
                     db.layoutSchemes.Add(OdllayoutScheme);
                 }
             }
-            db.SaveChanges();
+
 
             List<layoutDislocation> imageDislocations = new List<layoutDislocation>();
             layoutDislocation imageDislocation;
@@ -324,15 +323,15 @@ namespace oncloud.Web.oddBase.Controllers
                             item.StreetId = streetInfo.id;
                             item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
                             imageDislocations.Add(item);
-                            //layoutDislocation.Remove(layoutDislocation.Single(a => a.SegmentId == item.SegmentName));
+                            layoutDislocation.Remove(layoutDislocation.Single(a => a.SegmentId == item.SegmentName));
                         }
 
-                        //else
-                        //{
-                        //    item.StreetId = newstreet.id;
-                        //    item.SegmentId = newsegment.Single(c => c.Name == item.SegmentName).id;
-                        //    imageDislocations.Add(item);
-                        //}
+                        else
+                        {
+                            item.StreetId = newstreet.id;
+                            item.SegmentId = newsegment.Single(c => c.Name == item.SegmentName).id;
+                            imageDislocations.Add(item);
+                        }
                     }
                 }
                 if (layoutDislocation.Count != 0)
@@ -358,15 +357,15 @@ namespace oncloud.Web.oddBase.Controllers
                             item.StreetId = streetInfo.id;
                             item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
                             imageDislocations.Add(item);
-                          
+
                         }
                     }
                 }
 
             }
             db.layoutDislocations.AddRange(imageDislocations);
-            db.SaveChanges();
-            SpecificationofRB.ForEach(a =>
+           
+            AjaxMinExtensions.ForEach(SpecificationofRB, a =>
             {
                 a.RoadBarriersId =
                     db.RoadBarriers.Single(b => b.NumberBarriers == a.RoadBarriersIdModel).Id;
@@ -374,7 +373,7 @@ namespace oncloud.Web.oddBase.Controllers
                 a.StreetId = streetInfo.id;
 
             });
-            SpecificationofRS.ForEach(a =>
+            AjaxMinExtensions.ForEach(SpecificationofRS, a =>
             {
                 a.RoadSignsId =
                     db.RoadSigns.Single(b => b.NumberRoadSigns == a.RoadSignsIdModel).id;
