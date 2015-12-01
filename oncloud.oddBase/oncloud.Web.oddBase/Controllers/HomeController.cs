@@ -323,16 +323,10 @@ namespace oncloud.Web.oddBase.Controllers
                             item.StreetId = streetInfo.id;
                             item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
                             imageDislocations.Add(item);
-                            layoutDislocation.Remove(layoutDislocation.Single(a => a.SegmentId == item.SegmentName));
+                           
                         }
 
-                        else
-                        {
-                            item.StreetId = newstreet.id;
-                            item.SegmentId = newsegment.Single(c => c.Name == item.SegmentName).id;
-                            imageDislocations.Add(item);
-                        }
-                    }
+                  }
                 }
                 if (layoutDislocation.Count != 0)
                 {
