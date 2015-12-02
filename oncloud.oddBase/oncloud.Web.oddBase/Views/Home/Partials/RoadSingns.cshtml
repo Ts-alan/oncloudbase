@@ -34,16 +34,26 @@
 
                                     @if (item2.ImageData != null)
                                     {
-                                        <img style="height: 100px; width: 100px" src="@Url.Action("GetItemImage", "RoadSigns", new {id = item2.Id, hallmark = item2.Hallmark})" />
+                                        <img style="height: 100px; width: 100px" src="@Url.Action("GetItemImage", "RoadSigns", new {id = item2.Id, hallmark = item2.Hallmark})"/>
                                     }
 
                                     else
                                     {
-                                        @item2.Description;
+                                        @item2.Description
+                                        ;
 
                                     }
                                 </td>
-                                <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text" /></td>
+                                @if ((bool) Session["boolInput"])
+                                {
+                                    <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text"/></td>
+                                    
+                                }
+                                else
+                                {
+                                    <td style="vertical-align: middle"><input readonly  name="1ModalC@(item.NumberRoadSigns)" type="text"/></td>
+                                
+                                }
                             </tr>
                             }
 
@@ -52,8 +62,17 @@
                 }
                 else
                 {
-                <td width="100px"></td>
-                <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text" /></td>
+                    <td width="100px"></td>
+                    if ((bool) Session["boolInput"])
+                     {
+                         <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text"/></td>
+                    }
+                    else
+                    {
+                        <td style="vertical-align: middle"><input readonly name="1ModalC@(item.NumberRoadSigns)" type="text" /></td>
+
+                    }
+
                 }
 
             </tr>

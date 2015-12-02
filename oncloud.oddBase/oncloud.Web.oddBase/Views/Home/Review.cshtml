@@ -12,7 +12,7 @@
         firstPointRoute, endPointRoute, position, identifierForDelete = 0,
         increment = 1, tempData, tempDataFor3 = 5, objects, identifierForDelBallon = true, CoordinatesforFirstLoad,
         CountObjectInMap, transfercurrentRoute, massSegment = [], handlerSegment, countElementSegGlobal = new Object();
-    countElementSegGlobal.length = 0;
+    countElementSegGlobal.length = 0, incForTab1 = 8, incForTab2 = 8;
 
     function init() {
 
@@ -84,12 +84,12 @@
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     }))');
-                 @*var DataOfRoadBarriers = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationOfRb.Select(a => new {a.Segment.Name, a.Length, a.RoadBarriers.NumberBarriers})
+                 var DataOfRoadBarriers = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationOfRb.Select(a => new {a.Segment.Name, a.Length, a.RoadBarriers.NumberBarriers})
                                                           , Formatting.None,
                                                           new JsonSerializerSettings()
                                                           {
                                                               ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                                                          }))');*@
+                                                          }))');
 
 
               
@@ -106,7 +106,7 @@
                              balloonContentHeader: "Данные участка № " + (i + 1) + "",
                              balloonContent: " <a type='button' href='#'  data-toggle='modal' onclick='setTCODD(this)' IdSegment=" + DataOfSegment[i].IdSegment + " data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
                                  "<a data-toggle='modal' data-target='#ModalRoadSigns" + (i + 1) + "' href='#'>Посмотреть данные о дорожных знаках</a></br>" +
-                                 "<a href='#'>Посмотреть данные о дорожных ограждения</a>"
+                                 "<a data-toggle='modal' data-target='#RoadBarriers" + (i + 1) + "' href='#'>Посмотреть данные о дорожных ограждения</a>"
                          }
                      },
                                      {
@@ -120,40 +120,50 @@
                      myMap.geoObjects.add(segment);
                      if (i != 0) {
                          $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
-                                   .attr("id", "ModalRoadSigns" + (i + 1)).find(".buttonclose")
-                                   .end().find("td input").each(function (ind, element) {
-                                       $(element).attr("name", (i + 1).toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
-                                   }).end());
+                           .attr("id", "ModalRoadSigns" + (i + 1)).find(".buttonclose")
+                           .end().find("td input").each(function (ind, element) {
+                               $(element).attr("name", (i + 1).toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
+                           }).end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + (i + 1) + ")").end().find("li a").each(function (ind, element) {
+                               $(element).attr("href", "#tab" + incForTab1);
+                               incForTab1++;
+                           }).end().find('[role="tabpanel"]').each(function (ind, element) {
+                               $(element).attr("id", "tab" + incForTab2);
+                               incForTab2++;
+                           }).end());
 
                          $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
-                             .attr("id", "RoadBarriers" + (i + 1)).find(".buttonclose")
-                             .end()
-                             .find("td input").each(function (ind, element) {
-                                 $(element).attr("name", (i + 1).toString() + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
-                             }).end());
+                          .attr("id", "RoadBarriers" + (i + 1)).find(".buttonclose")
+                          .end().find("td input").each(function (ind, element) {
+                              $(element).attr("name", (i + 1).toString() + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
+                          }).end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + (i + 1) + ")").end());
                      }
                      massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                      increment++;
                  }
 
+  
+                 for (var i = 0; i < "@Model.Segment.Count"; i++) {
+                     setSegment(i);
+                 }
+                
                  var multiplicity, incrementMul = 0;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
                      if (multiplicity != undefined) {
-                         if (multiplicity == DataOfRoadSings[i].Name) {
+                         if (multiplicity == DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString()) {
                              incrementMul++;
                          } else {
                              incrementMul = 0;
                          }
                      }
-                     multiplicity = DataOfRoadSings[i].Name;
-                     $("[name='" + DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString() + "']").eq(incrementMul)
-                     .attr("value", DataOfRoadSings[i].CountRS);
-
+                     multiplicity = DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString();
+                    $("[name='" + DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString() + "']").eq(incrementMul)
+                       .attr("value", DataOfRoadSings[i].CountRS);
+                    
                  }
-                 for (var i = 0; i < "@Model.Segment.Count"; i++) {
-                     setSegment(i);
+                 for (var i = 0; i < DataOfRoadBarriers.length; i++) {
+                     $("[name='" + DataOfRoadBarriers[i].Name.toString() + "RoadBarriers" + DataOfRoadBarriers[i].NumberBarriers.toString() + "']")
+                    .attr("value", DataOfRoadBarriers[i].Length);
                  }
-
              });
 
 
@@ -395,7 +405,9 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="tab1">
-                            @{ Session["increment"] = "1";
+                            @{ 
+                                Session["boolInput"] = false;
+                                Session["increment"] = "1";
                                 Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
 
                         </div>
@@ -431,13 +443,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default buttonclose"  data-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary buttonSave"  data-dismiss="modal">Сохранить</button>
             </div>
         </div>
     </div>
 </div>
 <!-- RoadBarriers  -->
-@*<div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+<div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
     <div class="modal-dialog" style="width: 1000px" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -465,7 +476,7 @@
                             <td>
                                 @item.Description
                             </td>
-                            <td style="vertical-align: middle"><input name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
+                            <td style="vertical-align: middle"><input readonly="" name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
 
                         </tr>
                     }
@@ -474,8 +485,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" id="closeModalMackUp"  class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadBarriers(1)" data-dismiss="modal">Сохранить</button>
             </div>
         </div>
     </div>
-</div>*@
+</div>

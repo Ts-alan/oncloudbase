@@ -963,7 +963,9 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="tab1">
-                                @{ Session["increment"] = "1";
+                                @{
+                                    Session["boolInput"] = true;
+                                    Session["increment"] = "1";
                                     Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
 
                             </div>
