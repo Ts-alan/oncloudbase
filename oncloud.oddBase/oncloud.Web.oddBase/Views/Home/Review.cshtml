@@ -103,7 +103,8 @@
                          },
                          properties: {
                              iconContent: increment,
-                             balloonContentHeader: " <a type='button' href='#'  data-toggle='modal' onclick='setTCODD(this)' IdSegment=" + DataOfSegment[i].IdSegment + " data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a>"
+                             balloonContent: " <a type='button' href='#'  data-toggle='modal' onclick='setTCODD(this)' IdSegment=" + DataOfSegment[i].IdSegment + " data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a>",
+                             balloonContentHeader: "Данные участка № " + (i+1) + ""
                          }
                      },
                                      {
@@ -259,16 +260,21 @@
         </tr>
         @foreach (var item in Model.SpecificationofRS.GroupBy(a => new { a.RoadSigns.NumberRoadSigns }).OrderBy(a =>
         {
-            if (a.Key.NumberRoadSigns.Substring(2).LastIndexOf(".") == -1)
+            return int.Parse(a.Key.NumberRoadSigns.Substring(0, a.Key.NumberRoadSigns.IndexOf(".")).Replace(".", ","));
+        })
+        .ThenBy(a =>
+        {
+            if (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) == -1)
             {
-                return int.Parse(a.Key.NumberRoadSigns.Substring(2).Replace(".", ","));
+                return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1));
             }
             else
             {
-                return int.Parse(a.Key.NumberRoadSigns.Substring(2, a.Key.NumberRoadSigns.Substring(2).LastIndexOf(".")));
-
+                return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1,
+                    (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) - a.Key.NumberRoadSigns.IndexOf(".")) - 1));
             }
-        }))
+        })
+        )
         {
             <tr>
                 <td>@item.Key.NumberRoadSigns</td>
@@ -328,7 +334,7 @@
             <div class="modal-body">
                 @try
                 {
-                    <img src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})"/>
+                    <img style="width: 75%" src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})"/>
                 }
                 catch
                 {
@@ -351,7 +357,7 @@
             </div>
             <div class="modal-body">
               
-                    <img id="TCODD" alt="дислокацию ТСОДД не загружена" src="@Url.Action("LayoutDislocation", "Home")" />
+                    <img id="TCODD" alt="дислокацию ТСОДД не загружена" style="width: 75%" src="@Url.Action("LayoutDislocation", "Home")" />
                 
           
             </div>

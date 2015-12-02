@@ -263,6 +263,10 @@ namespace oncloud.Web.oddBase.Controllers
             }
             var newstreet = db.Street.Add(streetInfo);
             db.SaveChanges();
+
+            if(OdllayoutScheme!=null)
+            OdllayoutScheme.Id = newstreet.id;
+
             AjaxMinExtensions.ForEach(segment.GroupBy(a => a.Name), a => AjaxMinExtensions.ForEach(a, b =>
             {
                 b.id = ++LastIndexSegment;
