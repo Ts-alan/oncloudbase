@@ -392,6 +392,7 @@ namespace oncloud.Web.oddBase.Controllers
 
         public ActionResult Review(int id)
         {
+            ViewBag.RoadSigns = db.RoadSigns.ToList();
             Street street = db.Street.Find(id);
             return View(street);
         }

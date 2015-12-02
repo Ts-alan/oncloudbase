@@ -103,8 +103,10 @@
                          },
                          properties: {
                              iconContent: increment,
-                             balloonContent: " <a type='button' href='#'  data-toggle='modal' onclick='setTCODD(this)' IdSegment=" + DataOfSegment[i].IdSegment + " data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a>",
-                             balloonContentHeader: "Данные участка № " + (i+1) + ""
+                             balloonContentHeader: "Данные участка № " + (i + 1) + "",
+                             balloonContent: " <a type='button' href='#'  data-toggle='modal' onclick='setTCODD(this)' IdSegment=" + DataOfSegment[i].IdSegment + " data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
+                                 "<a data-toggle='modal' data-target='#ModalRoadSigns" + (i + 1) + "' href='#'>Посмотреть данные о дорожных знаках</a></br>" +
+                                 "<a href='#'>Посмотреть данные о дорожных ограждения</a>"
                          }
                      },
                                      {
@@ -347,23 +349,133 @@
         </div>
     </div>
 </div>
-
+@*Модальные окна*@
 <div class="modal fade" id="layoutDislocation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="border-width:0px ">
+            <div class="modal-header" style="border-width: 0px">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              
+
             </div>
             <div class="modal-body">
-              
-                    <img id="TCODD" alt="дислокацию ТСОДД не загружена" style="width: 75%" src="@Url.Action("LayoutDislocation", "Home")" />
-                
-          
+
+                <img id="TCODD" alt="дислокацию ТСОДД не загружена" style="width: 75%" src="@Url.Action("LayoutDislocation", "Home")"/>
+
+
             </div>
-            <div class="modal-footer" style="border-width:0px ">
+            <div class="modal-footer" style="border-width: 0px">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>
 </div>
+ <!-- ModalRoadSigns -->
+<div class="modal fade" id="ModalRoadSigns1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 800px">
+            <div class="modal-header">
+
+
+            </div>
+            <div class="modal-body">
+                <div>
+
+                    <!-- Nav tabs -->
+                    <ul style="width: 400px" class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab1" aria-controls="1" role="tab" data-toggle="tab">1</a></li>
+                        <li role="presentation"><a href="#tab2" aria-controls="2" role="tab" data-toggle="tab">2</a></li>
+                        <li role="presentation"><a href="#tab3" aria-controls="3" role="tab" data-toggle="tab">3</a></li>
+                        <li role="presentation"><a href="#tab4" aria-controls="4" role="tab" data-toggle="tab">4</a></li>
+                        <li role="presentation"><a href="#tab5" aria-controls="5" role="tab" data-toggle="tab">5</a></li>
+                        <li role="presentation"><a href="#tab6" aria-controls="6" role="tab" data-toggle="tab">6</a></li>
+                        <li role="presentation"><a href="#tab7" aria-controls="7" role="tab" data-toggle="tab">7</a></li>
+
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="tab1">
+                            @{ Session["increment"] = "1";
+                                Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tab2">
+                            @{ Session["increment"] = "2";
+                                Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tab3">
+                            @{ Session["increment"] = "3";
+                                Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tab4">
+                            @{ Session["increment"] = "4";
+                                Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tab5">
+                            @{ Session["increment"] = "5";
+                                Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tab6">
+                            @{ Session["increment"] = "6";
+                                Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tab7">
+                            @{ Session["increment"] = "7";
+                                Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default buttonclose"  data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary buttonSave"  data-dismiss="modal">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- RoadBarriers  -->
+@*<div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="width: 1000px" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>№ </th>
+                        <th>Картинка</th>
+                        <th>Описание</th>
+                        <th>Погонные метры</th>
+                    </tr>
+                    @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadBarriers>)ViewBag.RoadBarriers)
+                    {
+                        <tr>
+
+                            <td>@item.NumberBarriers</td>
+                            <td>
+                                @if (item.ImageData != null)
+                                {
+                                    <img style="width: 100px;height: 100px" src="@Url.Action("GetImage",  "RoadBarriers", new { item.Id})" />
+                                }
+                            </td>
+                            <td>
+                                @item.Description
+                            </td>
+                            <td style="vertical-align: middle"><input name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
+
+                        </tr>
+                    }
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeModalMackUp"  class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadBarriers(1)" data-dismiss="modal">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>*@
