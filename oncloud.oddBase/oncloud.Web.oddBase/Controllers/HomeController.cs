@@ -221,7 +221,7 @@ namespace oncloud.Web.oddBase.Controllers
         }
         [HttpPost]
         public ActionResult EditStreets(
-            City city, Street street,
+            City city, Street street,IEnumerable<int> LayoutDislocationDelete,
             [ModelBinder(typeof(CustomModelBinderForSegment))] ICollection<Segment> segment,
             [ModelBinder(typeof(CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
             [ModelBinder(typeof(CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
