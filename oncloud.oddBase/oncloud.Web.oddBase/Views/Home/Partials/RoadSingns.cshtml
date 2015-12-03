@@ -44,17 +44,8 @@
 
                                     }
                                 </td>
-                                @if ((bool) Session["boolInput"])
-                                {
-                                    <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text"/></td>
-                                    
-                                }
-                                else
-                                {
-                                    <td style="vertical-align: middle"><input readonly  name="1ModalC@(item.NumberRoadSigns)" type="text"/></td>
-                                
-                                }
-                            </tr>
+                               <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text"/></td>
+                              </tr>
                             }
 
                         </table>
@@ -63,16 +54,8 @@
                 else
                 {
                     <td width="100px"></td>
-                    if ((bool) Session["boolInput"])
-                     {
-                         <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text"/></td>
-                    }
-                    else
-                    {
-                        <td style="vertical-align: middle"><input readonly name="1ModalC@(item.NumberRoadSigns)" type="text" /></td>
-
-                    }
-
+                    <td style="vertical-align: middle"><input name="1ModalC@(item.NumberRoadSigns)" type="text"/></td>
+                  
                 }
 
             </tr>

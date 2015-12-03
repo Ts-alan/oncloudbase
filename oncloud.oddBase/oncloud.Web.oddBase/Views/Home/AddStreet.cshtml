@@ -289,7 +289,7 @@
     }
     //удаление сегмента
     function deleteSegment(index) {
-
+        console.log(index);
         countElementSegGlobal.length--;
 
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1]));
@@ -328,6 +328,7 @@
                 if (indexSkipOfFirst == true) {
                     $(previousDom).html(domElement.innerHTML);
                 }
+                console.log(previousDom);
                 //изменения содержимого сегмента
                 if (countElement.length != 1) {
                     $(previousDom).attr("id", "segment" + ind + "");
@@ -375,8 +376,8 @@
         if (countElement.length == 5) {
             $("#interData+div").remove();
             $("#segment4").after("<div>" +
-                "<button type='button' class='btn btn-success setSegment'>Задать/Изменить координаты</button>" +
-                 "<button id='BlockSegment' class='btn btn-warning'>Сохранить</button>" +
+                "<button type='button' class='btn btn-default setSegment'>Задать/Изменить координаты</button>" +
+                 "<button id='BlockSegment' class='btn btn-primary'>Сохранить</button>" +
             "</div>");
 
             $("#interData+h5").css("clear", "none");
@@ -964,8 +965,7 @@
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="tab1">
                                 @{
-                                    Session["boolInput"] = true;
-                                    Session["increment"] = "1";
+                                   Session["increment"] = "1";
                                     Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
 
                             </div>

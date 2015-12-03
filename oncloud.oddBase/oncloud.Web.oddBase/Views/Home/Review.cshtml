@@ -92,9 +92,9 @@
                                                           }))');
 
 
-              
+
                  var setSegment = function (i) {
-                   
+
                      var segment = new ymaps.GeoObject({
                          geometry: {
                              type: "Point", // тип геометрии - точка
@@ -104,7 +104,7 @@
                          properties: {
                              iconContent: increment,
                              balloonContentHeader: "Данные участка № " + (i + 1) + "",
-                             balloonContent: " <a type='button' href='#'  data-toggle='modal' onclick='setTCODD(this)' IdSegment=" + DataOfSegment[i].IdSegment + " data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
+                             balloonContent: " <a type='button' href='#'  onclick='setTCODD(this)' data-toggle='modal' IdSegment=" + i + " data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
                                  "<a data-toggle='modal' data-target='#ModalRoadSigns" + (i + 1) + "' href='#'>Посмотреть данные о дорожных знаках</a></br>" +
                                  "<a data-toggle='modal' data-target='#RoadBarriers" + (i + 1) + "' href='#'>Посмотреть данные о дорожных ограждения</a>"
                          }
@@ -141,11 +141,11 @@
                      increment++;
                  }
 
-  
+
                  for (var i = 0; i < "@Model.Segment.Count"; i++) {
                      setSegment(i);
                  }
-                
+
                  var multiplicity, incrementMul = 0;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
                      if (multiplicity != undefined) {
@@ -156,9 +156,9 @@
                          }
                      }
                      multiplicity = DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString();
-                    $("[name='" + DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString() + "']").eq(incrementMul)
-                       .attr("value", DataOfRoadSings[i].CountRS);
-                    
+                     $("[name='" + DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString() + "']").eq(incrementMul)
+                        .attr("value", DataOfRoadSings[i].CountRS);
+
                  }
                  for (var i = 0; i < DataOfRoadBarriers.length; i++) {
                      $("[name='" + DataOfRoadBarriers[i].Name.toString() + "RoadBarriers" + DataOfRoadBarriers[i].NumberBarriers.toString() + "']")
@@ -182,13 +182,19 @@
         tableToGrid("#table3", {
             cmTemplate: { "resizable": false, sortable: false }
         });
+        $('.carousel').carousel({
+            wrap: false
+        });
     });
+
     function setTCODD(object) {
-        $("#TCODD").attr("src", "/Home/LayoutDislocation/" + $(object).attr("IdSegment"));
+        $(".item").each(function (indx, element) {
+            $(element).removeClass("active");
+        });
+        $(".item").eq($(object).attr("IdSegment")).addClass("active");
     }
 </script>
 <style>
-
     /*модальное окно*/
     .modal-dialog {
         width: 75%;
@@ -221,16 +227,18 @@
         <h3>1. Место расположения</h3>
         <h4>г. @Model.City.Name  @Model.Name</h4>
         <h3>2. Количество участков- <span> @Model.Segment.Count</span></h3>
-        <h3>3. Количество участков <br> подлежащих редактированию- <span>  
-            @if (Model.Segment.Any(a => a.ChangeDislocationTCODD))
+        <h3>
+            3. Количество участков <br> подлежащих редактированию- <span>
+                @if (Model.Segment.Any(a => a.ChangeDislocationTCODD))
             {
-                @Model.Segment.Where(a => a.ChangeDislocationTCODD).Count();
+                    @Model.Segment.Where(a => a.ChangeDislocationTCODD).Count();
             }
             else
             {
-              @: 0
+                    @: 0
             }
-        </span></h3>
+            </span>
+        </h3>
         <button style="margin-top: 230px" type="button" class="btn btn-default" data-toggle="modal" data-target="#LayoutScheme">
             Просмотр компоновочной схемы
         </button>
@@ -274,19 +282,19 @@
         {
             return int.Parse(a.Key.NumberRoadSigns.Substring(0, a.Key.NumberRoadSigns.IndexOf(".")).Replace(".", ","));
         })
-        .ThenBy(a =>
-        {
-            if (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) == -1)
-            {
-                return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1));
-            }
-            else
-            {
-                return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1,
-                    (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) - a.Key.NumberRoadSigns.IndexOf(".")) - 1));
-            }
-        })
-        )
+                .ThenBy(a =>
+                {
+                    if (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) == -1)
+                    {
+                        return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1));
+                    }
+                    else
+                    {
+                        return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1,
+                            (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) - a.Key.NumberRoadSigns.IndexOf(".")) - 1));
+                    }
+                })
+                )
         {
             <tr>
                 <td>@item.Key.NumberRoadSigns</td>
@@ -306,7 +314,7 @@
             <th>Описание</th>
             <th>Погонные метры</th>
         </tr>
-        @foreach (var item in Model.SpecificationOfRb.GroupBy(a =>new { a.RoadBarriers.NumberBarriers,a.RoadBarriers.Description}))
+        @foreach (var item in Model.SpecificationOfRb.GroupBy(a => new { a.RoadBarriers.NumberBarriers, a.RoadBarriers.Description }))
         {
             <tr>
                 <td>@item.Key.Description</td>
@@ -322,18 +330,18 @@
 </div>
 <div style="clear: both">
     @*<h3>3.Просмотр данных участков</h3>
-    <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-        <button type="button"  data-toggle="modal"  data-target="#layoutDislocation" class="btn btn-default">Посмотреть дислокацию ТСОДД</button>
-      
-    </div>
-    <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Посмотреть данные о дорожных знаках</button>
-    </div>
-    <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
-        <button type="button" class="btn btn-default" style="width: 330px" data-toggle="modal" data-target="#RoadBarriers1">
-            Посмотреть данные о дорожных ограждениях
-        </button>
-    </div>*@
+        <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+            <button type="button"  data-toggle="modal"  data-target="#layoutDislocation" class="btn btn-default">Посмотреть дислокацию ТСОДД</button>
+
+        </div>
+        <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Посмотреть данные о дорожных знаках</button>
+        </div>
+        <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <button type="button" class="btn btn-default" style="width: 330px" data-toggle="modal" data-target="#RoadBarriers1">
+                Посмотреть данные о дорожных ограждениях
+            </button>
+        </div>*@
 </div>
 <!-- Modal -->
 <div class="modal fade" id="LayoutScheme" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -341,19 +349,19 @@
         <div class="modal-content">
             <div class="modal-header" style="border-width:0px">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            
+
             </div>
             <div class="modal-body">
                 @try
                 {
-                    <img style="width: 75%" src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})"/>
+                    <img style="width: 75%" src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
                 }
                 catch
                 {
                     <h3>Компоновочная схема не загружена</h3>
                 }
             </div>
-            <div class="modal-footer"  style="border-width:0px">
+            <div class="modal-footer" style="border-width:0px">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
@@ -368,8 +376,52 @@
 
             </div>
             <div class="modal-body">
+                <div id="carousel-example-generic" class="carousel slide">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        @for (int i = 0; i < Model.Segment.Count; i++)
+                        {
+                            <li data-target="#carousel-example-generic" data-slide-to="@i" ></li>
+                        }
+                    </ol>
 
-                <img id="TCODD" alt="дислокацию ТСОДД не загружена" style="width: 75%" src="@Url.Action("LayoutDislocation", "Home")"/>
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" style="height: 700px" role="listbox">
+                        @for (int i = 0; i < Model.Segment.Count; i++)
+                        {
+                            <div class="item">
+                                <h3 style="color: black; text-align: center">
+                                    г.Минск ул. @Model.Name<br>
+                                    Дислокация ТСОДД участок @(i + 1)
+                                </h3>
+                              @if (Model.Segment.ElementAt(i).layoutDislocation.Any())
+                              {
+
+                                  <img id="TCODD" style="width: 75%" src="@Url.Action("LayoutDislocation", "Home", new {id = Model.Segment.ElementAt(i).layoutDislocation.SingleOrDefault().Id})"/>
+                              }
+                              else
+                              {
+                                  <text><h3 style="text-align: center">Дислокация ТСОДД не загружена</h3></text>
+                              }
+                                <div class="carousel-caption">
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+
+             
 
 
             </div>
@@ -379,7 +431,7 @@
         </div>
     </div>
 </div>
- <!-- ModalRoadSigns -->
+<!-- ModalRoadSigns -->
 <div class="modal fade" id="ModalRoadSigns1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width: 800px">
@@ -405,7 +457,7 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="tab1">
-                            @{ 
+                            @{
                                 Session["boolInput"] = false;
                                 Session["increment"] = "1";
                                 Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
@@ -442,7 +494,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default buttonclose"  data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>
@@ -484,7 +536,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" id="closeModalMackUp"  class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
+                <button type="button" id="closeModalMackUp" class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>
