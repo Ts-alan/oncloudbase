@@ -23,7 +23,11 @@
         });
 
         myMap.behaviors.disable(["dblClickZoom"]);
-
+        myMap.controls.add(
+                        new ymaps.control.TypeSelector(
+                            ['yandex#map', 'yandex#hybrid']
+                        )
+    );
         ymaps.route([
                 ['@Model.BreadthS', '@Model.LengthS'],
                 ['@Model.BreadthE', '@Model.LengthE']
@@ -165,12 +169,16 @@
             cmTemplate: { "resizable": false, sortable: false }
         });
 
-        
+
         $('.carouselTCODD').carousel({
-            wrap: false
+            wrap: false, interval: false
         });
-        $('#RoadSignsSlide1').carousel({
-            wrap: false
+        $('.RoadSignsItems').carousel({
+            wrap: false, interval: false
+        });
+
+        $('.RoadBarriersItems').carousel({
+            wrap: false, interval: false
         });
     });
 
@@ -178,14 +186,14 @@
         $(".item").each(function (indx, element) {
             $(element).removeClass("active");
         });
-        $(".item").eq($(object).attr("IdSegment")).addClass("active");
+        $(".item").eq($(object).attr("IdSegment")+1).addClass("active");
     }
 
     function setRoasSings(object) {
         $(".RoadSignsItem").each(function (indx, element) {
             $(element).removeClass("active");
         });
-        
+
         $(".RoadSignsItem").eq($(object).attr("IdSegment")).addClass("active");
     }
     function setRoadBarriers(object) {
@@ -199,7 +207,7 @@
 <style>
     /*модальное окно*/
     .modal-dialog {
-        width: 75%;
+        width: 1200px;
     }
 
     td input {
@@ -219,36 +227,81 @@
         width: 285px;
     }
 </style>
-<h2 style="text-align: center">Просмотр данных улицы</h2>
+<h2 style="text-align: center">ПРОСМОТР ДАННЫХ УЛИЦЫ</h2>
 
 <div class="row">
     <div class="form-group col-lg-7 col-md-7 col-sm-7 col-xs-7">
         <div id="map" style="height: 400px;"></div>
     </div>
     <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-        <h3>1. Место расположения</h3>
-        <h4>г. @Model.City.Name  @Model.Name</h4>
-        <h3>2. Количество участков- <span> @Model.Segment.Count</span></h3>
-        <h3>
-            3. Количество участков <br> подлежащих редактированию- <span>
-                @if (Model.Segment.Any(a => a.ChangeDislocationTCODD))
+        <div>
+            <b><u>1. Место расположения</u></b><br>
+            г. @Model.City.Name  @Model.Name
+        </div>
+        <div><p><b><u>2. Количество участков-  </u></b>@Model.Segment.Count</p></div>
+        <div>
+            <b>
+                <u>
+                    3. Количество участков подлежащих редактированию-
+                </u>
+            </b>
+            @if (Model.Segment.Any(a => a.ChangeDislocationTCODD))
             {
-                    @Model.Segment.Where(a => a.ChangeDislocationTCODD).Count();
+                @Model.Segment.Where(a => a.ChangeDislocationTCODD).Count()
+                ;
             }
             else
             {
-                    @: 0
+                @: 0
             }
-            </span>
-        </h3>
-        <button style="margin-top: 230px" type="button" class="btn btn-default" data-toggle="modal" data-target="#LayoutScheme">
-            Просмотр компоновочной схемы
-        </button>
+        </div>
+        <div>
+            <button style="display: block" type="button" class="btn btn-default" data-toggle="modal" data-target="#LayoutScheme">
+                Просмотр компоновочной схемы
+            </button>
+        </div>
+        <div style="">
+            <h3>Спецификация дорожных знаков</h3>
+            <table id="table2">
+                <tr>
+                    <th>№ знака</th>
+                    <th>Количество</th>
+                </tr>
+                @foreach (var item in Model.SpecificationofRS.GroupBy(a => new { a.RoadSigns.NumberRoadSigns }).OrderBy(a =>
+                {
+                    return int.Parse(a.Key.NumberRoadSigns.Substring(0, a.Key.NumberRoadSigns.IndexOf(".")).Replace(".", ","));
+                })
+        .ThenBy(a =>
+        {
+            if (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) == -1)
+            {
+                return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1));
+            }
+            else
+            {
+                return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1,
+                    (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) - a.Key.NumberRoadSigns.IndexOf(".")) - 1));
+            }
+        })
+        )
+                {
+                    <tr>
+                        <td>@item.Key.NumberRoadSigns</td>
+                        <td>@item.Sum(a => a.CountRS)</td>
+                    </tr>
+                }
+                <tr>
+                    <td><b>Итого</b></td>
+                    <td>@Model.SpecificationofRS.Sum(a => a.CountRS)</td>
+                </tr>
+            </table>
+        </div>
+
     </div>
 </div>
 
 
-<div style="float: left;width: 30%;">
+<div style="float: left;width: 765px;">
     <h3>Спецификация дорожной разметки</h3>
 
     <table id="table1">
@@ -273,43 +326,8 @@
     </table>
 
 </div>
-<div style="float: left;width: 30%;">
-    <h3>Спецификация дорожных знаков</h3>
-    <table id="table2">
-        <tr>
-            <th>№ знака</th>
-            <th>Количество</th>
-        </tr>
-        @foreach (var item in Model.SpecificationofRS.GroupBy(a => new { a.RoadSigns.NumberRoadSigns }).OrderBy(a =>
-        {
-            return int.Parse(a.Key.NumberRoadSigns.Substring(0, a.Key.NumberRoadSigns.IndexOf(".")).Replace(".", ","));
-        })
-                .ThenBy(a =>
-                {
-                    if (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) == -1)
-                    {
-                        return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1));
-                    }
-                    else
-                    {
-                        return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1,
-                            (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) - a.Key.NumberRoadSigns.IndexOf(".")) - 1));
-                    }
-                })
-                )
-        {
-            <tr>
-                <td>@item.Key.NumberRoadSigns</td>
-                <td>@item.Sum(a => a.CountRS)</td>
-            </tr>
-        }
-        <tr>
-            <td><b>Итого</b></td>
-            <td>@Model.SpecificationofRS.Sum(a => a.CountRS)</td>
-        </tr>
-    </table>
-</div>
-<div style="float: left; width: 30%;">
+
+<div style="float: left; width: 765px;margin-left: 340px">
     <h3>Спецификация дорожных ограждений</h3>
     <table id="table3">
         <tr>
@@ -331,19 +349,7 @@
     </table>
 </div>
 <div style="clear: both">
-    @*<h3>3.Просмотр данных участков</h3>
-        <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-            <button type="button"  data-toggle="modal"  data-target="#layoutDislocation" class="btn btn-default">Посмотреть дислокацию ТСОДД</button>
 
-        </div>
-        <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Посмотреть данные о дорожных знаках</button>
-        </div>
-        <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <button type="button" class="btn btn-default" style="width: 330px" data-toggle="modal" data-target="#RoadBarriers1">
-                Посмотреть данные о дорожных ограждениях
-            </button>
-        </div>*@
 </div>
 <!-- Modal -->
 <div class="modal fade" id="LayoutScheme" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -356,7 +362,7 @@
             <div class="modal-body">
                 @try
                 {
-                    <img style="width: 75%" src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
+                    <img src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
                 }
                 catch
                 {
@@ -364,7 +370,7 @@
                 }
             </div>
             <div class="modal-footer" style="border-width:0px">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-default">Печать</button>
             </div>
         </div>
     </div>
@@ -381,14 +387,27 @@
                 <div id="carousel-example-generic" class="carouselTCODD slide">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
-                        @for (int i = 0; i < Model.Segment.Count; i++)
+                        @for (int i = 0; i < Model.Segment.Count+1; i++)
                         {
-                            <li data-target="#carousel-example-generic" data-slide-to="@i" ></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="@i"></li>
                         }
                     </ol>
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" style="height: 700px" role="listbox">
+                        <div class="item">
+                            @if(Model.layoutScheme!=null)
+                            {
+                                <img src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
+                            }
+                            else
+                            {
+                                <h3 style="color: black;text-align: center">Компоновочная схема не загружена</h3>
+                            }
+                            <div class="carousel-caption">
+
+                            </div>
+                        </div>
                         @for (int i = 0; i < Model.Segment.Count; i++)
                         {
                             <div class="item">
@@ -396,15 +415,16 @@
                                     г.Минск ул. @Model.Name<br>
                                     Дислокация ТСОДД участок @(i + 1)
                                 </h3>
-                              @if (Model.Segment.ElementAt(i).layoutDislocation.Any())
-                              {
+                                @if (Model.Segment.ElementAt(i).layoutDislocation.Any())
+                                {
 
-                                  <img id="TCODD" style="width: 75%" src="@Url.Action("LayoutDislocation", "Home", new {id = Model.Segment.ElementAt(i).layoutDislocation.SingleOrDefault().Id})"/>
-                              }
-                              else
-                              {
-                                  <text><h3 style="text-align: center">Дислокация ТСОДД не загружена</h3></text>
-                              }
+                                    <img id="TCODD" src="@Url.Action("LayoutDislocation", "Home", new {id = Model.Segment.ElementAt(i).layoutDislocation.SingleOrDefault().Id})" />
+                                }
+                                else
+                                {
+                                    <text>
+                                        <h3 style="text-align: center">Дислокация ТСОДД не загружена</h3></text>
+                                }
                                 <div class="carousel-caption">
 
                                 </div>
@@ -423,12 +443,12 @@
                     </a>
                 </div>
 
-             
+
 
 
             </div>
             <div class="modal-footer" style="border-width: 0px">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-default">Печать</button>
             </div>
         </div>
     </div>
@@ -439,16 +459,16 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="width: 800px">
             <div class="modal-header">
-
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
             </div>
             <div class="modal-body">
-                <div id="carousel-example-generic1" class="RoadSignsSlide carousel  slide" >
+                <div id="carousel-example-generic1" class="RoadSignsItems carousel  slide">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
                         @for (int i = 0; i < Model.Segment.Count; i++)
                         {
-                            <li data-target="#RoadSignsSlide1" data-slide-to="@i"  ></li>
+                            <li data-target="#carousel-example-generic1" data-slide-to="@i"></li>
                         }
                     </ol>
 
@@ -497,7 +517,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-default buttonclose">Печать</button>
             </div>
         </div>
     </div>
@@ -507,10 +527,10 @@
     <div class="modal-dialog" style="width: 1000px" role="document">
         <div class="modal-content">
             <div class="modal-header">
-
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <div id="carousel-example-generic2" class="RoadBarriers   slide">
+                <div id="carousel-example-generic2" class="RoadBarriersItems slide">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
                         @for (int i = 0; i < Model.Segment.Count; i++)
@@ -564,7 +584,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="closeModalMackUp" class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
+                <button type="button" id="closeModalMackUp" class="btn btn-default buttonclose">Печать</button>
             </div>
         </div>
     </div>

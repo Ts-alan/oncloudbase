@@ -20,7 +20,11 @@
         });
 
         myMap.behaviors.disable(["dblClickZoom"]);
-
+        myMap.controls.add(
+                            new ymaps.control.TypeSelector(
+                                ['yandex#map', 'yandex#hybrid']
+                            )
+        );
 
 
     }
