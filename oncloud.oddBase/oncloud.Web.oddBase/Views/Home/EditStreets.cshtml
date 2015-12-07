@@ -656,6 +656,7 @@
                 if (indexSkipOfFirst == true) {
                     $(previousDom).html(domElement.innerHTML);
                 }
+
                 //изменения содержимого сегмента
                 if (countElement.length != 1) {
                     $(previousDom).attr("id", "segment" + ind + "");
@@ -665,20 +666,7 @@
                     $(previousDom).find("input").eq(2).attr("id", "breadthSegE" + ind);
                     $(previousDom).find("input").last().attr("id", "lengthSegE" + ind);
 
-                    //чистка модальных окон
 
-                    $('[id^="ModalRoadSigns' + index + ']').remove();
-                    $('[id^="ModalRoadSigns"]').each(function (ind, element) {
-                        $(element).attr("id", "ModalRoadSigns" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadSigns(" + (ind + 1) + ")");
-                    });
-                    //$('[data-target^="#DataOfRoad"]').each(function (ind, element) {
-                    //    $(element).attr("data-target", "ModalRoadSigns" + (ind + 1));
-                    //});
-
-                    $('[id^="RoadBarriers' + index + ']').remove();
-                    $('[id^="RoadBarriers"]').each(function (ind, element) {
-                        $(element).attr("id", "RoadBarriers" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadBarriers(" + (ind + 1) + ")");
-                    });
                 }
                 previousDom = domElement;
                 if (indexSkipOfFirst == false)
@@ -703,12 +691,37 @@
         if (countElement.length == 5) {
             $("#interData+div").remove();
             $("#segment4").after("<div>" +
-                "<button type='button' class='btn btn-success setSegment'>Задать/Изменить координаты</button>" +
-                 "<button id='BlockSegment' class='btn btn-warning'>Сохранить</button>" +
+                "<button type='button' class='btn btn-default setSegment'>Задать/Изменить координаты</button>" +
+                 "<button id='BlockSegment' type='button' class='btn btn-primary'>Сохранить</button>" +
             "</div>");
 
             $("#interData+h5").css("clear", "none");
             tempDataFor3 = 5;
+        }
+
+
+        //чистка модальных окон
+        if (countElement.length != 1) {
+            $('[id="ModalRoadSigns' + index + '"]').remove();
+            $('[id^="ModalRoadSigns"]').each(function (ind, element) {
+                $(element).attr("id", "ModalRoadSigns" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadSigns(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadSigns(' + (ind + 1) + ')');
+            }).each(function (indMR, elementMR) {
+                $(elementMR).find("td input").each(function (ind, element) {
+                    $(element).attr("name", (indMR + 1) + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
+                });
+
+            });
+
+            $('[id="RoadBarriers' + index + '"]').remove();
+            $('[id^="RoadBarriers"]').each(function (ind, element) {
+                $(element).attr("id", "RoadBarriers" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadBarriers(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadBarriers(' + (ind + 1) + ')');
+            }).each(function (indMR, elementMR) {
+
+                $(elementMR).find("td input").each(function (ind, element) {
+                    $(element).attr("name", (indMR + 1) + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
+
+                });
+            });
         }
 
         $(".DataOfRoad" + index).remove();
@@ -718,11 +731,9 @@
                 $(element).find("u").text("Участок " + (ind + 1));
                 $(element).find("[data-target^='#ModalRoadSigns']").attr("data-target", "#ModalRoadSigns" + (ind + 1));
                 $(element).find("[data-target^='#RoadBarriers']").attr("data-target", "#RoadBarriers" + (ind + 1));
+                $(element).find("[onchange^='setColorSegment']").attr("onchange", "setColorSegment(" + (ind + 1) + ",this)");
             }
         });
-        if (index == 1) {
-            $('.DataOfRoad1').children("input").remove();
-        }
         increment = massSegment.length + 1;
 
 
