@@ -340,26 +340,25 @@
             $("#lengthSegE1").attr("value", "");
         }
       
-        $('[id^=segment]:has("*")').each(function (ind, domElement) {
-
+        $('[id^=segment]').each(function (ind, domElement) {
+          
             //изменение содержимого координат
-            $(domElement).attr("id", "segment" + (ind+1) + "");
-            $(domElement).find("u").first().text("Координаты участка " + (ind+1));
-            $(domElement).find("input").first().attr("id", "breadthSegS" + (ind + 1));
-            $(domElement).find("input").eq(1).attr("id", "lengthSegS" + (ind + 1));
-            $(domElement).find("input").eq(2).attr("id", "breadthSegE" + (ind + 1));
-            $(domElement).find("input").last().attr("id", "lengthSegE" + (ind + 1));
-
-
+            if ((ind + 1) >= index) {
             
-
-                if ((countElement.length - 5) % 3 == 0 && index != 2) {
+                $(domElement).html($('[id="segment' + (ind + 2) + '"]')
+                  .find("u").first().text("Координаты участка " + (ind + 1)).end().end()
+                    .find("input").first().attr("id", "breadthSegS" + (ind + 1)).end().end()
+                        .find("input").eq(1).attr("id", "lengthSegS" + (ind + 1)).end().end()
+                            .find("input").eq(2).attr("id", "breadthSegE" + (ind + 1)).end().end()
+                                .find("input").last().attr("id", "lengthSegE" + (ind + 1)).end().end().children());
+            }
+            if ((countElement.length - 5) % 3 == 0 && index != 2) {
                     $(domElement).closest(".form-group").remove();
                 }
-                $("#CountSides").val(countElement.length-1);
+                
             
         });
-
+        $("#CountSides").val(countElement.length - 1);
 
         if (countElement.length == 5) {
             $("#interData+div").remove();
