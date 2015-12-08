@@ -109,7 +109,7 @@
                              iconContent: increment,
                              balloonContentHeader: "Данные участка № " + (i + 1) + "",
                              balloonContent: " <a type='button' href='#'  onclick='setTCODD(this)' data-toggle='modal' IdSegment=" + i + " data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
-                                 "<a data-toggle='modal' onclick='setRoasSings(this)'  IdSegment=" + i + " data-target='#ModalRoadSigns' href='#'>Посмотреть данные о дорожных знаках</a></br>" +
+                                 "<a data-toggle='modal' onclick='setRoasSings(this)'  IdSegment=" + i + " data-target='#ModalRoadSigns' href='#'>Просмотреть спецификацию знаков</a></br>" +
                                  "<a data-toggle='modal' onclick='setRoadBarriers(this)' data-target='#RoadBarriers' IdSegment=" + i + " href='#'>Посмотреть данные о дорожных ограждения</a>"
                          }
                      },
@@ -169,24 +169,25 @@
             cmTemplate: { "resizable": false, sortable: false }
         });
 
-
+        //слайдер опции
         $('.carouselTCODD').carousel({
-            wrap: false, interval: false
+             interval: false
         });
         $('.RoadSignsItems').carousel({
-            wrap: false, interval: false
+           interval: false
         });
 
         $('.RoadBarriersItems').carousel({
-            wrap: false, interval: false
+            interval: false
         });
     });
 
     function setTCODD(object) {
-        $(".item").each(function (indx, element) {
+        $(".TCODD").each(function (indx, element) {
             $(element).removeClass("active");
         });
-        $(".item").eq($(object).attr("IdSegment")+1).addClass("active");
+        $(".TCODD").eq(parseInt($(object).attr("idSegment")) + 1).addClass("active");
+        console.log($(".TCODD").eq(parseInt($(object).attr("idSegment")) + 1));
     }
 
     function setRoasSings(object) {
@@ -197,7 +198,7 @@
         $(".RoadSignsItem").eq($(object).attr("IdSegment")).addClass("active");
     }
     function setRoadBarriers(object) {
-        $(".item").each(function (indx, element) {
+        $(".RoadBarriersItem").each(function (indx, element) {
             $(element).removeClass("active");
         });
 
@@ -247,8 +248,7 @@
             </b>
             @if (Model.Segment.Any(a => a.ChangeDislocationTCODD))
             {
-                @Model.Segment.Where(a => a.ChangeDislocationTCODD).Count()
-                ;
+                @Model.Segment.Where(a => a.ChangeDislocationTCODD).Count();
             }
             else
             {
@@ -256,7 +256,7 @@
             }
         </div>
         <div>
-            <button style="display: block" type="button" class="btn btn-default" data-toggle="modal" data-target="#LayoutScheme">
+            <button style="display: block" type="button" class="btn btn-default" onclick="setTCODD(this)" IdSegment="-1" data-toggle="modal" data-target="#layoutDislocation">
                 Просмотр компоновочной схемы
             </button>
         </div>
@@ -351,30 +351,7 @@
 <div style="clear: both">
 
 </div>
-<!-- Modal -->
-<div class="modal fade" id="LayoutScheme" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header" style="border-width:0px">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-            </div>
-            <div class="modal-body">
-                @try
-                {
-                    <img src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
-                }
-                catch
-                {
-                    <h3>Компоновочная схема не загружена</h3>
-                }
-            </div>
-            <div class="modal-footer" style="border-width:0px">
-                <button type="button" class="btn btn-default">Печать</button>
-            </div>
-        </div>
-    </div>
-</div>
 @*Модальные окна*@
 <div class="modal fade" id="layoutDislocation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -395,7 +372,7 @@
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" style="height: 700px" role="listbox">
-                        <div class="item">
+                        <div class="item TCODD">
                             @if(Model.layoutScheme!=null)
                             {
                                 <img src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
@@ -410,7 +387,7 @@
                         </div>
                         @for (int i = 0; i < Model.Segment.Count; i++)
                         {
-                            <div class="item">
+                            <div class="item TCODD">
                                 <h3 style="color: black; text-align: center">
                                     г.Минск ул. @Model.Name<br>
                                     Дислокация ТСОДД участок @(i + 1)
