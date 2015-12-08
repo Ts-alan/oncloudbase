@@ -33,7 +33,7 @@ namespace oncloud.Web.oddBase.Controllers
             return View(data.GetDataModel);
         }
 
-        public virtual ActionResult SaveSuccess(City city, Street street,
+        public virtual ActionResult SaveSuccess(City city, Street street,IEnumerable<int> LayoutDislocationDelete,
             [ModelBinder(typeof(CustomModelBinderForSegment))] ICollection<Segment> segment,
             [ModelBinder(typeof(CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
             [ModelBinder(typeof(CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
@@ -220,8 +220,8 @@ namespace oncloud.Web.oddBase.Controllers
             return View(street);
         }
         [HttpPost]
-        public ActionResult EditStreets(
-            City city, Street street,IEnumerable<int> LayoutDislocationDelete,
+        public virtual ActionResult EditStreets(
+            City city, Street street, IEnumerable<int> LayoutDislocationDelete,
             [ModelBinder(typeof(CustomModelBinderForSegment))] ICollection<Segment> segment,
             [ModelBinder(typeof(CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
             [ModelBinder(typeof(CustomModelBinderForRS))] ICollection<SpecificationofRS> SpecificationofRS,
@@ -250,11 +250,20 @@ namespace oncloud.Web.oddBase.Controllers
                  ImageMimeType = a.ImageMimeType,
                  SegmentName = a.Segment.Name
              }).ToList();
-            
+            if (LayoutDislocationDelete != null)
+            {
+                foreach (var item in OldLayoutDislocation.ToList())
+                {
+                    if (!LayoutDislocationDelete.Contains(item.SegmentName))
+                    {
+                        OldLayoutDislocation.Remove(item);
+                    }
+                }
+            }
             layoutScheme OdllayoutScheme =
                 db.layoutSchemes.Include("Street").AsEnumerable().SingleOrDefault(a => a.Id == streetForUniqueNumber.id);
- 
-            DeleteDataStreet(street.id,true);
+
+            DeleteDataStreet(street.id, true);
 
             if (OdllayoutScheme != null)
             {
@@ -264,18 +273,18 @@ namespace oncloud.Web.oddBase.Controllers
             var newstreet = db.Street.Add(streetInfo);
             db.SaveChanges();
 
-            if(OdllayoutScheme!=null)
-            OdllayoutScheme.Id = newstreet.id;
+            if (OdllayoutScheme != null)
+                OdllayoutScheme.Id = newstreet.id;
 
             AjaxMinExtensions.ForEach(segment.GroupBy(a => a.Name), a => AjaxMinExtensions.ForEach(a, b =>
             {
                 b.id = ++LastIndexSegment;
                 b.Street_id = newstreet.id;
             }));
-            
-            SpecificationofRM.ToList().ForEach(a=>a.StreetId = newstreet.id);
+
+            SpecificationofRM.ToList().ForEach(a => a.StreetId = newstreet.id);
             var newsegment = db.Segment.AddRange(segment);
-            
+
             foreach (var instance in SpecificationofRM)
             {
                 if (db.TheHorizontalRoadMarking.Any(a => a.NumberMarking == instance.TheHorizontalRoadMarkingIdModel))
@@ -291,8 +300,8 @@ namespace oncloud.Web.oddBase.Controllers
                     }
                 }
             }
-           
-            
+
+
             if (layoutScheme != null)
             {
                 layoutScheme imageScheme = new layoutScheme();
@@ -327,10 +336,10 @@ namespace oncloud.Web.oddBase.Controllers
                             item.StreetId = streetInfo.id;
                             item.SegmentId = segment.Single(c => c.Name == item.SegmentName).id;
                             imageDislocations.Add(item);
-                           
+
                         }
 
-                  }
+                    }
                 }
                 if (layoutDislocation.Count != 0)
                 {
@@ -362,7 +371,7 @@ namespace oncloud.Web.oddBase.Controllers
 
             }
             db.layoutDislocations.AddRange(imageDislocations);
-           
+
             AjaxMinExtensions.ForEach(SpecificationofRB, a =>
             {
                 a.RoadBarriersId =
@@ -380,9 +389,9 @@ namespace oncloud.Web.oddBase.Controllers
 
             });
             db.SpecificationOfRb.AddRange(SpecificationofRB);
-            
+
             db.SpecificationofRM.AddRange(SpecificationofRM);
-          
+
             db.SpecificationofRS.AddRange(SpecificationofRS);
 
             db.SaveChanges();
@@ -390,9 +399,9 @@ namespace oncloud.Web.oddBase.Controllers
             return RedirectToAction("Table");
         }
 
-        public ActionResult Review(int id)
+        public virtual ActionResult Review(int id)
         {
-         
+
             Street street = db.Street.Find(id);
             return View(street);
         }
@@ -408,7 +417,7 @@ namespace oncloud.Web.oddBase.Controllers
                              };
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
         }
-        public FileContentResult GetImageLayoutScheme(int id)
+        public virtual FileContentResult GetImageLayoutScheme(int id)
         {
             layoutScheme LayoutScheme = db.layoutSchemes.Find(id);
 
@@ -422,7 +431,7 @@ namespace oncloud.Web.oddBase.Controllers
             }
         }
 
-        public FileContentResult LayoutDislocation(int id)
+        public virtual FileContentResult LayoutDislocation(int id)
         {
             layoutDislocation layoutDislocation = db.layoutDislocations.Find(id);
 

@@ -645,49 +645,47 @@
             }
 
         });
-        var indexOffset = false;
-        var previousDom = $('[id^=segment]:has("*")').eq(0);
+
         var countElement = $('[id^=segment]:has("*")');
-        var indexSkipOfFirst = false;
-        $('[id^=segment]:has("*")').each(function (ind, domElement) {
 
-            if (((ind + 1) == parseInt(index) || indexOffset == true)) {
+        //удаление координат
+        if (countElement.length != 1) {
+            $("#segment" + index).html("");
+            if (index != countElement.length && index != 1) {
+                $("#breadthSegS" + (index + 1) + "").attr("value", $("#breadthSegE" + (index - 1) + "").val());
+                $("#lengthSegS" + (index + 1)).attr("value", $("#lengthSegE" + (index - 1)).val());
 
-                if (indexSkipOfFirst == true) {
-                    $(previousDom).html(domElement.innerHTML);
-                }
-
-                //изменения содержимого сегмента
-                if (countElement.length != 1) {
-                    $(previousDom).attr("id", "segment" + ind + "");
-                    $(previousDom).find("u").first().text("Координаты участка " + ind);
-                    $(previousDom).find("input").first().attr("id", "breadthSegS" + ind);
-                    $(previousDom).find("input").eq(1).attr("id", "lengthSegS" + ind);
-                    $(previousDom).find("input").eq(2).attr("id", "breadthSegE" + ind);
-                    $(previousDom).find("input").last().attr("id", "lengthSegE" + ind);
-
-
-                }
-                previousDom = domElement;
-                if (indexSkipOfFirst == false)
-                    indexSkipOfFirst = true;
-                indexOffset = true;
             }
-            if ((countElement.length) == (ind + 1)) {
-                if (index != 1) {
-                    $(domElement).html("");
-                } else {
-                    $("#breadthSegS1").attr("value", "");
-                    $("#lengthSegS1").attr("value", "");
-                    $("#breadthSegE1").attr("value", "");
-                    $("#lengthSegE1").attr("value", "");
-                }
-                if ((countElement.length - 5) % 3 == 0 && index != 2) {
-                    $(domElement).closest(".form-group").remove();
-                }
-                $("#CountSides").val((parseInt($("#CountSides").val()) - 1).toString());
+
+        } else {
+            $("#breadthSegS1").attr("value", "");
+            $("#lengthSegS1").attr("value", "");
+            $("#breadthSegE1").attr("value", "");
+            $("#lengthSegE1").attr("value", "");
+        }
+
+        $('[id^=segment]').each(function (ind, domElement) {
+
+            //изменение содержимого координат
+            if ((ind + 1) >= index) {
+
+                $(domElement).html($('[id="segment' + (ind + 2) + '"]')
+                  .find("u").first().text("Координаты участка " + (ind + 1)).end().end()
+                    .find("input").first().attr("id", "breadthSegS" + (ind + 1)).end().end()
+                        .find("input").eq(1).attr("id", "lengthSegS" + (ind + 1)).end().end()
+                            .find("input").eq(2).attr("id", "breadthSegE" + (ind + 1)).end().end()
+                                .find("input").last().attr("id", "lengthSegE" + (ind + 1)).end().end().children());
             }
+            if ($('[id^=segment]').length == (ind + 1) && (countElement.length - 5) % 3 == 0 && countElement.length > 4) {
+                $(domElement).parent().remove();
+                tempDataFor3 = countElement.length;
+            }
+
+
         });
+
+        $("#CountSides").val(countElement.length - 1);
+
         if (countElement.length == 5) {
             $("#interData+div").remove();
             $("#segment4").after("<div>" +
@@ -724,7 +722,9 @@
             });
         }
 
-        $(".DataOfRoad" + index).remove();
+        if (countElement.length != 1) {
+            $(".DataOfRoad" + index).remove();
+        }
         $('[class^="DataOfRoad"]').each(function (ind, element) {
             if (countElement.length != 0) {
                 $(element).attr("class", "DataOfRoad" + (ind + 1));
@@ -735,7 +735,9 @@
             }
         });
         increment = massSegment.length + 1;
-
+       if (index == 1) {
+           $('name="LayoutDislocationDelete"').first().remove();
+       }
 
     }
     //чистка полей

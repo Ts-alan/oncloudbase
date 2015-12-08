@@ -292,6 +292,8 @@ namespace Links
         public static readonly string bootstrap_css = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/bootstrap.min.css") ? Url("bootstrap.min.css") : Url("bootstrap.css");
              
         public static readonly string bootstrap_min_css = Url("bootstrap.min.css");
+        public static readonly string csstablegenerator_css = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/csstablegenerator.min.css") ? Url("csstablegenerator.min.css") : Url("csstablegenerator.css");
+             
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public static class images {
             private const string URLPATH = "~/Content/images";
@@ -780,6 +782,7 @@ namespace Links
             {
                 public const string bootstrap_css = "~/Content/bootstrap.css";
                 public const string bootstrap_min_css = "~/Content/bootstrap.min.css";
+                public const string csstablegenerator_css = "~/Content/csstablegenerator.css";
                 public const string jquery_ui_css = "~/Content/jquery-ui.css";
                 public const string Site_css = "~/Content/Site.css";
                 public const string СorrectionBootstrap_css = "~/Content/СorrectionBootstrap.css";

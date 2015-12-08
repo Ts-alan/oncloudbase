@@ -79,9 +79,27 @@ namespace oncloud.Web.oddBase.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult Review()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Review);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult FindStreets()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.FindStreets);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.FileContentResult GetImageLayoutScheme()
+        {
+            return new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.GetImageLayoutScheme);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.FileContentResult LayoutDislocation()
+        {
+            return new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.LayoutDislocation);
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -106,7 +124,10 @@ namespace oncloud.Web.oddBase.Controllers
             public readonly string AddStreet = "AddStreet";
             public readonly string DeleteStreet = "DeleteStreet";
             public readonly string EditStreets = "EditStreets";
+            public readonly string Review = "Review";
             public readonly string FindStreets = "FindStreets";
+            public readonly string GetImageLayoutScheme = "GetImageLayoutScheme";
+            public readonly string LayoutDislocation = "LayoutDislocation";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -119,7 +140,10 @@ namespace oncloud.Web.oddBase.Controllers
             public const string AddStreet = "AddStreet";
             public const string DeleteStreet = "DeleteStreet";
             public const string EditStreets = "EditStreets";
+            public const string Review = "Review";
             public const string FindStreets = "FindStreets";
+            public const string GetImageLayoutScheme = "GetImageLayoutScheme";
+            public const string LayoutDislocation = "LayoutDislocation";
         }
 
 
@@ -131,6 +155,7 @@ namespace oncloud.Web.oddBase.Controllers
         {
             public readonly string city = "city";
             public readonly string street = "street";
+            public readonly string LayoutDislocationDelete = "LayoutDislocationDelete";
             public readonly string segment = "segment";
             public readonly string SpecificationofRM = "SpecificationofRM";
             public readonly string SpecificationofRS = "SpecificationofRS";
@@ -153,6 +178,23 @@ namespace oncloud.Web.oddBase.Controllers
         public class ActionParamsClass_EditStreets
         {
             public readonly string id = "id";
+            public readonly string city = "city";
+            public readonly string street = "street";
+            public readonly string LayoutDislocationDelete = "LayoutDislocationDelete";
+            public readonly string segment = "segment";
+            public readonly string SpecificationofRM = "SpecificationofRM";
+            public readonly string SpecificationofRS = "SpecificationofRS";
+            public readonly string SpecificationofRB = "SpecificationofRB";
+            public readonly string layoutScheme = "layoutScheme";
+            public readonly string layoutDislocation = "layoutDislocation";
+        }
+        static readonly ActionParamsClass_Review s_params_Review = new ActionParamsClass_Review();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Review ReviewParams { get { return s_params_Review; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Review
+        {
+            public readonly string id = "id";
         }
         static readonly ActionParamsClass_FindStreets s_params_FindStreets = new ActionParamsClass_FindStreets();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -161,6 +203,22 @@ namespace oncloud.Web.oddBase.Controllers
         public class ActionParamsClass_FindStreets
         {
             public readonly string term = "term";
+        }
+        static readonly ActionParamsClass_GetImageLayoutScheme s_params_GetImageLayoutScheme = new ActionParamsClass_GetImageLayoutScheme();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_GetImageLayoutScheme GetImageLayoutSchemeParams { get { return s_params_GetImageLayoutScheme; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_GetImageLayoutScheme
+        {
+            public readonly string id = "id";
+        }
+        static readonly ActionParamsClass_LayoutDislocation s_params_LayoutDislocation = new ActionParamsClass_LayoutDislocation();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_LayoutDislocation LayoutDislocationParams { get { return s_params_LayoutDislocation; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_LayoutDislocation
+        {
+            public readonly string id = "id";
         }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -177,6 +235,7 @@ namespace oncloud.Web.oddBase.Controllers
                 public readonly string Contact = "Contact";
                 public readonly string EditStreets = "EditStreets";
                 public readonly string Index = "Index";
+                public readonly string Review = "Review";
                 public readonly string Table = "Table";
             }
             public readonly string About = "~/Views/Home/About.cshtml";
@@ -184,6 +243,7 @@ namespace oncloud.Web.oddBase.Controllers
             public readonly string Contact = "~/Views/Home/Contact.cshtml";
             public readonly string EditStreets = "~/Views/Home/EditStreets.cshtml";
             public readonly string Index = "~/Views/Home/Index.cshtml";
+            public readonly string Review = "~/Views/Home/Review.cshtml";
             public readonly string Table = "~/Views/Home/Table.cshtml";
             static readonly _PartialsClass s_Partials = new _PartialsClass();
             public _PartialsClass Partials { get { return s_Partials; } }
@@ -229,21 +289,22 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
-        partial void SaveSuccessOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.City city, oncloud.Domain.Entities.Street street, System.Collections.Generic.ICollection<oncloud.Domain.Entities.Segment> segment, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRM> SpecificationofRM, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRS> SpecificationofRS, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationOfRb> SpecificationofRB, System.Web.HttpPostedFileBase layoutScheme, System.Collections.Generic.List<OddBasyBY.Models.ModelLayoutDislocation> layoutDislocation);
+        partial void SaveSuccessOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.City city, oncloud.Domain.Entities.Street street, System.Collections.Generic.IEnumerable<int> LayoutDislocationDelete, System.Collections.Generic.ICollection<oncloud.Domain.Entities.Segment> segment, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRM> SpecificationofRM, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRS> SpecificationofRS, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationOfRb> SpecificationofRB, System.Web.HttpPostedFileBase layoutScheme, System.Collections.Generic.List<OddBasyBY.Models.ModelLayoutDislocation> layoutDislocation);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult SaveSuccess(oncloud.Domain.Entities.City city, oncloud.Domain.Entities.Street street, System.Collections.Generic.ICollection<oncloud.Domain.Entities.Segment> segment, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRM> SpecificationofRM, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRS> SpecificationofRS, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationOfRb> SpecificationofRB, System.Web.HttpPostedFileBase layoutScheme, System.Collections.Generic.List<OddBasyBY.Models.ModelLayoutDislocation> layoutDislocation)
+        public override System.Web.Mvc.ActionResult SaveSuccess(oncloud.Domain.Entities.City city, oncloud.Domain.Entities.Street street, System.Collections.Generic.IEnumerable<int> LayoutDislocationDelete, System.Collections.Generic.ICollection<oncloud.Domain.Entities.Segment> segment, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRM> SpecificationofRM, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRS> SpecificationofRS, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationOfRb> SpecificationofRB, System.Web.HttpPostedFileBase layoutScheme, System.Collections.Generic.List<OddBasyBY.Models.ModelLayoutDislocation> layoutDislocation)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SaveSuccess);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "city", city);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "street", street);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "LayoutDislocationDelete", LayoutDislocationDelete);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "segment", segment);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "SpecificationofRM", SpecificationofRM);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "SpecificationofRS", SpecificationofRS);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "SpecificationofRB", SpecificationofRB);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "layoutScheme", layoutScheme);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "layoutDislocation", layoutDislocation);
-            SaveSuccessOverride(callInfo, city, street, segment, SpecificationofRM, SpecificationofRS, SpecificationofRB, layoutScheme, layoutDislocation);
+            SaveSuccessOverride(callInfo, city, street, LayoutDislocationDelete, segment, SpecificationofRM, SpecificationofRS, SpecificationofRB, layoutScheme, layoutDislocation);
             return callInfo;
         }
 
@@ -294,6 +355,38 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
+        partial void EditStreetsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Domain.Entities.City city, oncloud.Domain.Entities.Street street, System.Collections.Generic.IEnumerable<int> LayoutDislocationDelete, System.Collections.Generic.ICollection<oncloud.Domain.Entities.Segment> segment, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRM> SpecificationofRM, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRS> SpecificationofRS, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationOfRb> SpecificationofRB, System.Web.HttpPostedFileBase layoutScheme, System.Collections.Generic.List<OddBasyBY.Models.ModelLayoutDislocation> layoutDislocation);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult EditStreets(oncloud.Domain.Entities.City city, oncloud.Domain.Entities.Street street, System.Collections.Generic.IEnumerable<int> LayoutDislocationDelete, System.Collections.Generic.ICollection<oncloud.Domain.Entities.Segment> segment, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRM> SpecificationofRM, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationofRS> SpecificationofRS, System.Collections.Generic.ICollection<oncloud.Domain.Entities.SpecificationOfRb> SpecificationofRB, System.Web.HttpPostedFileBase layoutScheme, System.Collections.Generic.List<OddBasyBY.Models.ModelLayoutDislocation> layoutDislocation)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.EditStreets);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "city", city);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "street", street);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "LayoutDislocationDelete", LayoutDislocationDelete);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "segment", segment);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "SpecificationofRM", SpecificationofRM);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "SpecificationofRS", SpecificationofRS);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "SpecificationofRB", SpecificationofRB);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "layoutScheme", layoutScheme);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "layoutDislocation", layoutDislocation);
+            EditStreetsOverride(callInfo, city, street, LayoutDislocationDelete, segment, SpecificationofRM, SpecificationofRS, SpecificationofRB, layoutScheme, layoutDislocation);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void ReviewOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Review(int id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Review);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            ReviewOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
         partial void FindStreetsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string term);
 
         [NonAction]
@@ -302,6 +395,30 @@ namespace oncloud.Web.oddBase.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.FindStreets);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "term", term);
             FindStreetsOverride(callInfo, term);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void GetImageLayoutSchemeOverride(T4MVC_System_Web_Mvc_FileContentResult callInfo, int id);
+
+        [NonAction]
+        public override System.Web.Mvc.FileContentResult GetImageLayoutScheme(int id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.GetImageLayoutScheme);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            GetImageLayoutSchemeOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void LayoutDislocationOverride(T4MVC_System_Web_Mvc_FileContentResult callInfo, int id);
+
+        [NonAction]
+        public override System.Web.Mvc.FileContentResult LayoutDislocation(int id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.LayoutDislocation);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            LayoutDislocationOverride(callInfo, id);
             return callInfo;
         }
 
