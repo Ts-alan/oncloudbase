@@ -171,14 +171,44 @@
 
         //слайдер опции
         $('.carouselTCODD').carousel({
-             interval: false
+            interval: false
+          
         });
+ 
         $('.RoadSignsItems').carousel({
-           interval: false
+            interval: false
+          
         });
 
         $('.RoadBarriersItems').carousel({
             interval: false
+           
+        });
+        //перелистование слайдера при нажатии на клавиши
+        $("#layoutDislocation").on('keyup', function (e) {
+            if (e.which == 39) {
+                $("#carousel-example-generic .carousel-control.right").trigger('click');
+            }
+            else if (e.which == 37) {
+                $("#carousel-example-generic .carousel-control.left").trigger('click');
+            }
+        });
+        $("#ModalRoadSigns").on('keyup', function (e) {
+            if (e.which == 39) {
+                $("#carousel-example-generic1 .carousel-control.right").trigger('click');
+            }
+            else if (e.which == 37) {
+                $("#carousel-example-generic1 .carousel-control.left").trigger('click');
+            }
+        });
+
+        $("#RoadBarriers").on('keyup', function (e) {
+            if (e.which == 39) {
+                $("#carousel-example-generic2 .carousel-control.right").trigger('click');
+            }
+            else if (e.which == 37) {
+                $("#carousel-example-generic2 .carousel-control.left").trigger('click');
+            }
         });
     });
 
@@ -187,7 +217,7 @@
             $(element).removeClass("active");
         });
         $(".TCODD").eq(parseInt($(object).attr("idSegment")) + 1).addClass("active");
-        console.log($(".TCODD").eq(parseInt($(object).attr("idSegment")) + 1));
+
     }
 
     function setRoasSings(object) {
@@ -267,23 +297,23 @@
                     <th>№ знака</th>
                     <th>Количество</th>
                 </tr>
-                @foreach (var item in Model.SpecificationofRS.GroupBy(a => new { a.RoadSigns.NumberRoadSigns }).OrderBy(a =>
+                @foreach (var item in Model.SpecificationofRS.GroupBy(a => new {a.RoadSigns.NumberRoadSigns}).OrderBy(a =>
                 {
                     return int.Parse(a.Key.NumberRoadSigns.Substring(0, a.Key.NumberRoadSigns.IndexOf(".")).Replace(".", ","));
                 })
-        .ThenBy(a =>
-        {
-            if (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) == -1)
-            {
-                return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1));
-            }
-            else
-            {
-                return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1,
-                    (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) - a.Key.NumberRoadSigns.IndexOf(".")) - 1));
-            }
-        })
-        )
+                    .ThenBy(a =>
+                    {
+                        if (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) == -1)
+                        {
+                            return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1));
+                        }
+                        else
+                        {
+                            return int.Parse(a.Key.NumberRoadSigns.Substring(a.Key.NumberRoadSigns.IndexOf(".") + 1,
+                                (a.Key.NumberRoadSigns.IndexOf(".", a.Key.NumberRoadSigns.IndexOf(".") + 1) - a.Key.NumberRoadSigns.IndexOf(".")) - 1));
+                        }
+                    })
+                    )
                 {
                     <tr>
                         <td>@item.Key.NumberRoadSigns</td>
@@ -295,58 +325,61 @@
                     <td>@Model.SpecificationofRS.Sum(a => a.CountRS)</td>
                 </tr>
             </table>
+            <button type="button" class="btn btn-default" style="margin-top: 5px">Печать</button>
         </div>
 
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-5">
+        <h3>Спецификация дорожной разметки</h3>
 
-<div style="float: left;width: 765px;">
-    <h3>Спецификация дорожной разметки</h3>
-
-    <table id="table1">
-        <tr>
-            <th>№ разметки</th>
-            <th>Длина (м.пог) / штуки</th>
-            <th>Площадь (м.кв)</th>
-        </tr>
-        @foreach (var item in Model.SpecificationofRM)
+        <table id="table1">
+            <tr>
+                <th>№ разметки</th>
+                <th>Длина (м.пог) / штуки</th>
+                <th>Площадь (м.кв)</th>
+            </tr>
+            @foreach (var item in Model.SpecificationofRM)
             {
+                <tr>
+                    <td>@item.TheHorizontalRoadMarking.NumberMarking</td>
+                    <td>@item.length</td>
+                    <td>@item.area</td>
+                </tr>
+            }
             <tr>
-                <td>@item.TheHorizontalRoadMarking.NumberMarking</td>
-                <td>@item.length</td>
-                <td>@item.area</td>
+                <td><b>Итого</b></td>
+                <td></td>
+                <td>@Model.SpecificationofRM.Sum(a => Double.Parse(a.area))</td>
             </tr>
-        }
-        <tr>
-            <td><b>Итого</b></td>
-            <td></td>
-            <td>@Model.SpecificationofRM.Sum(a => Double.Parse(a.area))</td>
-        </tr>
-    </table>
+        </table>
+        <button type="button" class="btn btn-default" style="margin-top: 5px">Печать</button>
+    </div>
 
-</div>
-
-<div style="float: left; width: 765px;margin-left: 340px">
-    <h3>Спецификация дорожных ограждений</h3>
-    <table id="table3">
-        <tr>
-            <th>Описание</th>
-            <th>Погонные метры</th>
-        </tr>
-        @foreach (var item in Model.SpecificationOfRb.GroupBy(a => new { a.RoadBarriers.NumberBarriers, a.RoadBarriers.Description }))
-        {
+    <div class="col-md-5 col-md-offset-2">
+        <h3>Спецификация дорожных ограждений</h3>
+        <table id="table3">
             <tr>
-                <td>@item.Key.Description</td>
-                <td>@item.Sum(a => a.Length)</td>
-
+                <th>Описание</th>
+                <th>Погонные метры</th>
             </tr>
-        }
-        <tr>
-            <td><b>Итого</b></td>
-            <td>@Model.SpecificationOfRb.Sum(a => a.Length)</td>
-        </tr>
-    </table>
+            @foreach (var item in Model.SpecificationOfRb.GroupBy(a => new {a.RoadBarriers.NumberBarriers, a.RoadBarriers.Description}))
+            {
+                <tr>
+                    <td>@item.Key.Description</td>
+                    <td>@item.Sum(a => a.Length)</td>
+
+                </tr>
+            }
+            <tr>
+                <td><b>Итого</b></td>
+                <td>@Model.SpecificationOfRb.Sum(a => a.Length)</td>
+            </tr>
+        </table>
+        <button type="button" class="btn btn-default" style="margin-top: 5px">Печать</button>
+    </div>
 </div>
 <div style="clear: both">
 
@@ -364,7 +397,7 @@
                 <div id="carousel-example-generic" class="carouselTCODD slide">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
-                        @for (int i = 0; i < Model.Segment.Count+1; i++)
+                        @for (int i = 0; i < Model.Segment.Count + 1; i++)
                         {
                             <li data-target="#carousel-example-generic" data-slide-to="@i"></li>
                         }
@@ -373,7 +406,7 @@
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" style="height: 700px" role="listbox">
                         <div class="item TCODD">
-                            @if(Model.layoutScheme!=null)
+                            @if (Model.layoutScheme != null)
                             {
                                 <img src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
                             }
@@ -408,7 +441,7 @@
                             </div>
                         }
                     </div>
-
+                      
                     <!-- Controls -->
                     <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
                         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -425,7 +458,7 @@
 
             </div>
             <div class="modal-footer" style="border-width: 0px">
-                <button type="button" class="btn btn-default">Печать</button>
+                <button type="button" class="btn btn-default" >Печать</button>
             </div>
         </div>
     </div>
