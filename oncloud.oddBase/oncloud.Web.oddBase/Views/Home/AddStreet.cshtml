@@ -474,6 +474,7 @@
 
             if ($(eventObject.target).next("button").css("display") == "none") {
                 $("#BlockSegment").css("display", "inline-block");
+                $('form[action="/Home/SaveSuccess"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
             }
             if (currentRoute == undefined || $("#blockStreetCoord").css("display") == "inline") {
                 alert("Задайте улицу или возможно нажмите кнопку сохранить в этом пункте");

@@ -802,6 +802,7 @@
 
             if ($(eventObject.target).next("button").css("display") == "none") {
                 $("#BlockSegment").css("display", "inline-block");
+                $('[action^="/Home/EditStreets"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
             }
             if (currentRoute == undefined || $("#blockStreetCoord").css("display") == "inline") {
                 alert("Задайте улицу или возможно нажмите кнопку сохранить в этом пункте");
@@ -1001,9 +1002,9 @@
         }
 
         //отправка формы
-        $('form[action="/Home/SaveSuccess"]').on('click', "#BlockSegment", function () {
+        $(' [action^="/Home/EditStreets"]').on('click', "#BlockSegment", function () {
 
-            $('form[action="/Home/SaveSuccess"]').off("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
+            $(' [action^="/Home/EditStreets"]').off("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
 
             $("#BlockSegment").css("display", "none");
             $(".setSegment").one('click', setSegment);
@@ -1021,7 +1022,7 @@
             });
         });
 
-        //$('form[action="/Home/SaveSuccess"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
+        //$('form[action="/Home/EditStreets"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
 
 
         $(".setSegment").one('click', setSegment);
