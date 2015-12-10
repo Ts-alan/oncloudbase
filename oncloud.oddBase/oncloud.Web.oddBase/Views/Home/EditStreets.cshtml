@@ -25,7 +25,7 @@
         myMap.behaviors.disable(["dblClickZoom"]);
         myMap.controls.add(
                         new ymaps.control.TypeSelector(
-                            ['yandex#map', 'yandex#hybrid']
+                            ['yandex#map', 'yandex#hybrid', 'yandex#satellite']
                         )
     );
         ymaps.route([
@@ -193,7 +193,7 @@
                      if ((i + 1) > 4) {
 
                          if ((i + 1) == 5) {
-                             $("#segment4+div").remove();
+                             $("#segment4").parent().next().remove();
                              $("#interData+h5").css("clear", "left");
                              $("#interData").after('<div style="float: left"  >' +
                                  '<button type="button"  class="btn btn-default setSegment">Задать/Изменить координаты</button>' +
@@ -201,7 +201,7 @@
                                  '</div>');
                          }
                          if (tempDataFor3 == (i + 1)) {
-                             $("#interData").before('<div class="form-group" style="margin-top: 10px"><div id="segment' + (i + 1) + '" style="width: 30.2%;float: left;height: 115px"></div><div id="segment' + (i + 2) + '" style="width:29%;float: left;height: 115px"></div><div id="segment' + (i + 3) + '" style="width: 39.8%;float: left;height: 115px"></div></div>');
+                             $("#interData").before('<div class="form-group ShowHideSegment"  style="margin-top: 10px;display: none"><div id="segment' + (i + 1) + '" style="width: 30.2%;float: left;height: 115px"></div><div id="segment' + (i + 2) + '" style="width:29%;float: left;height: 115px"></div><div id="segment' + (i + 3) + '" style="width: 39.8%;float: left;height: 115px"></div></div>');
                              tempDataFor3 = tempDataFor3 + 3;
                          }
                          $("#segment" + (i + 1)).html('<b><u>Координаты участка ' + (i + 1) + '</u></b>' +
@@ -354,8 +354,7 @@
     }
     //изменения цвета
     function setColorSegment(index, object) {
-        console.log(index);
-        console.log(myMap.geoObjects.get(massSegment[index - 1]));
+       
         if ($(object).val() == "true")
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#redCircleIcon");
         else {
@@ -622,7 +621,7 @@
     function deleteSegment(index) {
 
         countElementSegGlobal.length--;
-        console.log(countElementSegGlobal.length);
+ 
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1]));
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1] - 1));
 
@@ -788,8 +787,8 @@
     }
 
     //задание координат
-    $(document).ready(function () {
-        $('[data-target="#ModalTable"]').click(function () {
+    $(document).ready(function() {
+        $('[data-target="#ModalTable"]').click(function() {
 
             var textStreet = $('[name="Street.Name"]').val();
 
@@ -799,15 +798,20 @@
         });
 
         function setSegment(eventObject) {
-
+            
             if ($(eventObject.target).next("button").css("display") == "none") {
                 $("#BlockSegment").css("display", "inline-block");
                 $('[action^="/Home/EditStreets"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
-            }
+                $(".ShowHideSegment").each(function(ind, element) {
+                    $(element).show();
+                });
+               
+            } 
             if (currentRoute == undefined || $("#blockStreetCoord").css("display") == "inline") {
                 alert("Задайте улицу или возможно нажмите кнопку сохранить в этом пункте");
             } else {
-
+                
+                    
                 if (identifierForDelBallon == true) {
 
                     currentRoute.getPaths().get(0).balloon.destroy();
@@ -859,7 +863,7 @@
                                 '</div>');
                         }
                         if (tempDataFor3 == increment) {
-                            $("#interData").before('<div class="form-group" style="margin-top: 10px"><div id="segment' + increment + '" style="width: 30.2%;float: left;height: 115px"></div><div id="segment' + (increment + 1) + '" style="width:29%;float: left;height: 115px"></div><div id="segment' + (increment + 2) + '" style="width: 39.8%;float: left;height: 115px"></div></div>');
+                            $("#interData").before('<div class="form-group ShowHideSegment" style="margin-top: 10px"><div id="segment' + increment + '" style="width: 30.2%;float: left;height: 115px"></div><div id="segment' + (increment + 1) + '" style="width:29%;float: left;height: 115px"></div><div id="segment' + (increment + 2) + '" style="width: 39.8%;float: left;height: 115px"></div></div>');
                             tempDataFor3 = tempDataFor3 + 3;
                         }
                         $("#segment" + increment).html('<b><u>Координаты участка ' + increment + '</u></b>' +
@@ -989,7 +993,8 @@
                     tempData = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
                     massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                     increment++;
-
+                    
+                  
                 }
                 currentRoute.getPaths().events.add('click', handlerSegment);
 
@@ -1000,10 +1005,12 @@
             alert("Вы не сохранили координаты участков");
             return false;
         }
-
+        $('[action^="/Home/EditStreets"]').one('click', ".setSegment", setSegment);
         //отправка формы
         $(' [action^="/Home/EditStreets"]').on('click', "#BlockSegment", function () {
-
+            $(".ShowHideSegment").each(function (ind, element) {
+                $(element).hide();
+            });
             $(' [action^="/Home/EditStreets"]').off("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
 
             $("#BlockSegment").css("display", "none");
@@ -1205,14 +1212,15 @@
             <div>
                 @Html.Label("Количество участков", new { @for = "CountSides", style = "margin-right: 20px" }) @Html.TextBoxFor(a => a.Segment.Count, null, new { id = "CountSides", style = "width: 40px", @readonly = "", Name = "CountSides" })
             </div>
-            <div id="segment1">
-
-            </div>
-            <div id="segment2">
-            </div>
-            <div id="segment3">
-            </div>
-            <div id="segment4">
+            <div class="ShowHideSegment" style="display: none">
+                <div id="segment1">
+                </div>
+                <div id="segment2">
+                </div>
+                <div id="segment3">
+                </div>
+                <div id="segment4">
+                </div>
             </div>
             <div>
                 <button type="button" class="btn btn-default setSegment">Задать/Изменить координаты</button>

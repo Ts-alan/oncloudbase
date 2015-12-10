@@ -22,7 +22,7 @@
         myMap.behaviors.disable(["dblClickZoom"]);
         myMap.controls.add(
                             new ymaps.control.TypeSelector(
-                                ['yandex#map', 'yandex#hybrid']
+                                ['yandex#map', 'yandex#hybrid', 'yandex#satellite']
                             )
         );
 
@@ -460,9 +460,9 @@
 
     //задание координат
     $(document).ready(function () {
-
-        $('[data-target="#ModalTable"]').click(function () {
-
+        //подтягивание улицы в модальное окно
+        $('[data-target="#ModalMackUp"]').click(function () {
+           
             var textStreet = $('[name="Street.Name"]').val();
 
             if (textStreet != "") {

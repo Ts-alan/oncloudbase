@@ -25,7 +25,7 @@
         myMap.behaviors.disable(["dblClickZoom"]);
         myMap.controls.add(
                         new ymaps.control.TypeSelector(
-                            ['yandex#map', 'yandex#hybrid']
+                            ['yandex#map', 'yandex#hybrid', 'yandex#satellite']
                         )
     );
         ymaps.route([
@@ -239,6 +239,7 @@
     /*модальное окно*/
     .modal-dialog {
         width: 1200px;
+     
     }
 
     td input {
@@ -404,7 +405,7 @@
                     </ol>
 
                     <!-- Wrapper for slides -->
-                    <div class="carousel-inner" style="height: 700px" role="listbox">
+                    <div class="carousel-inner" style="height: 900px" role="listbox">
                         <div class="item TCODD">
                             @if (Model.layoutScheme != null)
                             {
