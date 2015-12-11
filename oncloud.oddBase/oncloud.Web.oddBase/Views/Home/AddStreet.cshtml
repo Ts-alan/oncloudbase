@@ -460,6 +460,27 @@
 
     //задание координат
     $(document).ready(function () {
+
+        $('[action="/Home/SaveSuccess"]').validate();
+
+        $('td [type="text"]').each(function(ind,element) {
+            
+            $(element).rules("add", {
+                number: true,
+                messages: {
+                    number:"requere number"  
+                }
+            });
+        });
+        $("#submitForm").click(function(e) {
+            $('td [type="text"]').each(function(ind, element) {
+                if ($(element).hasClass("input-validation-error")) {
+                    alert("Вы ввели недопустимые знаки в полях");
+                    e.preventDefault();
+                }
+            });
+        });
+
         //подтягивание улицы в модальное окно
         $('[data-target="#ModalMackUp"]').click(function () {
            
@@ -1113,7 +1134,7 @@
                                         </div>
                                     </div>
                                     <div id="blockForm" style="margin-left: 60%; margin-top: 60px">
-                                        @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-default", style = "float:left" }) <button class="btn btn-primary">Сохранить</button>
+                                        @Html.ActionLink("Выйти без сохранения", "Table", "Home", new { @class = "btn btn-default", style = "float:left" }) <button id="submitForm" class="btn btn-primary">Сохранить</button>
                                     </div>
 
                                     }
