@@ -449,6 +449,15 @@
     }
 
     function changeColorRoadSigns(par) {
+        
+        $('[onclick="changeColorRoadSigns(' + par + ')"]').closest("#ModalRoadSigns" + par + "").find("td>input").each(function (ind, element) {
+            if ($(element).hasClass("input-validation-error")) {
+                alert("Вы ввели недопустимые знаки в полях");
+               
+
+            }
+        });
+      
         $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-default");
         $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-danger");
     }
@@ -767,8 +776,7 @@
                     strokeWidth: 4
                 });
                 //var segments= currentRoute.getPaths().get(0).getSegments();
-                //console.log(segments[0].getCoordinates());
-                //console.log(currentRoute.getPaths().get(0).state.get('hover'));
+            
                 tempData = Arr[0];
 
                 myMap.geoObjects.add(currentRoute.getPaths());
