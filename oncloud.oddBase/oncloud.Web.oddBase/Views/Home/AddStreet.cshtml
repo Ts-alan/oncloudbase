@@ -378,7 +378,7 @@
         if (countElement.length != 1) {
             $('[id="ModalRoadSigns' + index + '"]').remove();
             $('[id^="ModalRoadSigns"]').each(function (ind, element) {
-                $(element).attr("id", "ModalRoadSigns" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadSigns(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadSigns(' + (ind + 1) + ')');
+                $(element).attr("id", "ModalRoadSigns" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadSigns(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadSigns(' + (ind + 1) + ',event)');
             }).each(function (indMR, elementMR) {
                 $(elementMR).find("td input").each(function (ind, element) {
                     $(element).attr("name", (indMR + 1) + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
@@ -448,16 +448,19 @@
         $('[data-target="#ModalMackUp"]').addClass("btn-danger");
     }
 
-    function changeColorRoadSigns(par) {
+    function changeColorRoadSigns(par,e) {
         
-        $('[onclick="changeColorRoadSigns(' + par + ')"]').closest("#ModalRoadSigns" + par + "").find("td>input").each(function (ind, element) {
+        $('[onclick="changeColorRoadSigns(' + par + ',event)"]').closest("#ModalRoadSigns" + par + "").find("td>input").each(function (ind, element) {
+            
             if ($(element).hasClass("input-validation-error")) {
+                
                 alert("Вы ввели недопустимые знаки в полях");
-               
-
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false;
             }
         });
-      
+
         $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-default");
         $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-danger");
     }
@@ -481,14 +484,14 @@
                 }
             });
         });
-        $("#submitForm").click(function(e) {
-            $('td [type="text"]').each(function(ind, element) {
-                if ($(element).hasClass("input-validation-error")) {
-                    alert("Вы ввели недопустимые знаки в полях");
-                    e.preventDefault();
-                }
-            });
-        });
+        //$("#submitForm").click(function(e) {
+        //    $('td [type="text"]').each(function(ind, element) {
+        //        if ($(element).hasClass("input-validation-error")) {
+        //            alert("Вы ввели недопустимые знаки в полях");
+        //            e.preventDefault();
+        //        }
+        //    });
+        //});
 
         //подтягивание улицы в модальное окно
         $('[data-target="#ModalMackUp"]').click(function () {
@@ -605,7 +608,7 @@
                          .attr("id", "ModalRoadSigns" + increment).find(".buttonclose")
                          .attr("onclick", "cleaningRoadSigns(" + increment + ")").end().find("td input").each(function (ind, element) {
                              $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
-                         }).end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + increment + ")").end().find("li a").each(function (ind, element) {
+                         }).end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + increment + ",event)").end().find("li a").each(function (ind, element) {
                              $(element).attr("href", "#tab" + incForTab1);
                              incForTab1++;
                          }).end().find('[role="tabpanel"]').each(function (ind, element) {
@@ -686,6 +689,9 @@
                             $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
                             $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
                         }
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+
                     });
 
 
@@ -1048,7 +1054,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default buttonclose" onclick="cleaningRoadSigns(1)" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadSigns(1)" data-dismiss="modal">Сохранить</button>
+                    <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadSigns(1,event)" data-dismiss="modal">Сохранить</button>
                 </div>
             </div>
         </div>
