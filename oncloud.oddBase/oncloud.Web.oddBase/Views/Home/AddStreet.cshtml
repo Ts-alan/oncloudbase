@@ -388,7 +388,7 @@
 
             $('[id="RoadBarriers' + index + '"]').remove();
             $('[id^="RoadBarriers"]').each(function(ind, element) {
-                $(element).attr("id", "RoadBarriers" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadBarriers(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadBarriers(' + (ind + 1) + ')');
+                $(element).attr("id", "RoadBarriers" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadBarriers(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadBarriers(' + (ind + 1) + ',event)');
             }).each(function(indMR, elementMR) {
 
                 $(elementMR).find("td input").each(function(ind, element) {
@@ -442,8 +442,17 @@
         $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-default");
     }
     //изменения цвета
-    function changeColorMackUp() {
+    function changeColorMackUp(e) {
+        $('[onclick="changeColorMackUp(event)"]').closest("#ModalMackUp").find("td>input").each(function (ind, element) {
 
+            if ($(element).hasClass("input-validation-error")) {
+
+                alert("Вы ввели недопустимые знаки в полях");
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false;
+            }
+        });
         $('[data-target="#ModalMackUp"]').removeClass("btn-default");
         $('[data-target="#ModalMackUp"]').addClass("btn-danger");
     }
@@ -465,7 +474,19 @@
         $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-danger");
     }
 
-    function changeColorRoadBarriers(par) {
+    function changeColorRoadBarriers(par, e) {
+        $('[onclick="changeColorRoadBarriers(' + par + ',event)"]').closest("#RoadBarriers" + par + "").find("td>input").each(function (ind, element) {
+
+            if ($(element).hasClass("input-validation-error")) {
+
+                alert("Вы ввели недопустимые знаки в полях");
+                e.preventDefault();
+                e.stopImmediatePropagation();
+               
+                return false;
+                
+            }
+        });
         $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-default");
         $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-danger");
     }
@@ -622,7 +643,7 @@
                             .attr("onclick", "cleaningRoadBarrier(" + increment + ")").end()
                             .find("td input").each(function (ind, element) {
                                 $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
-                            }).end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + increment + ")").end());
+                            }).end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + increment + ",event)").end());
 
 
                     }
@@ -689,11 +710,33 @@
                             $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
                             $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
                         }
-                        $("form").removeData("validator");
-                        $("form").removeData("unobtrusiveValidation");
+                     
+                        $('[action="/Home/SaveSuccess"]').validate();
+                        $('td [type="text"]').each(function(ind, element) {
+                            console.log("21211");
+                            $(element).rules("remove");
+                        });
+                        $('[action="/Home/SaveSuccess"]').validate();
+                        $('td [type="text"]').each(function (ind, element) {
 
+                            $(element).rules("add", {
+                                number: true,
+                                messages: {
+                                    number: "requere number"
+                                }
+                            });
+                        });
                     });
+                  //навешивание валидации
+                    $('td [type="text"]').each(function (ind, element) {
 
+                        $(element).rules("add", {
+                            number: true,
+                            messages: {
+                                number: "requere number"
+                            }
+                        });
+                    });
 
                     tempData = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
                     massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
@@ -985,7 +1028,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="closeModalMackUp" onclick="cleaningModalMackUp()" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary" onclick="changeColorMackUp()" data-dismiss="modal">Сохранить</button>
+                    <button type="button" class="btn btn-primary" onclick="changeColorMackUp(event)" data-dismiss="modal">Сохранить</button>
                 </div>
             </div>
         </div>
@@ -1060,48 +1103,48 @@
         </div>
     </div>
         <!-- RoadBarriers  -->
-                                    <div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
-                                        <div class="modal-dialog" style="width: 1000px" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
+    <div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" style="width: 1000px" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
 
-                                                </div>
-                                                <div class="modal-body" style="height: 800px;overflow: auto">
-                                                    <table class="table table-bordered">
-                                                        <tr>
-                                                            <th>№ </th>
-                                                            <th>Картинка</th>
-                                                            <th>Описание</th>
-                                                            <th>Погонные метры</th>
-                                                        </tr>
-                                                        @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadBarriers>)ViewBag.RoadBarriers)
-                                                        {
-                                                            <tr>
+                </div>
+                <div class="modal-body" style="height: 800px;overflow: auto">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>№ </th>
+                            <th>Картинка</th>
+                            <th>Описание</th>
+                            <th>Погонные метры</th>
+                        </tr>
+                        @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadBarriers>)ViewBag.RoadBarriers)
+                        {
+                            <tr>
 
-                                                                <td>@item.NumberBarriers</td>
-                                                                <td>
-                                                                    @if (item.ImageData != null)
-                                                                    {
-                                                                        <img style="width: 100px;height: 100px" src="@Url.Action("GetImage",  "RoadBarriers", new { item.Id})" />
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    @item.Description
-                                                                </td>
-                                                                <td style="vertical-align: middle"><input name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
+                                <td>@item.NumberBarriers</td>
+                                <td>
+                                    @if (item.ImageData != null)
+                                    {
+                                        <img style="width: 100px;height: 100px" src="@Url.Action("GetImage",  "RoadBarriers", new { item.Id})" />
+                                    }
+                                </td>
+                                <td>
+                                    @item.Description
+                                </td>
+                                <td style="vertical-align: middle"><input name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
 
-                                                            </tr>
-                                                        }
+                            </tr>
+                        }
 
-                                                    </table>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" id="closeModalMackUp" onclick="cleaningRoadBarrier(1)" class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
-                                                    <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadBarriers(1)" data-dismiss="modal">Сохранить</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeModalMackUp" onclick="cleaningRoadBarrier(1)" class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadBarriers(1,event)" data-dismiss="modal">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
                                     <div>
                                         <div id="blockElement" style="clear: both">
