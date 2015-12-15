@@ -285,10 +285,14 @@
     }
     //изменения цвета
     function setColorSegment(index, object) {
-        if ($(object).val() == "true")
+        if ($(object).val() == "true"){
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#redCircleIcon");
+            $('[name="Segment.string120Symbol' + index + '"]').css('visibility','visible');
+        }
         else {
+            
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
+            $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'hidden');
         }
     }
     //удаление сегмента
@@ -613,6 +617,7 @@
                                                                         "<option value='true'>Да</option>" +
                                                                          "<option selected='selected' value='false'>Нет</option>" +
                                                                       "</select>" +
+                                                                      "<input name='Segment.string120Symbol" + increment + "'  style='max-width: 960px; width: 960px; visibility:hidden'/>"+
                                                          "</div>" +
                                                       "</div>");
 
@@ -658,7 +663,7 @@
                         }
                     },
                     {
-                        preset: "islands#blueCircleIcon",
+                        preset: "islands#grayIcon",
                         draggable: true
                     });
 
@@ -1164,7 +1169,7 @@
                                                         Ввести данные о дорожных ограждениях
                                                     </button>
                                                 </div>
-                                                <div style="clear: both">
+                                                <div style="clear: both;float">
                                                     Участок требует изменения дислокации ТСОДД
                                                     @Html.DropDownList("Segment.ChangeDislocationTCODD",
                     new SelectListItem[]
@@ -1172,9 +1177,11 @@
                         new SelectListItem() {Text = "Да", Value = "true"},
                         new SelectListItem() {Text = "Нет", Value = "false", Selected = true}
                     }, new { onchange = "setColorSegment(1,this)" })
+                                                    <input name="Segment.string120Symbol1"  style="max-width: 960px; width: 960px; visibility:hidden"/>
                                                 </div>
-
-                                            </div>
+                                                
+                                                
+                                                </div>
 
 
                                         </div>

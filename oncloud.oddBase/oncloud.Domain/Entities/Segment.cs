@@ -20,6 +20,7 @@ namespace oncloud.Domain.Entities
         [Required]
         public string LengthE { get; set; }
         public bool ChangeDislocationTCODD { get; set; }
+        public string string120Symbol { get; set; }
         public int Street_id { get; set; }
         public virtual ICollection<SpecificationofRS> SpecificationofRS { get; set; }
         public virtual ICollection<layoutDislocation> layoutDislocation { get; set; }

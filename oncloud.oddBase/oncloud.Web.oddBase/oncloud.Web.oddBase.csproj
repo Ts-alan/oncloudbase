@@ -343,6 +343,10 @@
     <Compile Include="Migrations\201511262024291_addRelasehn.Designer.cs">
       <DependentUpon>201511262024291_addRelasehn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512150920416_string120Symbol.cs" />
+    <Compile Include="Migrations\201512150920416_string120Symbol.Designer.cs">
+      <DependentUpon>201512150920416_string120Symbol.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
@@ -799,6 +803,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511262024291_addRelasehn.resx">
       <DependentUpon>201511262024291_addRelasehn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512150920416_string120Symbol.resx">
+      <DependentUpon>201512150920416_string120Symbol.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
