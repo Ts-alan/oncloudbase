@@ -505,14 +505,7 @@
                 }
             });
         });
-        //$("#submitForm").click(function(e) {
-        //    $('td [type="text"]').each(function(ind, element) {
-        //        if ($(element).hasClass("input-validation-error")) {
-        //            alert("Вы ввели недопустимые знаки в полях");
-        //            e.preventDefault();
-        //        }
-        //    });
-        //});
+  
 
         //подтягивание улицы в модальное окно
         $('[data-target="#ModalMackUp"]').click(function () {
@@ -711,11 +704,7 @@
                             $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
                         }
                      
-                        $('[action="/Home/SaveSuccess"]').validate();
-                        $('td [type="text"]').each(function(ind, element) {
-                            console.log("21211");
-                            $(element).rules("remove");
-                        });
+                      
                         $('[action="/Home/SaveSuccess"]').validate();
                         $('td [type="text"]').each(function (ind, element) {
 
