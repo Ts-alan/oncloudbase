@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.EntitySql;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -22,10 +23,11 @@ namespace OddBasyBY.Models
             string[] LengthS = request.Form.Get("Segment.LengthS").Split(new Char[] {','});
             string[] LengthE = request.Form.Get("Segment.LengthE").Split(new Char[] {','});
             string[] ChangeDislocationTCODD = request.Form.Get("Segment.ChangeDislocationTCODD").Split(new Char[] { ',' });
-            string[] string120Symbol = request.Form.Get("Segment.string120Symbol").Split(new Char[] { ',' });
+            List<string> string120Symbol = request.Form.AllKeys.Where(a => a.Contains("Segment.string120Symbol")).ToList();
             for (int i = 0; i < BreadthS.Count(); i++)
             {
-
+                var tempstring120Symbol =
+                    request.Form.Get(string120Symbol.SingleOrDefault(a => int.Parse(a.Substring(23)) == i + 1));
                 ListSurface.Add(new Segment()
                 {
                     Name = i + 1,
@@ -34,7 +36,8 @@ namespace OddBasyBY.Models
                     BreadthE = BreadthE[i],
                     LengthE = LengthE[i],
                     ChangeDislocationTCODD = bool.Parse(ChangeDislocationTCODD[i]),
-                    //string120Symbol = string120Symbol.Where(a=>a.)
+                    
+                    string120Symbol = (tempstring120Symbol=="")?null: tempstring120Symbol
                 });
 
             }

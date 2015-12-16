@@ -125,7 +125,7 @@
                          }
                      },
                                                       {
-                                                          preset: "islands#blueCircleIcon",
+                                                          preset: "islands#grayCircleIcon",
                                                           draggable: true
                                                       });
                      if (DataOfSegment[i].ChangeDislocationTCODD == true) {
@@ -224,7 +224,7 @@
                                  "</div>" +
                                  "<div class='file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
                                  "<button type='button' id='changeColorDislocation" + (i + 1) + "'  class='btn btn-default'>Загрузить Дислокацию ТСОДД</button> " +
-                                 "<input name='layoutDislocation" + (i + 1) + "' onchange=\"$('#changeColorDislocation" + (i + 1) + "').removeClass('btn-default').addClass('btn-danger');\" type='file'>" +
+                                 "<input name='layoutDislocation" + (i + 1) + "' onchange=\"$('#changeColorDislocation" + (i + 1) + "').removeClass('btn-default').addClass('btn-danger');setColorSegmentByLoadImage(" + (i + 1) + ")\" type='file'>" +
                                  "</div>" +
                                  "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
                                  "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + (i + 1) + "'>Ввести данные о дорожных знаках</button>" +
@@ -247,6 +247,7 @@
                                    "<option  value='true'>Да</option>" +
                                    "<option selected='selected' value='false'>Нет</option>" +
                                    "</select>" +
+                                   "<input name='Segment.string120Symbol" + (i + 1) + "'  style='max-width: 960px; width: 960px; visibility:hidden'/>" +
                                    "</div></div>";
                              }
                              return stringSegment;
@@ -283,6 +284,7 @@
                  for (var i = 0; i < "@Model.Segment.Count"; i++) {
                      setSegment(i);
                  }
+                 //
                  //навешивания валидации
                  $('[action="/Home/EditStreets"]').validate();
 
@@ -367,13 +369,20 @@
     //изменения цвета
     function setColorSegment(index, object) {
        
-        if ($(object).val() == "true")
+        if ($(object).val() == "true") {
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#redCircleIcon");
+            $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'visible');
+        }
         else {
+
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
+            $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'hidden');
         }
     }
-
+    function setColorSegmentByLoadImage(index) {
+        if (myMap.geoObjects.get(massSegment[index - 1]).options._gb.preset != "islands#redCircleIcon")
+            myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
+    }
     function SetRoute(Arr) {
 
         if (currentRoute != undefined) {
@@ -930,7 +939,7 @@
                                                         "</div>" +
                                                         "<div class='file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
                                                             "<button type='button' id='changeColorDislocation" + increment + "'  class='btn btn-default'>Загрузить Дислокацию ТСОДД</button> " +
-                                                        "<input name='layoutDislocation" + increment + "' onchange=\"$('#changeColorDislocation" + increment + "').removeClass('btn-default').addClass('btn-danger');\" type='file'>" +
+                                                        "<input name='layoutDislocation" + increment + "' onchange=\"$('#changeColorDislocation" + increment + "').removeClass('btn-default').addClass('btn-danger');setColorSegmentByLoadImage(" + increment + ")\" type='file'>" +
                                                         "</div>" +
                                                         "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
                                                             "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + increment + "'>Ввести данные о дорожных знаках</button>" +
@@ -944,6 +953,7 @@
                                                                         "<option value='true'>Да</option>" +
                                                                          "<option selected='selected' value='false'>Нет</option>" +
                                                                       "</select>" +
+                                                                      "<input name='Segment.string120Symbol" + increment + "'  style='max-width: 960px; width: 960px; visibility:hidden'/>" +
                                                          "</div>" +
                                                       "</div>");
 
@@ -988,7 +998,7 @@
                         }
                     },
                     {
-                        preset: "islands#blueCircleIcon",
+                        preset: "islands#grayCircleIcon",
                         draggable: true
                     });
 
@@ -1498,7 +1508,7 @@
 
                                                 <div class="file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
                                                     <button type="button" id="changeColorDislocation1" class="btn btn-default">Загрузить Дислокацию ТСОДД</button>
-                                                    <input name="layoutDislocation1" onchange='$("#changeColorDislocation1").removeClass("btn-default").addClass("btn-danger");' type="file">
+                                                    <input name="layoutDislocation1" onchange='$("#changeColorDislocation1").removeClass("btn-default").addClass("btn-danger"); setColorSegmentByLoadImage(1);' type="file">
                                                 </div>
                                                 <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-4" style="float: left">
                                                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns1">Ввести данные о дорожных знаках</button>
@@ -1518,6 +1528,8 @@
                             new SelectListItem() {Text = "Нет", Value = "false"}
                         }, "Value", "Text", Model.Segment.First().ChangeDislocationTCODD
                         ), new { onchange = "setColorSegment(1,this)", Name = "Segment.ChangeDislocationTCODD" })
+                                                    <input name="Segment.string120Symbol1" style="max-width: 960px; width: 960px; visibility: hidden"/>
+                                                   
                                                 </div>
                                             </div>
                                         </div>
