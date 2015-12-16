@@ -287,12 +287,12 @@
     function setColorSegment(index, object) {
         if ($(object).val() == "true"){
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#redCircleIcon");
-            $('[name="Segment.string120Symbol' + index + '"]').css('visibility','visible');
+            $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'visible');
         }
         else {
             
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
-            $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'hidden');
+            $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'hidden').attr("value", "");
         }
     }
 

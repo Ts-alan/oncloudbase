@@ -352,8 +352,8 @@
             }
             <tr>
                 <td><b>Итого</b></td>
-                <td></td>
-                <td>@Model.SpecificationofRM.Sum(a => Double.Parse(a.area))</td>
+                <td>@Model.SpecificationofRM.Sum(a => Double.Parse(a.length==""?"0":a.length.Replace(".",",")))</td>
+                <td>@Model.SpecificationofRM.Sum(a => Double.Parse(a.area==""?"0":a.area.Replace(".", ",")))</td>
             </tr>
         </table>
         <button type="button" class="btn btn-default" style="margin-top: 5px">Печать</button>

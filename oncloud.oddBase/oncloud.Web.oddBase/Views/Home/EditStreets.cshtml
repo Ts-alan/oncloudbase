@@ -78,7 +78,7 @@
 
                  myMap.geoObjects.add(route.getPaths());
                  identifierForDelete = 0;
-                 var DataOfSegment = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.Segment.Select(a=>new {a.LengthS,a.LengthE,a.BreadthE,a.BreadthS,a.ChangeDislocationTCODD})
+                 var DataOfSegment = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.Segment.Select(a=>new {a.LengthS,a.LengthE,a.BreadthE,a.BreadthS,a.ChangeDislocationTCODD,a.string120Symbol})
                                                 , Formatting.None,
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -238,6 +238,7 @@
                                      "<select id='Segment_ChangeDislocationTCODD' name='Segment.ChangeDislocationTCODD' onchange='setColorSegment(" + (i + 1) + ",this)' name='Segment.ChangeDislocationTCODD'>" +
                                      "<option selected='selected' value='true'>Да</option>" +
                                      "<option  value='false'>Нет</option>" +
+                                     "<input name='Segment.string120Symbol" + (i + 1) + "'  style='max-width: 960px; width: 960px; visibility:visible'/>" +
                                      "</select>" +
                                      "</div></div>";
                              } else {
@@ -284,19 +285,28 @@
                  for (var i = 0; i < "@Model.Segment.Count"; i++) {
                      setSegment(i);
                  }
+                 if (($('[name="Segment.ChangeDislocationTCODD"]:first').val()== "true")) {
+                     $('[name="Segment.string120Symbol1"]').css("visibility", "visible");
+                 }
+                 $('[name^="Segment.string120Symbol"]').each(function (ind, element) {
+                    
+                     $(element).attr("value", DataOfSegment[ind].string120Symbol);
+                          
+                   });
+                 
                  //
                  //навешивания валидации
-                 $('[action="/Home/EditStreets"]').validate();
+                 //$('[action="/Home/EditStreets"]').validate();
 
-                 $('td [type="text"]').each(function (ind, element) {
+                 //$('td [type="text"]').each(function (ind, element) {
 
-                     $(element).rules("add", {
-                         number: true,
-                         messages: {
-                             number: "requere number"
-                         }
-                     });
-                 });
+                 //    $(element).rules("add", {
+                 //        number: true,
+                 //        messages: {
+                 //            number: "requere number"
+                 //        }
+                 //    });
+                 //});
                  countElementSegGlobal = "@Model.Segment.Count";
                  var multiplicity, incrementMul = 0, changeColor;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
@@ -368,7 +378,7 @@
     }
     //изменения цвета
     function setColorSegment(index, object) {
-       
+
         if ($(object).val() == "true") {
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#redCircleIcon");
             $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'visible');
@@ -376,7 +386,7 @@
         else {
 
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
-            $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'hidden');
+            $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'hidden').attr("value", "");
         }
     }
     function setColorSegmentByLoadImage(index) {
@@ -642,7 +652,7 @@
     function deleteSegment(index) {
 
         countElementSegGlobal.length--;
- 
+
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1]));
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1] - 1));
 
@@ -822,7 +832,7 @@
     }
 
     function changeColorRoadBarriers(par, e) {
-       
+
         $('[onclick="changeColorRoadBarriers(' + par + ',event)"]').closest("#RoadBarriers" + par + "").find("td>input").each(function (ind, element) {
             console.log("2121");
             if ($(element).hasClass("input-validation-error")) {
@@ -843,7 +853,7 @@
     $(document).ready(function () {
 
 
-        $('[data-target="#ModalTable"]').click(function() {
+        $('[data-target="#ModalTable"]').click(function () {
 
             var textStreet = $('[name="Street.Name"]').val();
 
@@ -853,20 +863,20 @@
         });
 
         function setSegment(eventObject) {
-            
+
             if ($(eventObject.target).next("button").css("display") == "none") {
                 $("#BlockSegment").css("display", "inline-block");
                 $('[action^="/Home/EditStreets"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
-                $(".ShowHideSegment").each(function(ind, element) {
+                $(".ShowHideSegment").each(function (ind, element) {
                     $(element).show();
                 });
-               
-            } 
+
+            }
             if (currentRoute == undefined || $("#blockStreetCoord").css("display") == "inline") {
                 alert("Задайте улицу или возможно нажмите кнопку сохранить в этом пункте");
             } else {
-                
-                    
+
+
                 if (identifierForDelBallon == true) {
 
                     currentRoute.getPaths().get(0).balloon.destroy();
@@ -1045,22 +1055,22 @@
                         }
                     });
                     //навешивание валидации
-                    $('[action="/Home/SaveSuccess"]').validate();
-                    $('td [type="text"]').each(function (ind, element) {
+                    //$('[action="/Home/SaveSuccess"]').validate();
+                    //$('td [type="text"]').each(function (ind, element) {
 
-                        $(element).rules("add", {
-                            number: true,
-                            messages: {
-                                number: "requere number"
-                            }
-                        });
-                    });
+                    //    $(element).rules("add", {
+                    //        number: true,
+                    //        messages: {
+                    //            number: "requere number"
+                    //        }
+                    //    });
+                    //});
 
                     tempData = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
                     massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                     increment++;
-                    
-                  
+
+
                 }
                 currentRoute.getPaths().events.add('click', handlerSegment);
 
