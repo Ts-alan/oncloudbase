@@ -24,71 +24,72 @@
 
         myMap.behaviors.disable(["dblClickZoom"]);
         myMap.controls.add(
-                        new ymaps.control.TypeSelector(
-                            ['yandex#map', 'yandex#hybrid', 'yandex#satellite']
-                        )
-    );
+            new ymaps.control.TypeSelector(
+                ['yandex#map', 'yandex#hybrid', 'yandex#satellite']
+            )
+        );
         ymaps.route([
                 ['@Model.BreadthS', '@Model.LengthS'],
                 ['@Model.BreadthE', '@Model.LengthE']
-        ],
+            ],
             {
                 mapStateAutoApply: true,
                 removeViaPoints: true
             }
         ).then(
-             function (route) {
-                 route.events.add('dragend', function (e) {
-                     Arr[0] = [route.requestPoints[0][0].toString().substr(0, 7), route.requestPoints[0][1].toString().substr(0, 7)];
-                     Arr[1] = [route.requestPoints[1][0].toString().substr(0, 7), route.requestPoints[1][1].toString().substr(0, 7)];
-                 });
-                 route.editor.start({
-                     editWayPoints: true
-                 });
+            function (route) {
+                route.events.add('dragend', function (e) {
+                    Arr[0] = [route.requestPoints[0][0].toString().substr(0, 7), route.requestPoints[0][1].toString().substr(0, 7)];
+                    Arr[1] = [route.requestPoints[1][0].toString().substr(0, 7), route.requestPoints[1][1].toString().substr(0, 7)];
+                });
+                route.editor.start({
+                    editWayPoints: true
+                });
 
-                 var points = route.getWayPoints();
-                 points.get(0).properties.set("iconContent", "Начало улицы");
+                var points = route.getWayPoints();
+                points.get(0).properties.set("iconContent", "Начало улицы");
 
-                 points.get(0).options.set('preset', 'islands#darkGreenStretchyIcon');
+                points.get(0).options.set('preset', 'islands#darkGreenStretchyIcon');
 
 
-                 points.get(1).properties.set("iconContent", "Конец улицы");
+                points.get(1).properties.set("iconContent", "Конец улицы");
 
-                 points.get(1).options.set("preset", "islands#darkGreenStretchyIcon");
+                points.get(1).options.set("preset", "islands#darkGreenStretchyIcon");
 
-                 route.getPaths().options.set({
+                route.getPaths().options.set({
 
-                     //можно выставить настройки графики маршруту
-                     strokeColor: '0000ffff',
-                     opacity: 0.9
-                 });
-                 currentRoute = route;
+                    //можно выставить настройки графики маршруту
+                    strokeColor: '0000ffff',
+                    opacity: 0.9
+                });
+                currentRoute = route;
 
-                 route.getPaths().options.set({
-                     //можно выставить настройки графики маршруту
-                     strokeColor: '0000ffff',
-                     opacity: 0.9,
-                     strokeWidth: 4,
-                     mapStateAutoApply: true
-                 });
+                route.getPaths().options.set({
+                    //можно выставить настройки графики маршруту
+                    strokeColor: '0000ffff',
+                    opacity: 0.9,
+                    strokeWidth: 4,
+                    mapStateAutoApply: true
+                });
 
-                 //нужно для масшатабирования
-                 myMap.geoObjects.add(route);
-                 myMap.geoObjects.remove(route);
+                //нужно для масшатабирования
 
-                 myMap.geoObjects.add(route.getPaths());
-                 identifierForDelete = 0;
-                 var DataOfSegment = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.Segment.Select(a=>new {a.LengthS,a.LengthE,a.BreadthE,a.BreadthS,a.ChangeDislocationTCODD})
+                myMap.geoObjects.add(route);
+                myMap.geoObjects.remove(route);
+
+                myMap.geoObjects.add(route.getPaths());
+                identifierForDelete = 0;
+                var DataOfSegment = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.Segment.Select(a=>new {a.LengthS,a.LengthE,a.BreadthE,a.BreadthS,a.ChangeDislocationTCODD,IdSegment= a.layoutDislocation.Select(b=>b.Id).SingleOrDefault()})
                                                 , Formatting.None,
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 }))');
-                 var DataOfRoadSings = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationofRS.Select(a=>new {a.CountRS,a.Segment.Name,a.RoadSigns.NumberRoadSigns})
+                var DataOfRoadSings = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationofRS.Select(a=>new {a.CountRS,a.Segment.Name,a.RoadSigns.NumberRoadSigns})
                                                 , Formatting.None,
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     }))');
-                 var DataOfRoadBarriers = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationOfRb.Select(a => new {a.Segment.Name, a.Length, a.RoadBarriers.NumberBarriers})
+                var DataOfRoadBarriers = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationOfRb.Select(a => new {a.Segment.Name, a.Length, a.RoadBarriers.NumberBarriers})
                                                           , Formatting.None,
                                                           new JsonSerializerSettings()
                                                           {
@@ -97,60 +98,60 @@
 
 
 
-                 var setSegment = function (i) {
+                var setSegment = function (i) {
 
-                     var segment = new ymaps.GeoObject({
-                         geometry: {
-                             type: "Point", // тип геометрии - точка
-                             coordinates: [DataOfSegment[i].BreadthE, DataOfSegment[i].LengthE] // координаты точки
+                    var segment = new ymaps.GeoObject({
+                        geometry: {
+                            type: "Point", // тип геометрии - точка
+                            coordinates: [DataOfSegment[i].BreadthE, DataOfSegment[i].LengthE] // координаты точки
 
-                         },
-                         properties: {
-                             iconContent: increment,
-                             balloonContentHeader: "Данные участка № " + (i + 1) + "",
-                             balloonContent: " <a type='button' href='#'  onclick='setTCODD(this)' data-toggle='modal' IdSegment=" + i + " data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
-                                 "<a data-toggle='modal' onclick='setRoasSings(this)'  IdSegment=" + i + " data-target='#ModalRoadSigns' href='#'>Просмотреть спецификацию знаков</a></br>" +
-                                 "<a data-toggle='modal' onclick='setRoadBarriers(this)' data-target='#RoadBarriers' IdSegment=" + i + " href='#'>Посмотреть спецификацию дорожных ограждений</a>"
-                         }
-                     },
-                                     {
-                                         preset: "islands#blueCircleIcon"
+                        },
+                        properties: {
+                            iconContent: increment,
+                            balloonContentHeader: "Данные участка № " + (i + 1) + "",
+                            balloonContent: " <a type='button' href='#'  onclick='setTCODD(this)' data-toggle='modal' IdSegment=" + i + " data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
+                                "<a data-toggle='modal' onclick='setRoasSings(this)'  IdSegment=" + i + " data-target='#ModalRoadSigns' href='#'>Просмотреть спецификацию знаков</a></br>" +
+                                "<a data-toggle='modal' onclick='setRoadBarriers(this)' data-target='#RoadBarriers' IdSegment=" + i + " href='#'>Посмотреть спецификацию дорожных ограждений</a>"
+                        }
+                    },
+                    {
+                        preset: "islands#blueCircleIcon"
 
-                                     });
-                     if (DataOfSegment[i].ChangeDislocationTCODD == true) {
+                    });
+                    if (DataOfSegment[i].ChangeDislocationTCODD == true) {
 
-                         segment.options.set("preset", "islands#redCircleIcon");
-                     }
-                     myMap.geoObjects.add(segment);
+                        segment.options.set("preset", "islands#redCircleIcon");
+                    }
+                    myMap.geoObjects.add(segment);
 
-                     massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
-                     increment++;
-                 }
+                    massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
+                    increment++;
+                }
 
 
-                 for (var i = 0; i < "@Model.Segment.Count"; i++) {
-                     setSegment(i);
-                 }
+                for (var i = 0; i < "@Model.Segment.Count"; i++) {
+                    setSegment(i);
+                }
 
-                 var multiplicity, incrementMul = 0;
-                 for (var i = 0; i < DataOfRoadSings.length; i++) {
-                     if (multiplicity != undefined) {
-                         if (multiplicity == DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString()) {
-                             incrementMul++;
-                         } else {
-                             incrementMul = 0;
-                         }
-                     }
-                     multiplicity = DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString();
-                     $("[name='" + DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString() + "']").eq(incrementMul)
+                var multiplicity, incrementMul = 0;
+                for (var i = 0; i < DataOfRoadSings.length; i++) {
+                    if (multiplicity != undefined) {
+                        if (multiplicity == DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString()) {
+                            incrementMul++;
+                        } else {
+                            incrementMul = 0;
+                        }
+                    }
+                    multiplicity = DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString();
+                    $("[name='" + DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString() + "']").eq(incrementMul)
                         .attr("value", DataOfRoadSings[i].CountRS);
 
-                 }
-                 for (var i = 0; i < DataOfRoadBarriers.length; i++) {
-                     $("[name='" + DataOfRoadBarriers[i].Name.toString() + "RoadBarriers" + DataOfRoadBarriers[i].NumberBarriers.toString() + "']")
-                    .attr("value", DataOfRoadBarriers[i].Length);
-                 }
-             });
+                }
+                for (var i = 0; i < DataOfRoadBarriers.length; i++) {
+                    $("[name='" + DataOfRoadBarriers[i].Name.toString() + "RoadBarriers" + DataOfRoadBarriers[i].NumberBarriers.toString() + "']")
+                        .attr("value", DataOfRoadBarriers[i].Length);
+                }
+            });
 
 
 
@@ -258,10 +259,38 @@
     .btn {
         width: 285px;
     }
+
+    .modal-dialog {
+        width: 1200px;
+     
+    }
+     /*затемненные области справа и слева в окне-карусели*/
+    .carousel-control.right {
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 100%);
+    }
+
+    .carousel-control.left {
+        background-image: linear-gradient(to left, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 100%);
+    }
+
+    .carousel-control.left:hover {
+        background-image: linear-gradient(to left, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.5) 100%);
+    }
+    .carousel-control.right:hover {
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.5) 100%);
+    }
+
+    /*указатели влево-впарво в модальном окне-карусели*/
+    .glyphicon-chevron-right {
+        color: red;
+    }
+    .glyphicon-chevron-left {
+        color: red;
+    }
 </style>
 <h2 style="text-align: center">ПРОСМОТР ДАННЫХ УЛИЦЫ</h2>
 
-<div class="row">
+<div class="row" id ="firstTable">
     <div class="form-group col-lg-7 col-md-7 col-sm-7 col-xs-7">
         <div id="map" style="height: 400px;"></div>
     </div>
@@ -326,7 +355,7 @@
                     <td>@Model.SpecificationofRS.Sum(a => a.CountRS)</td>
                 </tr>
             </table>
-            <button type="button" class="btn btn-default" style="margin-top: 5px">Печать</button>
+            <button type="button" class="btn btn-default" style="margin-top: 5px" onclick="printTable('#gview_table2')">Печать</button>
         </div>
 
     </div>
@@ -356,7 +385,7 @@
                 <td>@Model.SpecificationofRM.Sum(a => Double.Parse(a.area==""?"0":a.area.Replace(".", ",")))</td>
             </tr>
         </table>
-        <button type="button" class="btn btn-default" style="margin-top: 5px">Печать</button>
+        <button type="button" class="btn btn-default" style="margin-top: 5px" onclick="printTable('#gview_table1')">Печать</button>
     </div>
 
     <div class="col-md-5 col-md-offset-2">
@@ -379,7 +408,7 @@
                 <td>@Model.SpecificationOfRb.Sum(a => a.Length)</td>
             </tr>
         </table>
-        <button type="button" class="btn btn-default" style="margin-top: 5px">Печать</button>
+        <button type="button" class="btn btn-default" style="margin-top: 5px" onclick="printTable('#gview_table3')">Печать</button>
     </div>
 </div>
 <div style="clear: both">
@@ -459,7 +488,7 @@
 
             </div>
             <div class="modal-footer" style="border-width: 0px">
-                <button type="button" class="btn btn-default" >Печать</button>
+                <button type="button" class="btn btn-default" onclick="printPicture('.TCODD')">Печать</button>
             </div>
         </div>
     </div>
@@ -528,7 +557,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default buttonclose">Печать</button>
+                <button type="button" class="btn btn-default buttonclose" onclick="printPicture('.RoadSignsItem')">Печать</button>
             </div>
         </div>
     </div>
@@ -595,8 +624,31 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="closeModalMackUp" class="btn btn-default buttonclose">Печать</button>
+                <button type="button" id="closeModalMackUp" class="btn btn-default buttonclose" onclick="printPicture('.RoadBarriersItem')">Печать</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function Alert() {
+        
+    alert('!!!');
+    }
+    //$(document).ready(function () { $('.ui-jqgrid-view').print();}); //Вся таблица, но без разделителя посередины
+    //$(document).ready(function () { $('#gbox_table1').print(); }); //Не всё, но с шапкой и разделителем
+    //$(document).ready(function () { $('#gview_table1').print(); }); //Вся таблица, но без разделителя посередины
+
+    
+        //$(tableId).printElement();
+        //var html_to_print = $(tableId).html();
+        //var iframe = $('<iframe id="print_frame">'); // создаем iframe в переменную
+        //$('body').append(iframe); //добавляем эту переменную с iframe в наш body (в самый конец)
+        //var doc = $('#print_frame')[0].contentDocument || $('#print_frame')[0].contentWindow.document;
+        //var win = $('#print_frame')[0].contentWindow || $('#print_frame')[0];
+        //doc.getElementsByTagName('body')[0].innerHTML = html_to_print;
+        //win.print();
+        
+    
+
+</script>

@@ -53,6 +53,11 @@ namespace oncloud.Web.oddBase
             "~/Scripts/jqGrid/jquery.jqGrid.js",
             "~/Scripts/jqGrid/plugins/grid.tbltogrid.js"
             ));
+
+            bundles.Add(new ScriptBundle("~/bundles/print").Include(
+                        "~/Scripts/CustomPrint.js",
+                        "~/Scripts/Print.js"
+                        ));
         }
     }
 }
