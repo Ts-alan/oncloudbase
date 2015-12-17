@@ -78,7 +78,7 @@
 
                  myMap.geoObjects.add(route.getPaths());
                  identifierForDelete = 0;
-                 var DataOfSegment = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.Segment.Select(a=>new {a.LengthS,a.LengthE,a.BreadthE,a.BreadthS,a.ChangeDislocationTCODD,IdSegment= a.layoutDislocation.Select(b=>b.Id).SingleOrDefault()})
+                 var DataOfSegment = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.Segment.Select(a=>new {a.LengthS,a.LengthE,a.BreadthE,a.BreadthS,a.ChangeDislocationTCODD})
                                                 , Formatting.None,
                     new JsonSerializerSettings() {
                         ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
