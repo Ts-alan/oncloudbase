@@ -16,13 +16,13 @@
                 $('#' + rowid).parents('table').resetSelection();
             },
             colNames: [
-                "№ улицы", "Населенный пункт", "Наименование",
+                 "Населенный пункт", "Наименование улицы",
                 "Количество участков", "Номера участков требующие изменения ТСОДД", "     "
             ],
             forceFit: false,
             cmTemplate: { "resizable": false, sortable: false },
             colModel: [
-                { name: "№_улицы", align: "center" },
+               
                 { name: "Населенный_пункт", align: "center" },
                 { name: "Наименование", align: "center" },
                 { name: "Количество_участков", align: "center" },
@@ -30,11 +30,12 @@
                 { name: "Столбце_действия", align: "center" }
             ]
         });
-
+        $('#table').jqGrid('filterToolbar', {
+            autosearch:true
+        }
+       );
     });
-    //$('#table').jqGrid('filterToolbar', {
-    //}
-    //   );
+    
     function setStreet(object) {
         $("#idDelete").attr("href", "/Home/DeleteStreet/" + $(object).attr("idDelete"));
     }
@@ -51,7 +52,7 @@
 <table id="table" class="table-bordered" cellpadding="5">
     <tr>
 
-        <th>№_улицы</th>
+    
         <th>Населенный_пункт</th>
         <th> Наименование </th>
         <th> Количество_участков</th>
@@ -62,7 +63,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>@item.UniqueNumber</td>
+        
             <td>@item.Location</td>
             <td>@item.Denomination</td>
             <td>@item.NumberSegment</td>

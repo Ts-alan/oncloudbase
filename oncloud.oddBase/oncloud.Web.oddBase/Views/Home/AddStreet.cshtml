@@ -452,50 +452,50 @@
     }
     //изменения цвета
     function changeColorMackUp(e) {
-        $('[onclick="changeColorMackUp(event)"]').closest("#ModalMackUp").find("td>input").each(function (ind, element) {
+        //$('[onclick="changeColorMackUp(event)"]').closest("#ModalMackUp").find("td>input").each(function (ind, element) {
 
-            if ($(element).hasClass("input-validation-error")) {
+        //    if ($(element).hasClass("input-validation-error")) {
 
-                alert("Вы ввели недопустимые знаки в полях");
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                return false;
-            }
-        });
+        //        alert("Вы ввели недопустимые знаки в полях");
+        //        e.preventDefault();
+        //        e.stopImmediatePropagation();
+        //        return false;
+        //    }
+        //});
         $('[data-target="#ModalMackUp"]').removeClass("btn-default");
         $('[data-target="#ModalMackUp"]').addClass("btn-danger");
     }
 
     function changeColorRoadSigns(par,e) {
         
-        $('[onclick="changeColorRoadSigns(' + par + ',event)"]').closest("#ModalRoadSigns" + par + "").find("td>input").each(function (ind, element) {
+        //$('[onclick="changeColorRoadSigns(' + par + ',event)"]').closest("#ModalRoadSigns" + par + "").find("td>input").each(function (ind, element) {
             
-            if ($(element).hasClass("input-validation-error")) {
+        //    if ($(element).hasClass("input-validation-error")) {
                 
-                alert("Вы ввели недопустимые знаки в полях");
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                return false;
-            }
-        });
+        //        alert("Вы ввели недопустимые знаки в полях");
+        //        e.preventDefault();
+        //        e.stopImmediatePropagation();
+        //        return false;
+        //    }
+        //});
 
         $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-default");
         $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-danger");
     }
 
     function changeColorRoadBarriers(par, e) {
-        $('[onclick="changeColorRoadBarriers(' + par + ',event)"]').closest("#RoadBarriers" + par + "").find("td>input").each(function (ind, element) {
+        //$('[onclick="changeColorRoadBarriers(' + par + ',event)"]').closest("#RoadBarriers" + par + "").find("td>input").each(function (ind, element) {
 
-            if ($(element).hasClass("input-validation-error")) {
+        //    if ($(element).hasClass("input-validation-error")) {
 
-                alert("Вы ввели недопустимые знаки в полях");
-                e.preventDefault();
-                e.stopImmediatePropagation();
+        //        alert("Вы ввели недопустимые знаки в полях");
+        //        e.preventDefault();
+        //        e.stopImmediatePropagation();
                
-                return false;
+        //        return false;
                 
-            }
-        });
+        //    }
+        //});
         $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-default");
         $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-danger");
     }
@@ -503,17 +503,17 @@
     //задание координат
     $(document).ready(function () {
 
-        $('[action="/Home/SaveSuccess"]').validate();
+        //$('[action="/Home/SaveSuccess"]').validate();
 
-        $('td [type="text"]').each(function(ind,element) {
+        //$('td [type="text"]').each(function(ind,element) {
             
-            $(element).rules("add", {
-                number: true,
-                messages: {
-                    number:"requere number"  
-                }
-            });
-        });
+        //    $(element).rules("add", {
+        //        number: true,
+        //        messages: {
+        //            number:"requere number"  
+        //        }
+        //    });
+        //});
   
 
         //подтягивание улицы в модальное окно
@@ -715,16 +715,16 @@
                         }
                      
                       
-                        $('[action="/Home/SaveSuccess"]').validate();
-                        $('td [type="text"]').each(function (ind, element) {
+                        //$('[action="/Home/SaveSuccess"]').validate();
+                        //$('td [type="text"]').each(function (ind, element) {
 
-                            $(element).rules("add", {
-                                number: true,
-                                messages: {
-                                    number: "requere number"
-                                }
-                            });
-                        });
+                        //    $(element).rules("add", {
+                        //        number: true,
+                        //        messages: {
+                        //            number: "requere number"
+                        //        }
+                        //    });
+                        //});
                     });
                   //навешивание валидации
                     $('td [type="text"]').each(function (ind, element) {
