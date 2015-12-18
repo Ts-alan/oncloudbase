@@ -283,21 +283,45 @@
         color: red;
     }
     /*размеры модабных окон*/
-        /*модальное окно*/
-    .modal-dialog {
+        
+
+    
+     @@media (min-width: 768px) {
+         .carousel-inner {
+             height: 300px
+         }
+         .carousel-inner img {
+             height: 300px !important
+         }
+          .modal-dialog {
+          width: 600px;
+
+         }
+     }
+     @@media (min-width: 992px) {
+         .carousel-inner {
+             height: 500px
+         }
+         .carousel-inner img {
+             height: 500px !important
+         }
+         .modal-dialog {
+        width: 800px;
+
+         }
+     }
+     
+     @@media (min-width: 1200px) {
+         .carousel-inner {
+             height: 700px
+         }
+         .carousel-inner img {
+             height: 700px !important
+         }
+        .modal-dialog {
         width: 1200px;
 
     }
-
-     @@media (min-width: 768px) {}
-     @@media (min-width: 992px) {}
-     @@media (min-width: 1200px) {
-         .carousel-inner {
-             height: 800px
-         }
-         .carousel-inner img {
-             height: 500px
-         }
      }
 </style>
 <h2 style="text-align: center">ПРОСМОТР ДАННЫХ УЛИЦЫ</h2>
@@ -450,7 +474,7 @@
                         <div class="item TCODD">
                             @if (Model.layoutScheme != null)
                             {
-                                <img src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
+                                <img  src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
                             }
                             else
                             {
