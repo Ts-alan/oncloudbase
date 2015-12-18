@@ -417,6 +417,17 @@ namespace oncloud.Web.oddBase.Controllers
                              };
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
         }
+        public virtual ActionResult FindFilledStreets(string term)
+        {
+            var streets = from m in db.Street where m.Name.Contains(term) select m;
+            var projection = from street in streets
+                             select new
+                             {
+                                 label = street.Name,
+                                 value = street.Name
+                             };
+            return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
+        }
         public virtual FileContentResult GetImageLayoutScheme(int id)
         {
             layoutScheme LayoutScheme = db.layoutSchemes.Find(id);

@@ -925,8 +925,8 @@
             <b><u>1.Наименование улицы</u></b>
             <div>
                 @Html.Hidden("City.id", (int)ViewBag.City.id)
-                @Html.Label("Выбирите город", new { @for = "City.Name" }) @Html.TextBox("City.Name", (string)ViewBag.City.Name, new { id = "city", @readonly = "" })
-                @Html.Label("Выбирите улицу", new { @for = "Street.Name" }) @Html.TextBox("Street.Name", null, new { id = "street" })
+                @Html.Label("Выберите город", new { @for = "City.Name" }) @Html.TextBox("City.Name", (string)ViewBag.City.Name, new { id = "city", @readonly = "" })
+                @Html.Label("Выберите улицу", new { @for = "Street.Name" }) @Html.TextBox("Street.Name", null, new { id = "street" })
             </div>
             <div>
                 <button type="button" class="btn btn-default" onclick="search()">Показать на карте</button>
