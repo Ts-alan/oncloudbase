@@ -2,7 +2,6 @@
 @model  oncloud.Domain.Entities.Street
 @{
     ViewBag.Title = "EditStreets";
-
 }
 
 
@@ -282,12 +281,31 @@
     .glyphicon-chevron-left {
         color: red;
     }
+
     /*размеры модабных окон*/
         /*модальное окно*/
     .modal-dialog {
         width: 1200px;
 
     }
+
+    /*.active {
+        overflow: auto;
+        margin-right: 180px;
+        margin-left: 180px; 
+    }*/
+    
+    /*.RoadBarriersItem {
+        overflow: auto;
+        padding-left:  180px;
+        padding-right: 180px;
+    }
+
+    .item .RoadSignsItem {
+        overflow: auto;
+        padding-left:  180px;
+        padding-right: 180px;
+    }*/
 
      @@media (min-width: 768px) {}
      @@media (min-width: 992px) {}
@@ -525,38 +543,43 @@
                     </ol>
 
                     <!-- Wrapper for slides -->
-                    <div class="carousel-inner" style="height: 700px" role="listbox">
-                        @for (int i = 0; i < Model.Segment.Count; i++)
-                        {
-                            <div class="item RoadSignsItem">
-                                <h3 style="color: black; text-align: center">
-                                    г.Минск ул. @Model.Name<br>
-                                    Спецификация дорожных знаков участок @(i + 1)
-                                </h3>
-                                <table class="RoadSignsTable@(i + 1) table table-bordered">
-                                    <tr>
-                                        <th>№ знака</th>
-                                        <th>Количество</th>
-                                    </tr>
-                                    @foreach (var item in Model.SpecificationofRS.Where(a => a.Segment.Name == (i + 1)))
-                                    {
-                                        <tr>
-                                            <td>@item.RoadSigns.NumberRoadSigns</td>
-                                            <td>@item.CountRS</td>
-                                        </tr>
-                                    }
-                                    <tr>
-                                        <td><b>Итого</b></td>
-                                        <td>@Model.SpecificationofRS.Where(a => a.Segment.Name == (i + 1)).Sum(a => a.CountRS)</td>
-                                    </tr>
-                                </table>
-                                <div class="carousel-caption">
 
+                    <div class="carousel-inner" style="height: 700px;" role="listbox">
+                        
+                            @for (int i = 0; i < Model.Segment.Count; i++)
+                            {
+                                <div class="item RoadSignsItem" style="padding-left: 114px; padding-right: 114px;">
+                                    <h3 style="color: black; text-align: center">
+                                        г.Минск ул. @Model.Name<br>
+                                        Спецификация дорожных знаков участок @(i + 1)
+                                    </h3>
+                                    <div style="overflow-x: auto">
+                                        <table class="RoadSignsTable@(i + 1) table table-bordered">
+                                            <tr>
+                                                <th>№ знака</th>
+                                                <th>Количество</th>
+                                            </tr>
+                                            @foreach (var item in Model.SpecificationofRS.Where(a => a.Segment.Name == (i + 1)))
+                                            {
+                                                <tr>
+                                                    <td>@item.RoadSigns.NumberRoadSigns</td>
+                                                    <td>@item.CountRS</td>
+                                                </tr>
+                                            }
+                                            <tr>
+                                                <td><b>Итого</b></td>
+                                                <td>@Model.SpecificationofRS.Where(a => a.Segment.Name == (i + 1)).Sum(a => a.CountRS)</td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                        <div class="carousel-caption">
+
+                                    </div>
                                 </div>
-                            </div>
-                        }
+                            }
+                        
                     </div>
-
                     <!-- Controls -->
                     <a class="left carousel-control" href="#carousel-example-generic1" role="button" data-slide="prev">
                         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -592,31 +615,33 @@
                     </ol>
 
                     <!-- Wrapper for slides -->
-                    <div class="carousel-inner" style="height: 700px" role="listbox">
+                    <div class="carousel-inner" style="height: 700px; " role="listbox">
                         @for (int i = 0; i < Model.Segment.Count; i++)
                         {
-                            <div class="item RoadBarriersItem">
+                            <div class="item RoadBarriersItem" style ="padding-left: 147px; padding-right: 147px; overflow: auto;">
                                 <h3 style="color: black; text-align: center">
                                     г.Минск ул. @Model.Name<br>
                                     Спецификация дорожных ограждений участок @(i + 1)
                                 </h3>
-                                <table class="RoadSignsTable@(i + 1) table table-bordered">
-                                    <tr>
-                                        <th>№ знака</th>
-                                        <th>Количество</th>
-                                    </tr>
-                                    @foreach (var item in Model.SpecificationOfRb.Where(a => a.Segment.Name == (i + 1)))
-                                    {
+                                <div style="overflow-x: auto">
+                                    <table class="RoadSignsTable@(i + 1) table table-bordered">
                                         <tr>
-                                            <td>@item.RoadBarriers.NumberBarriers</td>
-                                            <td>@item.Length</td>
+                                            <th>№ знака</th>
+                                            <th>Количество</th>
                                         </tr>
-                                    }
-                                    <tr>
-                                        <td><b>Итого</b></td>
-                                        <td>@Model.SpecificationOfRb.Where(a => a.Segment.Name == (i + 1)).Sum(a => a.Length)</td>
-                                    </tr>
-                                </table>
+                                        @foreach (var item in Model.SpecificationOfRb.Where(a => a.Segment.Name == (i + 1)))
+                                        {
+                                            <tr>
+                                                <td>@item.RoadBarriers.NumberBarriers</td>
+                                                <td>@item.Length</td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td><b>Итого</b></td>
+                                            <td>@Model.SpecificationOfRb.Where(a => a.Segment.Name == (i + 1)).Sum(a => a.Length)</td>
+                                        </tr>
+                                    </table>
+                                </div>
                                 <div class="carousel-caption">
 
                                 </div>
