@@ -237,11 +237,6 @@
     }
 </script>
 <style>
-    /*модальное окно*/
-    .modal-dialog {
-        width: 1200px;
-     
-    }
 
     td input {
         border-width: 0;
@@ -262,7 +257,7 @@
 
     .modal-dialog {
         width: 1200px;
-     
+
     }
      /*затемненные области справа и слева в окне-карусели*/
     .carousel-control.right {
@@ -287,6 +282,23 @@
     .glyphicon-chevron-left {
         color: red;
     }
+    /*размеры модабных окон*/
+        /*модальное окно*/
+    .modal-dialog {
+        width: 1200px;
+
+    }
+
+     @@media (min-width: 768px) {}
+     @@media (min-width: 992px) {}
+     @@media (min-width: 1200px) {
+         .carousel-inner {
+             height: 800px
+         }
+         .carousel-inner img {
+             height: 500px
+         }
+     }
 </style>
 <h2 style="text-align: center">ПРОСМОТР ДАННЫХ УЛИЦЫ</h2>
 
@@ -434,7 +446,7 @@
                     </ol>
 
                     <!-- Wrapper for slides -->
-                    <div class="carousel-inner" style="height: 900px" role="listbox">
+                    <div class="carousel-inner"  role="listbox">
                         <div class="item TCODD">
                             @if (Model.layoutScheme != null)
                             {
@@ -630,25 +642,3 @@
     </div>
 </div>
 
-<script>
-    function Alert() {
-        
-    alert('!!!');
-    }
-    //$(document).ready(function () { $('.ui-jqgrid-view').print();}); //Вся таблица, но без разделителя посередины
-    //$(document).ready(function () { $('#gbox_table1').print(); }); //Не всё, но с шапкой и разделителем
-    //$(document).ready(function () { $('#gview_table1').print(); }); //Вся таблица, но без разделителя посередины
-
-    
-        //$(tableId).printElement();
-        //var html_to_print = $(tableId).html();
-        //var iframe = $('<iframe id="print_frame">'); // создаем iframe в переменную
-        //$('body').append(iframe); //добавляем эту переменную с iframe в наш body (в самый конец)
-        //var doc = $('#print_frame')[0].contentDocument || $('#print_frame')[0].contentWindow.document;
-        //var win = $('#print_frame')[0].contentWindow || $('#print_frame')[0];
-        //doc.getElementsByTagName('body')[0].innerHTML = html_to_print;
-        //win.print();
-        
-    
-
-</script>
