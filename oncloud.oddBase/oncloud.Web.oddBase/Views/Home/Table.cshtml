@@ -8,37 +8,58 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-
         tableToGrid("#table", {
             height: 700,
- 
+
             onSelectRow: function(rowid, e) {
                 $('#' + rowid).parents('table').resetSelection();
             },
             colNames: [
-                 "Населенный пункт", "Наименование улицы",
+                "Населенный пункт", "Наименование улицы",
                 "Количество участков", "Номера участков требующие изменения ТСОДД", "     "
             ],
             forceFit: false,
             cmTemplate: { "resizable": false, sortable: false },
             colModel: [
-               
                 { name: "Населенный_пункт", align: "center" },
                 { name: "Наименование", align: "center" },
                 { name: "Количество_участков", align: "center", search: false },
                 { name: "Номера_участков_требующие_изменения_ТСОДД", align: "center", search: false },
-                { name: "Столбце_действия", align: "center" , search: false}
+                { name: "Столбце_действия", align: "center", search: false }
             ]
         });
         $('#table').jqGrid('filterToolbar', {
-            autosearch:true
-        }
-       );
+                autosearch: true
+            }
+        );
+       
+        mergeRows();
+        //подсказки улиц
+        var autocompleteUrl = '/Home/FindFilledStreets';
+        $('#gs_Наименование').autocomplete({
+            source: autocompleteUrl,
+            minLength: 2,
+            select: function (event, ui) {
+
+            }
+        });
     });
-    
+
     function setStreet(object) {
         $("#idDelete").attr("href", "/Home/DeleteStreet/" + $(object).attr("idDelete"));
     }
+
+    function mergeRows() {
+        $('#table_Количество_участков, #table_Номера_участков_требующие_изменения_ТСОДД, #table_Столбце_действия').attr("rowspan", "2");
+        $('#gsh_table_Столбце_действия, #gsh_table_Номера_участков_требующие_изменения_ТСОДД, #gsh_table_Количество_участков').remove();
+        addValue();
+    }
+    function addValue() {
+        $('#gs_Населенный_пункт').val("Минск");
+    }
+
+    
+
 </script>
 <style type="text/css">
  td {
@@ -51,8 +72,6 @@
 @Html.ActionLink("+ Создать карточку улицы", "AddStreet", null, new { @class = "btn btn-default" ,style="margin-bottom: 15px" })
 <table id="table" class="table-bordered" cellpadding="5">
     <tr>
-
-    
         <th>Населенный_пункт</th>
         <th> Наименование </th>
         <th> Количество_участков</th>
