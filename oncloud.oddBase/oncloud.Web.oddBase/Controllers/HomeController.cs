@@ -6,6 +6,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Microsoft.Ajax.Utilities;
 using oncloud.Domain.Concrete;
 using oncloud.Domain.Entities;
@@ -463,5 +464,31 @@ namespace oncloud.Web.oddBase.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public virtual ActionResult ShowOnMap()
+        {
+            
+            //List<Street> streets = db.Street.ToList();
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            ViewBag.json = js.Serialize(db.Street.ToList().Select(x => new {
+                name = x.Name,
+                breadthE = x.BreadthE,
+                breadthS = x.BreadthS,
+                lengthE = x.LengthE,
+                lengthS = x.LengthS,
+                id = x.id
+            }));
+            //serializeToJson();
+            //List<Street> streets = db.Street.ToList();
+
+            return View();
+        }
+
+        //private JSON serializeToJson(List<Street> streets)
+        //{
+        //    return Json(
+    
+        //}
+
     }
 }

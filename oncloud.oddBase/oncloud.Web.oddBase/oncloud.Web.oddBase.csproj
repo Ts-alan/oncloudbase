@@ -476,6 +476,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\FullMapDisplay.js" />
     <Content Include="Scripts\jqGrid\minified\jquery.jqGrid.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jqGrid\addons\ui.multiselect.js" />
@@ -696,6 +697,7 @@
     <Content Include="Views\RoadSigns\DeleteItem.cshtml" />
     <Content Include="Views\Home\EditStreets.cshtml" />
     <Content Include="Views\Home\Review.cshtml" />
+    <Content Include="Views\Home\ShowOnMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
