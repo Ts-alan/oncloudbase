@@ -5,13 +5,10 @@
 
 <script src="~/Scripts/FullMapDisplay.js"></script>
 
-<h2>ShowOnMap</h2>
-
 <div class="row">
-    <div id="search" class="col-lg-5 col-md-5 col-sm-12 col-xs-12"> show me!</div>
-    <div id="map" style="width: 700px; height: 500px;" class="col-lg-7 col-md-7 col-sm-12 col-xs-12"></div>
+    <div id="search" class="col-lg-2 col-md-2 col-sm-12 col-xs-12"></div>
+    <div id="map" style="width: 900px; height: 600px; float: right; width: 80%" class="col-lg-10 col-md-10 col-sm-12 col-xs-12"></div>
 </div>
-
 
 @*Модальные окна*@
 <div class="modal fade" id="layoutDislocation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -19,7 +16,6 @@
         <div class="modal-content">
             <div class="modal-header" style="border-width: 0px">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
             </div>
             <div class="modal-body">
                 <div id="carousel-example-generic" class="carouselTCODD slide">
@@ -98,7 +94,7 @@
         //alert(p);
         e.preventDefault();
         var coords = e.get('coords');
-        if (balloon != undefined) 
+        if (balloon != undefined)
         {
             balloon.close();
         }
@@ -113,28 +109,40 @@
     ymaps.ready(init);
     var myMap;
     var balloon;
+    var coordsArray = @Html.Raw(ViewBag.coordsJson);
+    var idsArray = @Html.Raw(ViewBag.streestDislocationsListJSON);
 
-    function init() 
+    function init()
     {
-        var coordsArray = @Html.Raw(ViewBag.json);
-        //console.log(coordsArray);
+       
         myMap = new ymaps.Map("map", {
             center: [53.9172, 27.5601],
             zoom: 11
         });
-        var q = 3;
+
+        var balloonContent;
+        var v = 0;
         for (var i = 0; i < coordsArray.length; i++) {
+            v++;
             ymaps.route([[coordsArray[i].breadthS, coordsArray[i].lengthS], [coordsArray[i].breadthE, coordsArray[i].lengthE]]).then(function(route) {
                 route.getPaths().options.set({
                     //можно выставить настройки графики маршруту
                     strokeColor: '0000ffff',
                     opacity: 0.9,
-                    strokeWidth: 4,
-                    name : "dddd"
-
+                    strokeWidth: 4
                 });
-
                 //route.getPaths().events.add('click', pathClick);
+                //console.log(coordsArray);
+                console.log(v);
+             
+
+                balloonContent = "<a type='button' href='#'  onclick='setTCODD(this, " + coordsArray[v].id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
+            "<a data-toggle='modal' onclick='setRoadBarriers(this, " + coordsArray[v].id + ")' data-target='#RoadBarriers' href='#'>Посмотреть данные улицы</a>";
+                
+                //редактирование контента стандартного балуна
+                route.getPaths().get(0).properties.set("balloonContentHeader", "");
+                route.getPaths().get(0).properties.set("balloonContent", balloonContent);
+
                 myMap.geoObjects.add(route.getPaths(), i);
             }, function(error) {
                 alert('Возникла ошибка: ' + error.message);
@@ -159,17 +167,24 @@
         });
     });
 
-    function setTCODD(object) {
+
+    function setTCODD(object, id) {
+        console.log(id);
         $(".item.TCODD").text(createModalContent(id));
 
-
-        $(".TCODD").each(function(indx, element) {
+        $(".TCODD").each(function(indx, element)
+        {
             $(element).removeClass("active");
         });
         $(".TCODD").eq(parseInt($(object).attr("idSegment")) + 1).addClass("active");
     }
 
     function createModalContent(id) {
+        //var list = idsArray[];
+        //for (var i = 0;  )
+        console.log(id);
+        var result = $.grep(idsArray, function(idsArray){ return idsArray.streetId == id; });
+        console.log(result);
         var content = "";
         return content;
     }

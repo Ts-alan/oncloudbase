@@ -468,18 +468,25 @@ namespace oncloud.Web.oddBase.Controllers
         public virtual ActionResult ShowOnMap()
         {
             JavaScriptSerializer js = new JavaScriptSerializer();
-            ViewBag.json = js.Serialize(db.Street.ToList().Select(x => new {
+
+            var idQuery = from s in db.Street
+                join p in db.layoutDislocations on s.id equals p.StreetId
+                select new { streetId = s.id, s.Name, s.BreadthS, s.BreadthE, s.LengthS, s.LengthE, lDislocationId = p.Id};
+
+            var idsList = idQuery.ToList();
+
+            ViewBag.streestDislocationsListJSON = js.Serialize(idsList);
+
+            ViewBag.coordsJson = js.Serialize(db.Street.ToList().Select(x => new
+            {
                 name = x.Name,
                 breadthE = x.BreadthE,
                 breadthS = x.BreadthS,
                 lengthE = x.LengthE,
                 lengthS = x.LengthS,
-                id = x.id,
+                Id = x.id,
                 segmentCount = x.Segment.Count
             }));
-            
-            ViewBag.layoutDislocations = 
-
 
             return View();
         }
