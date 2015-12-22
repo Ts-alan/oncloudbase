@@ -467,8 +467,6 @@ namespace oncloud.Web.oddBase.Controllers
 
         public virtual ActionResult ShowOnMap()
         {
-            
-            //List<Street> streets = db.Street.ToList();
             JavaScriptSerializer js = new JavaScriptSerializer();
             ViewBag.json = js.Serialize(db.Street.ToList().Select(x => new {
                 name = x.Name,
@@ -476,19 +474,14 @@ namespace oncloud.Web.oddBase.Controllers
                 breadthS = x.BreadthS,
                 lengthE = x.LengthE,
                 lengthS = x.LengthS,
-                id = x.id
+                id = x.id,
+                segmentCount = x.Segment.Count
             }));
-            //serializeToJson();
-            //List<Street> streets = db.Street.ToList();
+            
+            ViewBag.layoutDislocations = 
+
 
             return View();
         }
-
-        //private JSON serializeToJson(List<Street> streets)
-        //{
-        //    return Json(
-    
-        //}
-
     }
 }

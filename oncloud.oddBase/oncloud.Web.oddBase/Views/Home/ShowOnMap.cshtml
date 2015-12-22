@@ -12,26 +12,129 @@
     <div id="map" style="width: 700px; height: 500px;" class="col-lg-7 col-md-7 col-sm-12 col-xs-12"></div>
 </div>
 
+
+@*Модальные окна*@
+<div class="modal fade" id="layoutDislocation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border-width: 0px">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+            </div>
+            <div class="modal-body">
+                <div id="carousel-example-generic" class="carouselTCODD slide">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+
+                        @*@for (int i = 0; i < Model.Segment.Count + 1; i++)
+                        {
+                            <li data-target="#carousel-example-generic" data-slide-to="@i"></li>
+                        }
+                        *@
+
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item TCODD">
+                            @*@if (Model.layoutScheme != null)
+                            {
+                                <img src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
+                            }
+                            else
+                            {
+                                <h3 style="color: black;text-align: center">Компоновочная схема не загружена</h3>
+                            }*@
+
+                            <div class="carousel-caption">
+
+                            </div>
+                        </div>
+                        @*@for (int i = 0; i < Model.Segment.Count; i++)
+                        {
+                            <div class="item TCODD">
+                                <h3 style="color: black; text-align: center">
+                                    г.Минск ул. @Model.Name<br>
+                                    Дислокация ТСОДД участок @(i + 1)
+                                </h3>
+                                @if (Model.Segment.ElementAt(i).layoutDislocation.Any())
+                                {
+
+                                    <img id="TCODD" src="@Url.Action("LayoutDislocation", "Home", new {id = Model.Segment.ElementAt(i).layoutDislocation.SingleOrDefault().Id})" />
+                                }
+                                else
+                                {
+                                    <text>
+                                        <h3 style="text-align: center">Дислокация ТСОДД не загружена</h3></text>
+                                }
+                                <div class="carousel-caption">
+
+                                </div>
+                            </div>
+                        }*@
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-width: 0px">
+                <button type="button" class="btn btn-default" onclick="printPicture('.TCODD')">Печать</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
+    //Обработик кликов по маршрутам, открывающий балуны в месте клика по маршруту
+    function pathClick(e) {
+        //alert(p);
+        e.preventDefault();
+        var coords = e.get('coords');
+        if (balloon != undefined) 
+        {
+            balloon.close();
+        }
+        balloon = new ymaps.Balloon(myMap);
+        balloon.options.setParent(myMap.options);
+        var bContent = "<a type='button' href='#'  onclick='setTCODD(this)' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
+            "<a data-toggle='modal' onclick='setRoadBarriers(this)' data-target='#RoadBarriers' href='#'>Посмотреть данные улицы</a>";
+        balloon.setData(bContent);
+        balloon.open(coords);
+    }
+
     ymaps.ready(init);
     var myMap;
+    var balloon;
 
-    function init() {
+    function init() 
+    {
         var coordsArray = @Html.Raw(ViewBag.json);
-        console.log(coordsArray);
+        //console.log(coordsArray);
         myMap = new ymaps.Map("map", {
             center: [53.9172, 27.5601],
             zoom: 11
         });
+        var q = 3;
         for (var i = 0; i < coordsArray.length; i++) {
             ymaps.route([[coordsArray[i].breadthS, coordsArray[i].lengthS], [coordsArray[i].breadthE, coordsArray[i].lengthE]]).then(function(route) {
                 route.getPaths().options.set({
                     //можно выставить настройки графики маршруту
                     strokeColor: '0000ffff',
                     opacity: 0.9,
-                    strokeWidth: 4
+                    strokeWidth: 4,
+                    name : "dddd"
+
                 });
-                route.getPaths().events.add('click', pathClick);
+
+                //route.getPaths().events.add('click', pathClick);
                 myMap.geoObjects.add(route.getPaths(), i);
             }, function(error) {
                 alert('Возникла ошибка: ' + error.message);
@@ -39,6 +142,36 @@
         }
     }
 
-   
+
+    $(document).ready(function() {
+        //слайдер опции
+        $('.carouselTCODD').carousel({
+            interval: false
+        });
+
+        //перелистование слайдера при нажатии на клавиши
+        $("#layoutDislocation").on('keyup', function(e) {
+            if (e.which == 39) {
+                $("#carousel-example-generic .carousel-control.right").trigger('click');
+            } else if (e.which == 37) {
+                $("#carousel-example-generic .carousel-control.left").trigger('click');
+            }
+        });
+    });
+
+    function setTCODD(object) {
+        $(".item.TCODD").text(createModalContent(id));
+
+
+        $(".TCODD").each(function(indx, element) {
+            $(element).removeClass("active");
+        });
+        $(".TCODD").eq(parseInt($(object).attr("idSegment")) + 1).addClass("active");
+    }
+
+    function createModalContent(id) {
+        var content = "";
+        return content;
+    }
 
 </script>
