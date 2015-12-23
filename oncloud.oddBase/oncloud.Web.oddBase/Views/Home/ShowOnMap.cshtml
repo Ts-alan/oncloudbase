@@ -4,7 +4,6 @@
 }
 
 <script src="~/Scripts/FullMapDisplay.js"></script>
-
 <div class="row">
     <div id="search" class="col-lg-2 col-md-2 col-sm-12 col-xs-12"></div>
     <div id="map" style="width: 900px; height: 600px; float: right; width: 80%" class="col-lg-10 col-md-10 col-sm-12 col-xs-12"></div>
@@ -20,54 +19,12 @@
             <div class="modal-body">
                 <div id="carousel-example-generic" class="carouselTCODD slide">
                     <!-- Indicators -->
-                    <ol class="carousel-indicators">
-
-                        @*@for (int i = 0; i < Model.Segment.Count + 1; i++)
-                        {
-                            <li data-target="#carousel-example-generic" data-slide-to="@i"></li>
-                        }
-                        *@
-
+                    <ol class="carousel-indicators" id ="layoutDislocationIndicators">
                     </ol>
 
                     <!-- Wrapper for slides -->
-                    <div class="carousel-inner" role="listbox">
-                        <div class="item TCODD">
-                            @*@if (Model.layoutScheme != null)
-                            {
-                                <img src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
-                            }
-                            else
-                            {
-                                <h3 style="color: black;text-align: center">Компоновочная схема не загружена</h3>
-                            }*@
-
-                            <div class="carousel-caption">
-
-                            </div>
-                        </div>
-                        @*@for (int i = 0; i < Model.Segment.Count; i++)
-                        {
-                            <div class="item TCODD">
-                                <h3 style="color: black; text-align: center">
-                                    г.Минск ул. @Model.Name<br>
-                                    Дислокация ТСОДД участок @(i + 1)
-                                </h3>
-                                @if (Model.Segment.ElementAt(i).layoutDislocation.Any())
-                                {
-
-                                    <img id="TCODD" src="@Url.Action("LayoutDislocation", "Home", new {id = Model.Segment.ElementAt(i).layoutDislocation.SingleOrDefault().Id})" />
-                                }
-                                else
-                                {
-                                    <text>
-                                        <h3 style="text-align: center">Дислокация ТСОДД не загружена</h3></text>
-                                }
-                                <div class="carousel-caption">
-
-                                </div>
-                            </div>
-                        }*@
+                    <div class="carousel-inner" role="listbox" id="TCODDcontainer">
+                       
                     </div>
 
                     <!-- Controls -->
@@ -89,41 +46,31 @@
 </div>
 
 <script type="text/javascript">
-    //Обработик кликов по маршрутам, открывающий балуны в месте клика по маршруту
-    function pathClick(e) {
-        //alert(p);
-        e.preventDefault();
-        var coords = e.get('coords');
-        if (balloon != undefined)
-        {
-            balloon.close();
-        }
-        balloon = new ymaps.Balloon(myMap);
-        balloon.options.setParent(myMap.options);
-        var bContent = "<a type='button' href='#'  onclick='setTCODD(this)' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
-            "<a data-toggle='modal' onclick='setRoadBarriers(this)' data-target='#RoadBarriers' href='#'>Посмотреть данные улицы</a>";
-        balloon.setData(bContent);
-        balloon.open(coords);
-    }
-
+  
     ymaps.ready(init);
     var myMap;
     var balloon;
     var coordsArray = @Html.Raw(ViewBag.coordsJson);
     var idsArray = @Html.Raw(ViewBag.streestDislocationsListJSON);
+    console.log(idsArray);
 
-    function init()
-    {
-       
+    function init() {
         myMap = new ymaps.Map("map", {
             center: [53.9172, 27.5601],
             zoom: 11
         });
-
-        var balloonContent;
-        var v = 0;
+        console.log(myMap.controls);
+        myMap.behaviors.disable(["dblClickZoom"]);
+        myMap.controls.remove('trafficControl').remove('mapTools').remove('searchControl').remove('ListBox');
+        //console.log(myMap.controls.count);
+        myMap.controls.add(
+            new ymaps.control.TypeSelector(
+                ['yandex#map', 'yandex#hybrid', 'yandex#satellite']
+            )
+        );
+        var balloonContent = "";
+        var itCount = 0;
         for (var i = 0; i < coordsArray.length; i++) {
-            v++;
             ymaps.route([[coordsArray[i].breadthS, coordsArray[i].lengthS], [coordsArray[i].breadthE, coordsArray[i].lengthE]]).then(function(route) {
                 route.getPaths().options.set({
                     //можно выставить настройки графики маршруту
@@ -131,25 +78,21 @@
                     opacity: 0.9,
                     strokeWidth: 4
                 });
-                //route.getPaths().events.add('click', pathClick);
-                //console.log(coordsArray);
-                console.log(v);
-             
 
-                balloonContent = "<a type='button' href='#'  onclick='setTCODD(this, " + coordsArray[v].id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
-            "<a data-toggle='modal' onclick='setRoadBarriers(this, " + coordsArray[v].id + ")' data-target='#RoadBarriers' href='#'>Посмотреть данные улицы</a>";
-                
+                balloonContent = "<a type='button' href='#' IdSegment='" + itCount + "' onclick='setTCODD(this," + coordsArray[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
+                    "<a data-toggle='modal' href='/Home/Review/" + coordsArray[itCount].Id + "'>Посмотреть данные улицы</a>";
+
                 //редактирование контента стандартного балуна
                 route.getPaths().get(0).properties.set("balloonContentHeader", "");
                 route.getPaths().get(0).properties.set("balloonContent", balloonContent);
 
                 myMap.geoObjects.add(route.getPaths(), i);
+                itCount ++;
             }, function(error) {
                 alert('Возникла ошибка: ' + error.message);
             });
         }
     }
-
 
     $(document).ready(function() {
         //слайдер опции
@@ -167,26 +110,53 @@
         });
     });
 
-
     function setTCODD(object, id) {
-        console.log(id);
-        $(".item.TCODD").text(createModalContent(id));
+        //формирование выборки элементов с ид, равным ид выбранной улицы
+        var result = $.grep(idsArray, function(idsArray) { return idsArray.streetId == id; });
 
-        $(".TCODD").each(function(indx, element)
-        {
+        //заполнение модального окна
+        $("#layoutDislocationIndicators").html(createModalList(result));
+        $("#TCODDcontainer").html(createModalContent(result));
+
+
+        $(".TCODD").each(function(indx, element) {
             $(element).removeClass("active");
         });
-        $(".TCODD").eq(parseInt($(object).attr("idSegment")) + 1).addClass("active");
+        
+        $(".TCODD").eq(parseInt($(object).attr("idSegment"))).addClass("active");
     }
 
-    function createModalContent(id) {
-        //var list = idsArray[];
-        //for (var i = 0;  )
-        console.log(id);
-        var result = $.grep(idsArray, function(idsArray){ return idsArray.streetId == id; });
-        console.log(result);
+    function createModalList(result) {
         var content = "";
+        for (var i = 0; i < result.length; i++) {
+            content += '<li data-target="#carousel-example-generic" data-slide-to="' + i + '"></li>';
+        }
         return content;
     }
 
+    function createModalContent(result) {
+        var list = "";
+        
+        list = '<div class="item TCODD"><img src="/Home/GetImageLayoutScheme/' + result[0].streetId + '"><div class="carousel-caption"></div></div>';
+        for (var i = 0; i < result.length; i++) {
+            list += '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
+                'г.Минск ул.' +
+                result[0].streetName +
+                '<br>Дислокация ТСОДД участок' +
+                (i + 1) +
+                '</h3>';
+            if (idsArray[i].layoutdisId != null) 
+            {
+                list += '<img id="TCODD" src="/Home/LayoutDislocation/' + result[i].layoutdisId + '"/>';
+            } 
+            else 
+            {
+                list += '<text><h3 style = "text-align: center" > Дислокация ТСОДД не загружена </h3></text>';
+            }
+                
+            list += '<div class="carousel-caption"></div></div>';
+        }
+
+        return list;
+    }
 </script>
