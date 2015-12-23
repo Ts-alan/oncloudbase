@@ -90,13 +90,6 @@ namespace oncloud.Web.oddBase.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> SendCode()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SendCode);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
-        }
-        [NonAction]
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> ExternalLoginCallback()
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ExternalLoginCallback);
@@ -129,12 +122,9 @@ namespace oncloud.Web.oddBase.Controllers
             public readonly string VerifyCode = "VerifyCode";
             public readonly string Register = "Register";
             public readonly string ConfirmEmail = "ConfirmEmail";
-            public readonly string ForgotPassword = "ForgotPassword";
-            public readonly string ForgotPasswordConfirmation = "ForgotPasswordConfirmation";
             public readonly string ResetPassword = "ResetPassword";
             public readonly string ResetPasswordConfirmation = "ResetPasswordConfirmation";
             public readonly string ExternalLogin = "ExternalLogin";
-            public readonly string SendCode = "SendCode";
             public readonly string ExternalLoginCallback = "ExternalLoginCallback";
             public readonly string ExternalLoginConfirmation = "ExternalLoginConfirmation";
             public readonly string LogOff = "LogOff";
@@ -148,12 +138,9 @@ namespace oncloud.Web.oddBase.Controllers
             public const string VerifyCode = "VerifyCode";
             public const string Register = "Register";
             public const string ConfirmEmail = "ConfirmEmail";
-            public const string ForgotPassword = "ForgotPassword";
-            public const string ForgotPasswordConfirmation = "ForgotPasswordConfirmation";
             public const string ResetPassword = "ResetPassword";
             public const string ResetPasswordConfirmation = "ResetPasswordConfirmation";
             public const string ExternalLogin = "ExternalLogin";
-            public const string SendCode = "SendCode";
             public const string ExternalLoginCallback = "ExternalLoginCallback";
             public const string ExternalLoginConfirmation = "ExternalLoginConfirmation";
             public const string LogOff = "LogOff";
@@ -198,14 +185,6 @@ namespace oncloud.Web.oddBase.Controllers
             public readonly string userId = "userId";
             public readonly string code = "code";
         }
-        static readonly ActionParamsClass_ForgotPassword s_params_ForgotPassword = new ActionParamsClass_ForgotPassword();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_ForgotPassword ForgotPasswordParams { get { return s_params_ForgotPassword; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_ForgotPassword
-        {
-            public readonly string model = "model";
-        }
         static readonly ActionParamsClass_ResetPassword s_params_ResetPassword = new ActionParamsClass_ResetPassword();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_ResetPassword ResetPasswordParams { get { return s_params_ResetPassword; } }
@@ -223,16 +202,6 @@ namespace oncloud.Web.oddBase.Controllers
         {
             public readonly string provider = "provider";
             public readonly string returnUrl = "returnUrl";
-        }
-        static readonly ActionParamsClass_SendCode s_params_SendCode = new ActionParamsClass_SendCode();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_SendCode SendCodeParams { get { return s_params_SendCode; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_SendCode
-        {
-            public readonly string returnUrl = "returnUrl";
-            public readonly string rememberMe = "rememberMe";
-            public readonly string model = "model";
         }
         static readonly ActionParamsClass_ExternalLoginCallback s_params_ExternalLoginCallback = new ActionParamsClass_ExternalLoginCallback();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -265,26 +234,20 @@ namespace oncloud.Web.oddBase.Controllers
                 public readonly string ConfirmEmail = "ConfirmEmail";
                 public readonly string ExternalLoginConfirmation = "ExternalLoginConfirmation";
                 public readonly string ExternalLoginFailure = "ExternalLoginFailure";
-                public readonly string ForgotPassword = "ForgotPassword";
-                public readonly string ForgotPasswordConfirmation = "ForgotPasswordConfirmation";
                 public readonly string Login = "Login";
                 public readonly string Register = "Register";
                 public readonly string ResetPassword = "ResetPassword";
                 public readonly string ResetPasswordConfirmation = "ResetPasswordConfirmation";
-                public readonly string SendCode = "SendCode";
                 public readonly string VerifyCode = "VerifyCode";
             }
             public readonly string _ExternalLoginsListPartial = "~/Views/Account/_ExternalLoginsListPartial.cshtml";
             public readonly string ConfirmEmail = "~/Views/Account/ConfirmEmail.cshtml";
             public readonly string ExternalLoginConfirmation = "~/Views/Account/ExternalLoginConfirmation.cshtml";
             public readonly string ExternalLoginFailure = "~/Views/Account/ExternalLoginFailure.cshtml";
-            public readonly string ForgotPassword = "~/Views/Account/ForgotPassword.cshtml";
-            public readonly string ForgotPasswordConfirmation = "~/Views/Account/ForgotPasswordConfirmation.cshtml";
             public readonly string Login = "~/Views/Account/Login.cshtml";
             public readonly string Register = "~/Views/Account/Register.cshtml";
             public readonly string ResetPassword = "~/Views/Account/ResetPassword.cshtml";
             public readonly string ResetPasswordConfirmation = "~/Views/Account/ResetPasswordConfirmation.cshtml";
-            public readonly string SendCode = "~/Views/Account/SendCode.cshtml";
             public readonly string VerifyCode = "~/Views/Account/VerifyCode.cshtml";
         }
     }
@@ -382,40 +345,6 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
-        partial void ForgotPasswordOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult ForgotPassword()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ForgotPassword);
-            ForgotPasswordOverride(callInfo);
-            return callInfo;
-        }
-
-        [NonAction]
-        partial void ForgotPasswordOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Web.oddBase.Models.ForgotPasswordViewModel model);
-
-        [NonAction]
-        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> ForgotPassword(oncloud.Web.oddBase.Models.ForgotPasswordViewModel model)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ForgotPassword);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            ForgotPasswordOverride(callInfo, model);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
-        }
-
-        [NonAction]
-        partial void ForgotPasswordConfirmationOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult ForgotPasswordConfirmation()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ForgotPasswordConfirmation);
-            ForgotPasswordConfirmationOverride(callInfo);
-            return callInfo;
-        }
-
-        [NonAction]
         partial void ResetPasswordOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string code);
 
         [NonAction]
@@ -461,31 +390,6 @@ namespace oncloud.Web.oddBase.Controllers
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "returnUrl", returnUrl);
             ExternalLoginOverride(callInfo, provider, returnUrl);
             return callInfo;
-        }
-
-        [NonAction]
-        partial void SendCodeOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string returnUrl, bool rememberMe);
-
-        [NonAction]
-        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> SendCode(string returnUrl, bool rememberMe)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SendCode);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "returnUrl", returnUrl);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "rememberMe", rememberMe);
-            SendCodeOverride(callInfo, returnUrl, rememberMe);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
-        }
-
-        [NonAction]
-        partial void SendCodeOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Web.oddBase.Models.SendCodeViewModel model);
-
-        [NonAction]
-        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> SendCode(oncloud.Web.oddBase.Models.SendCodeViewModel model)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SendCode);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            SendCodeOverride(callInfo, model);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
         }
 
         [NonAction]

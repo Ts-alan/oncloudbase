@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace oncloud.Web.oddBase.Models
 {
@@ -65,9 +66,8 @@ namespace oncloud.Web.oddBase.Models
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Имя пользователя")]
+        public string UserName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "{0} должен быть не менее {2} знаков", MinimumLength = 6)]
@@ -79,6 +79,7 @@ namespace oncloud.Web.oddBase.Models
         [Display(Name = "Подтверждение пароля")]
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         public string ConfirmPassword { get; set; }
+        public IEnumerable<IdentityRole> Roles { get; set; }
     }
 
     public class ResetPasswordViewModel

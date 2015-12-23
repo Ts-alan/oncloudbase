@@ -94,6 +94,8 @@ namespace Links
         public static readonly string _references_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/_references.min.js") ? Url("_references.min.js") : Url("_references.js");
         public static readonly string bootstrap_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/bootstrap.min.js") ? Url("bootstrap.min.js") : Url("bootstrap.js");
         public static readonly string bootstrap_min_js = Url("bootstrap.min.js");
+        public static readonly string CustomPrint_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/CustomPrint.min.js") ? Url("CustomPrint.min.js") : Url("CustomPrint.js");
+        public static readonly string FullMapDisplay_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/FullMapDisplay.min.js") ? Url("FullMapDisplay.min.js") : Url("FullMapDisplay.js");
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public static class jqGrid {
             private const string URLPATH = "~/Scripts/jqGrid";
@@ -274,12 +276,14 @@ namespace Links
             public static readonly string jquery_form_min_js = Url("jquery.form.min.js");
         }
     
+        public static readonly string jQuery_print_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/jQuery.print.min.js") ? Url("jQuery.print.min.js") : Url("jQuery.print.js");
         public static readonly string jquery_validate_vsdoc_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/jquery.validate-vsdoc.min.js") ? Url("jquery.validate-vsdoc.min.js") : Url("jquery.validate-vsdoc.js");
         public static readonly string jquery_validate_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/jquery.validate.min.js") ? Url("jquery.validate.min.js") : Url("jquery.validate.js");
         public static readonly string jquery_validate_min_js = Url("jquery.validate.min.js");
         public static readonly string jquery_validate_unobtrusive_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/jquery.validate.unobtrusive.min.js") ? Url("jquery.validate.unobtrusive.min.js") : Url("jquery.validate.unobtrusive.js");
         public static readonly string jquery_validate_unobtrusive_min_js = Url("jquery.validate.unobtrusive.min.js");
         public static readonly string modernizr_2_6_2_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/modernizr-2.6.2.min.js") ? Url("modernizr-2.6.2.min.js") : Url("modernizr-2.6.2.js");
+        public static readonly string Print_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/Print.min.js") ? Url("Print.min.js") : Url("Print.js");
         public static readonly string respond_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/respond.min.js") ? Url("respond.min.js") : Url("respond.js");
         public static readonly string respond_min_js = Url("respond.min.js");
     }
@@ -662,14 +666,18 @@ namespace Links
                 public const string _references_js = "~/Scripts/_references.js"; 
                 public const string bootstrap_js = "~/Scripts/bootstrap.js"; 
                 public const string bootstrap_min_js = "~/Scripts/bootstrap.min.js"; 
+                public const string CustomPrint_js = "~/Scripts/CustomPrint.js"; 
+                public const string FullMapDisplay_js = "~/Scripts/FullMapDisplay.js"; 
                 public const string jquery_1_10_2_intellisense_js = "~/Scripts/jquery-1.10.2.intellisense.js"; 
                 public const string jquery_1_10_2_js = "~/Scripts/jquery-1.10.2.js"; 
                 public const string jquery_1_10_2_min_js = "~/Scripts/jquery-1.10.2.min.js"; 
+                public const string jQuery_print_js = "~/Scripts/jQuery.print.js"; 
                 public const string jquery_validate_js = "~/Scripts/jquery.validate.js"; 
                 public const string jquery_validate_min_js = "~/Scripts/jquery.validate.min.js"; 
                 public const string jquery_validate_unobtrusive_js = "~/Scripts/jquery.validate.unobtrusive.js"; 
                 public const string jquery_validate_unobtrusive_min_js = "~/Scripts/jquery.validate.unobtrusive.min.js"; 
                 public const string modernizr_2_6_2_js = "~/Scripts/modernizr-2.6.2.js"; 
+                public const string Print_js = "~/Scripts/Print.js"; 
                 public const string respond_js = "~/Scripts/respond.js"; 
                 public const string respond_min_js = "~/Scripts/respond.min.js"; 
             }

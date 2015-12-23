@@ -29,8 +29,8 @@ namespace oncloud.Web.oddBase.Controllers
 			return View();
 		}
 
-		//[Authorize(Roles = "Admin, OrganizationAdmin")]
-		public virtual async Task<ActionResult> Users()
+        [Authorize(Roles = "admin")]
+        public virtual async Task<ActionResult> Users()
 		{
 			var users = UserManager.Users.ToList();
 			if (!User.IsInRole("admin"))
@@ -47,7 +47,7 @@ namespace oncloud.Web.oddBase.Controllers
 				}
 				users = model;
 			}
-			//users.Where(a=>a.)
+		
 			return View(users);
 		}
 
