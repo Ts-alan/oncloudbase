@@ -469,14 +469,19 @@ namespace oncloud.Web.oddBase.Controllers
         {
             JavaScriptSerializer js = new JavaScriptSerializer();
 
-            var idQuery = from s in db.Street
-                join se in db.Segment on s.id equals se.Street_id
-                join ld in db.layoutDislocations on se.id equals ld.SegmentId
-                select  new { streetId = s.id, streetName = s.Name, lDislocationId =  ld.Id, segmentId = se.id, segmentName = se.Name};
+            var idQuery = from se in db.Segment
+                join ld in db.layoutDislocations on se.id equals ld.SegmentId into group1
+                from g1 in group1.DefaultIfEmpty()
+                join st in db.Street on g1.StreetId equals st.id 
+                select new
+                {
+                    segmentId = se.id,
+                    streetId = se.Street_id,
+                    layoutdisId = (int?) g1.Id,
+                    streetName = g1.Street.Name
+                };
 
-            var idsList = idQuery.Distinct().ToList();
-
-            ViewBag.streestDislocationsListJSON = js.Serialize(idsList);
+            ViewBag.streestDislocationsListJSON = js.Serialize(idQuery);
 
             ViewBag.coordsJson = js.Serialize(db.Street.ToList().Select(x => new
             {
