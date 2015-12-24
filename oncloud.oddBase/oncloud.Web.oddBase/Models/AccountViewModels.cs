@@ -79,7 +79,8 @@ namespace oncloud.Web.oddBase.Models
         [Display(Name = "Подтверждение пароля")]
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         public string ConfirmPassword { get; set; }
-        public IEnumerable<IdentityRole> Roles { get; set; }
+        [Display(Name = "Роль")]
+        public IEnumerable<string> Roles { get; set; }
     }
 
     public class ResetPasswordViewModel

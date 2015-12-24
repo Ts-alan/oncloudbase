@@ -147,7 +147,8 @@ namespace oncloud.Web.oddBase.Controllers
         [Authorize(Roles="admin, OrganizationAdmin")]
         public virtual ActionResult Register()
         {
-            var t = _roleManager;
+           
+            
             return View();
         }
 
