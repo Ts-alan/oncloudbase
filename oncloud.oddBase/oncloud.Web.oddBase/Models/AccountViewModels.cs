@@ -80,7 +80,7 @@ namespace oncloud.Web.oddBase.Models
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         public string ConfirmPassword { get; set; }
         [Display(Name = "Роль")]
-        public IEnumerable<string> Roles { get; set; }
+        public string Roles { get; set; }
     }
 
     public class ResetPasswordViewModel

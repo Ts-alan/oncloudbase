@@ -18,33 +18,23 @@
 </p>
 <table class="table">
     <tr>
-        @*<th>
-                @Html.DisplayNameFor(model => model.OrganizationId)
-            </th>*@
         <th>
            Имя пользователя
         </th>
-        <th></th>
+        <th>
+            Роль
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.OrganizationId)
-                </td>*@
+          
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                @item.UserName
             </td>
             <td>
-                @*@if (item.LockoutEndDateUtc.HasValue)
-                {
-                    @Html.ActionLink("Разблокировать", MVC.Administration.UnLockUser(item.Id), new { @class = "btn btn-primary" })
-                }
-                else
-                {
-                    @Html.ActionLink("Заблокировать", MVC.Administration.LockUser(item.Id), new { @class = "btn btn-danger" })
-                }*@
+              @item.Roles.Single().UserId
             </td>
        </tr>
     }

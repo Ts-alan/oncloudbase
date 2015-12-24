@@ -75,13 +75,13 @@ td input {
      }     
    @media (min-width: 1200px) {
          .carousel-inner {
-             height: 800px
+             height: 700px
          }
          .carousel-inner img {
-             height: 700px !important
+             height: 600px !important
          }
         .modal-dialog {
-        width: 1000px;
+        width: 900px;
 
     }
 }

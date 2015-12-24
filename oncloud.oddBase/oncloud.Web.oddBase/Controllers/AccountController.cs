@@ -144,6 +144,7 @@ namespace oncloud.Web.oddBase.Controllers
 
         //
         // GET: /Account/Register
+        [HttpGet]
         [Authorize(Roles="admin, OrganizationAdmin")]
         public virtual ActionResult Register()
         {
@@ -155,35 +156,36 @@ namespace oncloud.Web.oddBase.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [Authorize(Roles = "admin, OrganizationAdmin")]
+       
         [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName };
+                var user = new ApplicationUser { UserName = model.UserName ,Email = ""};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    // Нам не надо заходить под этим пользователем
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-         
-                    // Но нам надо раздать роли
-                    
-                    if (User.IsInRole("admin"))
+                    //назначение роли
+                    if (model.Roles == "admin")
                     {
-                        await UserManager.AddToRoleAsync(user.Id, "OrganizationAdmin");    
+                        UserManager.AddToRole(user.Id, "admin");
+                    }
+                    if (model.Roles == "SetMembers")
+                    {
+                        UserManager.AddToRole(user.Id, "SetMembers");
+                    }
+                    if (model.Roles == "EditData")
+                    {
+                        UserManager.AddToRole(user.Id, "EditData");
+                    }
+                    if (model.Roles == "Review")
+                    {
+                        UserManager.AddToRole(user.Id, "Review");
                     }
 
-                    await UserManager.AddToRoleAsync(user.Id, "user");
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-					return RedirectToAction(MVC.Administration.Users());
+                    return RedirectToAction(MVC.Administration.Users());
                 }
                 AddErrors(result);
             }

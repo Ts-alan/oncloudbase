@@ -33,20 +33,6 @@ namespace oncloud.Web.oddBase.Controllers
         public virtual async Task<ActionResult> Users()
 		{
 			var users = UserManager.Users.ToList();
-			if (!User.IsInRole("admin"))
-			{
-				var model = new List<ApplicationUser>();
-
-				foreach (var user in users)
-				{
-					var userRoles = await UserManager.GetRolesAsync(user.Id);
-					if (!userRoles.Contains("admin"))
-					{
-						model.Add(user);
-					}
-				}
-				users = model;
-			}
 		
 			return View(users);
 		}
