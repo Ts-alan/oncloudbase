@@ -194,23 +194,7 @@ namespace oncloud.Web.oddBase.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Account/ConfirmEmail
-        [AllowAnonymous]
-        public virtual async Task<ActionResult> ConfirmEmail(string userId, string code)
-        {
-            if (userId == null || code == null)
-            {
-                return View("Error");
-            }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
-        }
-
-      
-
-        
-        //
+ //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
         public virtual ActionResult ResetPassword(string code)
@@ -342,7 +326,14 @@ namespace oncloud.Web.oddBase.Controllers
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
+        //удаление пользователя
+        public virtual ActionResult DeleteUser(string id)
+        {
+            var result = UserManager.FindById(id);
+            UserManager.Delete(result);
 
+            return RedirectToAction("Users", "Administration");
+        }
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]

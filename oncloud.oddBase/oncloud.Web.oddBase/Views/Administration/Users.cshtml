@@ -1,7 +1,12 @@
-﻿@model IEnumerable<oncloud.Web.oddBase.Models.ApplicationUser>
+﻿@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework
+@using Microsoft.AspNet.Identity.Owin
+
+@model IEnumerable<oncloud.Web.oddBase.Models.ApplicationUser>
 
 @{
     ViewBag.Title = "Администрирование пользователей";
+    var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
 }
 
 <ol class="breadcrumb">
@@ -16,13 +21,19 @@
 <p>
 
 </p>
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
            Имя пользователя
         </th>
         <th>
             Роль
+        </th>
+        <th>
+            Назначить права
+        </th>
+        <th>
+           Действия
         </th>
     </tr>
 
@@ -34,9 +45,40 @@
                 @item.UserName
             </td>
             <td>
-              @item.Roles.Single().UserId
+                @switch (userManager.GetRoles(item.Roles.Single().UserId).Single())
+                {
+                    case "admin":
+                        @:Админ
+                        break;
+                    case "SetMembers":
+                        @:Назначение ролей
+                        break;
+                    case "EditData":
+                        @:Редактирование данных
+                        break;
+                    case "Review":
+                        @:Просмотр
+                        break;
+                    default:
+                        @:Неизвестная роль
+                        break;
+                }
+
             </td>
-       </tr>
+            <td>
+                @Html.DropDownList("Roles", new[]
+                {
+                    new SelectListItem() {Text = "", Value = ""},
+                    new SelectListItem() {Text = "Админ", Value = "admin"},
+                    new SelectListItem() {Text = "Назначение ролей", Value = "SetMembers"},
+                    new SelectListItem() {Text = "Редактирование данных", Value = "EditData"},
+                    new SelectListItem() {Text = "Просмотр", Value = "Review"},
+                })
+            </td>
+            <td>
+                @Html.ActionLink("Удалить","DeleteUser","Account",null,new {id=item.Id})
+            </td>
+</tr>
     }
 
 </table>

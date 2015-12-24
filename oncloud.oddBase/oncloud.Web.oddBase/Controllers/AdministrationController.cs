@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 using Microsoft.AspNet.Identity.Owin;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace oncloud.Web.oddBase.Controllers
 {
@@ -22,9 +23,17 @@ namespace oncloud.Web.oddBase.Controllers
 				return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 			}
 		}
+        public RoleManager<IdentityRole> RoleManager
+        {
+            get
+            {
+                return  HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+ 
+        }
 
-		// GET: Аdministration
-		public virtual ActionResult Index()
+        // GET: Аdministration
+        public virtual ActionResult Index()
 		{
 			return View();
 		}
@@ -33,8 +42,8 @@ namespace oncloud.Web.oddBase.Controllers
         public virtual async Task<ActionResult> Users()
 		{
 			var users = UserManager.Users.ToList();
-		
-			return View(users);
+           
+            return View(users);
 		}
 
 		//public virtual async Task<ActionResult> LockUser(string userId)

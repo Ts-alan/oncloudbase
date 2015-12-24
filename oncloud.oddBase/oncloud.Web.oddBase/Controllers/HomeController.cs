@@ -17,7 +17,7 @@ using WebGrease.Css.Extensions;
 
 namespace oncloud.Web.oddBase.Controllers
 {
-    [Authorize]
+   
     public partial class HomeController : Controller
     {
         private EFDbContext db = new EFDbContext();
