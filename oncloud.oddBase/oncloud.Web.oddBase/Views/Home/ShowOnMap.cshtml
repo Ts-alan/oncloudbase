@@ -3,11 +3,33 @@
     ViewBag.Title = "ShowOnMap";
 }
 
+<style>
+    #fieldset {
+    -webkit-box-shadow: 6px 4px 8px -2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 6px 4px 8px -2px rgba(0,0,0,0.75);
+    box-shadow: 6px 4px 8px -2px rgba(0,0,0,0.75);
+    padding: 10px;
+}
+</style>
+
 <script src="~/Scripts/FullMapDisplay.js"></script>
 <div class="row">
-    <div id="search" class="col-lg-2 col-md-2 col-sm-12 col-xs-12"></div>
-    <div id="map" style="width: 900px; height: 600px; float: right; width: 80%" class="col-lg-10 col-md-10 col-sm-12 col-xs-12"></div>
+    <div class="col-md-12">
+        <fieldset id="fieldset">
+            <legend>Поиск</legend>
+            <label for="city">Город</label>
+            <input type="text" class="form-control" id="city"></>
+            <label for="street">Улица</label>
+            <input type="text" class="form-control" id="street" style="margin-bottom: 10px;"></>
+            <button type="button" class="btn btn-default" onclick="findRoute()">Найти</button>
+        </fieldset>
+    </div>
 </div>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div id="map" style="width: 900px; height: 600px; width: 100%; margin-top: 10px;" ></div>
+    </div>
+    </div>
 
 @*Модальные окна*@
 <div class="modal fade" id="layoutDislocation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -51,14 +73,16 @@
     var balloon;
     var coordsArray = @Html.Raw(ViewBag.coordsJson);
     var idsArray = @Html.Raw(ViewBag.streestDislocationsListJSON);
-    console.log(idsArray);
+    var myCollection = new ymaps.GeoObjectCollection();
+    var newCollection = new ymaps.GeoObjectCollection();
+    //console.log(idsArray);
 
     function init() {
         myMap = new ymaps.Map("map", {
             center: [53.9172, 27.5601],
             zoom: 11
         });
-        console.log(myMap.controls);
+        //console.log(myMap.controls);
         myMap.behaviors.disable(["dblClickZoom"]);
         myMap.controls.remove('trafficControl').remove('mapTools').remove('searchControl').remove('ListBox');
         //console.log(myMap.controls.count);
@@ -85,12 +109,13 @@
                 route.getPaths().get(0).properties.set("balloonContentHeader", "");
                 route.getPaths().get(0).properties.set("balloonContent", balloonContent);
 
-                myMap.geoObjects.add(route.getPaths(), i);
+                myCollection.add(route.getPaths(), i);
                 itCount ++;
             }, function(error) {
                 alert('Возникла ошибка: ' + error.message);
             });
         }
+        
     }
 
     $(document).ready(function() {
@@ -161,4 +186,42 @@
 
         return list;
     }
+
+    function findRoute() {
+        myMap.geoObjects = null;
+        var tempCoordsArray;
+        var city = $('#city').val();
+        var street = $('#street').val();
+        if (city!="" && street!="") {
+            var cityFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.cityName.toLowerCase().indexOf(city.toLowerCase()) > -1; });
+            //console.log(cityFiltered);
+            var streetFiltered = $.grep(cityFiltered, function(cityFiltered) { return cityFiltered.name.toLowerCase().indexOf(street.toLowerCase()) > -1; });
+            //tempCoordsArray = coordsArray;
+            //coordsArray = streetFiltered;
+            //init();
+            //coordsArray = tempCoordsArray;
+        }
+        if (city == "" && street != "") 
+        {
+            var streetOnlyFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.name.toLowerCase().indexOf(street.toLowerCase()) > -1; });
+            //tempCoordsArray = coordsArray;
+            //coordsArray = streetOnlyFiltered;
+            //init();
+            //coordsArray = tempCoordsArray;
+        } 
+        else
+        {
+            var cityOnlyFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.cityName.toLowerCase().indexOf(city.toLowerCase()) > -1; });
+            //tempCoordsArray = coordsArray;
+            //coordsArray = cityOnlyFiltered;
+            //init();
+            //coordsArray = tempCoordsArray;
+        }
+        
+    }
+    function addToGeoObjects(objCollection) 
+    {
+        myMap.geoObjects.add(objCollection);
+    }
+
 </script>
