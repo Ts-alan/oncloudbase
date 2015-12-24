@@ -19,12 +19,11 @@
             <div class="modal-body">
                 <div id="carousel-example-generic" class="carouselTCODD slide">
                     <!-- Indicators -->
-                    <ol class="carousel-indicators" id ="layoutDislocationIndicators">
-                    </ol>
+                    <ol class="carousel-indicators" id="layoutDislocationIndicators"></ol>
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox" id="TCODDcontainer">
-                       
+
                     </div>
 
                     <!-- Controls -->
@@ -46,7 +45,7 @@
 </div>
 
 <script type="text/javascript">
-  
+
     ymaps.ready(init);
     var myMap;
     var balloon;
@@ -79,7 +78,7 @@
                     strokeWidth: 4
                 });
 
-                balloonContent = "<a type='button' href='#' IdSegment='" + itCount + "' onclick='setTCODD(this," + coordsArray[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
+                balloonContent = "<h4>" + coordsArray[itCount].name + "</h4><a type='button' href='#' IdSegment='" + itCount + "' onclick='setTCODD(this," + coordsArray[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
                     "<a data-toggle='modal' href='/Home/Review/" + coordsArray[itCount].Id + "'>Посмотреть данные улицы</a>";
 
                 //редактирование контента стандартного балуна
@@ -122,7 +121,7 @@
         $(".TCODD").each(function(indx, element) {
             $(element).removeClass("active");
         });
-        
+
         $(".TCODD").eq(parseInt($(object).attr("idSegment"))).addClass("active");
     }
 
@@ -136,8 +135,11 @@
 
     function createModalContent(result) {
         var list = "";
-        
-        list = '<div class="item TCODD"><img src="/Home/GetImageLayoutScheme/' + result[0].streetId + '"><div class="carousel-caption"></div></div>';
+
+        list = '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
+                'г.Минск ул.' +
+                result[0].streetName +
+               '<br>Компоновочная схема</h3><img src="/Home/GetImageLayoutScheme/' + result[0].streetId + '"><div class="carousel-caption"></div></div>';
         for (var i = 0; i < result.length; i++) {
             list += '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
                 'г.Минск ул.' +
@@ -145,15 +147,15 @@
                 '<br>Дислокация ТСОДД участок' +
                 (i + 1) +
                 '</h3>';
-            if (idsArray[i].layoutdisId != null) 
+            if (idsArray[i].layoutdisId != null)
             {
                 list += '<img id="TCODD" src="/Home/LayoutDislocation/' + result[i].layoutdisId + '"/>';
-            } 
-            else 
+            }
+            else
             {
                 list += '<text><h3 style = "text-align: center" > Дислокация ТСОДД не загружена </h3></text>';
             }
-                
+
             list += '<div class="carousel-caption"></div></div>';
         }
 

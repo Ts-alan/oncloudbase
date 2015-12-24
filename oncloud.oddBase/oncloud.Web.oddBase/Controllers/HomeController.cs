@@ -469,17 +469,31 @@ namespace oncloud.Web.oddBase.Controllers
         {
             JavaScriptSerializer js = new JavaScriptSerializer();
 
-            var idQuery = from se in db.Segment
-                join ld in db.layoutDislocations on se.id equals ld.SegmentId into group1
-                from g1 in group1.DefaultIfEmpty()
-                join st in db.Street on g1.StreetId equals st.id 
-                select new
-                {
-                    segmentId = se.id,
-                    streetId = se.Street_id,
-                    layoutdisId = (int?) g1.Id,
-                    streetName = g1.Street.Name
-                };
+            //var idQuery = from se in db.Segment
+            //    join ld in db.layoutDislocations on se.id equals ld.SegmentId into group1
+            //    from g1 in group1.DefaultIfEmpty()
+            //    join st in db.Street on g1.Id equals st.id into group2
+            //    from g2 in group2.DefaultIfEmpty()
+            //    select new
+            //    {
+            //        segmentId = se.id,
+            //        streetId = se.Street_id,
+            //        layoutdisId = (int?) g1.Id,
+            //        streetName = g1.Street.Name
+            //    };
+
+            var idQuery = from st in db.Street
+                          join se in db.Segment on st.id equals se.Street_id into group1
+                          from g1 in group1.DefaultIfEmpty()
+                          join ld in db.layoutDislocations on g1.id equals ld.SegmentId into group2
+                          from g2 in group2.DefaultIfEmpty()
+                          select new
+                          {
+                              segmentId = g1.id,
+                              streetId = st.id,
+                              layoutdisId = (int?)g2.Id,
+                              streetName = g1.Street.Name
+                          };
 
             ViewBag.streestDislocationsListJSON = js.Serialize(idQuery);
 
