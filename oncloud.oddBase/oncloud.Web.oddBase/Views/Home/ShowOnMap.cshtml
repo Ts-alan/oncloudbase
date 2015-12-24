@@ -109,7 +109,8 @@
                 route.getPaths().get(0).properties.set("balloonContentHeader", "");
                 route.getPaths().get(0).properties.set("balloonContent", balloonContent);
 
-                myCollection.add(route.getPaths(), i);
+                //myCollection.add(route.getPaths(), i);
+                myMap.geoObjects.add(route.getPaths(), i);
                 itCount ++;
             }, function(error) {
                 alert('Возникла ошибка: ' + error.message);
@@ -219,9 +220,9 @@
         }
         
     }
-    function addToGeoObjects(objCollection) 
-    {
-        myMap.geoObjects.add(objCollection);
-    }
+    //function addToGeoObjects(objCollection) 
+    //{
+    //    myMap.geoObjects.add(objCollection);
+    //}
 
 </script>
