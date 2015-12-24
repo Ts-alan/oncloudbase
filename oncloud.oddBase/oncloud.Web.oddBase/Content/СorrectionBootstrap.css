@@ -45,7 +45,9 @@ td input {
    .glyphicon-chevron-left {
         color: red;
     }
-
+   .wideBtn {
+         width: 340px;
+    }
     /*размеры модабных окон*/
 
     
