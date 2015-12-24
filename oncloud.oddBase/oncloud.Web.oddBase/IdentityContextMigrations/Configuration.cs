@@ -24,14 +24,16 @@ namespace oncloud.Web.oddBase.IdentityContextMigrations
 
             // создаем роли
             var role1 = new IdentityRole { Name = "admin" };
-            var role2 = new IdentityRole { Name = "user" };
-            var roleOrganizationAdmin = new IdentityRole { Name = "OrganizationAdmin" };
-
+            var role2 = new IdentityRole { Name = "SetMembers" };
+            var role3 = new IdentityRole { Name = "EditData" };
+            var role4 = new IdentityRole { Name = "Review" };
+            
             // добавляем роли в бд
             roleManager.Create(role1);
             roleManager.Create(role2);
-            roleManager.Create(roleOrganizationAdmin);
-
+            roleManager.Create(role3);
+            roleManager.Create(role4);
+            
             // создаем пользователей
             var admin = new ApplicationUser { Email = "testadmin@mail.ru", UserName = "testadmin@mail.ru" };
             string password = "tester";
@@ -42,7 +44,7 @@ namespace oncloud.Web.oddBase.IdentityContextMigrations
             {
                 // добавляем для пользователя роль
                 userManager.AddToRole(admin.Id, role1.Name);
-                userManager.AddToRole(admin.Id, role2.Name);
+               
             }
 
             base.Seed(context);

@@ -210,6 +210,10 @@
     <Compile Include="IdentityContextMigrations\201510262114596_add_organizationId.Designer.cs">
       <DependentUpon>201510262114596_add_organizationId.cs</DependentUpon>
     </Compile>
+    <Compile Include="IdentityContextMigrations\201512230938240_sqlcode.cs" />
+    <Compile Include="IdentityContextMigrations\201512230938240_sqlcode.Designer.cs">
+      <DependentUpon>201512230938240_sqlcode.cs</DependentUpon>
+    </Compile>
     <Compile Include="IdentityContextMigrations\Configuration.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="ManageController.generated.cs">
@@ -640,13 +644,10 @@
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
@@ -654,7 +655,6 @@
     <Content Include="Views\Manage\ManageLogins.cshtml" />
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Table.cshtml" />
     <Content Include="Views\Home\AddStreet.cshtml" />
@@ -712,6 +712,9 @@
   <ItemGroup>
     <EmbeddedResource Include="IdentityContextMigrations\201510262114596_add_organizationId.resx">
       <DependentUpon>201510262114596_add_organizationId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IdentityContextMigrations\201512230938240_sqlcode.resx">
+      <DependentUpon>201512230938240_sqlcode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511020816304_Initial.resx">
       <DependentUpon>201511020816304_Initial.cs</DependentUpon>

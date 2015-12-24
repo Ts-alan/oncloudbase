@@ -91,6 +91,12 @@ namespace oncloud.Web.oddBase.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult FindFilledStreets()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.FindFilledStreets);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.FileContentResult GetImageLayoutScheme()
         {
             return new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.GetImageLayoutScheme);
@@ -126,8 +132,10 @@ namespace oncloud.Web.oddBase.Controllers
             public readonly string EditStreets = "EditStreets";
             public readonly string Review = "Review";
             public readonly string FindStreets = "FindStreets";
+            public readonly string FindFilledStreets = "FindFilledStreets";
             public readonly string GetImageLayoutScheme = "GetImageLayoutScheme";
             public readonly string LayoutDislocation = "LayoutDislocation";
+            public readonly string ShowOnMap = "ShowOnMap";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -142,8 +150,10 @@ namespace oncloud.Web.oddBase.Controllers
             public const string EditStreets = "EditStreets";
             public const string Review = "Review";
             public const string FindStreets = "FindStreets";
+            public const string FindFilledStreets = "FindFilledStreets";
             public const string GetImageLayoutScheme = "GetImageLayoutScheme";
             public const string LayoutDislocation = "LayoutDislocation";
+            public const string ShowOnMap = "ShowOnMap";
         }
 
 
@@ -204,6 +214,14 @@ namespace oncloud.Web.oddBase.Controllers
         {
             public readonly string term = "term";
         }
+        static readonly ActionParamsClass_FindFilledStreets s_params_FindFilledStreets = new ActionParamsClass_FindFilledStreets();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_FindFilledStreets FindFilledStreetsParams { get { return s_params_FindFilledStreets; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_FindFilledStreets
+        {
+            public readonly string term = "term";
+        }
         static readonly ActionParamsClass_GetImageLayoutScheme s_params_GetImageLayoutScheme = new ActionParamsClass_GetImageLayoutScheme();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_GetImageLayoutScheme GetImageLayoutSchemeParams { get { return s_params_GetImageLayoutScheme; } }
@@ -236,6 +254,7 @@ namespace oncloud.Web.oddBase.Controllers
                 public readonly string EditStreets = "EditStreets";
                 public readonly string Index = "Index";
                 public readonly string Review = "Review";
+                public readonly string ShowOnMap = "ShowOnMap";
                 public readonly string Table = "Table";
             }
             public readonly string About = "~/Views/Home/About.cshtml";
@@ -244,6 +263,7 @@ namespace oncloud.Web.oddBase.Controllers
             public readonly string EditStreets = "~/Views/Home/EditStreets.cshtml";
             public readonly string Index = "~/Views/Home/Index.cshtml";
             public readonly string Review = "~/Views/Home/Review.cshtml";
+            public readonly string ShowOnMap = "~/Views/Home/ShowOnMap.cshtml";
             public readonly string Table = "~/Views/Home/Table.cshtml";
             static readonly _PartialsClass s_Partials = new _PartialsClass();
             public _PartialsClass Partials { get { return s_Partials; } }
@@ -399,6 +419,18 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
+        partial void FindFilledStreetsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string term);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult FindFilledStreets(string term)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.FindFilledStreets);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "term", term);
+            FindFilledStreetsOverride(callInfo, term);
+            return callInfo;
+        }
+
+        [NonAction]
         partial void GetImageLayoutSchemeOverride(T4MVC_System_Web_Mvc_FileContentResult callInfo, int id);
 
         [NonAction]
@@ -419,6 +451,17 @@ namespace oncloud.Web.oddBase.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.LayoutDislocation);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             LayoutDislocationOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void ShowOnMapOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult ShowOnMap()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ShowOnMap);
+            ShowOnMapOverride(callInfo);
             return callInfo;
         }
 
