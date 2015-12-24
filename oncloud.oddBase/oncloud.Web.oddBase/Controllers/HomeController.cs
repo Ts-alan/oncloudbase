@@ -505,7 +505,8 @@ namespace oncloud.Web.oddBase.Controllers
                 lengthE = x.LengthE,
                 lengthS = x.LengthS,
                 Id = x.id,
-                segmentCount = x.Segment.Count
+                segmentCount = x.Segment.Count,
+                cityName = x.City.Name
             }));
 
             return View();
