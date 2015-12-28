@@ -13,7 +13,7 @@ using oncloud.Web.oddBase.Models;
 
 namespace oncloud.Web.oddBase.Controllers
 {
-    [Authorize(Roles = "admin, EditData")]
+    [Authorize(Roles = "admin,SetMembers")]
     public partial class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -112,7 +112,6 @@ namespace oncloud.Web.oddBase.Controllers
         public virtual ActionResult Register()
         {
            
-            
             return View();
         }
 
@@ -172,22 +171,22 @@ namespace oncloud.Web.oddBase.Controllers
         [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var user = await UserManager.FindByNameAsync(model.Email);
-            if (user == null)
-            {
-                // Don't reveal that the user does not exist
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
-            }
-            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
-            }
-            AddErrors(result);
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(model);
+            //}
+            //var user = await UserManager.FindByNameAsync(model.OldPassword);
+            //if (user == null)
+            //{
+            //    // Don't reveal that the user does not exist
+            //    return RedirectToAction("ResetPasswordConfirmation", "Account");
+            //}
+            //var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            //if (result.Succeeded)
+            //{
+            //    return RedirectToAction("ResetPasswordConfirmation", "Account");
+            //}
+            //AddErrors(result);
             return View();
         }
 

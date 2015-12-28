@@ -2,7 +2,7 @@
 @using Microsoft.AspNet.Identity.EntityFramework
 @using Microsoft.AspNet.Identity.Owin
 
-@model IEnumerable<oncloud.Web.oddBase.Models.ApplicationUser>
+@model oncloud.Web.oddBase.Models.ResetPasswordViewModel
 
 @{
     ViewBag.Title = "Администрирование пользователей";
@@ -45,7 +45,7 @@
         </th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in (IEnumerable<oncloud.Web.oddBase.Models.ApplicationUser>)ViewBag.users)
     {
         <tr>
 
@@ -76,14 +76,26 @@
             <td>
                 @if (userManager.GetRoles(item.Roles.Single().UserId).Single() != "admin")
                 {
+                     if (User.IsInRole("admin"))
+                     {
+                         @Html.DropDownList("Roles", new[]
+                         {
+                             new SelectListItem() {Text = "", Value = ""},
+                             new SelectListItem() {Text = "Админ", Value = "admin"},
+                             new SelectListItem() {Text = "Назначение ролей", Value = "SetMembers"},
+                             new SelectListItem() {Text = "Редактирование данных", Value = "EditData"},
+                             new SelectListItem() {Text = "Просмотр", Value = "Review"},
+                         })
+                    }
+                    else { 
                     @Html.DropDownList("Roles", new[]
-                    {
-                        new SelectListItem() {Text = "", Value = ""},
-                        new SelectListItem() {Text = "Админ", Value = "admin"},
-                        new SelectListItem() {Text = "Назначение ролей", Value = "SetMembers"},
-                        new SelectListItem() {Text = "Редактирование данных", Value = "EditData"},
-                        new SelectListItem() {Text = "Просмотр", Value = "Review"},
-                    })
+                         {
+                             new SelectListItem() {Text = "", Value = ""},
+                             new SelectListItem() {Text = "Назначение ролей", Value = "SetMembers"},
+                             new SelectListItem() {Text = "Редактирование данных", Value = "EditData"},
+                             new SelectListItem() {Text = "Просмотр", Value = "Review"},
+                         })
+                    }
                 }
             </td>
             <td>
@@ -98,3 +110,9 @@
     }
 
 </table>
+@*@Html.DisplayFor(a=>a.OldPassword)
+@Html.TextBoxFor(a=>a.OldPassword)
+@Html.DisplayFor(a => a.Password)
+@Html.TextBoxFor(a => a.Password)
+@Html.DisplayFor(a => a.ConfirmPassword)
+@Html.TextBoxFor(a => a.ConfirmPassword)*@

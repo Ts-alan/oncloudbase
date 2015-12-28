@@ -27,11 +27,12 @@
             Здесь будет раздел посвященный просмотру улиц на карте:
             <ul>
                 <li>Просмотр информации на карте</li>
-               
+
             </ul>
         </p>
-        <p>@Html.ActionLink("Показать на карте", "ShowOnMap","Home", null, new { @class = "btn btn-default" })</p>
+        <p>@Html.ActionLink("Показать на карте", "ShowOnMap", "Home", null, new {@class = "btn btn-default"})</p>
     </div>
+
     <div class="col-md-4 ">
         <h2>Администрирование</h2>
         <p>
@@ -41,7 +42,8 @@
                 <li>Управлние пользователями и их правами</li>
             </ul>
         </p>
-        <p>@Html.ActionLink("Администрирование", MVC.Administration.Index(), new { @class= "btn btn-default" })</p>
+        <p>@Html.ActionLink("Администрирование", MVC.Administration.Index(), new {@class = "btn btn-default"})</p>
 
     </div>
+
 </div>
