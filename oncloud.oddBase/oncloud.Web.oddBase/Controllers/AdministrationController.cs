@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace oncloud.Web.oddBase.Controllers
 {
-	[Authorize(Roles = "admin, OrganizationAdmin")]
+	[Authorize(Roles = "admin, EditData")]
 	public partial class AdministrationController : Controller
 	{
 
@@ -38,7 +38,7 @@ namespace oncloud.Web.oddBase.Controllers
 			return View();
 		}
 
-        [Authorize(Roles = "admin")]
+       
         public virtual async Task<ActionResult> Users()
 		{
 			var users = UserManager.Users.ToList();

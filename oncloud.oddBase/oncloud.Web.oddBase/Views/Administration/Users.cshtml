@@ -8,7 +8,15 @@
     ViewBag.Title = "Администрирование пользователей";
     var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
 }
-
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".changerole").click(function() {
+            var text = $(this).attr('href')+"?role="+$(this).parents().prev().children().children("option").filter(":selected").val();
+              $(this).attr("href",text);
+            }
+            );
+    });
+ </script>
 <ol class="breadcrumb">
     <li>@Html.ActionLink("Главная", MVC.Home.Index())</li>
     <li>@Html.ActionLink("Администрирование", MVC.Administration.Index())</li>
@@ -40,7 +48,7 @@
     @foreach (var item in Model)
     {
         <tr>
-          
+
             <td>
                 @item.UserName
             </td>
@@ -66,17 +74,25 @@
 
             </td>
             <td>
-                @Html.DropDownList("Roles", new[]
+                @if (userManager.GetRoles(item.Roles.Single().UserId).Single() != "admin")
                 {
-                    new SelectListItem() {Text = "", Value = ""},
-                    new SelectListItem() {Text = "Админ", Value = "admin"},
-                    new SelectListItem() {Text = "Назначение ролей", Value = "SetMembers"},
-                    new SelectListItem() {Text = "Редактирование данных", Value = "EditData"},
-                    new SelectListItem() {Text = "Просмотр", Value = "Review"},
-                })
+                    @Html.DropDownList("Roles", new[]
+                    {
+                        new SelectListItem() {Text = "", Value = ""},
+                        new SelectListItem() {Text = "Админ", Value = "admin"},
+                        new SelectListItem() {Text = "Назначение ролей", Value = "SetMembers"},
+                        new SelectListItem() {Text = "Редактирование данных", Value = "EditData"},
+                        new SelectListItem() {Text = "Просмотр", Value = "Review"},
+                    })
+                }
             </td>
             <td>
-                @Html.ActionLink("Удалить","DeleteUser","Account",null,new {id=item.Id})
+                @if (userManager.GetRoles(item.Roles.Single().UserId).Single() != "admin")
+                {
+                    @Html.ActionLink("Сохранить", "ChangeRoleUser", "Account", new { id = item.Id }, new { @class = "btn btn-success changerole" })
+                    @Html.ActionLink("Удалить", "DeleteUser", "Account", new {id = item.Id}, new {@class = "btn btn-danger"})
+
+                }
             </td>
 </tr>
     }

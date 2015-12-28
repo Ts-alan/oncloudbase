@@ -64,42 +64,21 @@ namespace oncloud.Web.oddBase.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> VerifyCode()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.VerifyCode);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
-        }
-        [NonAction]
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult ResetPassword()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ResetPassword);
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Web.Mvc.ActionResult ExternalLogin()
-        {
-            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ExternalLogin);
-        }
-        [NonAction]
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> ExternalLoginCallback()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ExternalLoginCallback);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
-        }
-        [NonAction]
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> ExternalLoginConfirmation()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ExternalLoginConfirmation);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
-        }
-        [NonAction]
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult DeleteUser()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteUser);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult ChangeRoleUser()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ChangeRoleUser);
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -118,32 +97,24 @@ namespace oncloud.Web.oddBase.Controllers
         public class ActionNamesClass
         {
             public readonly string Login = "Login";
-            public readonly string VerifyCode = "VerifyCode";
             public readonly string Register = "Register";
             public readonly string ResetPassword = "ResetPassword";
             public readonly string ResetPasswordConfirmation = "ResetPasswordConfirmation";
-            public readonly string ExternalLogin = "ExternalLogin";
-            public readonly string ExternalLoginCallback = "ExternalLoginCallback";
-            public readonly string ExternalLoginConfirmation = "ExternalLoginConfirmation";
             public readonly string LogOff = "LogOff";
             public readonly string DeleteUser = "DeleteUser";
-            public readonly string ExternalLoginFailure = "ExternalLoginFailure";
+            public readonly string ChangeRoleUser = "ChangeRoleUser";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
             public const string Login = "Login";
-            public const string VerifyCode = "VerifyCode";
             public const string Register = "Register";
             public const string ResetPassword = "ResetPassword";
             public const string ResetPasswordConfirmation = "ResetPasswordConfirmation";
-            public const string ExternalLogin = "ExternalLogin";
-            public const string ExternalLoginCallback = "ExternalLoginCallback";
-            public const string ExternalLoginConfirmation = "ExternalLoginConfirmation";
             public const string LogOff = "LogOff";
             public const string DeleteUser = "DeleteUser";
-            public const string ExternalLoginFailure = "ExternalLoginFailure";
+            public const string ChangeRoleUser = "ChangeRoleUser";
         }
 
 
@@ -154,17 +125,6 @@ namespace oncloud.Web.oddBase.Controllers
         public class ActionParamsClass_Login
         {
             public readonly string returnUrl = "returnUrl";
-            public readonly string model = "model";
-        }
-        static readonly ActionParamsClass_VerifyCode s_params_VerifyCode = new ActionParamsClass_VerifyCode();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_VerifyCode VerifyCodeParams { get { return s_params_VerifyCode; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_VerifyCode
-        {
-            public readonly string provider = "provider";
-            public readonly string returnUrl = "returnUrl";
-            public readonly string rememberMe = "rememberMe";
             public readonly string model = "model";
         }
         static readonly ActionParamsClass_Register s_params_Register = new ActionParamsClass_Register();
@@ -184,32 +144,6 @@ namespace oncloud.Web.oddBase.Controllers
             public readonly string code = "code";
             public readonly string model = "model";
         }
-        static readonly ActionParamsClass_ExternalLogin s_params_ExternalLogin = new ActionParamsClass_ExternalLogin();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_ExternalLogin ExternalLoginParams { get { return s_params_ExternalLogin; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_ExternalLogin
-        {
-            public readonly string provider = "provider";
-            public readonly string returnUrl = "returnUrl";
-        }
-        static readonly ActionParamsClass_ExternalLoginCallback s_params_ExternalLoginCallback = new ActionParamsClass_ExternalLoginCallback();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_ExternalLoginCallback ExternalLoginCallbackParams { get { return s_params_ExternalLoginCallback; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_ExternalLoginCallback
-        {
-            public readonly string returnUrl = "returnUrl";
-        }
-        static readonly ActionParamsClass_ExternalLoginConfirmation s_params_ExternalLoginConfirmation = new ActionParamsClass_ExternalLoginConfirmation();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_ExternalLoginConfirmation ExternalLoginConfirmationParams { get { return s_params_ExternalLoginConfirmation; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_ExternalLoginConfirmation
-        {
-            public readonly string model = "model";
-            public readonly string returnUrl = "returnUrl";
-        }
         static readonly ActionParamsClass_DeleteUser s_params_DeleteUser = new ActionParamsClass_DeleteUser();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_DeleteUser DeleteUserParams { get { return s_params_DeleteUser; } }
@@ -217,6 +151,15 @@ namespace oncloud.Web.oddBase.Controllers
         public class ActionParamsClass_DeleteUser
         {
             public readonly string id = "id";
+        }
+        static readonly ActionParamsClass_ChangeRoleUser s_params_ChangeRoleUser = new ActionParamsClass_ChangeRoleUser();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_ChangeRoleUser ChangeRoleUserParams { get { return s_params_ChangeRoleUser; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_ChangeRoleUser
+        {
+            public readonly string id = "id";
+            public readonly string role = "role";
         }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -228,23 +171,15 @@ namespace oncloud.Web.oddBase.Controllers
             public _ViewNamesClass ViewNames { get { return s_ViewNames; } }
             public class _ViewNamesClass
             {
-                public readonly string _ExternalLoginsListPartial = "_ExternalLoginsListPartial";
-                public readonly string ExternalLoginConfirmation = "ExternalLoginConfirmation";
-                public readonly string ExternalLoginFailure = "ExternalLoginFailure";
                 public readonly string Login = "Login";
                 public readonly string Register = "Register";
                 public readonly string ResetPassword = "ResetPassword";
                 public readonly string ResetPasswordConfirmation = "ResetPasswordConfirmation";
-                public readonly string VerifyCode = "VerifyCode";
             }
-            public readonly string _ExternalLoginsListPartial = "~/Views/Account/_ExternalLoginsListPartial.cshtml";
-            public readonly string ExternalLoginConfirmation = "~/Views/Account/ExternalLoginConfirmation.cshtml";
-            public readonly string ExternalLoginFailure = "~/Views/Account/ExternalLoginFailure.cshtml";
             public readonly string Login = "~/Views/Account/Login.cshtml";
             public readonly string Register = "~/Views/Account/Register.cshtml";
             public readonly string ResetPassword = "~/Views/Account/ResetPassword.cshtml";
             public readonly string ResetPasswordConfirmation = "~/Views/Account/ResetPasswordConfirmation.cshtml";
-            public readonly string VerifyCode = "~/Views/Account/VerifyCode.cshtml";
         }
     }
 
@@ -275,32 +210,6 @@ namespace oncloud.Web.oddBase.Controllers
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "returnUrl", returnUrl);
             LoginOverride(callInfo, model, returnUrl);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
-        }
-
-        [NonAction]
-        partial void VerifyCodeOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string provider, string returnUrl, bool rememberMe);
-
-        [NonAction]
-        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.VerifyCode);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "provider", provider);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "returnUrl", returnUrl);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "rememberMe", rememberMe);
-            VerifyCodeOverride(callInfo, provider, returnUrl, rememberMe);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
-        }
-
-        [NonAction]
-        partial void VerifyCodeOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Web.oddBase.Models.VerifyCodeViewModel model);
-
-        [NonAction]
-        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> VerifyCode(oncloud.Web.oddBase.Models.VerifyCodeViewModel model)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.VerifyCode);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            VerifyCodeOverride(callInfo, model);
             return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
         }
 
@@ -363,44 +272,6 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
-        partial void ExternalLoginOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string provider, string returnUrl);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ExternalLogin);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "provider", provider);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "returnUrl", returnUrl);
-            ExternalLoginOverride(callInfo, provider, returnUrl);
-            return callInfo;
-        }
-
-        [NonAction]
-        partial void ExternalLoginCallbackOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string returnUrl);
-
-        [NonAction]
-        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> ExternalLoginCallback(string returnUrl)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ExternalLoginCallback);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "returnUrl", returnUrl);
-            ExternalLoginCallbackOverride(callInfo, returnUrl);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
-        }
-
-        [NonAction]
-        partial void ExternalLoginConfirmationOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, oncloud.Web.oddBase.Models.ExternalLoginConfirmationViewModel model, string returnUrl);
-
-        [NonAction]
-        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> ExternalLoginConfirmation(oncloud.Web.oddBase.Models.ExternalLoginConfirmationViewModel model, string returnUrl)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ExternalLoginConfirmation);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "returnUrl", returnUrl);
-            ExternalLoginConfirmationOverride(callInfo, model, returnUrl);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
-        }
-
-        [NonAction]
         partial void LogOffOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
@@ -424,13 +295,15 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
-        partial void ExternalLoginFailureOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+        partial void ChangeRoleUserOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id, string role);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult ExternalLoginFailure()
+        public override System.Web.Mvc.ActionResult ChangeRoleUser(string id, string role)
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ExternalLoginFailure);
-            ExternalLoginFailureOverride(callInfo);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ChangeRoleUser);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "role", role);
+            ChangeRoleUserOverride(callInfo, id, role);
             return callInfo;
         }
 
