@@ -275,7 +275,7 @@
             </button>
         </div>
         <div style="">
-            <h3>Спецификация дорожных знаков</h3>
+            <h3 id='gview_text2'>Спецификация дорожных знаков</h3>
             <table id="table2">
                 <tr>
                     <th>№ знака</th>
@@ -309,7 +309,7 @@
                     <td>@Model.SpecificationofRS.Sum(a => a.CountRS)</td>
                 </tr>
             </table>
-            <button type="button" class="btn btn-default" style="margin-top: 5px" onclick="printTable('#gview_table2')">Печать</button>
+            <button type="button" class="btn btn-default" style="margin-top: 5px" onclick="printTable('#gview_table2', '#gview_text2')">Печать</button>
         </div>
 
     </div>
@@ -317,7 +317,7 @@
 
 <div class="row">
     <div class="col-md-5">
-        <h3>Спецификация дорожной разметки</h3>
+        <h3 id="gview_text1">Спецификация дорожной разметки</h3>
 
         <table id="table1">
             <tr>
@@ -339,11 +339,11 @@
                 <td>@Model.SpecificationofRM.Sum(a => Double.Parse(a.area==""?"0":a.area.Replace(".", ",")))</td>
             </tr>
         </table>
-        <button type="button" class="btn btn-default" style="margin-top: 5px" onclick="printTable('#gview_table1')">Печать</button>
+        <button type="button" class="btn btn-default" style="margin-top: 5px" onclick="printTable('#gview_table1', '#gview_text1')">Печать</button>
     </div>
 
     <div class="col-md-5 col-md-offset-2">
-        <h3>Спецификация дорожных ограждений</h3>
+        <h3 id="gview_text3">Спецификация дорожных ограждений</h3>
         <table id="table3">
             <tr>
                 <th>Описание</th>
@@ -362,7 +362,7 @@
                 <td>@Model.SpecificationOfRb.Sum(a => a.Length)</td>
             </tr>
         </table>
-        <button type="button" class="btn btn-default" style="margin-top: 5px" onclick="printTable('#gview_table3')">Печать</button>
+        <button type="button" class="btn btn-default" style="margin-top: 5px" onclick="printTable('#gview_table3', '#gview_text3')">Печать</button>
     </div>
 </div>
 <div style="clear: both">
@@ -392,6 +392,10 @@
                         <div class="item TCODD">
                             @if (Model.layoutScheme != null)
                             {
+                                <h3 style="color: black; text-align: center">
+                                    Компоновочная схема
+                                </h3>
+                                <br>
                                 <img  src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
                             }
                             else

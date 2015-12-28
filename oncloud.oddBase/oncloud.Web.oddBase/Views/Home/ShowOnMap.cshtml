@@ -17,11 +17,17 @@
     <div class="col-md-12">
         <fieldset id="fieldset">
             <legend>Поиск</legend>
-            <label for="city">Город</label>
-            <input type="text" class="form-control" id="city"></>
-            <label for="street">Улица</label>
-            <input type="text" class="form-control" id="street" style="margin-bottom: 10px;"></>
-            <button type="button" class="btn btn-default" onclick="findRoute()">Найти</button>
+            <div class="row">
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <label for="city">Город</label>
+                    <input type="text" class="form-control" id="city"></>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <label for="street">Улица</label>
+                    <input type="text" class="form-control" id="street" style="margin-bottom: 10px;"></>
+                </div>
+                
+            </div>
         </fieldset>
     </div>
 </div>
@@ -67,14 +73,14 @@
 </div>
 
 <script type="text/javascript">
-
+    var ymaps;
     ymaps.ready(init);
     var myMap;
     var balloon;
     var coordsArray = @Html.Raw(ViewBag.coordsJson);
     var idsArray = @Html.Raw(ViewBag.streestDislocationsListJSON);
-    var myCollection = new ymaps.GeoObjectCollection();
-    var newCollection = new ymaps.GeoObjectCollection();
+    //var myCollection = new ymaps.GeoObjectCollection();
+    //var newCollection = new ymaps.GeoObjectCollection();
     //console.log(idsArray);
 
     function init() {
@@ -108,8 +114,8 @@
                 //редактирование контента стандартного балуна
                 route.getPaths().get(0).properties.set("balloonContentHeader", "");
                 route.getPaths().get(0).properties.set("balloonContent", balloonContent);
-
-                myCollection.add(route.getPaths(), i);
+                
+                myMap.geoObjects.add(route.getPaths());
                 itCount ++;
             }, function(error) {
                 alert('Возникла ошибка: ' + error.message);
@@ -119,19 +125,29 @@
     }
 
     $(document).ready(function() {
-        //слайдер опции
-        $('.carouselTCODD').carousel({
-            interval: false
-        });
-
-        //перелистование слайдера при нажатии на клавиши
-        $("#layoutDislocation").on('keyup', function(e) {
+       
+    //перелистование слайдера при нажатии на клавиши
+    $("#layoutDislocation").keyup(function(e){
             if (e.which == 39) {
                 $("#carousel-example-generic .carousel-control.right").trigger('click');
             } else if (e.which == 37) {
                 $("#carousel-example-generic .carousel-control.left").trigger('click');
             }
         });
+
+        $("#city,#street").keyup(function(e){
+            if(e.keyCode == 13)
+            {
+                findRoute();
+            }
+        });
+     
+        //слайдер опции
+        $('.carouselTCODD').carousel({
+            interval: false
+        });
+
+       
     });
 
     function setTCODD(object, id) {
@@ -162,9 +178,7 @@
         var list = "";
 
         list = '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
-                'г.Минск ул.' +
-                result[0].streetName +
-               '<br>Компоновочная схема</h3><img src="/Home/GetImageLayoutScheme/' + result[0].streetId + '"><div class="carousel-caption"></div></div>';
+               '<br>Компоновочная схема<br></h3><img src="/Home/GetImageLayoutScheme/' + result[0].streetId + '"><div class="carousel-caption"></div></div>';
         for (var i = 0; i < result.length; i++) {
             list += '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
                 'г.Минск ул.' +
@@ -188,40 +202,62 @@
     }
 
     function findRoute() {
-        myMap.geoObjects = null;
-        var tempCoordsArray;
         var city = $('#city').val();
         var street = $('#street').val();
+        if (city == "" && street == "")
+        {
+            alert("Вы не ввели данные для поиска");
+        }
         if (city!="" && street!="") {
             var cityFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.cityName.toLowerCase().indexOf(city.toLowerCase()) > -1; });
             //console.log(cityFiltered);
             var streetFiltered = $.grep(cityFiltered, function(cityFiltered) { return cityFiltered.name.toLowerCase().indexOf(street.toLowerCase()) > -1; });
-            //tempCoordsArray = coordsArray;
-            //coordsArray = streetFiltered;
-            //init();
-            //coordsArray = tempCoordsArray;
+            addToGeoObjects(streetFiltered);
         }
         if (city == "" && street != "") 
         {
             var streetOnlyFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.name.toLowerCase().indexOf(street.toLowerCase()) > -1; });
-            //tempCoordsArray = coordsArray;
-            //coordsArray = streetOnlyFiltered;
-            //init();
-            //coordsArray = tempCoordsArray;
+            addToGeoObjects(streetOnlyFiltered);
         } 
-        else
+        if (city != "" && street == "") 
         {
             var cityOnlyFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.cityName.toLowerCase().indexOf(city.toLowerCase()) > -1; });
-            //tempCoordsArray = coordsArray;
-            //coordsArray = cityOnlyFiltered;
-            //init();
-            //coordsArray = tempCoordsArray;
-        }
+            addToGeoObjects(cityOnlyFiltered);
+        } 
         
     }
-    function addToGeoObjects(objCollection) 
-    {
-        myMap.geoObjects.add(objCollection);
+
+    function addToGeoObjects(array) {
+        console.log(array);
+        for(var i=0;i<myMap.geoObjects.getLength;i++) 
+        {
+            myMap.geoObjects.splice(i);
+        }
+        
+        var balloonContent = "";
+        var itCount = 0;
+        for (var i = 0; i <array.length; i++) {
+            ymaps.route([[array[i].breadthS, array[i].lengthS], [array[i].breadthE, array[i].lengthE]]).then(function(route) {
+                route.getPaths().options.set({
+                    //можно выставить настройки графики маршруту
+                    strokeColor: '0000ffff',
+                    opacity: 0.9,
+                    strokeWidth: 4
+                });
+
+                balloonContent = "<h4>" + array[itCount].name + "</h4><a type='button' href='#' IdSegment='" + array + "' onclick='setTCODD(this," + array[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
+                    "<a data-toggle='modal' href='/Home/Review/" + array[itCount].Id + "'>Посмотреть данные улицы</a>";
+
+                //редактирование контента стандартного балуна
+                route.getPaths().get(0).properties.set("balloonContentHeader", "");
+                route.getPaths().get(0).properties.set("balloonContent", balloonContent);
+                
+                myMap.geoObjects.add(route.getPaths(), i);
+                itCount ++;
+            }, function(error) {
+                alert('Возникла ошибка: ' + error.message);
+            });
+        }
     }
 
 </script>
