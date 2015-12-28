@@ -228,12 +228,14 @@
     }
 
     function addToGeoObjects(array) {
-        console.log(array);
-        for(var i=0;i<myMap.geoObjects.getLength;i++) 
-        {
-            myMap.geoObjects.splice(i);
-        }
+      
+
+        //for(var i=0; i < myMap.geoObjects.getLength(); i++) 
+        //{ 
+        //    myMap.geoObjects.remove(myMap.geoObjects.get(i));
+        //}
         
+        myMap.geoObjects.removeAll();
         var balloonContent = "";
         var itCount = 0;
         for (var i = 0; i <array.length; i++) {
@@ -252,7 +254,7 @@
                 route.getPaths().get(0).properties.set("balloonContentHeader", "");
                 route.getPaths().get(0).properties.set("balloonContent", balloonContent);
                 
-                myMap.geoObjects.add(route.getPaths(), i);
+                myMap.geoObjects.add(route.getPaths());
                 itCount ++;
             }, function(error) {
                 alert('Возникла ошибка: ' + error.message);
