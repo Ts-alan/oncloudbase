@@ -484,7 +484,7 @@ namespace oncloud.Web.oddBase.Controllers
 
             ViewBag.streestDislocationsListJSON = js.Serialize(idQuery);
 
-            ViewBag.coordsJson = js.Serialize(db.Street.ToList().Select(x => new
+            ViewBag.coordsJson = js.Serialize(db.Street.OrderBy(o=>o.id).ToList().Select(x => new
             {
                 name = x.Name,
                 breadthE = x.BreadthE,

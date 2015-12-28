@@ -18,15 +18,17 @@
         <fieldset id="fieldset">
             <legend>Поиск</legend>
             <div class="row">
-                <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="col-md-3 col-sm-12 col-xs-12">
                     <label for="city">Город</label>
                     <input type="text" class="form-control" id="city"></>
                 </div>
-                <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="col-md-3 col-sm-12 col-xs-12">
                     <label for="street">Улица</label>
                     <input type="text" class="form-control" id="street" style="margin-bottom: 10px;"></>
                 </div>
-                
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    
+                </div>
             </div>
         </fieldset>
     </div>
@@ -79,19 +81,14 @@
     var balloon;
     var coordsArray = @Html.Raw(ViewBag.coordsJson);
     var idsArray = @Html.Raw(ViewBag.streestDislocationsListJSON);
-    //var myCollection = new ymaps.GeoObjectCollection();
-    //var newCollection = new ymaps.GeoObjectCollection();
-    //console.log(idsArray);
 
     function init() {
         myMap = new ymaps.Map("map", {
             center: [53.9172, 27.5601],
             zoom: 11
         });
-        //console.log(myMap.controls);
         myMap.behaviors.disable(["dblClickZoom"]);
         myMap.controls.remove('trafficControl').remove('mapTools').remove('searchControl').remove('ListBox');
-        //console.log(myMap.controls.count);
         myMap.controls.add(
             new ymaps.control.TypeSelector(
                 ['yandex#map', 'yandex#hybrid', 'yandex#satellite']
@@ -99,29 +96,38 @@
         );
         var balloonContent = "";
         var itCount = 0;
-        for (var i = 0; i < coordsArray.length; i++) {
-            ymaps.route([[coordsArray[i].breadthS, coordsArray[i].lengthS], [coordsArray[i].breadthE, coordsArray[i].lengthE]]).then(function(route) {
-                route.getPaths().options.set({
-                    //можно выставить настройки графики маршруту
-                    strokeColor: '0000ffff',
-                    opacity: 0.9,
-                    strokeWidth: 4
-                });
 
-                balloonContent = "<h4>" + coordsArray[itCount].name + "</h4><a type='button' href='#' IdSegment='" + itCount + "' onclick='setTCODD(this," + coordsArray[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
-                    "<a data-toggle='modal' href='/Home/Review/" + coordsArray[itCount].Id + "'>Посмотреть данные улицы</a>";
 
-                //редактирование контента стандартного балуна
-                route.getPaths().get(0).properties.set("balloonContentHeader", "");
-                route.getPaths().get(0).properties.set("balloonContent", balloonContent);
+        //Кусочек старого алгоритма. Работал плохо, но пусть будет. Вдруг идеи из него пригодятся.
+        //for (var i = 0; i < coordsArray.length; i++) {
+        //    ymaps.route([[coordsArray[i].breadthS, coordsArray[i].lengthS], [coordsArray[i].breadthE, coordsArray[i].lengthE]]).then(function(route) {
+        //        route.getPaths().options.set({
+        //            //можно выставить настройки графики маршруту
+        //            strokeColor: '0000ffff',
+        //            opacity: 0.9,
+        //            strokeWidth: 4
+        //        });
+
+        //        balloonContent = "<h4>" + coordsArray[itCount].name + "</h4><a type='button' href='#' onclick='setTCODD(this," + coordsArray[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
+        //            "<a data-toggle='modal' href='/Home/Review/" + coordsArray[itCount].Id + "'>Посмотреть данные улицы</a>";
+
+        //        //редактирование контента стандартного балуна
+        //        route.getPaths().get(0).properties.set("balloonContentHeader", "");
+        //        route.getPaths().get(0).properties.set("balloonContent", balloonContent);
                 
-                myMap.geoObjects.add(route.getPaths());
-                itCount ++;
-            }, function(error) {
-                alert('Возникла ошибка: ' + error.message);
-            });
+        //        myMap.geoObjects.add(route.getPaths());
+        //        itCount ++;
+        //    }, function(error) {
+        //        alert('Возникла ошибка: ' + error.message);
+        //    });
+        //}
+        //console.log(route.getPaths().options.get("index"));
+        //console.log(route.getPaths().properties.get("index"));
+
+        for (var i = 0; i < coordsArray.length; i++) 
+        {
+            createRoute(coordsArray[i].breadthS, coordsArray[i].lengthS, coordsArray[i].breadthE, coordsArray[i].lengthE, i);
         }
-        
     }
 
     $(document).ready(function() {
@@ -147,6 +153,7 @@
             interval: false
         });
 
+        
        
     });
 
@@ -163,7 +170,8 @@
             $(element).removeClass("active");
         });
 
-        $(".TCODD").eq(parseInt($(object).attr("idSegment"))).addClass("active");
+        $(".TCODD").eq(0).addClass("active");
+        //$(".TCODD").eq(parseInt($(object).attr("idSegment"))).addClass("active");
     }
 
     function createModalList(result) {
@@ -201,6 +209,7 @@
         return list;
     }
 
+    //фильтрация массива с инфой обо всех улицах по введенным пользователем данным
     function findRoute() {
         var city = $('#city').val();
         var street = $('#street').val();
@@ -210,8 +219,9 @@
         }
         if (city!="" && street!="") {
             var cityFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.cityName.toLowerCase().indexOf(city.toLowerCase()) > -1; });
-            //console.log(cityFiltered);
+            console.log(cityFiltered);
             var streetFiltered = $.grep(cityFiltered, function(cityFiltered) { return cityFiltered.name.toLowerCase().indexOf(street.toLowerCase()) > -1; });
+            console.log(cityFiltered);
             addToGeoObjects(streetFiltered);
         }
         if (city == "" && street != "") 
@@ -227,14 +237,10 @@
         
     }
 
-    function addToGeoObjects(array) {
-      
 
-        //for(var i=0; i < myMap.geoObjects.getLength(); i++) 
-        //{ 
-        //    myMap.geoObjects.remove(myMap.geoObjects.get(i));
-        //}
-        
+    //Заполнение массива геообъектов отфильтрованными результатами поиска
+    function addToGeoObjects(array) {
+
         myMap.geoObjects.removeAll();
         var balloonContent = "";
         var itCount = 0;
@@ -247,7 +253,7 @@
                     strokeWidth: 4
                 });
 
-                balloonContent = "<h4>" + array[itCount].name + "</h4><a type='button' href='#' IdSegment='" + array + "' onclick='setTCODD(this," + array[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
+                balloonContent = "<h4>" + array[itCount].name + "</h4><a type='button' href='#' onclick='setTCODD(this," + array[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
                     "<a data-toggle='modal' href='/Home/Review/" + array[itCount].Id + "'>Посмотреть данные улицы</a>";
 
                 //редактирование контента стандартного балуна
@@ -260,6 +266,33 @@
                 alert('Возникла ошибка: ' + error.message);
             });
         }
+    }
+
+
+    //Создание роутов по одному за раз
+    function createRoute(breadthS, lengthS, breadthE, lengthE, itCount) {
+
+        var balloonContent;
+        ymaps.route([[breadthS, lengthS], [breadthE, lengthE]]).then(function(route) {
+                    route.getPaths().options.set({
+                        //можно выставить настройки графики маршруту
+                        strokeColor: '0000ffff',
+                        opacity: 0.9,
+                        strokeWidth: 4
+                    });
+
+                    balloonContent = "<h4>" + coordsArray[itCount].name + "</h4><a type='button' href='#' onclick='setTCODD(this," + coordsArray[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
+                        "<a data-toggle='modal' href='/Home/Review/" + coordsArray[itCount].Id + "'>Посмотреть данные улицы</a>";
+
+                    //редактирование контента стандартного балуна
+                    route.getPaths().get(0).properties.set("balloonContentHeader", "");
+                    route.getPaths().get(0).properties.set("balloonContent", balloonContent);
+                
+                    myMap.geoObjects.add(route.getPaths());
+                    itCount ++;
+                }, function(error) {
+                    alert('Возникла ошибка: ' + error.message);
+                });
     }
 
 </script>
