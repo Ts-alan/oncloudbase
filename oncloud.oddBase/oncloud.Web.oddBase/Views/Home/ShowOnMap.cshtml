@@ -25,9 +25,11 @@
                 <div class="col-md-3 col-sm-12 col-xs-12">
                     <label for="street">Улица</label>
                     <input type="text" class="form-control" id="street" style="margin-bottom: 10px;"></>
+                    
                 </div>
                 <div class="col-md-3 col-sm-12 col-xs-12">
-                    
+                    <label style="">Создать карточку улицы</label>
+                    @Html.ActionLink("+ Создать карточку улицы", "AddStreet", null, new { @class = "btn btn-default", style = "" })
                 </div>
             </div>
         </fieldset>
