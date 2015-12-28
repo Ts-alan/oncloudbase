@@ -1,9 +1,22 @@
-﻿@model IEnumerable<oncloud.Web.oddBase.Models.ApplicationUser>
+﻿@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework
+@using Microsoft.AspNet.Identity.Owin
+
+@model IEnumerable<oncloud.Web.oddBase.Models.ApplicationUser>
 
 @{
     ViewBag.Title = "Администрирование пользователей";
+    var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
 }
-
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".changerole").click(function() {
+            var text = $(this).attr('href')+"?role="+$(this).parents().prev().children().children("option").filter(":selected").val();
+              $(this).attr("href",text);
+            }
+            );
+    });
+ </script>
 <ol class="breadcrumb">
     <li>@Html.ActionLink("Главная", MVC.Home.Index())</li>
     <li>@Html.ActionLink("Администрирование", MVC.Administration.Index())</li>
@@ -16,7 +29,7 @@
 <p>
 
 </p>
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
            Имя пользователя
@@ -24,19 +37,64 @@
         <th>
             Роль
         </th>
+        <th>
+            Назначить права
+        </th>
+        <th>
+           Действия
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-          
+
             <td>
                 @item.UserName
             </td>
             <td>
-              @item.Roles.Single().UserId
+                @switch (userManager.GetRoles(item.Roles.Single().UserId).Single())
+                {
+                    case "admin":
+                        @:Админ
+                        break;
+                    case "SetMembers":
+                        @:Назначение ролей
+                        break;
+                    case "EditData":
+                        @:Редактирование данных
+                        break;
+                    case "Review":
+                        @:Просмотр
+                        break;
+                    default:
+                        @:Неизвестная роль
+                        break;
+                }
+
             </td>
-       </tr>
+            <td>
+                @if (userManager.GetRoles(item.Roles.Single().UserId).Single() != "admin")
+                {
+                    @Html.DropDownList("Roles", new[]
+                    {
+                        new SelectListItem() {Text = "", Value = ""},
+                        new SelectListItem() {Text = "Админ", Value = "admin"},
+                        new SelectListItem() {Text = "Назначение ролей", Value = "SetMembers"},
+                        new SelectListItem() {Text = "Редактирование данных", Value = "EditData"},
+                        new SelectListItem() {Text = "Просмотр", Value = "Review"},
+                    })
+                }
+            </td>
+            <td>
+                @if (userManager.GetRoles(item.Roles.Single().UserId).Single() != "admin")
+                {
+                    @Html.ActionLink("Сохранить", "ChangeRoleUser", "Account", new { id = item.Id }, new { @class = "btn btn-success changerole" })
+                    @Html.ActionLink("Удалить", "DeleteUser", "Account", new {id = item.Id}, new {@class = "btn btn-danger"})
+
+                }
+            </td>
+</tr>
     }
 
 </table>
