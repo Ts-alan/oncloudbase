@@ -238,11 +238,12 @@
     function setSegmentChange(object) {
         var id = parseInt($(object).attr("IdSegment")) + 1;
         var obj = @Html.Raw(ViewBag.jsonStreet);
+        var segmentString = obj[id-1].segmentString;
         var finalString = "";
-        finalString = "Сегмент №" + id + " нуждается в изменении. </br>";
-        if (obj.segmentString != null) 
+        finalString = "Участок №" + id + " нуждается в изменении. </br>";
+        if (segmentString != null && segmentString != "") 
         {
-            finalString += obj.segmentString;
+            finalString += segmentString;
         } 
         else 
         {
@@ -267,7 +268,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                <h4 class="modal-title" id="myModalLabel">Информация об изменениях участка</h4>
             </div>
             <div class="modal-body">
 
