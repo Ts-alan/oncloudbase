@@ -108,7 +108,7 @@ namespace oncloud.Web.oddBase.Controllers
         //
         // GET: /Account/Register
         [HttpGet]
-       
+        [Authorize(Roles = "admin,SetMembers")]
         public virtual ActionResult Register()
         {
            
@@ -118,7 +118,7 @@ namespace oncloud.Web.oddBase.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-       
+        [Authorize(Roles = "admin,SetMembers")]
         [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -171,23 +171,19 @@ namespace oncloud.Web.oddBase.Controllers
         [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(model);
-            //}
-            //var user = await UserManager.FindByNameAsync(model.OldPassword);
-            //if (user == null)
-            //{
-            //    // Don't reveal that the user does not exist
-            //    return RedirectToAction("ResetPasswordConfirmation", "Account");
-            //}
-            //var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-            //if (result.Succeeded)
-            //{
-            //    return RedirectToAction("ResetPasswordConfirmation", "Account");
-            //}
-            //AddErrors(result);
-            return View();
+            if (ModelState.IsValid)
+            {
+                IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Users", "Administration");
+                }
+                else
+                {
+                    AddErrors(result);
+                }
+            }
+            return RedirectToAction("Users", "Administration");
         }
 
         //

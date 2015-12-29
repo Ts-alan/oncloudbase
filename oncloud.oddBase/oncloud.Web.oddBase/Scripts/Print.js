@@ -1,8 +1,17 @@
 ﻿function printTable (tableId, hId)
 {
-    $(tableId).append("<div id='target'></div>");
+    $(document.body).append("<div id='target'></div>");
     $(hId).clone().appendTo('#target');
     $(tableId).clone().appendTo('#target');
+    $("#target").find("table.ui-jqgrid-htable").unwrap().unwrap().css({
+        "border-width": "1px",
+        "border-style": "solid"
+    });
+    $("#target").find("td").css({
+        "border-width": "1px",
+        "border-style": "solid",
+        "padding-left": "5px"
+    });
     $('#target').printThis();
     $('#target').remove();
 }
