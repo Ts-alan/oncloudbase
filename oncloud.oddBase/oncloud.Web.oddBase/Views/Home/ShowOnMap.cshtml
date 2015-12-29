@@ -217,7 +217,7 @@
         var street = $('#street').val();
         if (city == "" && street == "")
         {
-            alert("Вы не ввели данные для поиска");
+            addToGeoObjects(coordsArray);
         }
         if (city!="" && street!="") {
             var cityFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.cityName.toLowerCase().indexOf(city.toLowerCase()) > -1; });

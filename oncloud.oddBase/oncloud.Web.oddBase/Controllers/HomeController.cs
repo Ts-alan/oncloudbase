@@ -404,6 +404,14 @@ namespace oncloud.Web.oddBase.Controllers
         {
 
             Street street = db.Street.Find(id);
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            var segments = street.Segment.ToList().Select(s => new
+            {
+                segmentName = s.Name,
+                segmentChange = s.ChangeDislocationTCODD,
+                segmentString = s.string120Symbol
+            });
+            ViewBag.jsonStreet = js.Serialize(segments);
             return View(street);
         }
         public virtual ActionResult FindStreets(string term)

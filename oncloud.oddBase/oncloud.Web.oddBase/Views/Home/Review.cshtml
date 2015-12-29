@@ -1,4 +1,5 @@
 ﻿@using Newtonsoft.Json
+@using oncloud.Domain.Entities
 @model  oncloud.Domain.Entities.Street
 @{
     ViewBag.Title = "EditStreets";
@@ -100,9 +101,9 @@
                     balContent = " <a type='button' href='#'  onclick='setTCODD(this)' data-toggle='modal' IdSegment=" + i + " data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
                         "<a data-toggle='modal' onclick='setRoasSings(this)'  IdSegment=" + i + " data-target='#ModalRoadSigns' href='#'>Просмотреть спецификацию знаков</a></br>" +
                         "<a data-toggle='modal' onclick='setRoadBarriers(this)' data-target='#RoadBarriers' IdSegment=" + i + " href='#'>Посмотреть спецификацию дорожных ограждений</a></br>";
-                    if (DataOfSegment[i].ChangeDislocationTCODD == true) 
+                    if (DataOfSegment[i].ChangeDislocationTCODD == true)
                     {
-                        balContent += "<a data-toggle='modal' data-target='#RoadBarriers' IdSegment=" + i + " href='#'>Просмотр информации о необходимых изменениях</a>";
+                        balContent += "<a data-toggle='modal' data-target='#modalStatic' onclick='setSegmentChange(this)' IdSegment=" + i + " href='#'>Просмотр информации о необходимых изменениях</a>";
                     }
                     var segment = new ymaps.GeoObject({
                         geometry: {
@@ -154,10 +155,6 @@
                         .attr("value", DataOfRoadBarriers[i].Length);
                 }
             });
-
-
-
-
     }
 
     $(document).ready(function () {
@@ -175,17 +172,17 @@
         //слайдер опции
         $('.carouselTCODD').carousel({
             interval: false
-          
+
         });
- 
+
         $('.RoadSignsItems').carousel({
             interval: false
-          
+
         });
 
         $('.RoadBarriersItems').carousel({
             interval: false
-           
+
         });
         //перелистование слайдера при нажатии на клавиши
         $("#layoutDislocation").on('keyup', function (e) {
@@ -237,12 +234,54 @@
 
         $(".RoadBarriersItem").eq($(object).attr("IdSegment")).addClass("active");
     }
+
+    function setSegmentChange(object) {
+        var id = parseInt($(object).attr("IdSegment")) + 1;
+        var obj = @Html.Raw(ViewBag.jsonStreet);
+        var finalString = "";
+        finalString = "Сегмент №" + id + " нуждается в изменении. </br>";
+        if (obj.segmentString != null) 
+        {
+            finalString += obj.segmentString;
+        } 
+        else 
+        {
+            finalString += "Дополнительная информация не указана.";
+        }
+
+        $("#changingSegment").html(finalString);
+    }
+
 </script>
 <style>
 
 
 </style>
 <h2 style="text-align: center">ПРОСМОТР ДАННЫХ УЛИЦЫ</h2>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalStatic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+
+                <div id ="changingSegment"> </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <div class="row" id ="firstTable">
     <div class="form-group col-lg-7 col-md-7 col-sm-7 col-xs-7">
