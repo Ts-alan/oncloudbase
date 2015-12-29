@@ -13,6 +13,11 @@
 </style>
 
 <script src="~/Scripts/FullMapDisplay.js"></script>
+<h2>Карта Улиц</h2>
+@if (!User.IsInRole("Review"))
+{
+    @Html.ActionLink("+ Создать карточку улицы", "AddStreet", null, new { @class = "btn btn-default", style = "margin-bottom: 15px" })
+}
 <div class="row">
     <div class="col-md-12">
         <fieldset id="fieldset">
@@ -27,10 +32,7 @@
                     <input type="text" class="form-control" id="street" style="margin-bottom: 10px;"></>
                     
                 </div>
-                <div class="col-md-3 col-sm-12 col-xs-12">
-                    <label style="">Создать карточку улицы</label>
-                    @Html.ActionLink("+ Создать карточку улицы", "AddStreet", null, new { @class = "btn btn-default", style = "" })
-                </div>
+               
             </div>
         </fieldset>
     </div>
