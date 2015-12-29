@@ -33,13 +33,25 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownList("Roles", new []
+            @if (User.IsInRole("admin"))
             {
-                new SelectListItem() {Text = "Админ",Value = "admin" },
-                new SelectListItem() {Text = "Назначение ролей",Value = "SetMembers" },
-                new SelectListItem() {Text = "Редактирование данных",Value = "EditData" },
-                  new SelectListItem() {Text = "Просмотр",Value = "Review" },
-            })
+                @Html.DropDownList("Roles", new[]
+                {
+                    new SelectListItem() {Text = "Админ", Value = "admin"},
+                    new SelectListItem() {Text = "Назначение ролей", Value = "SetMembers"},
+                    new SelectListItem() {Text = "Редактирование данных", Value = "EditData"},
+                    new SelectListItem() {Text = "Просмотр", Value = "Review"},
+                })
+            }
+            else
+            {
+               @Html.DropDownList("Roles", new[]
+                {
+                    new SelectListItem() {Text = "Назначение ролей", Value = "SetMembers"},
+                    new SelectListItem() {Text = "Редактирование данных", Value = "EditData"},
+                    new SelectListItem() {Text = "Просмотр", Value = "Review"},
+                })
+            }
         </div>
     </div>
     <div class="form-group">

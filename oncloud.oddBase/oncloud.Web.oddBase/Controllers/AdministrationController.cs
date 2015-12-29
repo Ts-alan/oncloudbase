@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace oncloud.Web.oddBase.Controllers
 {
-	[Authorize(Roles = "admin, EditData")]
+	[Authorize]
 	public partial class AdministrationController : Controller
 	{
 
@@ -41,9 +41,9 @@ namespace oncloud.Web.oddBase.Controllers
        
         public virtual async Task<ActionResult> Users()
 		{
-			var users = UserManager.Users.ToList();
+			ViewBag.users = UserManager.Users.ToList();
            
-            return View(users);
+            return View();
 		}
 
 		//public virtual async Task<ActionResult> LockUser(string userId)

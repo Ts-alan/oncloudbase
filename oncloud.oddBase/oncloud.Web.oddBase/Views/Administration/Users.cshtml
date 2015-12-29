@@ -2,7 +2,7 @@
 @using Microsoft.AspNet.Identity.EntityFramework
 @using Microsoft.AspNet.Identity.Owin
 
-@model IEnumerable<oncloud.Web.oddBase.Models.ApplicationUser>
+@model oncloud.Web.oddBase.Models.ResetPasswordViewModel
 
 @{
     ViewBag.Title = "Администрирование пользователей";
@@ -22,79 +22,126 @@
     <li>@Html.ActionLink("Администрирование", MVC.Administration.Index())</li>
     <li class="active">Справочник пользователей</li>
 </ol>
-
+@if (User.IsInRole("admin") || User.IsInRole("SetMembers"))
+{
 <p>
     @Html.ActionLink("Добавить", MVC.Account.Register(), new { @class = "btn btn-success" })
 </p>
 <p>
 
 </p>
-<table class="table table-striped">
-    <tr>
-        <th>
-           Имя пользователя
-        </th>
-        <th>
-            Роль
-        </th>
-        <th>
-            Назначить права
-        </th>
-        <th>
-           Действия
-        </th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
+    <table class="table table-striped">
         <tr>
+            <th>
+                Имя пользователя
+            </th>
+            <th>
+                Роль
+            </th>
+            <th>
+                Назначить права
+            </th>
+            <th>
+                Действия
+            </th>
+        </tr>
 
-            <td>
-                @item.UserName
-            </td>
-            <td>
-                @switch (userManager.GetRoles(item.Roles.Single().UserId).Single())
-                {
-                    case "admin":
-                        @:Админ
-                        break;
-                    case "SetMembers":
-                        @:Назначение ролей
-                        break;
-                    case "EditData":
-                        @:Редактирование данных
-                        break;
-                    case "Review":
-                        @:Просмотр
-                        break;
-                    default:
-                        @:Неизвестная роль
-                        break;
-                }
+        @foreach (var item in (IEnumerable<oncloud.Web.oddBase.Models.ApplicationUser>) ViewBag.users)
+        {
+            <tr>
 
-            </td>
-            <td>
-                @if (userManager.GetRoles(item.Roles.Single().UserId).Single() != "admin")
-                {
-                    @Html.DropDownList("Roles", new[]
+                <td>
+                    @item.UserName
+                </td>
+                <td>
+                    @switch (userManager.GetRoles(item.Roles.Single().UserId).Single())
                     {
-                        new SelectListItem() {Text = "", Value = ""},
-                        new SelectListItem() {Text = "Админ", Value = "admin"},
-                        new SelectListItem() {Text = "Назначение ролей", Value = "SetMembers"},
-                        new SelectListItem() {Text = "Редактирование данных", Value = "EditData"},
-                        new SelectListItem() {Text = "Просмотр", Value = "Review"},
-                    })
-                }
-            </td>
-            <td>
-                @if (userManager.GetRoles(item.Roles.Single().UserId).Single() != "admin")
-                {
-                    @Html.ActionLink("Сохранить", "ChangeRoleUser", "Account", new { id = item.Id }, new { @class = "btn btn-success changerole" })
-                    @Html.ActionLink("Удалить", "DeleteUser", "Account", new {id = item.Id}, new {@class = "btn btn-danger"})
+                        case "admin":
+                            @:Админ
+                            break;
+                        case "SetMembers":
+                            @:Назначение ролей
+                            break;
+                        case "EditData":
+                            @:Редактирование данных
+                            break;
+                        case "Review":
+                            @:Просмотр
+                            break;
+                        default:
+                            @:Неизвестная роль
+                            break;
+                    }
 
-                }
-            </td>
-</tr>
-    }
+                </td>
+                <td>
+                    @if (userManager.GetRoles(item.Roles.Single().UserId).Single() != "admin")
+                    {
+                        if (User.IsInRole("admin"))
+                        {
+                            @Html.DropDownList("Roles", new[]
+                            {
+                                new SelectListItem() {Text = "", Value = ""},
+                                new SelectListItem() {Text = "Админ", Value = "admin"},
+                                new SelectListItem() {Text = "Назначение ролей", Value = "SetMembers"},
+                                new SelectListItem() {Text = "Редактирование данных", Value = "EditData"},
+                                new SelectListItem() {Text = "Просмотр", Value = "Review"},
+                            })
+                        }
+                        else
+                        {
+                            @Html.DropDownList("Roles", new[]
+                            {
+                                new SelectListItem() {Text = "", Value = ""},
+                                new SelectListItem() {Text = "Назначение ролей", Value = "SetMembers"},
+                                new SelectListItem() {Text = "Редактирование данных", Value = "EditData"},
+                                new SelectListItem() {Text = "Просмотр", Value = "Review"},
+                            })
+                        }
+                    }
+                </td>
+                <td>
+                    @if (userManager.GetRoles(item.Roles.Single().UserId).Single() != "admin")
+                    {
+                        @Html.ActionLink("Сохранить", "ChangeRoleUser", "Account", new {id = item.Id}, new {@class = "btn btn-success changerole"})
+                        @Html.ActionLink("Удалить", "DeleteUser", "Account", new {id = item.Id}, new {@class = "btn btn-danger"})
 
-</table>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+@using (Html.BeginForm("ResetPassword", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Форма смены пароля</h4>
+    <hr/>
+    @Html.ValidationSummary()
+    <div class="form-group">
+        @Html.LabelFor(m => m.OldPassword, new {@class = "col-md-2 control-label"})
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.OldPassword, new {@class = "form-control"})
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new {@class = "col-md-2 control-label"})
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new {@class = "col-md-2 control-label"})
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Смена пароля" class="btn btn-default"/>
+        </div>
+    </div>
+}

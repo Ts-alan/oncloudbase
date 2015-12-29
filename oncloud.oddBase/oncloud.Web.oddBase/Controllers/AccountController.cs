@@ -13,7 +13,7 @@ using oncloud.Web.oddBase.Models;
 
 namespace oncloud.Web.oddBase.Controllers
 {
-    [Authorize(Roles = "admin, EditData")]
+    [Authorize(Roles = "admin,SetMembers")]
     public partial class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -108,18 +108,17 @@ namespace oncloud.Web.oddBase.Controllers
         //
         // GET: /Account/Register
         [HttpGet]
-       
+        [Authorize(Roles = "admin,SetMembers")]
         public virtual ActionResult Register()
         {
            
-            
             return View();
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
-       
+        [Authorize(Roles = "admin,SetMembers")]
         [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -172,23 +171,19 @@ namespace oncloud.Web.oddBase.Controllers
         [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(model);
+                IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Users", "Administration");
+                }
+                else
+                {
+                    AddErrors(result);
+                }
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
-            if (user == null)
-            {
-                // Don't reveal that the user does not exist
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
-            }
-            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
-            }
-            AddErrors(result);
-            return View();
+            return RedirectToAction("Users", "Administration");
         }
 
         //

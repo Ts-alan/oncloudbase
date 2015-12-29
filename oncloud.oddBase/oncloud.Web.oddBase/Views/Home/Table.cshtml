@@ -2,16 +2,16 @@
 
 @{
     ViewBag.Title = "Table";
-    string NumberTCODD="";
+    string NumberTCODD = "";
 }
 
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         tableToGrid("#table", {
             height: 700,
 
-            onSelectRow: function(rowid, e) {
+            onSelectRow: function (rowid, e) {
                 $('#' + rowid).parents('table').resetSelection();
             },
             colNames: [
@@ -29,10 +29,10 @@
             ]
         });
         $('#table').jqGrid('filterToolbar', {
-                autosearch: true
-            }
+            autosearch: true
+        }
         );
-       
+
         mergeRows();
         //подсказки улиц
         var autocompleteUrl = '/Home/FindFilledStreets';
@@ -58,19 +58,20 @@
         $('#gs_Населенный_пункт').val("Минск");
     }
 
-    
+
 
 </script>
 <style type="text/css">
- td {
-    padding: 0px !important
-}
+    td {
+        padding: 0px !important;
+    }
 </style>
 
 <h2>Таблица Улиц</h2>
-
-@Html.ActionLink("+ Создать карточку улицы", "AddStreet", null, new { @class = "btn btn-default" ,style="margin-bottom: 15px" })
-
+@if (!User.IsInRole("Review"))
+{
+    @Html.ActionLink("+ Создать карточку улицы", "AddStreet", null, new { @class = "btn btn-default", style = "margin-bottom: 15px" })
+}
 <table id="table" class="table-bordered" cellpadding="5">
     <tr>
         <th>Населенный_пункт</th>
@@ -83,7 +84,7 @@
     @foreach (var item in Model)
     {
         <tr>
-        
+
             <td>@item.Location</td>
             <td>@item.Denomination</td>
             <td>@item.NumberSegment</td>
@@ -95,8 +96,8 @@
                     {
                         if (item.Segments.ElementAt(j).ChangeDislocationTCODD)
                         {
-                            
-                                NumberTCODD += ","+item.Segments.ElementAt(j).Name.ToString();
+
+                            NumberTCODD += "," + item.Segments.ElementAt(j).Name.ToString();
                         }
                     }
                     @NumberTCODD.Substring(1)
@@ -109,9 +110,13 @@
 
             </td>
             <td>
-               <div>@Html.ActionLink("Просмотреть данные улицы", "Review", new {id = item.IdStreet})</div>
-               <div>@Html.ActionLink("Изменить", "EditStreets", new {id = item.IdStreet})</div>
-               <div><a  href="#DeleteStructures"  role="button" onclick="setStreet(this)" idDelete="@item.IdStreet" data-toggle="modal">Удалить </a></div>
+                <div>@Html.ActionLink("Просмотреть данные улицы", "Review", new { id = item.IdStreet })</div>
+                @if (!User.IsInRole("Review"))
+                {
+                    <div>@Html.ActionLink("Изменить", "EditStreets", new { id = item.IdStreet })</div>
+                <div><a href="#DeleteStructures" role="button" onclick="setStreet(this)" idDelete="@item.IdStreet" data-toggle="modal">Удалить </a>
+                </div>
+                }
             </td>
         </tr>
     }
@@ -128,13 +133,12 @@
                 <p>Вы уверены, что хотите удалить эту улицу?&hellip;</p>
             </div>
             <div class="modal-footer">
-                @Html.ActionLink("Да, удалить", "DeleteStreet", null,new { id = "idDelete", @class = "btn btn-danger"})
+                @Html.ActionLink("Да, удалить", "DeleteStreet", null, new { id = "idDelete", @class = "btn btn-danger" })
                 <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
             </div>
         </div>
     </div>
 </div>
-
 
 
 

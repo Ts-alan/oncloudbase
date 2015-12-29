@@ -85,30 +85,24 @@ namespace oncloud.Web.oddBase.Models
 
     public class ResetPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Не заполенено поле текущий пароль")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Текущий пароль")]
+        public string OldPassword { get; set; }
+
+        [Required(ErrorMessage = "Не заполенено поле новый пароль")]
+        [StringLength(100, ErrorMessage = "Значение {0} должно содержать не менее {2} символов.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Новый пароль")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "Не заполенено поле подтверждение пароля")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Подтверждение пароля")]
+        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         public string ConfirmPassword { get; set; }
 
-        public string Code { get; set; }
     }
 
-    public class ForgotPasswordViewModel
-    {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-    }
+  
 }

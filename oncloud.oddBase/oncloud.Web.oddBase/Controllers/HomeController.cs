@@ -33,7 +33,7 @@ namespace oncloud.Web.oddBase.Controllers
             data.Setinitialization(db);
             return View(data.GetDataModel);
         }
-
+        [Authorize(Roles = "admin,SetMembers,EditData")]
         public virtual ActionResult SaveSuccess(City city, Street street,IEnumerable<int> LayoutDislocationDelete,
             [ModelBinder(typeof(CustomModelBinderForSegment))] ICollection<Segment> segment,
             [ModelBinder(typeof(CustomModelBinderForRM))] ICollection<SpecificationofRM> SpecificationofRM,
@@ -140,7 +140,7 @@ namespace oncloud.Web.oddBase.Controllers
 
             return View();
         }
-
+        [Authorize(Roles = "admin,SetMembers,EditData")]
         public virtual ActionResult AddStreet()
         {
             ViewBag.City = db.City.First();
@@ -161,7 +161,7 @@ namespace oncloud.Web.oddBase.Controllers
             ViewBag.RoadBarriers = db.RoadBarriers.ToList();
             return View();
         }
-
+        [Authorize(Roles = "admin,SetMembers,EditData")]
         public void DeleteDataStreet(int id,bool isEdit)
         {
             Street street = db.Street.Find(id);
@@ -187,12 +187,14 @@ namespace oncloud.Web.oddBase.Controllers
             db.Street.Remove(street);
             db.SaveChanges();
         }
+        [Authorize(Roles = "admin,SetMembers,EditData")]
         public virtual ActionResult DeleteStreet(int id)
         {
             DeleteDataStreet(id,false);
             return RedirectToAction("Table");
         }
         [HttpGet]
+        [Authorize(Roles = "admin,SetMembers,EditData")]
         public virtual ActionResult EditStreets(int id)
         {
             Street street = db.Street.Find(id);
@@ -221,6 +223,7 @@ namespace oncloud.Web.oddBase.Controllers
             return View(street);
         }
         [HttpPost]
+        [Authorize(Roles = "admin,SetMembers,EditData")]
         public virtual ActionResult EditStreets(
             City city, Street street, IEnumerable<int> LayoutDislocationDelete,
             [ModelBinder(typeof(CustomModelBinderForSegment))] ICollection<Segment> segment,
@@ -464,14 +467,7 @@ namespace oncloud.Web.oddBase.Controllers
                 return null;
             }
         }
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+
 
         public virtual ActionResult ShowOnMap()
         {
@@ -505,6 +501,14 @@ namespace oncloud.Web.oddBase.Controllers
             }));
 
             return View();
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
