@@ -6,9 +6,25 @@
 
 <script type="text/javascript">
     ymaps.ready(init);
-    var myMap, myPlacemark, Arr = [[]], counterArr = 0, handlerRoute, currentRoute, firstPointRoute,
-        endPointRoute, position, identifierForDelete = 0, increment = 1, tempData, tempDataFor3 = 5,
-        objects, identifierForDelBallon = true, CountObjectInMap, transfercurrentRoute,
+    var myMap,
+        myPlacemark,
+        Arr = [[]],
+        counterArr = 0,
+        handlerRoute,
+        currentRoute,
+        firstPointRoute,
+        endPointRoute,
+        position,
+        identifierForDelete = 0,
+        increment = 1,
+        tempData,
+        tempDate2,
+        tempDataFor3 = 5,
+        objects,
+        identifierForDelBallon = true,
+        CountObjectInMap,
+        transfercurrentRoute,
+        routeSegment,
         massSegment = [], handlerSegment, countElementSegGlobal = new Object(), incForTab1 = 8, incForTab2 = 8;
     countElementSegGlobal.length = 0;
     function init() {
@@ -420,7 +436,35 @@
             }
         });
         increment = massSegment.length + 1;
+        console.log(massSegment.length);
+        if ((massSegment.length+1) == index) {
+            
+            myMap.geoObjects.remove(routeSegment.getPaths());
+            if (massSegment.length!=0){
+            ymaps.route([
+                          Arr[0],
+                          tempDate2
+            ]
+                  ).then(
+                      function (route) {
+                          route.getPaths().options.set({
 
+                              //можно выставить настройки графики маршруту
+                              strokeColor: 'FF9911',
+                              opacity: 0.9,
+                              strokeWidth: 4
+                          });
+                          route.getPaths().get(0).balloon.destroy();
+                          myMap.geoObjects.add(route.getPaths());
+                          routeSegment = route;
+                          route.getPaths().events.add('click', function () {
+
+                              alert("Вы неправльно поставили участок");
+
+                          });
+                      });
+                                    }
+        }
 
     }
     //чистка полей
@@ -532,9 +576,37 @@
                 }
 
                 handlerSegment = function (e) {
+                   
+                    var coords = e.get('coords');
+                    if (routeSegment != undefined) {
+                        myMap.geoObjects.remove(routeSegment.getPaths());
+                    }
+                    ymaps.route([
+                            Arr[0],
+                            [coords[0].toPrecision(6), coords[1].toPrecision(6)]
+                        ]
+                    ).then(
+                        function (route) {
+                            route.getPaths().options.set({
+
+                                //можно выставить настройки графики маршруту
+                                strokeColor: 'FF9911',
+                                opacity: 0.9,
+                                strokeWidth: 4
+                            });
+                            route.getPaths().get(0).balloon.destroy();
+                            myMap.geoObjects.add(route.getPaths());
+                            routeSegment = route;
+                            route.getPaths().events.add('click', function () {
+                                
+                                alert("Вы неправльно поставили участок");
+
+                            });
+                        });
+                
                     countElementSegGlobal.length++;
 
-                    var coords = e.get('coords');
+                    
                     var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
                    edges = [];
 
@@ -705,29 +777,15 @@
                       
                   
                     });
-                  
 
+                    tempDate2 = tempData;
                     tempData = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
                     massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                     increment++;
                     //$("form").removeData("validator");
                     //$("form").removeData("unobtrusiveValidation");
                     //$.validator.unobtrusive.parse("form");
-                    myMap.geoObjects.each(function (el, index) {
-
-                        for (var i = 0; i < massSegment.length; i++) {
-                            if (massSegment[i] == index) {
-
-
-                                el.properties.set({
-                                    iconContent: j,
-                                    balloonContentHeader: "<a href='#' onclick='deleteSegment(" + j + ")'>Удалить Обьект</a>",
-                                });
-                                j++;
-                            };
-                        }
-
-                    });
+                  
                 }
                 currentRoute.getPaths().events.add('click', handlerSegment);
 
