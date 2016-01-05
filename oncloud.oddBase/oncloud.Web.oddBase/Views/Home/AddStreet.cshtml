@@ -6,9 +6,25 @@
 
 <script type="text/javascript">
     ymaps.ready(init);
-    var myMap, myPlacemark, Arr = [[]], counterArr = 0, handlerRoute, currentRoute, firstPointRoute,
-        endPointRoute, position, identifierForDelete = 0, increment = 1, tempData, tempDataFor3 = 5,
-        objects, identifierForDelBallon = true, CountObjectInMap, transfercurrentRoute,
+    var myMap,
+        myPlacemark,
+        Arr = [[]],
+        counterArr = 0,
+        handlerRoute,
+        currentRoute,
+        firstPointRoute,
+        endPointRoute,
+        position,
+        identifierForDelete = 0,
+        increment = 1,
+        tempData,
+        tempDate2=[],
+        tempDataFor3 = 5,
+        objects,
+        identifierForDelBallon = true,
+        CountObjectInMap,
+        transfercurrentRoute,
+        routeSegment,
         massSegment = [], handlerSegment, countElementSegGlobal = new Object(), incForTab1 = 8, incForTab2 = 8;
     countElementSegGlobal.length = 0;
     function init() {
@@ -420,7 +436,35 @@
             }
         });
         increment = massSegment.length + 1;
+        
+        if ((massSegment.length+1) == index) {
+            
+            myMap.geoObjects.remove(routeSegment.getPaths());
+            if (massSegment.length!=0){
+            ymaps.route([
+                          Arr[0],
+                          tempDate2.pop()
+            ]
+                  ).then(
+                      function (route) {
+                          route.getPaths().options.set({
 
+                              //можно выставить настройки графики маршруту
+                              strokeColor: 'FF9911',
+                              opacity: 0.9,
+                              strokeWidth: 4
+                          });
+                          route.getPaths().get(0).balloon.destroy();
+                          myMap.geoObjects.add(route.getPaths());
+                          routeSegment = route;
+                          route.getPaths().events.add('click', function () {
+
+                              alert("Вы неправльно поставили участок");
+
+                          });
+                      });
+                                    }
+        }
 
     }
     //чистка полей
@@ -452,50 +496,50 @@
     }
     //изменения цвета
     function changeColorMackUp(e) {
-        //$('[onclick="changeColorMackUp(event)"]').closest("#ModalMackUp").find("td>input").each(function (ind, element) {
+        $('[onclick="changeColorMackUp(event)"]').closest("#ModalMackUp").find("td>input").each(function (ind, element) {
 
-        //    if ($(element).hasClass("input-validation-error")) {
+            if ($(element).hasClass("input-validation-error")) {
 
-        //        alert("Вы ввели недопустимые знаки в полях");
-        //        e.preventDefault();
-        //        e.stopImmediatePropagation();
-        //        return false;
-        //    }
-        //});
+                alert("Вы ввели недопустимые знаки в полях");
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false;
+            }
+        });
         $('[data-target="#ModalMackUp"]').removeClass("btn-default");
         $('[data-target="#ModalMackUp"]').addClass("btn-danger");
     }
 
     function changeColorRoadSigns(par,e) {
         
-        //$('[onclick="changeColorRoadSigns(' + par + ',event)"]').closest("#ModalRoadSigns" + par + "").find("td>input").each(function (ind, element) {
+        $('[onclick="changeColorRoadSigns(' + par + ',event)"]').closest("#ModalRoadSigns" + par + "").find("td>input").each(function (ind, element) {
             
-        //    if ($(element).hasClass("input-validation-error")) {
+            if ($(element).hasClass("input-validation-error")) {
                 
-        //        alert("Вы ввели недопустимые знаки в полях");
-        //        e.preventDefault();
-        //        e.stopImmediatePropagation();
-        //        return false;
-        //    }
-        //});
+                alert("Вы ввели недопустимые знаки в полях");
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false;
+            }
+        });
 
         $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-default");
         $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-danger");
     }
 
     function changeColorRoadBarriers(par, e) {
-        //$('[onclick="changeColorRoadBarriers(' + par + ',event)"]').closest("#RoadBarriers" + par + "").find("td>input").each(function (ind, element) {
+        $('[onclick="changeColorRoadBarriers(' + par + ',event)"]').closest("#RoadBarriers" + par + "").find("td>input").each(function (ind, element) {
 
-        //    if ($(element).hasClass("input-validation-error")) {
+            if ($(element).hasClass("input-validation-error")) {
 
-        //        alert("Вы ввели недопустимые знаки в полях");
-        //        e.preventDefault();
-        //        e.stopImmediatePropagation();
+                alert("Вы ввели недопустимые знаки в полях");
+                e.preventDefault();
+                e.stopImmediatePropagation();
                
-        //        return false;
+                return false;
                 
-        //    }
-        //});
+            }
+        });
         $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-default");
         $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-danger");
     }
@@ -503,20 +547,7 @@
     //задание координат
     $(document).ready(function () {
 
-        //$('[action="/Home/SaveSuccess"]').validate();
-
-        //$('td [type="text"]').each(function(ind,element) {
-            
-        //    $(element).rules("add", {
-        //        number: true,
-        //        messages: {
-        //            number:"requere number"  
-        //        }
-        //    });
-        //});
-  
-
-        //подтягивание улицы в модальное окно
+    //подтягивание улицы в модальное окно
         $('[data-target="#ModalMackUp"]').click(function () {
            
             var textStreet = $('[name="Street.Name"]').val();
@@ -538,16 +569,44 @@
 
                 if (identifierForDelBallon == true) {
 
-                    //currentRoute.getPaths().get(0).balloon.destroy();
-                    console.log(currentRoute.getPaths().get(0).balloon.content);
+                    currentRoute.getPaths().get(0).balloon.destroy();
+                   
 
                     identifierForDelBallon = false;
                 }
 
                 handlerSegment = function (e) {
+                   
+                    var coords = e.get('coords');
+                    if (routeSegment != undefined) {
+                        myMap.geoObjects.remove(routeSegment.getPaths());
+                    }
+                    ymaps.route([
+                            Arr[0],
+                            [coords[0].toPrecision(6), coords[1].toPrecision(6)]
+                        ]
+                    ).then(
+                        function (route) {
+                            route.getPaths().options.set({
+
+                                //можно выставить настройки графики маршруту
+                                strokeColor: 'FF9911',
+                                opacity: 0.9,
+                                strokeWidth: 4
+                            });
+                            route.getPaths().get(0).balloon.destroy();
+                            myMap.geoObjects.add(route.getPaths());
+                            routeSegment = route;
+                            route.getPaths().events.add('click', function () {
+                                
+                                alert("Вы неправльно поставили участок");
+
+                            });
+                        });
+                
                     countElementSegGlobal.length++;
 
-                    var coords = e.get('coords');
+                    
                     var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
                    edges = [];
 
@@ -716,32 +775,17 @@
                         }
                      
                       
-                        //$('[action="/Home/SaveSuccess"]').validate();
-                        //$('td [type="text"]').each(function (ind, element) {
-
-                        //    $(element).rules("add", {
-                        //        number: true,
-                        //        messages: {
-                        //            number: "requere number"
-                        //        }
-                        //    });
-                        //});
-                    });
-                  //навешивание валидации
-                    $('td [type="text"]').each(function (ind, element) {
-
-                        $(element).rules("add", {
-                            number: true,
-                            messages: {
-                                number: "requere number"
-                            }
-                        });
+                  
                     });
 
+                    tempDate2.push(tempData);
                     tempData = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
                     massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                     increment++;
-
+                    //$("form").removeData("validator");
+                    //$("form").removeData("unobtrusiveValidation");
+                    //$.validator.unobtrusive.parse("form");
+                  
                 }
                 currentRoute.getPaths().events.add('click', handlerSegment);
 
@@ -1019,8 +1063,8 @@
                                 <td>
                                     @item.description
                                 </td>
-                                <td style="vertical-align: middle"><input name="ModalsL@(item.NumberMarking)" type="text" /></td>
-                                <td style="vertical-align: middle"><input name="ModalsA@(item.NumberMarking)" type="text" /></td>
+                                <td  style="vertical-align: middle"><input data-val="true" data-val-number="The field Number must be a number." data-val-required="The Number field is required."  name="ModalsL@(item.NumberMarking)" type="text" /></td>
+                                <td  style="vertical-align: middle"><input data-val="true" data-val-number="The field Number must be a number." data-val-required="The Number field is required." name="ModalsA@(item.NumberMarking)" type="text" /></td>
                             </tr>
                         }
 
@@ -1131,7 +1175,7 @@
                                 <td>
                                     @item.Description
                                 </td>
-                                <td style="vertical-align: middle"><input name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
+                                <td style="vertical-align: middle"><input data-val="true" data-val-number="The field Number must be a number." data-val-required="The Number field is required." name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
 
                             </tr>
                         }

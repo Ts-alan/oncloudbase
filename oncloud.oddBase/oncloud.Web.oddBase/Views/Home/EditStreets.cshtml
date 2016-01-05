@@ -8,8 +8,8 @@
 <script type="text/javascript">
     ymaps.ready(init);
     var myMap, myPlacemark, Arr = [[]], counterArr = 0, handlerRoute, currentRoute,
-        firstPointRoute, endPointRoute, position, identifierForDelete = 0,
-        increment = 1, tempData = [], tempDataFor3 = 5, objects, identifierForDelBallon = true, CoordinatesforFirstLoad,
+        firstPointRoute, endPointRoute, position, identifierForDelete = 0, routeSegment,
+        increment = 1, tempData = [],tempDate2=[], tempDataFor3 = 5, objects, identifierForDelBallon = true, CoordinatesforFirstLoad,
         CountObjectInMap, transfercurrentRoute, massSegment = [], handlerSegment, countElementSegGlobal = new Object();
     countElementSegGlobal.length = 0, incForTab1 = 8, incForTab2 = 8;
 
@@ -127,6 +127,8 @@
                                                           preset: "islands#grayCircleIcon",
                                                           draggable: true
                                                       });
+                     if("@Model.Segment.Count"!=(i+1))
+                     tempDate2.push([DataOfSegment[i].BreadthE, DataOfSegment[i].LengthE]);
                      if (DataOfSegment[i].ChangeDislocationTCODD == true) {
 
                          segment.options.set("preset", "islands#redCircleIcon");
@@ -284,28 +286,38 @@
                  for (var i = 0; i < "@Model.Segment.Count"; i++) {
                      setSegment(i);
                  }
+                 ymaps.route([
+                            ['@Model.BreadthS', '@Model.LengthS'],
+                [tempData[0],tempData[1]]
+                                     ]
+                     ).then(
+                         function (route) {
+                             route.getPaths().options.set({
+
+                                 //можно выставить настройки графики маршруту
+                                 strokeColor: 'FF9911',
+                                 opacity: 0.9,
+                                 strokeWidth: 4
+                             });
+                             route.getPaths().get(0).balloon.destroy();
+                             myMap.geoObjects.add(route.getPaths());
+                             routeSegment = route;
+                             route.getPaths().events.add('click', function () {
+
+                                 alert("Вы неправльно поставили участок");
+
+                             });
+                         });
                  if (($('[name="Segment.ChangeDislocationTCODD"]:first').val()== "true")) {
                      $('[name="Segment.string120Symbol1"]').css("visibility", "visible");
                  }
                  $('[name^="Segment.string120Symbol"]').each(function (ind, element) {
-                    
+
                      $(element).attr("value", DataOfSegment[ind].string120Symbol);
-                          
+
                    });
-                 
-                 //
-                 //навешивания валидации
-                 //$('[action="/Home/EditStreets"]').validate();
 
-                 //$('td [type="text"]').each(function (ind, element) {
 
-                 //    $(element).rules("add", {
-                 //        number: true,
-                 //        messages: {
-                 //            number: "requere number"
-                 //        }
-                 //    });
-                 //});
                  countElementSegGlobal = "@Model.Segment.Count";
                  var multiplicity, incrementMul = 0, changeColor;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
@@ -349,49 +361,52 @@
                      $('#changeColorScheme1').addClass("btn-danger");
                  };
                  var MassLD = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.layoutDislocation))');
-                 for (var j = 0; j < MassLD.length; j++) {
-                     $('#changeColorDislocation' + MassLD[j] + '').removeClass("btn-default");
-                     $('#changeColorDislocation' + MassLD[j] + '').addClass("btn-danger");
-                 }
-                 $('[name*="ModalsL"]').each(function (index, element) {
 
-                     if ($(element).val() != '') {
-                         changeColorMackUp();
+                for (var j = 0; j < MassLD.length; j++) {
+                    $('#changeColorDislocation' + MassLD[j] + '').removeClass("btn-default");
+                    $('#changeColorDislocation' + MassLD[j] + '').addClass("btn-danger");
+                    if (myMap.geoObjects.get(massSegment[MassLD[j] - 1]).options._Bm.preset != "islands#redCircleIcon")
+                        myMap.geoObjects.get(massSegment[MassLD[j] - 1]).options.set("preset", "islands#blueCircleIcon");
+                }
+                $('[name*="ModalsL"]').each(function(index, element) {
 
-                         return false;
-                     };
-                 });
-                 $('[name*="ModalsA"]').each(function (index, element) {
+                    if ($(element).val() != '') {
+                        changeColorMackUp();
 
-                     if ($(element).val() != '') {
-                         changeColorMackUp();
+                        return false;
+                    };
+                });
+                $('[name*="ModalsA"]').each(function(index, element) {
 
-                         return false;
-                     };
-                 });
-             });
+                    if ($(element).val() != '') {
+                        changeColorMackUp();
 
-
+                        return false;
+                    };
+                });
+            });
 
 
     }
-    //изменения цвета
+
+//изменения цвета
     function setColorSegment(index, object) {
 
         if ($(object).val() == "true") {
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#redCircleIcon");
             $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'visible');
-        }
-        else {
+        } else {
 
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
             $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'hidden').attr("value", "");
         }
     }
+
     function setColorSegmentByLoadImage(index) {
         if (myMap.geoObjects.get(massSegment[index - 1]).options._gb.preset != "islands#redCircleIcon")
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
     }
+
     function SetRoute(Arr) {
 
         if (currentRoute != undefined) {
@@ -402,15 +417,15 @@
         ymaps.route([
                 Arr[0],
                 Arr[1]
-        ],
+            ],
             {
                 mapStateAutoApply: true,
                 removeViaPoints: true
 
             }
         ).then(
-            function (route) {
-                route.events.add('dragend', function (e) {
+            function(route) {
+                route.events.add('dragend', function(e) {
 
                     Arr[0] = [route.requestPoints[0][0].toString().substr(0, 7), route.requestPoints[0][1].toString().substr(0, 7)];
                     Arr[1] = [route.requestPoints[1][0].toString().substr(0, 7), route.requestPoints[1][1].toString().substr(0, 7)];
@@ -430,7 +445,7 @@
                 points.get(1).properties.set("iconContent", "Конец улицы");
                 points.get(1).properties.set("balloonContentHeader", "<a href='#' onclick='setHandlerE()'>Удалить Обьект</a>");
                 points.get(1).options.set("preset", "islands#darkGreenStretchyIcon");
-                route.editor.events.add("routeupdate", function () {
+                route.editor.events.add("routeupdate", function() {
                     $("#breadthS").val(route.requestPoints[0][0].toString().substr(0, 7));
                     $("#lengthS").val(route.requestPoints[0][1].toString().substr(0, 7));
                     $("#breadthE").val(route.requestPoints[1][0].toString().substr(0, 7));
@@ -458,7 +473,7 @@
                 $("#breadthE").val(Arr[1][0]);
                 $("#lengthE").val(Arr[1][1]);
             },
-            function (error) {
+            function(error) {
                 alert("Возникла ошибка: " + error.message);
             });
 
@@ -477,7 +492,7 @@
         var myGeocoder = ymaps.geocode(position);
 
         myGeocoder.then(
-            function (res) {
+            function(res) {
 
                 myPlacemark = new ymaps.GeoObject({
                     geometry: {
@@ -504,7 +519,8 @@
             SetRoute(Arr);
         }
     }
-    //удаление начальной точки
+
+//удаление начальной точки
     function setHandlerS() {
         if (identifierForDelete == 0) {
             myMap.geoObjects.remove(currentRoute);
@@ -523,7 +539,7 @@
             { draggable: true, preset: "islands#darkGreenStretchyIcon" });
 
 
-            endPointRoute.events.add("dragend", function (e) {
+            endPointRoute.events.add("dragend", function(e) {
 
                 var coords = endPointRoute.geometry.getCoordinates();
                 Arr[1] = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
@@ -546,7 +562,8 @@
         }
         counterArr = 0;
     }
-    //удаление конченой точки
+
+//удаление конченой точки
     function setHandlerE() {
 
         if (identifierForDelete == 0) {
@@ -569,7 +586,8 @@
         }
 
     }
-    //задать координаты
+
+//задать координаты
     function SetCoords() {
         if ($("#blockStreet").css("display") == "none") {
             if (countElementSegGlobal.length == 0) {
@@ -580,17 +598,17 @@
                     myMap.geoObjects.add(currentRoute);
                     currentRoute.editor.start({ editWayPoints: true });
 
-                    $("#blockStreetCoord").parent().prev().children("input").each(function (indx, element) {
+                    $("#blockStreetCoord").parent().prev().children("input").each(function(indx, element) {
                         $(element).removeAttr("readonly");
 
                     });
 
-                    $("#blockStreetCoord").parent().prev().prev().prev().children("input").each(function (indx, element) {
+                    $("#blockStreetCoord").parent().prev().prev().prev().children("input").each(function(indx, element) {
                         $(element).removeAttr("readonly");
                     });
 
                 } else {
-                    handlerRoute = function (e) {
+                    handlerRoute = function(e) {
 
                         var coords = e.get('coords');
                         if (counterArr < 2) {
@@ -610,7 +628,7 @@
                                 }
                             },
                             { draggable: true, preset: "islands#darkGreenStretchyIcon" });
-                            firstPointRoute.events.add("dragend", function (e) {
+                            firstPointRoute.events.add("dragend", function(e) {
 
                                 var coords = firstPointRoute.geometry.getCoordinates();
                                 Arr[0] = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
@@ -647,7 +665,8 @@
         }
 
     }
-    //удаление сегмента
+
+//удаление сегмента
     function deleteSegment(index) {
 
         countElementSegGlobal.length--;
@@ -662,7 +681,7 @@
         massSegment.splice(index - 1, 1);
 
         var j = 1;
-        myMap.geoObjects.each(function (el, index) {
+        myMap.geoObjects.each(function(el, index) {
 
             for (var i = 0; i < massSegment.length; i++) {
                 if (massSegment[i] == index) {
@@ -696,17 +715,17 @@
             $("#lengthSegE1").attr("value", "");
         }
 
-        $('[id^=segment]').each(function (ind, domElement) {
+        $('[id^=segment]').each(function(ind, domElement) {
 
             //изменение содержимого координат
             if ((ind + 1) >= index) {
 
                 $(domElement).html($('[id="segment' + (ind + 2) + '"]')
-                  .find("u").first().text("Координаты участка " + (ind + 1)).end().end()
+                    .find("u").first().text("Координаты участка " + (ind + 1)).end().end()
                     .find("input").first().attr("id", "breadthSegS" + (ind + 1)).end().end()
-                        .find("input").eq(1).attr("id", "lengthSegS" + (ind + 1)).end().end()
-                            .find("input").eq(2).attr("id", "breadthSegE" + (ind + 1)).end().end()
-                                .find("input").last().attr("id", "lengthSegE" + (ind + 1)).end().end().children());
+                    .find("input").eq(1).attr("id", "lengthSegS" + (ind + 1)).end().end()
+                    .find("input").eq(2).attr("id", "breadthSegE" + (ind + 1)).end().end()
+                    .find("input").last().attr("id", "lengthSegE" + (ind + 1)).end().end().children());
             }
             if ($('[id^=segment]').length == (ind + 1) && (countElement.length - 5) % 3 == 0 && countElement.length > 4) {
                 $(domElement).parent().remove();
@@ -722,8 +741,8 @@
             $("#interData+div").remove();
             $("#segment4").after("<div>" +
                 "<button type='button' class='btn btn-default setSegment'>Задать/Изменить координаты</button>" +
-                 "<button id='BlockSegment' type='button' class='btn btn-primary'>Сохранить</button>" +
-            "</div>");
+                "<button id='BlockSegment' type='button' class='btn btn-primary'>Сохранить</button>" +
+                "</div>");
 
             $("#interData+h5").css("clear", "none");
             tempDataFor3 = 5;
@@ -733,21 +752,21 @@
         //чистка модальных окон
         if (countElement.length != 1) {
             $('[id="ModalRoadSigns' + index + '"]').remove();
-            $('[id^="ModalRoadSigns"]').each(function (ind, element) {
+            $('[id^="ModalRoadSigns"]').each(function(ind, element) {
                 $(element).attr("id", "ModalRoadSigns" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadSigns(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadSigns(' + (ind + 1) + ',event)');
-            }).each(function (indMR, elementMR) {
-                $(elementMR).find("td input").each(function (ind, element) {
+            }).each(function(indMR, elementMR) {
+                $(elementMR).find("td input").each(function(ind, element) {
                     $(element).attr("name", (indMR + 1) + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
                 });
 
             });
 
             $('[id="RoadBarriers' + index + '"]').remove();
-            $('[id^="RoadBarriers"]').each(function (ind, element) {
+            $('[id^="RoadBarriers"]').each(function(ind, element) {
                 $(element).attr("id", "RoadBarriers" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadBarriers(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadBarriers(' + (ind + 1) + ',event)');
-            }).each(function (indMR, elementMR) {
+            }).each(function(indMR, elementMR) {
 
-                $(elementMR).find("td input").each(function (ind, element) {
+                $(elementMR).find("td input").each(function(ind, element) {
                     $(element).attr("name", (indMR + 1) + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
 
                 });
@@ -757,7 +776,7 @@
         if (countElement.length != 1) {
             $(".DataOfRoad" + index).remove();
         }
-        $('[class^="DataOfRoad"]').each(function (ind, element) {
+        $('[class^="DataOfRoad"]').each(function(ind, element) {
             if (countElement.length != 0) {
                 $(element).attr("class", "DataOfRoad" + (ind + 1));
                 $(element).find("u").text("Участок " + (ind + 1));
@@ -770,7 +789,35 @@
         if (index == 1) {
             $('name="LayoutDislocationDelete"').first().remove();
         }
+        if ((massSegment.length + 1) == index) {
 
+            myMap.geoObjects.remove(routeSegment.getPaths());
+            if (massSegment.length != 0) {
+                console.log(massSegment.length);
+                ymaps.route([
+                        ['@Model.BreadthS', '@Model.LengthS'],
+                              tempDate2.pop()
+                ]
+                      ).then(
+                          function (route) {
+                              route.getPaths().options.set({
+
+                                  //можно выставить настройки графики маршруту
+                                  strokeColor: 'FF9911',
+                                  opacity: 0.9,
+                                  strokeWidth: 4
+                              });
+                              route.getPaths().get(0).balloon.destroy();
+                              myMap.geoObjects.add(route.getPaths());
+                              routeSegment = route;
+                              route.getPaths().events.add('click', function () {
+
+                                  alert("Вы неправльно поставили участок");
+
+                              });
+                          });
+            }
+             }
     }
     //чистка полей
     function cleaningRoadSigns(par) {
@@ -833,7 +880,7 @@
     function changeColorRoadBarriers(par, e) {
 
         $('[onclick="changeColorRoadBarriers(' + par + ',event)"]').closest("#RoadBarriers" + par + "").find("td>input").each(function (ind, element) {
-            console.log("2121");
+
             if ($(element).hasClass("input-validation-error")) {
 
                 alert("Вы ввели недопустимые знаки в полях");
@@ -884,9 +931,35 @@
                 }
 
                 handlerSegment = function (e) {
+                    var coords = e.get('coords');
+                    if (routeSegment != undefined) {
+                        myMap.geoObjects.remove(routeSegment.getPaths());
+                    }
+                    ymaps.route([
+                           ['@Model.BreadthS', '@Model.LengthS'],
+                            [coords[0].toPrecision(6), coords[1].toPrecision(6)]
+                    ]
+                    ).then(
+                        function (route) {
+                            route.getPaths().options.set({
+
+                                //можно выставить настройки графики маршруту
+                                strokeColor: 'FF9911',
+                                opacity: 0.9,
+                                strokeWidth: 4
+                            });
+                            route.getPaths().get(0).balloon.destroy();
+                            myMap.geoObjects.add(route.getPaths());
+                            routeSegment = route;
+                            route.getPaths().events.add('click', function () {
+
+                                alert("Вы неправльно поставили участок");
+
+                            });
+                        });
                     countElementSegGlobal.length++;
 
-                    var coords = e.get('coords');
+
                     var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
                    edges = [];
 
@@ -1053,18 +1126,8 @@
                             $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
                         }
                     });
-                    //навешивание валидации
-                    //$('[action="/Home/SaveSuccess"]').validate();
-                    //$('td [type="text"]').each(function (ind, element) {
 
-                    //    $(element).rules("add", {
-                    //        number: true,
-                    //        messages: {
-                    //            number: "requere number"
-                    //        }
-                    //    });
-                    //});
-
+                    tempDate2.push(tempData);
                     tempData = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
                     massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                     increment++;

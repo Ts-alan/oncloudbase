@@ -63,19 +63,20 @@ td input {
          }
      }
      
-   @media (min-width: 992px) {       
-  .carousel-inner {
-             height: 600px
-         }
-         .carousel-inner img {
-             height: 500px !important
-         }
-         .modal-dialog {
-        width: 700px;
+@media (min-width: 992px) {
+    .carousel-inner {
+        height: 450px;
+    }
 
-         }
-     }     
-   @media (min-width: 1200px) {
+        .carousel-inner img {
+            height: 380px !important;
+        }
+
+    .modal-dialog {
+        width: 600px;
+    }
+}   
+   @media (min-width: 1400px) {
          .carousel-inner {
              height: 700px
          }

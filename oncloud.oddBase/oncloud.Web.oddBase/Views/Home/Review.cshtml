@@ -118,7 +118,7 @@
                         }
                     },
                     {
-                        preset: "islands#blueCircleIcon"
+                        preset: "islands#grayCircleIcon"
 
                     });
                     if (DataOfSegment[i].ChangeDislocationTCODD == true) {
@@ -134,6 +134,14 @@
 
                 for (var i = 0; i < "@Model.Segment.Count"; i++) {
                     setSegment(i);
+                }
+                var MassLD = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.layoutDislocation))');
+                console.log(MassLD);
+                for (var j = 0; j < MassLD.length; j++) {
+                    $('#changeColorDislocation' + MassLD[j] + '').removeClass("btn-default");
+                    $('#changeColorDislocation' + MassLD[j] + '').addClass("btn-danger");
+                    if (myMap.geoObjects.get(massSegment[MassLD[j] - 1]).options._Bm.preset != "islands#redCircleIcon")
+                        myMap.geoObjects.get(massSegment[MassLD[j]-1]).options.set("preset", "islands#blueCircleIcon");
                 }
 
                 var multiplicity, incrementMul = 0;
@@ -241,11 +249,11 @@
         var segmentString = obj[id-1].segmentString;
         var finalString = "";
         finalString = "Участок №" + id + " нуждается в изменении. </br>";
-        if (segmentString != null && segmentString != "") 
+        if (segmentString != null && segmentString != "")
         {
             finalString += segmentString;
-        } 
-        else 
+        }
+        else
         {
             finalString += "Дополнительная информация не указана.";
         }
@@ -583,7 +591,7 @@
                     </ol>
 
                     <!-- Wrapper for slides -->
-                    <div class="carousel-inner" style="height: 700px; " role="listbox">
+                    <div class="carousel-inner" style=" " role="listbox">
                         @for (int i = 0; i < Model.Segment.Count; i++)
                         {
                             <div class="item RoadBarriersItem" style ="padding-left: 147px; padding-right: 147px; overflow: auto;">

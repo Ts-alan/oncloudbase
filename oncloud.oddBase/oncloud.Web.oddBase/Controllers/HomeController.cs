@@ -415,6 +415,7 @@ namespace oncloud.Web.oddBase.Controllers
                 segmentString = s.string120Symbol
             });
             ViewBag.jsonStreet = js.Serialize(segments);
+            ViewBag.layoutDislocation = db.layoutDislocations.Where(a => a.StreetId == id).Select(a => a.Segment.Name).ToList();
             return View(street);
         }
         public virtual ActionResult FindStreets(string term)
