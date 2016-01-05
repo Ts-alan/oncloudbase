@@ -437,33 +437,37 @@
         });
         increment = massSegment.length + 1;
         
-        if ((massSegment.length+1) == index) {
-            
+        if ((massSegment.length + 1) == index) {
+
             myMap.geoObjects.remove(routeSegment.getPaths());
-            if (massSegment.length!=0){
-            ymaps.route([
-                          Arr[0],
-                          tempDate2.pop()
-            ]
-                  ).then(
-                      function (route) {
-                          route.getPaths().options.set({
+            if (massSegment.length != 0) {
+                ymaps.route([
+                        Arr[0],
+                        tempDate2.pop()
+                    ]
+                ).then(
+                    function(route) {
+                        route.getPaths().options.set({
 
-                              //можно выставить настройки графики маршруту
-                              strokeColor: 'FF9911',
-                              opacity: 0.9,
-                              strokeWidth: 4
-                          });
-                          route.getPaths().get(0).balloon.destroy();
-                          myMap.geoObjects.add(route.getPaths());
-                          routeSegment = route;
-                          route.getPaths().events.add('click', function () {
+                            //можно выставить настройки графики маршруту
+                            strokeColor: 'FF9911',
+                            opacity: 0.9,
+                            strokeWidth: 4
+                        });
+                        route.getPaths().get(0).balloon.destroy();
+                        myMap.geoObjects.add(route.getPaths());
+                        routeSegment = route;
+                        route.getPaths().events.add('click', function() {
 
-                              alert("Вы неправльно поставили участок");
+                            alert("Вы неправльно поставили участок");
 
-                          });
-                      });
-                                    }
+                        });
+                    });
+            }
+        } else {
+          
+            tempDate2.splice(index , 1);
+            
         }
 
     }
@@ -801,7 +805,7 @@
         $('form[action="/Home/SaveSuccess"]').on('click', "#BlockSegment", function () {
 
             $('form[action="/Home/SaveSuccess"]').off("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
-
+            currentRoute.getPaths().events.remove('click', handlerSegment);
             $("#BlockSegment").css("display", "none");
             $(".setSegment").one('click', setSegment);
             myMap.geoObjects.each(function (el, index) {

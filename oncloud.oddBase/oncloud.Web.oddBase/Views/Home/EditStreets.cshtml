@@ -817,7 +817,11 @@
                               });
                           });
             }
-             }
+        }
+        else {
+            tempDate2.splice(index, 1);
+            console.log(tempDate2);
+        }
     }
     //чистка полей
     function cleaningRoadSigns(par) {
@@ -990,9 +994,10 @@
                     }
 
                     if (increment > 4) {
-
+                       
                         if (increment == 5) {
-                            $("#segment4+div").remove();
+                            
+                            $("#segment4").parent().next().remove();
                             $("#interData+h5").css("clear", "left");
                             $("#interData").after('<div style="float: left"  >' +
                                 '<button type="button"  class="btn btn-default setSegment">Задать/Изменить координаты</button>' +
@@ -1146,6 +1151,9 @@
         $('[action^="/Home/EditStreets"]').one('click', ".setSegment", setSegment);
         //отправка формы
         $(' [action^="/Home/EditStreets"]').on('click', "#BlockSegment", function () {
+            
+            currentRoute.getPaths().events.remove('click', handlerSegment);
+          
             $(".ShowHideSegment").each(function (ind, element) {
                 $(element).hide();
             });
@@ -1170,7 +1178,7 @@
         //$('form[action="/Home/EditStreets"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
 
 
-        $(".setSegment").one('click', setSegment);
+        //$(".setSegment").one('click', setSegment);
 
         $("#breadthS, #lengthS, #breadthE, #lengthE").change(function () {
             Set();
