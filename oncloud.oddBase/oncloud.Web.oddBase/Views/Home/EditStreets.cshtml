@@ -320,7 +320,9 @@
                      $(element).attr("value", DataOfSegment[ind].string120Symbol);
 
                    });
-
+                 //$("form").removeData("validator");
+                 //$("form").removeData("unobtrusiveValidation");
+                 //$.validator.unobtrusive.parse("form");
 
                  countElementSegGlobal = "@Model.Segment.Count";
                  var multiplicity, incrementMul = 0, changeColor;
@@ -1559,7 +1561,7 @@
                                                                 <td>
                                                                     @item.Description
                                                                 </td>
-                                                                <td style="vertical-align: middle"><input name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
+                                                                <td style="vertical-align: middle"><input data-val="true" data-val-number="The field Number must be a number." data-val-required="The Number field is required." name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
 
                                                             </tr>
                                                         }
