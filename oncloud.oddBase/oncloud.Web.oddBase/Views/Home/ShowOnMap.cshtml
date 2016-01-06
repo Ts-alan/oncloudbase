@@ -196,9 +196,15 @@
 
     function createModalContent(result) {
         var list = "";
-        console.log(result[0].streetId);
-        list = '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
-               '<br>Компоновочная схема<br></h3><img src="/Home/GetImageLayoutScheme/' + result[0].streetId + '"><div class="carousel-caption"></div></div>';
+        var IsSheme;
+        $.ajax({url: "/Home/GetImageLayoutScheme",data: { id: result[0].streetId },async:false}).success(function(e) {IsSheme=e});
+        if (IsSheme != "") {
+            list = '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
+                '<br>Компоновочная схема<br></h3><img src="/Home/GetImageLayoutScheme/' + result[0].streetId + '"><div class="carousel-caption"></div></div>';
+        } else {
+            list = '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
+                '<br>Компоновочная схема не загружена<br></h3><div class="carousel-caption"></div></div>';
+        }
         for (var i = 0; i < result.length; i++) {
             list += '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
                 'г.Минск ул.' +
