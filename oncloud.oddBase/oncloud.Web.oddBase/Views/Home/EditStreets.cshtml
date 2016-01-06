@@ -126,9 +126,13 @@
                                                       {
                                                           preset: "islands#grayCircleIcon",
                                                           draggable: true
+
                                                       });
+                     if ((i + 1)==1)
+                         tempDate2.push(['@Model.BreadthS', '@Model.LengthS']);
                      if("@Model.Segment.Count"!=(i+1))
-                     tempDate2.push([DataOfSegment[i].BreadthE, DataOfSegment[i].LengthE]);
+                         tempDate2.push([DataOfSegment[i].BreadthE, DataOfSegment[i].LengthE]);
+
                      if (DataOfSegment[i].ChangeDislocationTCODD == true) {
 
                          segment.options.set("preset", "islands#redCircleIcon");
@@ -787,13 +791,15 @@
         });
         increment = massSegment.length + 1;
         if (index == 1) {
-            $('name="LayoutDislocationDelete"').first().remove();
+     
+            $('[name="LayoutDislocationDelete"]').first().remove();
         }
+       
         if ((massSegment.length + 1) == index) {
-
+            
             myMap.geoObjects.remove(routeSegment.getPaths());
             if (massSegment.length != 0) {
-                console.log(massSegment.length);
+               
                 ymaps.route([
                         ['@Model.BreadthS', '@Model.LengthS'],
                               tempDate2.pop()
@@ -820,7 +826,7 @@
         }
         else {
             tempDate2.splice(index, 1);
-            console.log(tempDate2);
+            
         }
     }
     //чистка полей
@@ -994,9 +1000,9 @@
                     }
 
                     if (increment > 4) {
-                       
+
                         if (increment == 5) {
-                            
+
                             $("#segment4").parent().next().remove();
                             $("#interData+h5").css("clear", "left");
                             $("#interData").after('<div style="float: left"  >' +
@@ -1151,9 +1157,9 @@
         $('[action^="/Home/EditStreets"]').one('click', ".setSegment", setSegment);
         //отправка формы
         $(' [action^="/Home/EditStreets"]').on('click', "#BlockSegment", function () {
-            
+
             currentRoute.getPaths().events.remove('click', handlerSegment);
-          
+
             $(".ShowHideSegment").each(function (ind, element) {
                 $(element).hide();
             });
