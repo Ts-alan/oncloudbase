@@ -196,7 +196,7 @@
 
     function createModalContent(result) {
         var list = "";
-
+        console.log(result[0].streetId);
         list = '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
                '<br>Компоновочная схема<br></h3><img src="/Home/GetImageLayoutScheme/' + result[0].streetId + '"><div class="carousel-caption"></div></div>';
         for (var i = 0; i < result.length; i++) {
@@ -231,7 +231,7 @@
         }
         if (city!="" && street!="") {
             var cityFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.cityName.toLowerCase().indexOf(city.toLowerCase()) > -1; });
-            console.log(cityFiltered);
+            
             var streetFiltered = $.grep(cityFiltered, function(cityFiltered) { return cityFiltered.name.toLowerCase().indexOf(street.toLowerCase()) > -1; });
             console.log(cityFiltered);
             addToGeoObjects(streetFiltered);

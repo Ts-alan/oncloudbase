@@ -1,13 +1,14 @@
 ﻿@{
     ViewBag.Title = "Администрирование";
 }
+<h2>Администрирование</h2>
 <div class="row">
     @if (User.IsInRole("admin"))
     {
         <div class="col-md-4">
             @if (User.IsInRole("admin"))
             {
-                <h2>Редактирование справочников</h2>
+                <h4>Редактирование справочников</h4>
                 <p>@Html.ActionLink("Редактировать справочник городов и улиц", MVC.Streets.Index(), new {@class = "btn btn-default btn-block wideBtn"})</p>
                 <p>@Html.ActionLink("Редактировать справочник дорожной разметки", MVC.HorizontalRoadMarkings.Index(), new {@class = "btn btn-default btn-block wideBtn"})</p>
                 <p>@Html.ActionLink("Редактировать справочник дорожных знаков", MVC.RoadSigns.Index(), new {@class = "btn btn-default btn-block wideBtn"})</p>
@@ -19,7 +20,7 @@
     {
         <div class="col-md-4 col-md-offset-4">
 
-            <h2>Управление пользователями</h2>
+            <h4>Управление пользователями</h4>
             <p>@Html.ActionLink("Администрирование пользователей", MVC.Administration.Users(), new { @class = "btn btn-default" })</p>
 
         </div>
@@ -28,7 +29,7 @@
     {
         <div class="col-md-4 col-md-offset-8">
 
-            <h2>Управление пользователями</h2>
+            <h4>Управление пользователями</h4>
             <p>@Html.ActionLink("Администрирование пользователей", MVC.Administration.Users(), new { @class = "btn btn-default" })</p>
 
         </div>
