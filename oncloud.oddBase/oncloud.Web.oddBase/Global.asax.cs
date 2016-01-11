@@ -17,6 +17,7 @@ namespace oncloud.Web.oddBase
     {
         protected void Application_Start()
         {
+
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, IdentityContextMigrations.Configuration>());
 
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<EFDbContext, Configuration>());
@@ -29,6 +30,8 @@ namespace oncloud.Web.oddBase
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
+           
+
         }
     }
 }

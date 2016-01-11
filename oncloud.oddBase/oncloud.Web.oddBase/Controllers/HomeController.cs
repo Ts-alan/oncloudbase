@@ -15,15 +15,20 @@ using oncloud.Web.oddBase.Models.Home;
 using OddBasyBY.Models;
 using WebGrease.Css.Extensions;
 
+
 namespace oncloud.Web.oddBase.Controllers
 {
    
     public partial class HomeController : Controller
     {
         private EFDbContext db = new EFDbContext();
+        NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         public virtual ActionResult Index()
         {
+            
+            
+            
             return View();
         }
 
@@ -44,6 +49,8 @@ namespace oncloud.Web.oddBase.Controllers
             [ModelBinder(typeof(CustomModelBinderForRB))] ICollection<SpecificationOfRb> SpecificationofRB,
             HttpPostedFileBase layoutScheme = null, [ModelBinder(typeof(CustomModelBinderForlayoutDislocation))] List<ModelLayoutDislocation> layoutDislocation = null)
         {
+            logger.Info("Пользователь {0} создал улицу {1}",User.Identity.Name,street.Name);
+
             int LastIndexSegment;
             if (db.Segment.Any())
             {
@@ -193,6 +200,8 @@ namespace oncloud.Web.oddBase.Controllers
         [Authorize(Roles = "admin,SetMembers,EditData")]
         public virtual ActionResult DeleteStreet(int id)
         {
+            Street street = db.Street.Find(id);
+            logger.Info("Пользователь {0} удалил улицу {1}", User.Identity.Name, street.Name);
             DeleteDataStreet(id,false);
             return RedirectToAction("Table");
         }
@@ -202,8 +211,9 @@ namespace oncloud.Web.oddBase.Controllers
         
         public virtual ActionResult EditStreets(int id)
         {
-            Street street = db.Street.Find(id);
 
+            Street street = db.Street.Find(id);
+            logger.Info("Пользователь {0} изменил улицу {1}", User.Identity.Name, street.Name);
             Session["idStreet"] = street.id;
 
             ViewBag.RoadMarking = db.TheHorizontalRoadMarking.ToList().OrderBy(a =>
