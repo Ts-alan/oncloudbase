@@ -692,6 +692,7 @@
     <Content Include="Views\Home\EditStreets.cshtml" />
     <Content Include="Views\Home\Review.cshtml" />
     <Content Include="Views\Home\ShowOnMap.cshtml" />
+    <Content Include="Views\Shared\ErrorValidate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -595,7 +595,7 @@
                             route.getPaths().options.set({
 
                                 //можно выставить настройки графики маршруту
-                                strokeColor: 'FF9911',
+                                strokeColor: 'rgb(20,10,115)',
                                 opacity: 0.9,
                                 strokeWidth: 4
                             });
@@ -787,9 +787,7 @@
                     tempData = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
                     massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                     increment++;
-                    //$("form").removeData("validator");
-                    //$("form").removeData("unobtrusiveValidation");
-                    //$.validator.unobtrusive.parse("form");
+               
                   
                 }
                 currentRoute.getPaths().events.add('click', handlerSegment);
