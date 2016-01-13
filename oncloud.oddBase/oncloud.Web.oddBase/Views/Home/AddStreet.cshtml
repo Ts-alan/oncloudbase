@@ -320,7 +320,7 @@
     function deleteSegment(index) {
         
         countElementSegGlobal.length--;
-
+      
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1]));
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1] - 1));
 
@@ -451,7 +451,7 @@
                         route.getPaths().options.set({
 
                             //можно выставить настройки графики маршруту
-                            strokeColor: 'FF9911',
+                            strokeColor: 'rgb(20,10,115)',
                             opacity: 0.9,
                             strokeWidth: 4
                         });
@@ -572,13 +572,13 @@
                 alert("Задайте улицу или возможно нажмите кнопку сохранить в этом пункте");
             } else {
 
-                if (identifierForDelBallon == true) {
+                //if (identifierForDelBallon == true) {
 
-                    currentRoute.getPaths().get(0).balloon.destroy();
+                //    currentRoute.getPaths().get(0).balloon.destroy();
                    
 
-                    identifierForDelBallon = false;
-                }
+                //    identifierForDelBallon = false;
+                //}
 
                 handlerSegment = function (e) {
                    
@@ -848,7 +848,7 @@
         });
         //заблокировать поля  улицы и убрать координаты
         $("#blockStreetCoord").click(function () {
-
+            
             //делает readOnly  инпуты
             if (currentRoute != undefined && identifierForDelete != 1) {
                 $(this).parent().prev().children("input").each(function (indx, element) {
@@ -874,9 +874,14 @@
                 //var segments= currentRoute.getPaths().get(0).getSegments();
             
                 tempData = Arr[0];
-
+                
                 myMap.geoObjects.add(currentRoute.getPaths());
-
+                //убитие балуна
+                currentRoute.getPaths().events.add('click', function (e) {
+                    e.preventDefault();
+                   
+                    currentRoute.getPaths().get(0).balloon.close();
+                } );
             } else {
                 alert("Задайте сначала маршрут");
             }
