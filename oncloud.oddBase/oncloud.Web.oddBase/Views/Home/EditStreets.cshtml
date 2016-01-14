@@ -10,7 +10,7 @@
     var myMap, myPlacemark, Arr = [[]], counterArr = 0, handlerRoute, currentRoute,
         firstPointRoute, endPointRoute, position, identifierForDelete = 0, routeSegment,
         increment = 1, tempData = [],tempDate2=[], tempDataFor3 = 5, objects, identifierForDelBallon = true, CoordinatesforFirstLoad,
-        CountObjectInMap, transfercurrentRoute, massSegment = [], handlerSegment, countElementSegGlobal =new Array();
+        CountObjectInMap, transfercurrentRoute, massSegment = [], handlerSegment, countElementSegGlobal ;
      incForTab1 = 8, incForTab2 = 8;
 
     function init() {
@@ -322,9 +322,8 @@
                  });
 
 
-                 countElementSegGlobal.length = new Array("@Model.Segment.Count");
+                 countElementSegGlobal = new Array(parseInt("@Model.Segment.Count"));
 
-                 console.log(countElementSegGlobal);
                  var multiplicity, incrementMul = 0, changeColor;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
                      if (multiplicity != undefined) {
