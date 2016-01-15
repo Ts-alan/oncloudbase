@@ -1,6 +1,7 @@
 ﻿function printTable (tableId, hId)
 {
     $(document.body).append("<div id='target'></div>");
+    $("#CityStreet").clone().appendTo('#target');
     $(hId).clone().appendTo('#target');
     $(tableId).clone().appendTo('#target');
     $("#target").find("table.ui-jqgrid-htable").unwrap().unwrap().css({
