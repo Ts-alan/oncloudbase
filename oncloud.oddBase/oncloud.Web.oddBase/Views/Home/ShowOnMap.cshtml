@@ -172,7 +172,7 @@
     function setTCODD(object, id) {
         //формирование выборки элементов с ид, равным ид выбранной улицы
         var result = $.grep(idsArray, function(idsArray) { return idsArray.streetId == id; });
-
+        
         //заполнение модального окна
         $("#layoutDislocationIndicators").html(createModalList(result));
         $("#TCODDcontainer").html(createModalContent(result));
@@ -197,6 +197,7 @@
     function createModalContent(result) {
         var list = "";
         var IsSheme;
+        
         $.ajax({url: "/Home/GetImageLayoutScheme",data: { id: result[0].streetId },async:false}).success(function(e) {IsSheme=e});
         if (IsSheme != "") {
             list = '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
@@ -205,6 +206,7 @@
             list = '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
                 '<br>Компоновочная схема не загружена<br></h3><div class="carousel-caption"></div></div>';
         }
+        
         for (var i = 0; i < result.length; i++) {
             list += '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
                 'г.Минск ул.' +
@@ -212,7 +214,8 @@
                 '<br>Дислокация ТСОДД участок' +
                 (i + 1) +
                 '</h3>';
-            if (idsArray[i].layoutdisId != null)
+            
+            if (result[i].layoutdisId != null)
             {
                 list += '<img id="TCODD" src="/Home/LayoutDislocation/' + result[i].layoutdisId + '"/>';
             }
@@ -239,7 +242,7 @@
             var cityFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.cityName.toLowerCase().indexOf(city.toLowerCase()) > -1; });
             
             var streetFiltered = $.grep(cityFiltered, function(cityFiltered) { return cityFiltered.name.toLowerCase().indexOf(street.toLowerCase()) > -1; });
-            console.log(cityFiltered);
+           
             addToGeoObjects(streetFiltered);
         }
         if (city == "" && street != "") 
