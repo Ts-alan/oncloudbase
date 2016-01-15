@@ -77,7 +77,23 @@
         </div>
     </div>
 </div>
-
+<div id="DeleteStructures" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Удаление улицы</h4>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены, что хотите удалить эту улицу?&hellip;</p>
+            </div>
+            <div class="modal-footer">
+                @Html.ActionLink("Да, удалить", "DeleteStreet", null, new { id = "idDelete", @class = "btn btn-danger" })
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     var ymaps;
     ymaps.ready(init);
@@ -118,7 +134,7 @@
         //        //редактирование контента стандартного балуна
         //        route.getPaths().get(0).properties.set("balloonContentHeader", "");
         //        route.getPaths().get(0).properties.set("balloonContent", balloonContent);
-                
+
         //        myMap.geoObjects.add(route.getPaths());
         //        itCount ++;
         //    }, function(error) {
@@ -128,16 +144,16 @@
         //console.log(route.getPaths().options.get("index"));
         //console.log(route.getPaths().properties.get("index"));
 
-        for (var i = 0; i < coordsArray.length; i++) 
+        for (var i = 0; i < coordsArray.length; i++)
         {
             createRoute(coordsArray[i].breadthS, coordsArray[i].lengthS, coordsArray[i].breadthE, coordsArray[i].lengthE, i);
         }
     }
 
     $(document).ready(function() {
-       
-    //перелистование слайдера при нажатии на клавиши
-    $("#layoutDislocation").keyup(function(e){
+
+        //перелистование слайдера при нажатии на клавиши
+        $("#layoutDislocation").keyup(function(e){
             if (e.which == 39) {
                 $("#carousel-example-generic .carousel-control.right").trigger('click');
             } else if (e.which == 37) {
@@ -151,7 +167,7 @@
                 findRoute();
             }
         });
-     
+
         //слайдер опции
         $('.carouselTCODD').carousel({
             interval: false
@@ -166,13 +182,13 @@
 
             }
         });
-       
+
     });
 
     function setTCODD(object, id) {
         //формирование выборки элементов с ид, равным ид выбранной улицы
         var result = $.grep(idsArray, function(idsArray) { return idsArray.streetId == id; });
-        
+
         //заполнение модального окна
         $("#layoutDislocationIndicators").html(createModalList(result));
         $("#TCODDcontainer").html(createModalContent(result));
@@ -197,7 +213,7 @@
     function createModalContent(result) {
         var list = "";
         var IsSheme;
-        
+
         $.ajax({url: "/Home/GetImageLayoutScheme",data: { id: result[0].streetId },async:false}).success(function(e) {IsSheme=e});
         if (IsSheme != "") {
             list = '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
@@ -206,7 +222,7 @@
             list = '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
                 '<br>Компоновочная схема не загружена<br></h3><div class="carousel-caption"></div></div>';
         }
-        
+
         for (var i = 0; i < result.length; i++) {
             list += '<div class="item TCODD"><h3 style="color: black; text-align: center">' +
                 'г.Минск ул.' +
@@ -214,7 +230,7 @@
                 '<br>Дислокация ТСОДД участок' +
                 (i + 1) +
                 '</h3>';
-            
+
             if (result[i].layoutdisId != null)
             {
                 list += '<img id="TCODD" src="/Home/LayoutDislocation/' + result[i].layoutdisId + '"/>';
@@ -240,22 +256,22 @@
         }
         if (city!="" && street!="") {
             var cityFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.cityName.toLowerCase().indexOf(city.toLowerCase()) > -1; });
-            
+
             var streetFiltered = $.grep(cityFiltered, function(cityFiltered) { return cityFiltered.name.toLowerCase().indexOf(street.toLowerCase()) > -1; });
-           
+
             addToGeoObjects(streetFiltered);
         }
-        if (city == "" && street != "") 
+        if (city == "" && street != "")
         {
             var streetOnlyFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.name.toLowerCase().indexOf(street.toLowerCase()) > -1; });
             addToGeoObjects(streetOnlyFiltered);
-        } 
-        if (city != "" && street == "") 
+        }
+        if (city != "" && street == "")
         {
             var cityOnlyFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.cityName.toLowerCase().indexOf(city.toLowerCase()) > -1; });
             addToGeoObjects(cityOnlyFiltered);
-        } 
-        
+        }
+
     }
 
 
@@ -274,13 +290,16 @@
                     strokeWidth: 4
                 });
 
-                balloonContent = "<h4>" + array[itCount].name + "</h4><a type='button' href='#' onclick='setTCODD(this," + array[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
+                balloonContent = "<h4>" + array[itCount].name + "</h4><a type='button' href='#' onclick='setTCODD(this," + array[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' ><b>Посмотреть дислокацию ТСОДД<b></a> <br>" +
                     "<a data-toggle='modal' href='/Home/Review/" + array[itCount].Id + "'>Посмотреть данные улицы</a>";
+                     if('@User.IsInRole("Review")'=="False")
+                balloonContent +="<a data-toggle='modal' href='/Home/EditStreets/" + coordsArray[itCount].Id + "'>Изменение данных улицы</a><br>"+
+                            "<a data-toggle='modal' href='#DeleteStructures' role='button'    data-toggle='modal' onclick='setStreet(" + coordsArray[itCount].Id + ")'>Удаление данных улицы</a>";
 
                 //редактирование контента стандартного балуна
                 route.getPaths().get(0).properties.set("balloonContentHeader", "");
                 route.getPaths().get(0).properties.set("balloonContent", balloonContent);
-                
+
                 myMap.geoObjects.add(route.getPaths());
                 itCount ++;
             }, function(error) {
@@ -295,27 +314,33 @@
 
         var balloonContent;
         ymaps.route([[breadthS, lengthS], [breadthE, lengthE]]).then(function(route) {
-                    route.getPaths().options.set({
-                        //можно выставить настройки графики маршруту
-                        strokeColor: '0000ffff',
-                        opacity: 0.9,
-                        strokeWidth: 4
-                    });
+            route.getPaths().options.set({
+                //можно выставить настройки графики маршруту
+                strokeColor: '0000ffff',
+                opacity: 0.9,
+                strokeWidth: 4
+            });
 
-                    balloonContent = "<h4>" + coordsArray[itCount].name + "</h4><a type='button' href='#' onclick='setTCODD(this," + coordsArray[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
-                        "<a data-toggle='modal' href='/Home/Review/" + coordsArray[itCount].Id + "'>Посмотреть данные улицы</a>";
+            balloonContent = "<h4>" + coordsArray[itCount].name + "</h4><a type='button' href='#' onclick='setTCODD(this," + coordsArray[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation'><b >Посмотреть дислокацию ТСОДД</b></a> <br>" +
+                "<a data-toggle='modal' href='/Home/Review/" + coordsArray[itCount].Id + "'>Посмотреть данные улицы</a><br>";
+              if('@User.IsInRole("Review")'=="False")
+                balloonContent +="<a data-toggle='modal' href='/Home/EditStreets/" + coordsArray[itCount].Id + "'>Изменение данных улицы</a><br>"+
+                            "<a data-toggle='modal' href='#DeleteStructures' role='button'    data-toggle='modal' onclick='setStreet(" + coordsArray[itCount].Id + ")'>Удаление данных улицы</a>";
 
-                    //редактирование контента стандартного балуна
-                    route.getPaths().get(0).properties.set("balloonContentHeader", "");
-                    route.getPaths().get(0).properties.set("balloonContent", balloonContent);
-                
-                    myMap.geoObjects.add(route.getPaths());
-                    itCount ++;
-                }, function(error) {
-                    alert('Возникла ошибка: ' + error.message);
-                });
+            //редактирование контента стандартного балуна
+            route.getPaths().get(0).properties.set("balloonContentHeader", "");
+            route.getPaths().get(0).properties.set("balloonContent", balloonContent);
+
+            myMap.geoObjects.add(route.getPaths());
+            itCount ++;
+        }, function(error) {
+            alert('Возникла ошибка: ' + error.message);
+        });
     }
+    function setStreet(object) {
 
+        $("#idDelete").attr("href", "/Home/DeleteStreet/" + object+"?idPage=ShowOnMap");
+    }
 
 
 </script>

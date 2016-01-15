@@ -198,12 +198,15 @@ namespace oncloud.Web.oddBase.Controllers
             db.SaveChanges();
         }
         [Authorize(Roles = "admin,SetMembers,EditData")]
-        public virtual ActionResult DeleteStreet(int id)
+        public virtual ActionResult DeleteStreet(int id,string idPage="Table")
         {
             Street street = db.Street.Find(id);
             logger.Info("Пользователь {0} удалил улицу {1}", User.Identity.Name, street.Name);
             DeleteDataStreet(id,false);
+            if(idPage=="Table")
             return RedirectToAction("Table");
+            else
+            return RedirectToAction("ShowOnMap");
         }
 
         [HttpGet]

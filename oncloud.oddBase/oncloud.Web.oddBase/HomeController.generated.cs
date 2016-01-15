@@ -180,6 +180,7 @@ namespace oncloud.Web.oddBase.Controllers
         public class ActionParamsClass_DeleteStreet
         {
             public readonly string id = "id";
+            public readonly string idPage = "idPage";
         }
         static readonly ActionParamsClass_EditStreets s_params_EditStreets = new ActionParamsClass_EditStreets();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -351,14 +352,15 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
-        partial void DeleteStreetOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id);
+        partial void DeleteStreetOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id, string idPage);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult DeleteStreet(int id)
+        public override System.Web.Mvc.ActionResult DeleteStreet(int id, string idPage)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteStreet);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
-            DeleteStreetOverride(callInfo, id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "idPage", idPage);
+            DeleteStreetOverride(callInfo, id, idPage);
             return callInfo;
         }
 

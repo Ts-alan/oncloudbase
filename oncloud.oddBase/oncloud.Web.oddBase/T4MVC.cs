@@ -95,7 +95,6 @@ namespace Links
         public static readonly string bootstrap_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/bootstrap.min.js") ? Url("bootstrap.min.js") : Url("bootstrap.js");
         public static readonly string bootstrap_min_js = Url("bootstrap.min.js");
         public static readonly string CustomPrint_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/CustomPrint.min.js") ? Url("CustomPrint.min.js") : Url("CustomPrint.js");
-        public static readonly string FullMapDisplay_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/FullMapDisplay.min.js") ? Url("FullMapDisplay.min.js") : Url("FullMapDisplay.js");
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public static class jqGrid {
             private const string URLPATH = "~/Scripts/jqGrid";
@@ -667,7 +666,6 @@ namespace Links
                 public const string bootstrap_js = "~/Scripts/bootstrap.js"; 
                 public const string bootstrap_min_js = "~/Scripts/bootstrap.min.js"; 
                 public const string CustomPrint_js = "~/Scripts/CustomPrint.js"; 
-                public const string FullMapDisplay_js = "~/Scripts/FullMapDisplay.js"; 
                 public const string jquery_1_10_2_intellisense_js = "~/Scripts/jquery-1.10.2.intellisense.js"; 
                 public const string jquery_1_10_2_js = "~/Scripts/jquery-1.10.2.js"; 
                 public const string jquery_1_10_2_min_js = "~/Scripts/jquery-1.10.2.min.js"; 
