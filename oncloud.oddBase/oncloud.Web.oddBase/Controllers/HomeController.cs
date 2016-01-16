@@ -490,7 +490,7 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
 
-        public virtual ActionResult ShowOnMap()
+        public virtual ActionResult ShowOnMap(int? id)
         {
             JavaScriptSerializer js = new JavaScriptSerializer();
             
@@ -508,7 +508,7 @@ namespace oncloud.Web.oddBase.Controllers
                           }).ToList();
 
             ViewBag.streestDislocationsListJSON = js.Serialize(idQuery);
-
+            ViewBag.FindStreet = id;
             ViewBag.coordsJson = js.Serialize(db.Street.OrderBy(o=>o.id).ToList().Select(x => new
             {
                 name = x.Name,

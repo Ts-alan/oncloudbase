@@ -501,50 +501,50 @@
     }
     //изменения цвета
     function changeColorMackUp(e) {
-        $('[onclick="changeColorMackUp(event)"]').closest("#ModalMackUp").find("td>input").each(function (ind, element) {
+        //$('[onclick="changeColorMackUp(event)"]').closest("#ModalMackUp").find("td>input").each(function (ind, element) {
 
-            if ($(element).hasClass("input-validation-error")) {
+        //    if ($(element).hasClass("input-validation-error")) {
 
-                alert("Вы ввели недопустимые знаки в полях");
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                return false;
-            }
-        });
+        //        alert("Вы ввели недопустимые знаки в полях");
+        //        e.preventDefault();
+        //        e.stopImmediatePropagation();
+        //        return false;
+        //    }
+        //});
         $('[data-target="#ModalMackUp"]').removeClass("btn-default");
         $('[data-target="#ModalMackUp"]').addClass("btn-danger");
     }
 
     function changeColorRoadSigns(par,e) {
         
-        $('[onclick="changeColorRoadSigns(' + par + ',event)"]').closest("#ModalRoadSigns" + par + "").find("td>input").each(function (ind, element) {
+        //$('[onclick="changeColorRoadSigns(' + par + ',event)"]').closest("#ModalRoadSigns" + par + "").find("td>input").each(function (ind, element) {
             
-            if ($(element).hasClass("input-validation-error")) {
+        //    if ($(element).hasClass("input-validation-error")) {
                 
-                alert("Вы ввели недопустимые знаки в полях");
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                return false;
-            }
-        });
+        //        alert("Вы ввели недопустимые знаки в полях");
+        //        e.preventDefault();
+        //        e.stopImmediatePropagation();
+        //        return false;
+        //    }
+        //});
 
         $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-default");
         $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-danger");
     }
 
     function changeColorRoadBarriers(par, e) {
-        $('[onclick="changeColorRoadBarriers(' + par + ',event)"]').closest("#RoadBarriers" + par + "").find("td>input").each(function (ind, element) {
+        //$('[onclick="changeColorRoadBarriers(' + par + ',event)"]').closest("#RoadBarriers" + par + "").find("td>input").each(function (ind, element) {
 
-            if ($(element).hasClass("input-validation-error")) {
+        //    if ($(element).hasClass("input-validation-error")) {
 
-                alert("Вы ввели недопустимые знаки в полях");
-                e.preventDefault();
-                e.stopImmediatePropagation();
+        //        alert("Вы ввели недопустимые знаки в полях");
+        //        e.preventDefault();
+        //        e.stopImmediatePropagation();
                
-                return false;
+        //        return false;
                 
-            }
-        });
+        //    }
+        //});
         $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-default");
         $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-danger");
     }
@@ -572,13 +572,7 @@
                 alert("Задайте улицу или возможно нажмите кнопку сохранить в этом пункте");
             } else {
 
-                //if (identifierForDelBallon == true) {
 
-                //    currentRoute.getPaths().get(0).balloon.destroy();
-                   
-
-                //    identifierForDelBallon = false;
-                //}
 
                 handlerSegment = function (e) {
                    
@@ -1071,8 +1065,8 @@
                                 <td>
                                     @item.description
                                 </td>
-                                <td  style="vertical-align: middle"><input data-val="true" data-val-number="The field Number must be a number." data-val-required="The Number field is required."  name="ModalsL@(item.NumberMarking)" type="text" /></td>
-                                <td  style="vertical-align: middle"><input data-val="true" data-val-number="The field Number must be a number." data-val-required="The Number field is required." name="ModalsA@(item.NumberMarking)" type="text" /></td>
+                                <td  style="vertical-align: middle"><input   name="ModalsL@(item.NumberMarking)" type="text" /></td>
+                                <td  style="vertical-align: middle"><input  name="ModalsA@(item.NumberMarking)" type="text" /></td>
                             </tr>
                         }
 
@@ -1183,7 +1177,7 @@
                                 <td>
                                     @item.Description
                                 </td>
-                                <td style="vertical-align: middle"><input data-val="true" data-val-number="The field Number must be a number." data-val-required="The Number field is required." name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
+                                <td style="vertical-align: middle"><input  name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
 
                             </tr>
                         }

@@ -107,6 +107,12 @@ namespace oncloud.Web.oddBase.Controllers
         {
             return new T4MVC_System_Web_Mvc_FileContentResult(Area, Name, ActionNames.LayoutDislocation);
         }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult ShowOnMap()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ShowOnMap);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public HomeController Actions { get { return MVC.Home; } }
@@ -236,6 +242,14 @@ namespace oncloud.Web.oddBase.Controllers
         public ActionParamsClass_LayoutDislocation LayoutDislocationParams { get { return s_params_LayoutDislocation; } }
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionParamsClass_LayoutDislocation
+        {
+            public readonly string id = "id";
+        }
+        static readonly ActionParamsClass_ShowOnMap s_params_ShowOnMap = new ActionParamsClass_ShowOnMap();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_ShowOnMap ShowOnMapParams { get { return s_params_ShowOnMap; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_ShowOnMap
         {
             public readonly string id = "id";
         }
@@ -457,13 +471,14 @@ namespace oncloud.Web.oddBase.Controllers
         }
 
         [NonAction]
-        partial void ShowOnMapOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+        partial void ShowOnMapOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int? id);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult ShowOnMap()
+        public override System.Web.Mvc.ActionResult ShowOnMap(int? id)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ShowOnMap);
-            ShowOnMapOverride(callInfo);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            ShowOnMapOverride(callInfo, id);
             return callInfo;
         }
 

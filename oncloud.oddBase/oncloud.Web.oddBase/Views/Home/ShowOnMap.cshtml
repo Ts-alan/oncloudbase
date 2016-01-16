@@ -105,10 +105,11 @@
     function init() {
         myMap = new ymaps.Map("map", {
             center: [53.9172, 27.5601],
-            zoom: 11
+            zoom: 11,
+            controls: []
         });
+
         myMap.behaviors.disable(["dblClickZoom"]);
-        myMap.controls.remove('trafficControl').remove('mapTools').remove('searchControl').remove('ListBox');
         myMap.controls.add(
             new ymaps.control.TypeSelector(
                 ['yandex#map', 'yandex#hybrid', 'yandex#satellite']
@@ -143,14 +144,26 @@
         //}
         //console.log(route.getPaths().options.get("index"));
         //console.log(route.getPaths().properties.get("index"));
+        //фильтр для улицы
+        if ('@ViewBag.FindStreet' != "") {
+            var streetOnlyFiltered1 = $.grep(coordsArray, function(coordsArray) {
 
+                return coordsArray.Id == '@ViewBag.FindStreet';
+            });
+            console.log(streetOnlyFiltered1);
+            addToGeoObjects(streetOnlyFiltered1);
+
+        }
+        else{
         for (var i = 0; i < coordsArray.length; i++)
         {
             createRoute(coordsArray[i].breadthS, coordsArray[i].lengthS, coordsArray[i].breadthE, coordsArray[i].lengthE, i);
         }
+        }
     }
 
     $(document).ready(function() {
+        
 
         //перелистование слайдера при нажатии на клавиши
         $("#layoutDislocation").keyup(function(e){
@@ -270,6 +283,7 @@
         {
             var cityOnlyFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.cityName.toLowerCase().indexOf(city.toLowerCase()) > -1; });
             addToGeoObjects(cityOnlyFiltered);
+
         }
 
     }
@@ -277,7 +291,7 @@
 
     //Заполнение массива геообъектов отфильтрованными результатами поиска
     function addToGeoObjects(array) {
-
+       
         myMap.geoObjects.removeAll();
         var balloonContent = "";
         var itCount = 0;
@@ -289,10 +303,9 @@
                     opacity: 0.9,
                     strokeWidth: 4
                 });
-
-                balloonContent = "<h4>" + array[itCount].name + "</h4><a type='button' href='#' onclick='setTCODD(this," + array[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' ><b>Посмотреть дислокацию ТСОДД<b></a> <br>" +
-                    "<a data-toggle='modal' href='/Home/Review/" + array[itCount].Id + "'>Посмотреть данные улицы</a>";
-                     if('@User.IsInRole("Review")'=="False")
+balloonContent = "<h4>" + coordsArray[itCount].name + "</h4><a type='button' href='#' onclick='setTCODD(this," + coordsArray[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation'><b >Посмотреть дислокацию ТСОДД</b></a> <br>" +
+                "<a data-toggle='modal' href='/Home/Review/" + coordsArray[itCount].Id + "'>Посмотреть данные улицы</a><br>";
+              if('@User.IsInRole("Review")'=="False")
                 balloonContent +="<a data-toggle='modal' href='/Home/EditStreets/" + coordsArray[itCount].Id + "'>Изменение данных улицы</a><br>"+
                             "<a data-toggle='modal' href='#DeleteStructures' role='button'    data-toggle='modal' onclick='setStreet(" + coordsArray[itCount].Id + ")'>Удаление данных улицы</a>";
 

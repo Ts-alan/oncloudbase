@@ -86,7 +86,7 @@
         <tr>
 
             <td>@item.Location</td>
-            <td>@item.Denomination</td>
+            <td>rererefds</td>
             <td>@item.NumberSegment</td>
             <td>
 
@@ -110,12 +110,13 @@
 
             </td>
             <td>
-                <div>@Html.ActionLink("Просмотреть данные улицы", "Review", new { id = item.IdStreet })</div>
+                <div>@Html.ActionLink("Показать на карте", "ShowOnMap", new { id = item.IdStreet })</div>
+                <div>@Html.ActionLink("Просмотреть данные улицы", "Review", new {id = item.IdStreet})</div>
                 @if (!User.IsInRole("Review"))
                 {
-                    <div>@Html.ActionLink("Изменить", "EditStreets", new { id = item.IdStreet })</div>
-                <div><a href="#DeleteStructures" role="button" onclick="setStreet(this)" idDelete="@item.IdStreet" data-toggle="modal">Удалить </a>
-                </div>
+                    <div>@Html.ActionLink("Изменить", "EditStreets", new {id = item.IdStreet})</div>
+                    <div><a href="#DeleteStructures" role="button" onclick="setStreet(this)" idDelete="@item.IdStreet" data-toggle="modal">Удалить </a>
+                    </div>
                 }
             </td>
         </tr>
