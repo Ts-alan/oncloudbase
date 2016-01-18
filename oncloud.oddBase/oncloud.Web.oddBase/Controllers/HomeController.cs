@@ -233,7 +233,7 @@ namespace oncloud.Web.oddBase.Controllers
             });
             ViewBag.RoadSigns = db.RoadSigns.ToList();
 
-            ViewBag.layoutDislocation = db.layoutDislocations.Where(a => a.StreetId == id).Select(a => a.Segment.Name).ToList();
+            ViewBag.layoutDislocation = db.layoutDislocations.Where(a => a.StreetId == id).Select(a => new { a.Segment.Name,id=a.Id}).ToList();
 
             ViewBag.layoutScheme = db.layoutSchemes.SingleOrDefault(a => a.Id == id);
 

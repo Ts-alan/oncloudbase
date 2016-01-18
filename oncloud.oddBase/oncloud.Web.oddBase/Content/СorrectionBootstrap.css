@@ -52,15 +52,19 @@ td input {
 
     
      @media (min-width: 768px) {
-         .carousel-inner {
-             height: 400px
-         }
-         .carousel-inner img {
-             height: 300px !important
-         }
-          .modal-dialog {
-          width: 500px;
-         }
+             .carousel-inner {
+                 height: 400px
+             }
+             .carousel-inner img {
+                 height: 300px !important
+             }
+
+                 .modal-body img {
+            height: 300px !important;
+        }
+              .modal-dialog {
+              width: 500px;
+             }
      }
      
 @media (min-width: 992px) {
@@ -71,7 +75,9 @@ td input {
         .carousel-inner img {
             height: 380px !important;
         }
-
+        .modal-body img {
+            height: 380px !important;
+        }
     .modal-dialog {
         width: 600px;
     }
@@ -83,8 +89,11 @@ td input {
          .carousel-inner img {
              height: 600px !important
          }
+                 .modal-body img {
+            height: 600px !important;
+        }
         .modal-dialog {
         width: 900px;
-
-    }
+         }
+  
 }
