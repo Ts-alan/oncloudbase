@@ -26,3 +26,10 @@ function printPicture(picture) {
     $('#target').remove();
 
 }
+
+function editStreetPrintPicture(divName) {
+    $("body").prepend("<div id='target'></div>");
+    $(divName).clone().appendTo('#target');
+    $('#target').printThis();
+    $('#target').remove();
+}

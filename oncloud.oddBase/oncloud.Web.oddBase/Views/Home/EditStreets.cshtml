@@ -396,6 +396,7 @@
     }
 
     function SetidlayoutDislocation(par) {
+
         $('[class="modal-body"]').html("");
         $('[class="modal-body"]').html('<h3 style="color: black; text-align: center">' +
                 'г.Минск ул.' +
@@ -403,6 +404,7 @@
                 '<br>Дислокация ТСОДД участок' +
                 +par+
                 '<img id="TCODD" src="/Home/LayoutDislocation/' + par + '"/>');
+        
     }
     //изменения цвета
     function setColorSegment(index, object) {
@@ -1643,11 +1645,11 @@
             <div class="modal-header" style="border-width: 0px">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="printable">
 
             </div>
             <div class="modal-footer" style="border-width: 0px">
-                <button type="button" class="btn btn-default" onclick="printPicture('.TCODD')">Печать</button>
+                <button type="button" id ="printButton" title="" class="btn btn-default" onclick="editStreetPrintPicture('#printable')">Печать</button>
             </div>
 
         </div>
