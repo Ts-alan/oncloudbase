@@ -95,5 +95,7 @@ td input {
         .modal-dialog {
         width: 900px;
          }
-  
+         .modal-content {
+             width:900px !important
+         }
 }

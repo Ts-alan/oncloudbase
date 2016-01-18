@@ -372,7 +372,7 @@
                      $('#changeColorDislocation' + MassLD[j].Name + '').addClass("btn-danger");
                      if (myMap.geoObjects.get(massSegment[MassLD[j].Name - 1]).options._Bm.preset != "islands#redCircleIcon")
                          myMap.geoObjects.get(massSegment[MassLD[j].Name - 1]).options.set("preset", "islands#blueCircleIcon");
-                     $(".DataOfRoad" + MassLD[j].Name + "").append("<button type='button' data-toggle='modal' data-target='#layoutDislocation' onclick='SetidlayoutDislocation(" + MassLD[j].id + " )'  class='btn btn-default' style='width:330px' >Просмотреть загруженную дислокацию ТСОДД</button>");
+                     $(".DataOfRoad" + MassLD[j].Name + "").append("<button type='button' data-toggle='modal' data-target='#layoutDislocation' onclick='SetidlayoutDislocation(" + MassLD[j].id + "," + MassLD[j].Name + " )'  class='btn btn-default' style='width:330px' >Просмотреть загруженную дислокацию ТСОДД</button>");
                  }
                  $('[name*="ModalsL"]').each(function (index, element) {
 
@@ -395,14 +395,15 @@
 
     }
 
-    function SetidlayoutDislocation(par) {
+    function SetidlayoutDislocation(par1,par2) {
+       
         $('[class="modal-body"]').html("");
         $('[class="modal-body"]').html('<h3 style="color: black; text-align: center">' +
                 'г.Минск ул.' +
                 "@Model.Name" +
                 '<br>Дислокация ТСОДД участок' +
-                +par+
-                '<img id="TCODD" src="/Home/LayoutDislocation/' + par + '"/>');
+                +par2 +
+                '<img id="TCODD" src="/Home/LayoutDislocation/' + par1 + '"/>');
     }
     //изменения цвета
     function setColorSegment(index, object) {
@@ -686,7 +687,7 @@
     function deleteSegment(index) {
 
         countElementSegGlobal.length--;
-        console.log(countElementSegGlobal.length);
+    
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1]));
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1] - 1));
 
@@ -1639,7 +1640,7 @@
 <div class="modal fade" id="layoutDislocation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
 
-        <div class="modal-content">
+        <div  class="modal-content">
             <div class="modal-header" style="border-width: 0px">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
