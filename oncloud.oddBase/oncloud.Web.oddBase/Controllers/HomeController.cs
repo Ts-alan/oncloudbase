@@ -461,6 +461,17 @@ namespace oncloud.Web.oddBase.Controllers
                              };
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
         }
+        public virtual ActionResult FindRoadSings(string term)
+        {
+            var NumberRoadSigns = from m in db.RoadSigns where m.NumberRoadSigns.Contains(term) select m;
+            var projection = from t in NumberRoadSigns
+                             select new
+                             {
+                                 label = t.NumberRoadSigns,
+                                 value = t.NumberRoadSigns
+                             };
+            return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
+        }
         public virtual FileContentResult GetImageLayoutScheme(int id)
         {
             layoutScheme LayoutScheme = db.layoutSchemes.Find(id);

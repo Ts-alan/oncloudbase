@@ -115,42 +115,14 @@
                 ['yandex#map', 'yandex#hybrid', 'yandex#satellite']
             )
         );
-        var balloonContent = "";
-        var itCount = 0;
-
-
-        //Кусочек старого алгоритма. Работал плохо, но пусть будет. Вдруг идеи из него пригодятся.
-        //for (var i = 0; i < coordsArray.length; i++) {
-        //    ymaps.route([[coordsArray[i].breadthS, coordsArray[i].lengthS], [coordsArray[i].breadthE, coordsArray[i].lengthE]]).then(function(route) {
-        //        route.getPaths().options.set({
-        //            //можно выставить настройки графики маршруту
-        //            strokeColor: '0000ffff',
-        //            opacity: 0.9,
-        //            strokeWidth: 4
-        //        });
-
-        //        balloonContent = "<h4>" + coordsArray[itCount].name + "</h4><a type='button' href='#' onclick='setTCODD(this," + coordsArray[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation' >Посмотреть дислокацию ТСОДД</a> <br>" +
-        //            "<a data-toggle='modal' href='/Home/Review/" + coordsArray[itCount].Id + "'>Посмотреть данные улицы</a>";
-
-        //        //редактирование контента стандартного балуна
-        //        route.getPaths().get(0).properties.set("balloonContentHeader", "");
-        //        route.getPaths().get(0).properties.set("balloonContent", balloonContent);
-
-        //        myMap.geoObjects.add(route.getPaths());
-        //        itCount ++;
-        //    }, function(error) {
-        //        alert('Возникла ошибка: ' + error.message);
-        //    });
-        //}
-        //console.log(route.getPaths().options.get("index"));
-        //console.log(route.getPaths().properties.get("index"));
+  
         //фильтр для улицы
         if ('@ViewBag.FindStreet' != "") {
             var streetOnlyFiltered1 = $.grep(coordsArray, function(coordsArray) {
 
                 return coordsArray.Id == '@ViewBag.FindStreet';
             });
-            console.log(streetOnlyFiltered1);
+            
             addToGeoObjects(streetOnlyFiltered1);
 
         }
@@ -303,10 +275,11 @@
                     opacity: 0.9,
                     strokeWidth: 4
                 });
-balloonContent = "<h4>" + coordsArray[itCount].name + "</h4><a type='button' href='#' onclick='setTCODD(this," + coordsArray[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation'><b >Посмотреть дислокацию ТСОДД</b></a> <br>" +
-                "<a data-toggle='modal' href='/Home/Review/" + coordsArray[itCount].Id + "'>Посмотреть данные улицы</a><br>";
+               
+                balloonContent = "<h4>" + array[itCount].name + "</h4><a type='button' href='#' onclick='setTCODD(this," + array[itCount].Id + ")' data-toggle='modal' data-target='#layoutDislocation'><b >Посмотреть дислокацию ТСОДД</b></a> <br>" +
+                "<a data-toggle='modal' href='/Home/Review/" + array[itCount].Id + "'>Посмотреть данные улицы</a><br>";
               if('@User.IsInRole("Review")'=="False")
-                balloonContent +="<a data-toggle='modal' href='/Home/EditStreets/" + coordsArray[itCount].Id + "'>Изменение данных улицы</a><br>"+
+                  balloonContent +="<a data-toggle='modal' href='/Home/EditStreets/" + array[itCount].Id + "'>Изменение данных улицы</a><br>"+
                             "<a data-toggle='modal' href='#DeleteStructures' role='button'    data-toggle='modal' onclick='setStreet(" + coordsArray[itCount].Id + ")'>Удаление данных улицы</a>";
 
                 //редактирование контента стандартного балуна

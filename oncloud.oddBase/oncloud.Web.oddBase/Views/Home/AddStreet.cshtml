@@ -889,6 +889,15 @@
 
             }
         });
+        //подсказки знаков
+        var autocompleteUrlRS = '/Home/FindRoadSings';
+        $('[name="Street.Name"]').autocomplete({
+            source: autocompleteUrl,
+            minLength: 2,
+            select: function (event, ui) {
+
+            }
+        });
         //при клике по tr фокус по input
         $("tr td").has("input").click(function (eventObject) {
 
@@ -1083,65 +1092,30 @@
      <!-- ModalRoadSigns -->
     <div class="modal fade" id="ModalRoadSigns1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 800px">
-                <div class="modal-header">
+            <div class="modal-content" style="width: 800px; ">
+                <div class="modal-header" style="border-bottom:0px">
 
 
                 </div>
-                <div class="modal-body" style="height: 800px;overflow: auto">
-                    <div>
-
-                        <!-- Nav tabs -->
-                        <ul style="width: 400px" class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#tab1" aria-controls="1" role="tab" data-toggle="tab">1</a></li>
-                            <li role="presentation"><a href="#tab2" aria-controls="2" role="tab" data-toggle="tab">2</a></li>
-                            <li role="presentation"><a href="#tab3" aria-controls="3" role="tab" data-toggle="tab">3</a></li>
-                            <li role="presentation"><a href="#tab4" aria-controls="4" role="tab" data-toggle="tab">4</a></li>
-                            <li role="presentation"><a href="#tab5" aria-controls="5" role="tab" data-toggle="tab">5</a></li>
-                            <li role="presentation"><a href="#tab6" aria-controls="6" role="tab" data-toggle="tab">6</a></li>
-                            <li role="presentation"><a href="#tab7" aria-controls="7" role="tab" data-toggle="tab">7</a></li>
-
-                        </ul>
-
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane active" id="tab1">
-                                @{
-                                    Session["increment"] = "1";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="tab2">
-                                @{ Session["increment"] = "2";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="tab3">
-                                @{ Session["increment"] = "3";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="tab4">
-                                @{ Session["increment"] = "4";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="tab5">
-                                @{ Session["increment"] = "5";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="tab6">
-                                @{ Session["increment"] = "6";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="tab7">
-                                @{ Session["increment"] = "7";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-                            </div>
-                        </div>
-
-                    </div>
-
+                <div class="modal-body" style="height: 800px; overflow: auto;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>№ знака</th>
+                            <th>Картинка</th>
+                            <th>Описание</th>
+                            <th width="101px">Маркер</th>
+                            <th>Количество</th>
+                        </tr>
+                        <tr>
+                            <td><input class="FindRoadSings"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+</table>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="border-top:0px">
                     <button type="button" class="btn btn-default buttonclose" onclick="cleaningRoadSigns(1)" data-dismiss="modal">Закрыть</button>
                     <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadSigns(1,event)" data-dismiss="modal">Сохранить</button>
                 </div>

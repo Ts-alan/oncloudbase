@@ -59,9 +59,9 @@ td input {
                  height: 300px !important
              }
 
-                 .modal-body img {
-            height: 300px !important;
-        }
+                 /*.modal-body img {
+            height: 300px !important;*/
+        /*}*/
               .modal-dialog {
               width: 500px;
              }
@@ -75,9 +75,9 @@ td input {
         .carousel-inner img {
             height: 380px !important;
         }
-        .modal-body img {
+        /*.modal-body img {
             height: 380px !important;
-        }
+        }*/
     .modal-dialog {
         width: 600px;
     }
@@ -89,9 +89,9 @@ td input {
          .carousel-inner img {
              height: 600px !important
          }
-                 .modal-body img {
+                 /*.modal-body img {
             height: 600px !important;
-        }
+        }*/
         .modal-dialog {
         width: 900px;
          }
