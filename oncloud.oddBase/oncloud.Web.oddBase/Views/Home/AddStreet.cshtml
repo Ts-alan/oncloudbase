@@ -1,4 +1,8 @@
-﻿
+﻿@using System.Collections
+@using Newtonsoft.Json
+@using oncloud.Domain.Entities
+@using System.Linq;
+
 @{
     ViewBag.Title = "AddStreet";
 }
@@ -18,7 +22,7 @@
         identifierForDelete = 0,
         increment = 1,
         tempData,
-        tempDate2=[],
+        tempDate2 = [],
         tempDataFor3 = 5,
         objects,
         identifierForDelBallon = true,
@@ -301,26 +305,26 @@
     }
     //изменения цвета
     function setColorSegment(index, object) {
-        if ($(object).val() == "true"){
+        if ($(object).val() == "true") {
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#redCircleIcon");
             $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'visible');
         }
         else {
-            
+
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
             $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'hidden').attr("value", "");
         }
     }
 
     function setColorSegmentByLoadImage(index) {
-        if(myMap.geoObjects.get(massSegment[index - 1]).options._gb.preset != "islands#redCircleIcon")
-        myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
+        if (myMap.geoObjects.get(massSegment[index - 1]).options._gb.preset != "islands#redCircleIcon")
+            myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
     }
     //удаление сегмента
     function deleteSegment(index) {
-        
+
         countElementSegGlobal.length--;
-      
+
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1]));
         myMap.geoObjects.remove(myMap.geoObjects.get(massSegment[index - 1] - 1));
 
@@ -348,28 +352,28 @@
         });
 
         var countElement = $('[id^=segment]:has("*")');
-     
+
         //удаление координат
         if (countElement.length != 1) {
             $("#segment" + index).html("");
-            if (index != countElement.length&&index!=1) {
-            $("#breadthSegS" + (index + 1) + "").attr("value", $("#breadthSegE" + (index - 1) + "").val());
-            $("#lengthSegS" + (index + 1)).attr("value", $("#lengthSegE" + (index - 1)).val());
-                
+            if (index != countElement.length && index != 1) {
+                $("#breadthSegS" + (index + 1) + "").attr("value", $("#breadthSegE" + (index - 1) + "").val());
+                $("#lengthSegS" + (index + 1)).attr("value", $("#lengthSegE" + (index - 1)).val());
+
             }
-          
+
         } else {
             $("#breadthSegS1").attr("value", "");
             $("#lengthSegS1").attr("value", "");
             $("#breadthSegE1").attr("value", "");
             $("#lengthSegE1").attr("value", "");
         }
-      
+
         $('[id^=segment]').each(function (ind, domElement) {
-          
+
             //изменение содержимого координат
             if ((ind + 1) >= index) {
-            
+
                 $(domElement).html($('[id="segment' + (ind + 2) + '"]')
                   .find("u").first().text("Координаты участка " + (ind + 1)).end().end()
                     .find("input").first().attr("id", "breadthSegS" + (ind + 1)).end().end()
@@ -381,10 +385,10 @@
                 $(domElement).parent().remove();
                 tempDataFor3 = countElement.length;
             }
-                
-            
+
+
         });
-       
+
         $("#CountSides").val(countElement.length - 1);
 
         if (countElement.length == 5) {
@@ -397,7 +401,7 @@
             $("#interData+h5").css("clear", "none");
             tempDataFor3 = 5;
         }
- 
+
 
         //чистка модальных окон
         if (countElement.length != 1) {
@@ -408,22 +412,22 @@
                 $(elementMR).find("td input").each(function (ind, element) {
                     $(element).attr("name", (indMR + 1) + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
                 });
-         
+
             });
 
             $('[id="RoadBarriers' + index + '"]').remove();
-            $('[id^="RoadBarriers"]').each(function(ind, element) {
+            $('[id^="RoadBarriers"]').each(function (ind, element) {
                 $(element).attr("id", "RoadBarriers" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadBarriers(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadBarriers(' + (ind + 1) + ',event)');
-            }).each(function(indMR, elementMR) {
+            }).each(function (indMR, elementMR) {
 
-                $(elementMR).find("td input").each(function(ind, element) {
+                $(elementMR).find("td input").each(function (ind, element) {
                     $(element).attr("name", (indMR + 1) + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
 
                 });
             });
         }
-        
-        if (countElement.length != 1){
+
+        if (countElement.length != 1) {
             $(".DataOfRoad" + index).remove();
         }
         $('[class^="DataOfRoad"]').each(function (ind, element) {
@@ -436,18 +440,18 @@
             }
         });
         increment = massSegment.length + 1;
-        
+
         if ((massSegment.length + 1) == index) {
 
             myMap.geoObjects.remove(routeSegment.getPaths());
             if (massSegment.length != 0) {
-             
+
                 ymaps.route([
                         Arr[0],
                         tempDate2.pop()
-                    ]
+                ]
                 ).then(
-                    function(route) {
+                    function (route) {
                         route.getPaths().options.set({
 
                             //можно выставить настройки графики маршруту
@@ -458,7 +462,7 @@
                         route.getPaths().get(0).balloon.destroy();
                         myMap.geoObjects.add(route.getPaths());
                         routeSegment = route;
-                        route.getPaths().events.add('click', function() {
+                        route.getPaths().events.add('click', function () {
 
                             alert("Вы неправльно поставили участок");
 
@@ -466,9 +470,9 @@
                     });
             }
         } else {
-          
-            tempDate2.splice(index , 1);
-            
+
+            tempDate2.splice(index, 1);
+
         }
 
     }
@@ -515,12 +519,12 @@
         $('[data-target="#ModalMackUp"]').addClass("btn-danger");
     }
 
-    function changeColorRoadSigns(par,e) {
-        
+    function changeColorRoadSigns(par, e) {
+
         //$('[onclick="changeColorRoadSigns(' + par + ',event)"]').closest("#ModalRoadSigns" + par + "").find("td>input").each(function (ind, element) {
-            
+
         //    if ($(element).hasClass("input-validation-error")) {
-                
+
         //        alert("Вы ввели недопустимые знаки в полях");
         //        e.preventDefault();
         //        e.stopImmediatePropagation();
@@ -540,9 +544,9 @@
         //        alert("Вы ввели недопустимые знаки в полях");
         //        e.preventDefault();
         //        e.stopImmediatePropagation();
-               
+
         //        return false;
-                
+
         //    }
         //});
         $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-default");
@@ -552,9 +556,15 @@
     //задание координат
     $(document).ready(function () {
 
-    //подтягивание улицы в модальное окно
+        var DataOfRoadSings = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((ViewBag.RoadSigns as IEnumerable<RoadSigns>).Select(a=>new  { a.Description})
+                                            , Formatting.None,
+                new JsonSerializerSettings() {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                }))');
+        console.log(DataOfRoadSings);
+        //подтягивание улицы в модальное окно
         $('[data-target="#ModalMackUp"]').click(function () {
-           
+
             var textStreet = $('[name="Street.Name"]').val();
 
             if (textStreet != "") {
@@ -575,7 +585,7 @@
 
 
                 handlerSegment = function (e) {
-                   
+
                     var coords = e.get('coords');
                     if (routeSegment != undefined) {
                         myMap.geoObjects.remove(routeSegment.getPaths());
@@ -583,7 +593,7 @@
                     ymaps.route([
                             Arr[0],
                             [coords[0].toPrecision(6), coords[1].toPrecision(6)]
-                        ]
+                    ]
                     ).then(
                         function (route) {
                             route.getPaths().options.set({
@@ -597,15 +607,15 @@
                             myMap.geoObjects.add(route.getPaths());
                             routeSegment = route;
                             route.getPaths().events.add('click', function () {
-                                
+
                                 alert("Вы неправльно поставили участок");
 
                             });
                         });
-                
+
                     countElementSegGlobal.length++;
 
-                    
+
                     var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
                    edges = [];
 
@@ -681,7 +691,7 @@
                                                                         "<option value='true'>Да</option>" +
                                                                          "<option selected='selected' value='false'>Нет</option>" +
                                                                       "</select>" +
-                                                                      "<input name='Segment.string120Symbol" + increment + "'  style='max-width: 960px; width: 960px; visibility:hidden'/>"+
+                                                                      "<input name='Segment.string120Symbol" + increment + "'  style='max-width: 960px; width: 960px; visibility:hidden'/>" +
                                                          "</div>" +
                                                       "</div>");
 
@@ -698,7 +708,7 @@
                              $(element).attr("id", "tab" + incForTab2);
                              incForTab2++;
                          }).end());
-                      
+
 
                         $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
                             .attr("id", "RoadBarriers" + increment).find(".buttonclose")
@@ -765,24 +775,24 @@
 
                         if (boundaryObjects._xg.length == 0) {
 
-                            segment.geometry.setCoordinates(tempCoordinates);
+                            segment.geometry.setCoordinate(tempCoordinates);
 
                             $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
                             $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
                             $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
                             $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
                         }
-                     
-                      
-                  
+
+
+
                     });
 
                     tempDate2.push(tempData);
                     tempData = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
                     massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
                     increment++;
-               
-                  
+
+
                 }
                 currentRoute.getPaths().events.add('click', handlerSegment);
 
@@ -842,7 +852,7 @@
         });
         //заблокировать поля  улицы и убрать координаты
         $("#blockStreetCoord").click(function () {
-            
+
             //делает readOnly  инпуты
             if (currentRoute != undefined && identifierForDelete != 1) {
                 $(this).parent().prev().children("input").each(function (indx, element) {
@@ -866,16 +876,16 @@
                     strokeWidth: 4
                 });
                 //var segments= currentRoute.getPaths().get(0).getSegments();
-            
+
                 tempData = Arr[0];
-                
+
                 myMap.geoObjects.add(currentRoute.getPaths());
                 //убитие балуна
                 currentRoute.getPaths().events.add('click', function (e) {
                     e.preventDefault();
-                   
+
                     currentRoute.getPaths().get(0).balloon.close();
-                } );
+                });
             } else {
                 alert("Задайте сначала маршрут");
             }
@@ -891,10 +901,12 @@
         });
         //подсказки знаков
         var autocompleteUrlRS = '/Home/FindRoadSings';
-        $('[name="Street.Name"]').autocomplete({
-            source: autocompleteUrl,
-            minLength: 2,
+        $('.FindRoadSings').autocomplete({
+
+            source: autocompleteUrlRS,
+            minLength: 1,
             select: function (event, ui) {
+                $(event.target).closest("tr").children("td").eq(1).value("");
 
             }
         });
@@ -920,6 +932,8 @@
 
 </script>
 <style>
+    /*fix autocomplete in bootstrap*/
+     .ui-autocomplete { z-index:2147483647; }
     /*стили на для Upload кнопки*/
     .file_upload {
         position: relative;
@@ -928,21 +942,21 @@
         margin-bottom: 10px;
     }
 
-        .file_upload > input {
-            max-width: 284px;
-        }
+    .file_upload > input {
+        max-width: 284px;
+    }
 
-        .file_upload input[type=file] {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            transform: scale(1);
-            letter-spacing: 10em; /* IE 9 fix */
-            -ms-transform: scale(1); /* IE 9 fix */
-            opacity: 0;
-            cursor: pointer;
-        }
+    .file_upload input[type=file] {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        transform: scale(1);
+        letter-spacing: 10em; /* IE 9 fix */
+        -ms-transform: scale(1); /* IE 9 fix */
+        opacity: 0;
+        cursor: pointer;
+    }
     /*модальное окно*/
     .modal-dialog {
         width: 645px;

@@ -452,7 +452,9 @@ namespace oncloud.Web.oddBase.Controllers
         }
         public virtual ActionResult FindFilledStreets(string term)
         {
+         
             var streets = from m in db.Street where m.Name.Contains(term) select m;
+
             var projection = from street in streets
                              select new
                              {
@@ -463,8 +465,10 @@ namespace oncloud.Web.oddBase.Controllers
         }
         public virtual ActionResult FindRoadSings(string term)
         {
-            var NumberRoadSigns = from m in db.RoadSigns where m.NumberRoadSigns.Contains(term) select m;
-            var projection = from t in NumberRoadSigns
+            var contain = term.Count();
+            var numberRoadSigns = from m in db.RoadSigns  select m;
+            numberRoadSigns= numberRoadSigns.Where(a => a.NumberRoadSigns.Substring(0,contain) == term.Substring(0,contain));
+            var projection = from t in numberRoadSigns
                              select new
                              {
                                  label = t.NumberRoadSigns,
