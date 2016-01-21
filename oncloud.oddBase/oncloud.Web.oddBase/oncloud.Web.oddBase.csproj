@@ -391,6 +391,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\csstablegenerator.css" />
+    <Content Include="Content\dd.css" />
     <Content Include="Content\images\ONCLOUD logo site.png" />
     <Content Include="Content\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="Content\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
@@ -616,6 +617,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.dd.js" />
+    <Content Include="Scripts\jquery.dd.min.js" />
     <Content Include="Scripts\jquery.form\jquery.form.js" />
     <Content Include="Scripts\jquery.form\jquery.form.min.js" />
     <Content Include="Scripts\jQuery.print.js" />

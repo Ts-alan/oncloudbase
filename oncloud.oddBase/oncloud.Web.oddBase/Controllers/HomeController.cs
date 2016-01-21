@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using oncloud.Domain.Concrete;
 using oncloud.Domain.Entities;
 using oncloud.Web.oddBase.Models;
@@ -167,9 +168,15 @@ namespace oncloud.Web.oddBase.Controllers
                         .Replace(".", ","));
                 }
             });
-            ViewBag.RoadSigns = db.RoadSigns.ToList();
+         
             ViewBag.RoadBarriers = db.RoadBarriers.ToList();
             return View();
+        }
+
+        public virtual string GetRoadSigns(string idRS)
+        {
+
+            return JsonConvert.SerializeObject(db.RoadSigns.Where(a=>a.NumberRoadSigns== idRS).Select(a=>new {a.id,a.Description,a.RoadSignItems}));
         }
         [Authorize(Roles = "admin,SetMembers,EditData")]
         public void DeleteDataStreet(int id,bool isEdit)

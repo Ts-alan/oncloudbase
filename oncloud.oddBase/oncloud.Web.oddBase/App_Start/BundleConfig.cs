@@ -30,7 +30,8 @@ namespace oncloud.Web.oddBase
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/jquery-ui.css",
-                      "~/Content/СorrectionBootstrap.css"));
+                      "~/Content/СorrectionBootstrap.css"
+                      ));
             //css для Grid
             bundles.Add(new StyleBundle("~/Content/jqCrid").Include(
                       "~/Content/jqGrid/ui.jqgrid.css",
@@ -47,6 +48,10 @@ namespace oncloud.Web.oddBase
                        "~/Scripts/jquery.form/jquery.form.js",
                        "~/Scripts/jquery.form/jquery.form.min.js"
            ));
+            bundles.Add(new StyleBundle("~/bundles/DD").Include(
+                      "~/Scripts/jquery.dd.min.js",
+                      "~/Scripts/jquery.dd.js"
+          ));
             //javascript для Grid
             bundles.Add(new ScriptBundle("~/bundles/jqCrid").Include(
             "~/Scripts/jqGrid/i18n/grid.locale-en.js",

@@ -556,12 +556,6 @@
     //задание координат
     $(document).ready(function () {
 
-        var DataOfRoadSings = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((ViewBag.RoadSigns as IEnumerable<RoadSigns>).Select(a=>new  { a.Description})
-                                            , Formatting.None,
-                new JsonSerializerSettings() {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }))');
-        console.log(DataOfRoadSings);
         //подтягивание улицы в модальное окно
         $('[data-target="#ModalMackUp"]').click(function () {
 
@@ -906,8 +900,29 @@
             source: autocompleteUrlRS,
             minLength: 1,
             select: function (event, ui) {
-                $(event.target).closest("tr").children("td").eq(1).value("");
-
+                 $(event.target).closest("tr").children("td").eq(2).attr("");
+                $.get('@Url.Action("GetRoadSigns","Home")', {
+                    idRS: ui.item.value
+                }).success(function (result) {
+                    var JsonObject = JSON.parse(result);
+                    console.log(JsonObject[0].RoadSignItems);
+                    $(event.target).closest("tr").children("td").eq(1).html('<img style="height: 100px; width: 100px" src="/RoadSigns/GetImage/' + JsonObject[0].id + '">');
+                    $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].Description);
+                    $(event.target).closest("tr").children("td").eq(4).html('<input  name="1ModalC' + ui.item.value + '" type="text"/>');
+                    if (JsonObject[0].RoadSignItems.length > 0) {
+                        
+                        var dd = '<select  class="dd">';
+                        for(var i=0;i<JsonObject[0].RoadSignItems.length;i++) {
+                            dd += '<option value="calendar" data-image="/RoadSigns/GetItemImage/' + JsonObject[0].RoadSignItems[i].Id + '?hallmark=' + JsonObject[0].RoadSignItems[i].Hallmark + '"></option>';
+                            
+                        }
+                        dd += '</select>';
+                        
+                        $(event.target).closest("tr").children("td").eq(3).html(dd);
+                        
+                        $(event.target).closest("tr").children("td").eq(3).children().msDropDown();
+                    }
+                });
             }
         });
         //при клике по tr фокус по input
@@ -929,11 +944,18 @@
             show: false
         });
     });
-
+   
 </script>
 <style>
     /*fix autocomplete in bootstrap*/
      .ui-autocomplete { z-index:2147483647; }
+
+     span>img {
+         width: 100px!important
+     }
+     li>img {
+       width: 100px!important  
+     }
     /*стили на для Upload кнопки*/
     .file_upload {
         position: relative;
@@ -1121,11 +1143,18 @@
                             <th>Количество</th>
                         </tr>
                         <tr>
-                            <td><input class="FindRoadSings"></td>
+                            <td style="width: 185px;height: 115px"><input type="text" class="FindRoadSings"></td>
+                            <td style="width: 115px;height: 115px"></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>
+                                @*<select  name="webmenu" id="webmenu">
+                                    <option value="calendar" data-image="/RoadSigns/GetItemImage/1290?hallmark=00cc862d-7555-4035-b277-3fbe26a8b0c8"></option>
+                                    <option value="shopping_cart" data-image="/RoadSigns/GetItemImage/1290?hallmark=00cc862d-7555-4035-b277-3fbe26a8b0c8"></option>
+                                    <option value="cd" data-image="/RoadSigns/GetItemImage/1290?hallmark=00cc862d-7555-4035-b277-3fbe26a8b0c8"></option>
+
+                                </select>*@
+                            </td>
+                            <td  style="vertical-align: middle"></td>
                         </tr>
 </table>
                 </div>
