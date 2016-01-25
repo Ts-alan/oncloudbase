@@ -235,6 +235,8 @@
     function findRoute() {
         var city = $('#city').val();
         var street = $('#street').val();
+        $(".ymaps-2-1-29-balloon__close-button").trigger('click');
+        
         if (city == "" && street == "")
         {
             addToGeoObjects(coordsArray);
@@ -243,18 +245,27 @@
             var cityFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.cityName.toLowerCase().indexOf(city.toLowerCase()) > -1; });
 
             var streetFiltered = $.grep(cityFiltered, function(cityFiltered) { return cityFiltered.name.toLowerCase().indexOf(street.toLowerCase()) > -1; });
-
-            addToGeoObjects(streetFiltered);
+            
+            setTimeout(function(){
+                addToGeoObjects(streetFiltered);
+            }, 300);
         }
         if (city == "" && street != "")
         {
             var streetOnlyFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.name.toLowerCase().indexOf(street.toLowerCase()) > -1; });
-            addToGeoObjects(streetOnlyFiltered);
+           
+            setTimeout(function(){
+                addToGeoObjects(streetOnlyFiltered);
+            }, 300);
+            
         }
         if (city != "" && street == "")
         {
             var cityOnlyFiltered = $.grep(coordsArray, function(coordsArray) { return coordsArray.cityName.toLowerCase().indexOf(city.toLowerCase()) > -1; });
-            addToGeoObjects(cityOnlyFiltered);
+            
+            setTimeout(function(){
+                addToGeoObjects(cityOnlyFiltered);
+            }, 300);
 
         }
 
@@ -263,8 +274,13 @@
 
     //Заполнение массива геообъектов отфильтрованными результатами поиска
     function addToGeoObjects(array) {
-       
+        console.log($(".ymaps-2-1-29-balloon__close-button"));
+        //$(".ymaps-2-1-29-balloon__close-button").trigger('click');
+        
+
+
         myMap.geoObjects.removeAll();
+        
         var balloonContent = "";
         var itCount = 0;
         for (var i = 0; i <array.length; i++) {
