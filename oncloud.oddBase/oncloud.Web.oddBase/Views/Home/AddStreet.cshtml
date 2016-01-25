@@ -904,8 +904,18 @@
                 $.get('@Url.Action("GetRoadSigns","Home")', {
                     idRS: ui.item.value
                 }).success(function (result) {
+                    function compare(a, b) {
+                        if (a.ItemOrder < b.ItemOrder)
+                            return -1;
+                        else if (a.ItemOrder > b.ItemOrder)
+                            return 1;
+                        else
+                            return 0;
+                    }
+
                     var JsonObject = JSON.parse(result);
-                    console.log(JsonObject[0].RoadSignItems);
+                    JsonObject[0].RoadSignItems.sort(compare);
+                    
                     $(event.target).closest("tr").children("td").eq(1).html('<img style="height: 100px; width: 100px" src="/RoadSigns/GetImage/' + JsonObject[0].id + '">');
                     $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].Description);
                     $(event.target).closest("tr").children("td").eq(4).html('<input  name="1ModalC' + ui.item.value + '" type="text"/>');
@@ -913,7 +923,7 @@
                         
                         var dd = '<select  class="dd">';
                         for(var i=0;i<JsonObject[0].RoadSignItems.length;i++) {
-                            dd += '<option value="calendar" data-image="/RoadSigns/GetItemImage/' + JsonObject[0].RoadSignItems[i].Id + '?hallmark=' + JsonObject[0].RoadSignItems[i].Hallmark + '"></option>';
+                            dd += '<option value="' + JsonObject[0].RoadSignItems[i].ItemOrder + '" data-image="/RoadSigns/GetItemImage/' + JsonObject[0].RoadSignItems[i].Id + '?hallmark=' + JsonObject[0].RoadSignItems[i].Hallmark + '"></option>';
                             
                         }
                         dd += '</select>';
@@ -921,10 +931,15 @@
                         $(event.target).closest("tr").children("td").eq(3).html(dd);
                         
                         $(event.target).closest("tr").children("td").eq(3).children().msDropDown();
+                      
+                        $(event.target).closest("tr").find("select").change(function () {
+                           console.log($(this).val());
+                        });
                     }
                 });
             }
         });
+        
         //при клике по tr фокус по input
         $("tr td").has("input").click(function (eventObject) {
 
