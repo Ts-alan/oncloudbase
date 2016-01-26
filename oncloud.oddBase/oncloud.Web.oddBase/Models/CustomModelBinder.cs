@@ -82,21 +82,27 @@ namespace OddBasyBY.Models
 
                 for (int i = 0; i < ModalC.Count; i++)
                 {
-                    string[] tempValueC = request.Form.Get(ModalC.ElementAt(i)).Split(',');
-                    foreach (var item in tempValueC)
-                    {
-                        if (item != "")
-                        {
+                    string tempValueC = request.Form.Get(ModalC.ElementAt(i));
 
-                            ListSpecificationofRS.Add(new SpecificationofRS()
-                            {
-                                CountRS = int.Parse(item),
-                                RoadSignsIdModel = ModalC.ElementAt(i).Substring(ModalC.ElementAt(i).IndexOf("C") + 1),
-                                SegmentIdModel =
-                                    int.Parse(ModalC.ElementAt(i).Substring(0, ModalC.ElementAt(i).IndexOf("M")))
-                            });
-                        }
+                    if (ModalC.ElementAt(i).IndexOf("I")!=-1)
+                    {
+                        
+                        if (tempValueC != "")
+                            
+                        ListSpecificationofRS.Add(new SpecificationofRS()
+                        {
+                            CountRS = int.Parse(tempValueC),
+                            RoadSignsIdModel = ModalC.ElementAt(i).IndexOf("I") == -1
+                            ? ModalC.ElementAt(i).Substring(ModalC.ElementAt(i).IndexOf("C") + 1)
+                            : ModalC.ElementAt(i)
+                                .Substring(ModalC.ElementAt(i).IndexOf("C") + 1, (ModalC.ElementAt(i).IndexOf("I")) - (ModalC.ElementAt(i).IndexOf("C") + 1)),
+                            SegmentIdModel =
+                                int.Parse(ModalC.ElementAt(i).Substring(0, ModalC.ElementAt(i).IndexOf("M"))),
+                            ItemOrderId = ModalC.ElementAt(i).IndexOf("I") == -1 ? (int?)null : int.Parse(ModalC.ElementAt(i).Substring(ModalC.ElementAt(i).IndexOf("I") + 1))
+
+                        });
                     }
+
                 }
                 return ListSpecificationofRS;
             }

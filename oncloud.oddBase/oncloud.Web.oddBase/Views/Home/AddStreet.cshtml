@@ -29,8 +29,13 @@
         CountObjectInMap,
         transfercurrentRoute,
         routeSegment,
-        massSegment = [], handlerSegment, countElementSegGlobal = new Object(), incForTab1 = 8, incForTab2 = 8;
+        massSegment = [],
+        handlerSegment,
+        countElementSegGlobal = new Object(),
+        incForTab1 = 8,
+        incForTab2 = 8;
     countElementSegGlobal.length = 0;
+
     function init() {
 
         myMap = new ymaps.Map("map", {
@@ -41,9 +46,9 @@
 
         myMap.behaviors.disable(["dblClickZoom"]);
         myMap.controls.add(
-                            new ymaps.control.TypeSelector(
-                                ['yandex#map', 'yandex#hybrid', 'yandex#satellite']
-                            )
+            new ymaps.control.TypeSelector(
+                ['yandex#map', 'yandex#hybrid', 'yandex#satellite']
+            )
         );
 
 
@@ -59,15 +64,15 @@
         ymaps.route([
                 Arr[0],
                 Arr[1]
-        ],
+            ],
             {
                 mapStateAutoApply: true,
                 removeViaPoints: true
 
             }
         ).then(
-            function (route) {
-                route.events.add('dragend', function (e) {
+            function(route) {
+                route.events.add('dragend', function(e) {
 
                     Arr[0] = [route.requestPoints[0][0].toString().substr(0, 7), route.requestPoints[0][1].toString().substr(0, 7)];
                     Arr[1] = [route.requestPoints[1][0].toString().substr(0, 7), route.requestPoints[1][1].toString().substr(0, 7)];
@@ -87,7 +92,7 @@
                 points.get(1).properties.set("iconContent", "Конец улицы");
                 points.get(1).properties.set("balloonContentHeader", "<a href='#' onclick='setHandlerE()'>Удалить Обьект</a>");
                 points.get(1).options.set("preset", "islands#darkGreenStretchyIcon");
-                route.editor.events.add("routeupdate", function () {
+                route.editor.events.add("routeupdate", function() {
                     $("#breadthS").val(route.requestPoints[0][0].toString().substr(0, 7));
                     $("#lengthS").val(route.requestPoints[0][1].toString().substr(0, 7));
                     $("#breadthE").val(route.requestPoints[1][0].toString().substr(0, 7));
@@ -115,7 +120,7 @@
                 $("#breadthE").val(Arr[1][0]);
                 $("#lengthE").val(Arr[1][1]);
             },
-            function (error) {
+            function(error) {
                 alert("Возникла ошибка: " + error.message);
             });
 
@@ -134,7 +139,7 @@
         var myGeocoder = ymaps.geocode(position);
 
         myGeocoder.then(
-            function (res) {
+            function(res) {
 
                 myPlacemark = new ymaps.GeoObject({
                     geometry: {
@@ -161,7 +166,8 @@
             SetRoute(Arr);
         }
     }
-    //удаление начальной точки
+
+//удаление начальной точки
     function setHandlerS() {
         if (identifierForDelete == 0) {
             myMap.geoObjects.remove(currentRoute);
@@ -180,7 +186,7 @@
             { draggable: true, preset: "islands#darkGreenStretchyIcon" });
 
 
-            endPointRoute.events.add("dragend", function (e) {
+            endPointRoute.events.add("dragend", function(e) {
 
                 var coords = endPointRoute.geometry.getCoordinates();
                 Arr[1] = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
@@ -203,7 +209,8 @@
         }
         counterArr = 0;
     }
-    //удаление конченой точки
+
+//удаление конченой точки
     function setHandlerE() {
 
         if (identifierForDelete == 0) {
@@ -226,7 +233,8 @@
         }
 
     }
-    //задать координаты
+
+//задать координаты
     function SetCoords() {
         if ($("#blockStreet").css("display") == "none") {
             if (countElementSegGlobal.length == 0) {
@@ -237,17 +245,17 @@
                     myMap.geoObjects.add(currentRoute);
                     currentRoute.editor.start({ editWayPoints: true });
 
-                    $("#blockStreetCoord").parent().prev().children("input").each(function (indx, element) {
+                    $("#blockStreetCoord").parent().prev().children("input").each(function(indx, element) {
                         $(element).removeAttr("readonly");
 
                     });
 
-                    $("#blockStreetCoord").parent().prev().prev().prev().children("input").each(function (indx, element) {
+                    $("#blockStreetCoord").parent().prev().prev().prev().children("input").each(function(indx, element) {
                         $(element).removeAttr("readonly");
                     });
 
                 } else {
-                    handlerRoute = function (e) {
+                    handlerRoute = function(e) {
 
                         var coords = e.get('coords');
                         if (counterArr < 2) {
@@ -267,7 +275,7 @@
                                 }
                             },
                             { draggable: true, preset: "islands#darkGreenStretchyIcon" });
-                            firstPointRoute.events.add("dragend", function (e) {
+                            firstPointRoute.events.add("dragend", function(e) {
 
                                 var coords = firstPointRoute.geometry.getCoordinates();
                                 Arr[0] = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
@@ -303,13 +311,13 @@
             alert("Вы не выбрали или не сохранили улицу");
         }
     }
-    //изменения цвета
+
+//изменения цвета
     function setColorSegment(index, object) {
         if ($(object).val() == "true") {
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#redCircleIcon");
             $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'visible');
-        }
-        else {
+        } else {
 
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
             $('[name="Segment.string120Symbol' + index + '"]').css('visibility', 'hidden').attr("value", "");
@@ -320,7 +328,8 @@
         if (myMap.geoObjects.get(massSegment[index - 1]).options._gb.preset != "islands#redCircleIcon")
             myMap.geoObjects.get(massSegment[index - 1]).options.set("preset", "islands#blueCircleIcon");
     }
-    //удаление сегмента
+
+//удаление сегмента
     function deleteSegment(index) {
 
         countElementSegGlobal.length--;
@@ -335,7 +344,7 @@
         massSegment.splice(index - 1, 1);
 
         var j = 1;
-        myMap.geoObjects.each(function (el, index) {
+        myMap.geoObjects.each(function(el, index) {
 
             for (var i = 0; i < massSegment.length; i++) {
                 if (massSegment[i] == index) {
@@ -369,17 +378,17 @@
             $("#lengthSegE1").attr("value", "");
         }
 
-        $('[id^=segment]').each(function (ind, domElement) {
+        $('[id^=segment]').each(function(ind, domElement) {
 
             //изменение содержимого координат
             if ((ind + 1) >= index) {
 
                 $(domElement).html($('[id="segment' + (ind + 2) + '"]')
-                  .find("u").first().text("Координаты участка " + (ind + 1)).end().end()
+                    .find("u").first().text("Координаты участка " + (ind + 1)).end().end()
                     .find("input").first().attr("id", "breadthSegS" + (ind + 1)).end().end()
-                        .find("input").eq(1).attr("id", "lengthSegS" + (ind + 1)).end().end()
-                            .find("input").eq(2).attr("id", "breadthSegE" + (ind + 1)).end().end()
-                                .find("input").last().attr("id", "lengthSegE" + (ind + 1)).end().end().children());
+                    .find("input").eq(1).attr("id", "lengthSegS" + (ind + 1)).end().end()
+                    .find("input").eq(2).attr("id", "breadthSegE" + (ind + 1)).end().end()
+                    .find("input").last().attr("id", "lengthSegE" + (ind + 1)).end().end().children());
             }
             if ($('[id^=segment]').length == (ind + 1) && (countElement.length - 5) % 3 == 0 && countElement.length > 4) {
                 $(domElement).parent().remove();
@@ -395,8 +404,8 @@
             $("#interData+div").remove();
             $("#segment4").after("<div>" +
                 "<button type='button' class='btn btn-default setSegment'>Задать/Изменить координаты</button>" +
-                 "<button id='BlockSegment' type='button' class='btn btn-primary'>Сохранить</button>" +
-            "</div>");
+                "<button id='BlockSegment' type='button' class='btn btn-primary'>Сохранить</button>" +
+                "</div>");
 
             $("#interData+h5").css("clear", "none");
             tempDataFor3 = 5;
@@ -406,21 +415,21 @@
         //чистка модальных окон
         if (countElement.length != 1) {
             $('[id="ModalRoadSigns' + index + '"]').remove();
-            $('[id^="ModalRoadSigns"]').each(function (ind, element) {
+            $('[id^="ModalRoadSigns"]').each(function(ind, element) {
                 $(element).attr("id", "ModalRoadSigns" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadSigns(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadSigns(' + (ind + 1) + ',event)');
-            }).each(function (indMR, elementMR) {
-                $(elementMR).find("td input").each(function (ind, element) {
+            }).each(function(indMR, elementMR) {
+                $(elementMR).find("td input").each(function(ind, element) {
                     $(element).attr("name", (indMR + 1) + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
                 });
 
             });
 
             $('[id="RoadBarriers' + index + '"]').remove();
-            $('[id^="RoadBarriers"]').each(function (ind, element) {
+            $('[id^="RoadBarriers"]').each(function(ind, element) {
                 $(element).attr("id", "RoadBarriers" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadBarriers(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadBarriers(' + (ind + 1) + ',event)');
-            }).each(function (indMR, elementMR) {
+            }).each(function(indMR, elementMR) {
 
-                $(elementMR).find("td input").each(function (ind, element) {
+                $(elementMR).find("td input").each(function(ind, element) {
                     $(element).attr("name", (indMR + 1) + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
 
                 });
@@ -430,7 +439,7 @@
         if (countElement.length != 1) {
             $(".DataOfRoad" + index).remove();
         }
-        $('[class^="DataOfRoad"]').each(function (ind, element) {
+        $('[class^="DataOfRoad"]').each(function(ind, element) {
             if (countElement.length != 0) {
                 $(element).attr("class", "DataOfRoad" + (ind + 1));
                 $(element).find("u").text("Участок " + (ind + 1));
@@ -449,9 +458,9 @@
                 ymaps.route([
                         Arr[0],
                         tempDate2.pop()
-                ]
+                    ]
                 ).then(
-                    function (route) {
+                    function(route) {
                         route.getPaths().options.set({
 
                             //можно выставить настройки графики маршруту
@@ -462,7 +471,7 @@
                         route.getPaths().get(0).balloon.destroy();
                         myMap.geoObjects.add(route.getPaths());
                         routeSegment = route;
-                        route.getPaths().events.add('click', function () {
+                        route.getPaths().events.add('click', function() {
 
                             alert("Вы неправльно поставили участок");
 
@@ -476,19 +485,21 @@
         }
 
     }
-    //чистка полей
+
+//чистка полей
     function cleaningRoadSigns(par) {
 
-        $("#ModalRoadSigns" + par + " input").each(function (indx, element) {
+        $("#ModalRoadSigns" + par + " input").each(function(indx, element) {
             $(element).val("");
         });
 
         $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-danger");
         $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-default");
     }
+
     function cleaningModalMackUp() {
 
-        $("#ModalMackUp input").each(function (indx, element) {
+        $("#ModalMackUp input").each(function(indx, element) {
             $(element).val("");
         });
         $('[data-target="#ModalMackUp"]').removeClass("btn-danger");
@@ -497,13 +508,14 @@
 
     function cleaningRoadBarrier(par) {
 
-        $("#RoadBarriers" + par + " input").each(function (indx, element) {
+        $("#RoadBarriers" + par + " input").each(function(indx, element) {
             $(element).val("");
         });
         $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-danger");
         $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-default");
     }
-    //изменения цвета
+
+//изменения цвета
     function changeColorMackUp(e) {
         //$('[onclick="changeColorMackUp(event)"]').closest("#ModalMackUp").find("td>input").each(function (ind, element) {
 
@@ -554,10 +566,10 @@
     }
 
     //задание координат
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         //подтягивание улицы в модальное окно
-        $('[data-target="#ModalMackUp"]').click(function () {
+        $('[data-target="#ModalMackUp"]').click(function() {
 
             var textStreet = $('[name="Street.Name"]').val();
 
@@ -577,8 +589,7 @@
             } else {
 
 
-
-                handlerSegment = function (e) {
+                handlerSegment = function(e) {
 
                     var coords = e.get('coords');
                     if (routeSegment != undefined) {
@@ -587,9 +598,9 @@
                     ymaps.route([
                             Arr[0],
                             [coords[0].toPrecision(6), coords[1].toPrecision(6)]
-                    ]
+                        ]
                     ).then(
-                        function (route) {
+                        function(route) {
                             route.getPaths().options.set({
 
                                 //можно выставить настройки графики маршруту
@@ -600,7 +611,7 @@
                             route.getPaths().get(0).balloon.destroy();
                             myMap.geoObjects.add(route.getPaths());
                             routeSegment = route;
-                            route.getPaths().events.add('click', function () {
+                            route.getPaths().events.add('click', function() {
 
                                 alert("Вы неправльно поставили участок");
 
@@ -611,10 +622,10 @@
 
 
                     var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
-                   edges = [];
+                        edges = [];
 
                     // Переберем все сегменты и разобьем их на отрезки.
-                    pathsObjects.each(function (path) {
+                    pathsObjects.each(function(path) {
                         var coordinates = path.geometry.getCoordinates();
                         for (var i = 1, l = coordinates.length; i < l; i++) {
                             edges.push({
@@ -636,7 +647,7 @@
                             '</div><div>Координаты конца</div><div>' +
                             '<label for="Segment.BreadthE">Широта</label> <input id="breadthSegE' + increment + '" name="Segment.BreadthE" readonly="" type="text" value="">' +
                             '<label for="Segment.LengthE">Долгота</label> <input id="lengthSegE' + increment + '" name="Segment.LengthE" readonly="" type="text" value=""></div></div>'
-                            );
+                        );
                     }
 
                     if (increment > 4) {
@@ -666,55 +677,56 @@
                     }
                     if (increment != 1) {
                         $('[class^="DataOfRoad"]:last').after("<div style='clear: both' class='DataOfRoad" + increment + "'>" +
-                                                        "<div>" +
-                                                            "<b><u>Участок " + increment + "</u></b>" +
-                                                        "</div>" +
-                                                        "<div class='file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
-                                                            "<button type='button' id='changeColorDislocation" + increment + "'  class='btn btn-default'>Загрузить Дислокацию ТСОДД</button> " +
-                                                        "<input name='layoutDislocation" + increment + "' onchange=\"$('#changeColorDislocation" + increment + "').removeClass('btn-default').addClass('btn-danger');setColorSegmentByLoadImage(" + increment + ")\" type='file'>" +
-                                                        "</div>" +
-                                                        "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
-                                                            "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + increment + "'>Ввести данные о дорожных знаках</button>" +
-                                                        "</div>" +
-                                                        "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' >" +
-                                                           "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#RoadBarriers" + increment + "'>Ввести данные о дорожных ограждениях</button>" +
-                                                        "</div>" +
-                                                        "<div style='clear: both'>" +
-                                                                    "Участок требует изменения дислокации ТСОДД" +
-                                                                     "<select id='Segment_ChangeDislocationTCODD' onchange='setColorSegment(" + increment + ",this)' name='Segment.ChangeDislocationTCODD'>" +
-                                                                        "<option value='true'>Да</option>" +
-                                                                         "<option selected='selected' value='false'>Нет</option>" +
-                                                                      "</select>" +
-                                                                      "<input name='Segment.string120Symbol" + increment + "'  style='max-width: 960px; width: 960px; visibility:hidden'/>" +
-                                                         "</div>" +
-                                                      "</div>");
+                            "<div>" +
+                            "<b><u>Участок " + increment + "</u></b>" +
+                            "</div>" +
+                            "<div class='file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
+                            "<button type='button' id='changeColorDislocation" + increment + "'  class='btn btn-default'>Загрузить Дислокацию ТСОДД</button> " +
+                            "<input name='layoutDislocation" + increment + "' onchange=\"$('#changeColorDislocation" + increment + "').removeClass('btn-default').addClass('btn-danger');setColorSegmentByLoadImage(" + increment + ")\" type='file'>" +
+                            "</div>" +
+                            "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
+                            "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + increment + "'>Ввести данные о дорожных знаках</button>" +
+                            "</div>" +
+                            "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' >" +
+                            "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#RoadBarriers" + increment + "'>Ввести данные о дорожных ограждениях</button>" +
+                            "</div>" +
+                            "<div style='clear: both'>" +
+                            "Участок требует изменения дислокации ТСОДД" +
+                            "<select id='Segment_ChangeDislocationTCODD' onchange='setColorSegment(" + increment + ",this)' name='Segment.ChangeDislocationTCODD'>" +
+                            "<option value='true'>Да</option>" +
+                            "<option selected='selected' value='false'>Нет</option>" +
+                            "</select>" +
+                            "<input name='Segment.string120Symbol" + increment + "'  style='max-width: 960px; width: 960px; visibility:hidden'/>" +
+                            "</div>" +
+                            "</div>");
 
                         //вставка модальных окон
 
                         $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
-                         .attr("id", "ModalRoadSigns" + increment).find(".buttonclose")
-                         .attr("onclick", "cleaningRoadSigns(" + increment + ")").end().find("td input").each(function (ind, element) {
-                             $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
-                         }).end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + increment + ",event)").end().find("li a").each(function (ind, element) {
-                             $(element).attr("href", "#tab" + incForTab1);
-                             incForTab1++;
-                         }).end().find('[role="tabpanel"]').each(function (ind, element) {
-                             $(element).attr("id", "tab" + incForTab2);
-                             incForTab2++;
-                         }).end());
+                            .attr("id", "ModalRoadSigns" + increment).find(".buttonclose")
+                            .attr("onclick", "cleaningRoadSigns(" + increment + ")").end().find("td input").each(function(ind, element) {
+                                $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
+                            }).end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + increment + ",event)").end().find("li a").each(function(ind, element) {
+                                $(element).attr("href", "#tab" + incForTab1);
+                                incForTab1++;
+                            }).end().find('[role="tabpanel"]').each(function(ind, element) {
+                                $(element).attr("id", "tab" + incForTab2);
+                                incForTab2++;
+                            }).end());
 
 
                         $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
                             .attr("id", "RoadBarriers" + increment).find(".buttonclose")
                             .attr("onclick", "cleaningRoadBarrier(" + increment + ")").end()
-                            .find("td input").each(function (ind, element) {
+                            .find("td input").each(function(ind, element) {
                                 $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
                             }).end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + increment + ",event)").end());
 
 
                     }
 
-                    $("#CountSides").val(increment); $("#breadthSegS" + increment).attr("value", tempData[0]);
+                    $("#CountSides").val(increment);
+                    $("#breadthSegS" + increment).attr("value", tempData[0]);
                     $("#lengthSegS" + increment).attr("value", tempData[1]);
                     $("#breadthSegE" + increment).attr("value", coords[0].toPrecision(6));
                     $("#lengthSegE" + increment).attr("value", coords[1].toPrecision(6));
@@ -744,11 +756,11 @@
                     objects = ymaps.geoQuery([myCircle]);
 
                     var tempCoordinates;
-                    segment.events.add('dragstart', function () {
+                    segment.events.add('dragstart', function() {
                         tempCoordinates = segment.geometry._xl[0];
                     });
                     var Edit = increment;
-                    segment.events.add('drag', function (e) {
+                    segment.events.add('drag', function(e) {
 
                         $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
                         $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
@@ -757,11 +769,11 @@
                     });
 
 
-                    segment.events.add('dragend', function (e) {
+                    segment.events.add('dragend', function(e) {
 
                         var routeObjects = ymaps.geoQuery(edges).setOptions('visible', false).addToMap(myMap);
                         myCircle.geometry.setCoordinates(
-                           segment.geometry._xl[0]
+                            segment.geometry._xl[0]
                         );
 
                         var boundaryObjects = routeObjects.searchIntersect(myCircle);
@@ -776,7 +788,6 @@
                             $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
                             $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
                         }
-
 
 
                     });
@@ -799,13 +810,13 @@
         }
 
         //отправка формы
-        $('form[action="/Home/SaveSuccess"]').on('click', "#BlockSegment", function () {
+        $('form[action="/Home/SaveSuccess"]').on('click', "#BlockSegment", function() {
 
             $('form[action="/Home/SaveSuccess"]').off("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
             currentRoute.getPaths().events.remove('click', handlerSegment);
             $("#BlockSegment").css("display", "none");
             $(".setSegment").one('click', setSegment);
-            myMap.geoObjects.each(function (el, index) {
+            myMap.geoObjects.each(function(el, index) {
 
                 for (var i = 0; i < massSegment.length; i++) {
                     if (massSegment[i] == index) {
@@ -824,19 +835,19 @@
 
         $(".setSegment").one('click', setSegment);
 
-        $("#breadthS, #lengthS, #breadthE, #lengthE").change(function () {
+        $("#breadthS, #lengthS, #breadthE, #lengthE").change(function() {
             Set();
         });
         //закрытие модального окна
-        $("#closeModel").click(function () {
+        $("#closeModel").click(function() {
             $("#ModalTable").modal('hide');
         });
 
 
         //заблокировать наименовае улицы
-        $("#blockStreet").click(function () {
+        $("#blockStreet").click(function() {
             if ($(this).parent().prev().children("input").eq(2).val() != '') {
-                $(this).parent().prev().children("input").each(function (indx, element) {
+                $(this).parent().prev().children("input").each(function(indx, element) {
                     $(element).attr("readonly", "");
                 });
                 $(this).css("display", "none");
@@ -845,15 +856,15 @@
             }
         });
         //заблокировать поля  улицы и убрать координаты
-        $("#blockStreetCoord").click(function () {
+        $("#blockStreetCoord").click(function() {
 
             //делает readOnly  инпуты
             if (currentRoute != undefined && identifierForDelete != 1) {
-                $(this).parent().prev().children("input").each(function (indx, element) {
+                $(this).parent().prev().children("input").each(function(indx, element) {
                     $(element).attr("readonly", "");
                 });
 
-                $(this).parent().prev().prev().prev().children("input").each(function (indx, element) {
+                $(this).parent().prev().prev().prev().children("input").each(function(indx, element) {
                     $(element).attr("readonly", "");
                 });
 
@@ -875,7 +886,7 @@
 
                 myMap.geoObjects.add(currentRoute.getPaths());
                 //убитие балуна
-                currentRoute.getPaths().events.add('click', function (e) {
+                currentRoute.getPaths().events.add('click', function(e) {
                     e.preventDefault();
 
                     currentRoute.getPaths().get(0).balloon.close();
@@ -889,55 +900,83 @@
         $('[name="Street.Name"]').autocomplete({
             source: autocompleteUrl,
             minLength: 2,
-            select: function (event, ui) {
+            select: function(event, ui) {
 
             }
         });
         //подсказки знаков
         var autocompleteUrlRS = '/Home/FindRoadSings';
-        $('.FindRoadSings').autocomplete({
-
-            source: autocompleteUrlRS,
-            minLength: 1,
-            select: function (event, ui) {
-                 $(event.target).closest("tr").children("td").eq(2).attr("");
-                $.get('@Url.Action("GetRoadSigns","Home")', {
-                    idRS: ui.item.value
-                }).success(function (result) {
-                    function compare(a, b) {
-                        if (a.ItemOrder < b.ItemOrder)
-                            return -1;
-                        else if (a.ItemOrder > b.ItemOrder)
-                            return 1;
-                        else
-                            return 0;
-                    }
-
-                    var JsonObject = JSON.parse(result);
-                    JsonObject[0].RoadSignItems.sort(compare);
-                    
-                    $(event.target).closest("tr").children("td").eq(1).html('<img style="height: 100px; width: 100px" src="/RoadSigns/GetImage/' + JsonObject[0].id + '">');
-                    $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].Description);
-                    $(event.target).closest("tr").children("td").eq(4).html('<input  name="1ModalC' + ui.item.value + '" type="text"/>');
-                    if (JsonObject[0].RoadSignItems.length > 0) {
-                        
-                        var dd = '<select  class="dd">';
-                        for(var i=0;i<JsonObject[0].RoadSignItems.length;i++) {
-                            dd += '<option value="' + JsonObject[0].RoadSignItems[i].ItemOrder + '" data-image="/RoadSigns/GetItemImage/' + JsonObject[0].RoadSignItems[i].Id + '?hallmark=' + JsonObject[0].RoadSignItems[i].Hallmark + '"></option>';
-                            
+        $('.autoc').on('keydown.autocomplete', ".FindRoadSings", function () {
+            $(this).autocomplete({
+                source: autocompleteUrlRS,
+                minLength: 1,
+                select: function(event, ui) {
+                    $(event.target).closest("tr").children("td").eq(2).attr("");
+                    $.get('@Url.Action("GetRoadSigns", "Home")', {
+                        idRS: ui.item.value
+                    }).success(function(result) {
+                        function compare(a, b) {
+                            if (a.ItemOrder < b.ItemOrder)
+                                return -1;
+                            else if (a.ItemOrder > b.ItemOrder)
+                                return 1;
+                            else
+                                return 0;
                         }
-                        dd += '</select>';
-                        
-                        $(event.target).closest("tr").children("td").eq(3).html(dd);
-                        
-                        $(event.target).closest("tr").children("td").eq(3).children().msDropDown();
-                      
-                        $(event.target).closest("tr").find("select").change(function () {
-                           console.log($(this).val());
-                        });
-                    }
-                });
-            }
+
+                        var JsonObject = JSON.parse(result);
+                        JsonObject[0].RoadSignItems.sort(compare);
+
+                        $(event.target).closest("tr").children("td").eq(1).html('<img style="height: 100px; width: 100px" src="/RoadSigns/GetImage/' + JsonObject[0].id + '">');
+                        $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].Description);
+
+                        if (JsonObject[0].RoadSignItems.length == 0) {
+                            $(event.target).closest("tr").children("td").eq(4).html('<input  name="1ModalC' + ui.item.value + '" type="text"/>');
+                        }
+
+                        if (JsonObject[0].RoadSignItems.length > 0) {
+                            if (JsonObject[0].RoadSignItems[0].ImageData != null) {
+                                $(event.target).closest("tr").children("td").eq(4).html('<input  name="1ModalC' + ui.item.value + 'I1" type="text"/>');
+                                var dd = '<select  class="dd">';
+                                for (var i = 0; i < JsonObject[0].RoadSignItems.length; i++) {
+                                    dd += '<option value="' + JsonObject[0].RoadSignItems[i].ItemOrder + '" data-image="/RoadSigns/GetItemImage/' + JsonObject[0].RoadSignItems[i].Id + '?hallmark=' + JsonObject[0].RoadSignItems[i].Hallmark + '"></option>';
+
+                                }
+                                dd += '</select>';
+
+                                $(event.target).closest("tr").children("td").eq(3).html(dd);
+
+                                $(event.target).closest("tr").children("td").eq(3).children().msDropDown();
+                            } else {
+                                $(event.target).closest("tr").children("td").eq(4).html('<input  name="1ModalC' + ui.item.value + 'I1" type="text"/>');
+                                var dd = '<select  class="dd">';
+                                for (var i = 0; i < JsonObject[0].RoadSignItems.length; i++) {
+                                    dd += '<option  value="' + JsonObject[0].RoadSignItems[i].ItemOrder + '">' + JsonObject[0].RoadSignItems[i].Description + '</option>';
+
+                                }
+                                dd += '</select>';
+
+                                $(event.target).closest("tr").children("td").eq(3).html(dd);
+                            }
+                            $(event.target).closest("tr").find("select").change(function() {
+                                $(event.target).closest("tr").children("td").eq(4).html('<input  name="1ModalC' + ui.item.value + 'I' + $(this).val() + '" type="text"/>');
+
+                            });
+                        }
+                        $(event.target).closest("tbody").append('<tr>' +
+                            '<td style="width: 185px;height: 115px"><input type="text" class="FindRoadSings"></td>' +
+                            '<td style="width: 115px;height: 115px"></td>' +
+                            '<td style="width: 117px"></td>' +
+                            '<td style="width: 115px"></td>' +
+                            '<td style="vertical-align: middle"></td>' +
+                            '<td><a href="#">Удалить</a></td>' +
+                            '</tr>');
+                       $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function(e) {
+                           $(e.currentTarget).closest("tr").remove();
+                       });
+                    });
+                }
+            });
         });
         
         //при клике по tr фокус по input
@@ -1148,28 +1187,23 @@
 
 
                 </div>
-                <div class="modal-body" style="height: 800px; overflow: auto;">
+                <div class="modal-body  autoc" style="height: 800px; overflow: auto;">
                     <table class="table table-bordered">
                         <tr>
                             <th>№ знака</th>
                             <th>Картинка</th>
                             <th>Описание</th>
-                            <th width="101px">Маркер</th>
+                            <th width="115px">Маркер</th>
                             <th>Количество</th>
+                            <th style="width: 125px"></th>
                         </tr>
                         <tr>
                             <td style="width: 185px;height: 115px"><input type="text" class="FindRoadSings"></td>
                             <td style="width: 115px;height: 115px"></td>
+                            <td style="width: 117px"></td>
+                            <td style="width: 115px"></td>
+                            <td style="vertical-align: middle"></td>
                             <td></td>
-                            <td>
-                                @*<select  name="webmenu" id="webmenu">
-                                    <option value="calendar" data-image="/RoadSigns/GetItemImage/1290?hallmark=00cc862d-7555-4035-b277-3fbe26a8b0c8"></option>
-                                    <option value="shopping_cart" data-image="/RoadSigns/GetItemImage/1290?hallmark=00cc862d-7555-4035-b277-3fbe26a8b0c8"></option>
-                                    <option value="cd" data-image="/RoadSigns/GetItemImage/1290?hallmark=00cc862d-7555-4035-b277-3fbe26a8b0c8"></option>
-
-                                </select>*@
-                            </td>
-                            <td  style="vertical-align: middle"></td>
                         </tr>
 </table>
                 </div>

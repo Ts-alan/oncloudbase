@@ -19,7 +19,7 @@ namespace oncloud.Domain.Entities
          [NotMapped]
         public int SegmentIdModel { get; set; }
         public int SegmentId { get; set; }
-
+        public int? ItemOrderId { get; set; }
         public virtual RoadSigns RoadSigns { get; set; }
         public virtual Segment Segment { get; set; }
     }

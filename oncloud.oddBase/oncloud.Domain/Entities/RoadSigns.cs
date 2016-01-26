@@ -22,7 +22,7 @@ namespace oncloud.Domain.Entities
         [Display(Name = "Символ")]
         public byte[] ImageData { get; set; }
         public string ImageMimeType { get; set; }
-        public int ItemOrderId { get; set; }
+       
 
         
         [Display(Name = "Маркеры")]
