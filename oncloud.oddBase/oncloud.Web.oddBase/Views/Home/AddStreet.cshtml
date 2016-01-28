@@ -489,7 +489,7 @@
 //чистка полей
     function cleaningRoadSigns(par) {
 
-        $("#ModalRoadSigns" + par + " tr:gt(1)").each(function (indx, element) {
+        $("#ModalRoadSigns" + par + " tr:gt(1)").each(function(indx, element) {
             $(element).remove();
         });
         $("#ModalRoadSigns" + par + " tr:eq(1)")
@@ -497,9 +497,9 @@
         $("#ModalRoadSigns" + par + " tr:eq(1)")
             .children().eq(1).children().remove();
         $("#ModalRoadSigns" + par + " tr:eq(1)")
-           .children().eq(2).html("");
+            .children().eq(2).html("");
         $("#ModalRoadSigns" + par + " tr:eq(1)")
-          .children().eq(3).children().remove();
+            .children().eq(3).children().remove();
         $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-danger");
         $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-default");
     }
@@ -575,350 +575,360 @@
     //задание координат
     $(document).ready(function() {
 
-            //подтягивание улицы в модальное окно
-            $('[data-target="#ModalMackUp"]').click(function() {
+        //подтягивание улицы в модальное окно
+        $('[data-target="#ModalMackUp"]').click(function() {
 
-                var textStreet = $('[name="Street.Name"]').val();
+            var textStreet = $('[name="Street.Name"]').val();
 
-                if (textStreet != "") {
-                    $('#text').text(textStreet);
-                }
-            });
+            if (textStreet != "") {
+                $('#text').text(textStreet);
+            }
+        });
 
-            function setSegment(eventObject) {
+        function setSegment(eventObject) {
 
-                if ($(eventObject.target).next("button").css("display") == "none") {
-                    $("#BlockSegment").css("display", "inline-block");
-                    $('form[action="/Home/SaveSuccess"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
-                }
-                if (currentRoute == undefined || $("#blockStreetCoord").css("display") == "inline") {
-                    alert("Задайте улицу или возможно нажмите кнопку сохранить в этом пункте");
-                } else {
+            if ($(eventObject.target).next("button").css("display") == "none") {
+                $("#BlockSegment").css("display", "inline-block");
+                $('form[action="/Home/SaveSuccess"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
+            }
+            if (currentRoute == undefined || $("#blockStreetCoord").css("display") == "inline") {
+                alert("Задайте улицу или возможно нажмите кнопку сохранить в этом пункте");
+            } else {
 
 
-                    handlerSegment = function(e) {
+                handlerSegment = function(e) {
 
-                        var coords = e.get('coords');
-                        if (routeSegment != undefined) {
-                            myMap.geoObjects.remove(routeSegment.getPaths());
-                        }
-                        ymaps.route([
-                                Arr[0],
-                                [coords[0].toPrecision(6), coords[1].toPrecision(6)]
-                            ]
-                        ).then(
-                            function(route) {
-                                route.getPaths().options.set({
+                    var coords = e.get('coords');
+                    if (routeSegment != undefined) {
+                        myMap.geoObjects.remove(routeSegment.getPaths());
+                    }
+                    ymaps.route([
+                            Arr[0],
+                            [coords[0].toPrecision(6), coords[1].toPrecision(6)]
+                        ]
+                    ).then(
+                        function(route) {
+                            route.getPaths().options.set({
 
-                                    //можно выставить настройки графики маршруту
-                                    strokeColor: 'rgb(20,10,115)',
-                                    opacity: 0.9,
-                                    strokeWidth: 4
-                                });
-                                route.getPaths().get(0).balloon.destroy();
-                                myMap.geoObjects.add(route.getPaths());
-                                routeSegment = route;
-                                route.getPaths().events.add('click', function() {
-
-                                    alert("Вы неправльно поставили участок");
-
-                                });
+                                //можно выставить настройки графики маршруту
+                                strokeColor: 'rgb(20,10,115)',
+                                opacity: 0.9,
+                                strokeWidth: 4
                             });
+                            route.getPaths().get(0).balloon.destroy();
+                            myMap.geoObjects.add(route.getPaths());
+                            routeSegment = route;
+                            route.getPaths().events.add('click', function() {
 
-                        countElementSegGlobal.length++;
+                                alert("Вы неправльно поставили участок");
 
-
-                        var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
-                            edges = [];
-
-                        // Переберем все сегменты и разобьем их на отрезки.
-                        pathsObjects.each(function(path) {
-                            var coordinates = path.geometry.getCoordinates();
-                            for (var i = 1, l = coordinates.length; i < l; i++) {
-                                edges.push({
-                                    type: 'LineString',
-                                    coordinates: [coordinates[i], coordinates[i - 1]]
-
-                                });
-                            }
+                            });
                         });
 
+                    countElementSegGlobal.length++;
 
-                        if (increment >= 2 && increment <= 4) {
 
-                            $("#segment" + increment).html(
-                                '<b><u>Координаты участка ' + increment + '</u></b>' +
-                                '<div>Начальнаты начала</div>' +
-                                '<div><label for="Segment.BreadthS">Широта</label> <input id="breadthSegS' + increment + '" name="Segment.BreadthS" readonly="" type="text" value="">' +
-                                '<label for="Segment.LengthS">Долгота</label> <input id="lengthSegS' + increment + '" name="Segment.LengthS" readonly="" type="text" value="">' +
-                                '</div><div>Координаты конца</div><div>' +
-                                '<label for="Segment.BreadthE">Широта</label> <input id="breadthSegE' + increment + '" name="Segment.BreadthE" readonly="" type="text" value="">' +
-                                '<label for="Segment.LengthE">Долгота</label> <input id="lengthSegE' + increment + '" name="Segment.LengthE" readonly="" type="text" value=""></div></div>'
-                            );
+                    var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
+                        edges = [];
+
+                    // Переберем все сегменты и разобьем их на отрезки.
+                    pathsObjects.each(function(path) {
+                        var coordinates = path.geometry.getCoordinates();
+                        for (var i = 1, l = coordinates.length; i < l; i++) {
+                            edges.push({
+                                type: 'LineString',
+                                coordinates: [coordinates[i], coordinates[i - 1]]
+
+                            });
                         }
+                    });
 
-                        if (increment > 4) {
 
-                            if (increment == 5) {
-                                $("#segment4+div").remove();
-                                $("#interData+h5").css("clear", "left");
-                                $("#interData").after('<div style="float: left"  >' +
-                                    '<button type="button"  class="btn btn-default setSegment">Задать/Изменить координаты</button>' +
-                                    '<button id="BlockSegment" type="button" class="btn btn-primary">Сохранить</button>' +
-                                    '</div>');
-                            }
-                            if (tempDataFor3 == increment) {
-                                $("#interData").before('<div class="form-group" style="margin-top: 10px"><div id="segment' + increment + '" style="width: 30.2%;float: left;height: 115px"></div><div id="segment' + (increment + 1) + '" style="width:29%;float: left;height: 115px"></div><div id="segment' + (increment + 2) + '" style="width: 39.8%;float: left;height: 115px"></div></div>');
-                                tempDataFor3 = tempDataFor3 + 3;
-                            }
-                            $("#segment" + increment).html('<b><u>Координаты участка ' + increment + '</u></b>' +
-                                '<div>Начальнаты начала</div>' +
-                                '<div><label for="Segment.BreadthS">Широта</label> <input id="breadthSegS' + increment + '" name="Segment.BreadthS" readonly="" type="text" value="">' +
-                                '<label for="Segment.LengthS">Долгота</label> <input id="lengthSegS' + increment + '" name="Segment.LengthS" readonly="" type="text" value="">' +
-                                '</div><div>Координаты конца</div>' +
-                                '<div>' +
-                                '<label for="Segment.BreadthE">Широта</label> <input id="breadthSegE' + increment + '" name="Segment.BreadthE" readonly="" type="text" value="">' +
-                                '<label for="Segment.LengthE">Долгота</label> <input id="lengthSegE' + increment + '" name="Segment.LengthE" readonly="" type="text" value=""></div><div>' +
-                                '</div></div>'
-                            );
+                    if (increment >= 2 && increment <= 4) {
+
+                        $("#segment" + increment).html(
+                            '<b><u>Координаты участка ' + increment + '</u></b>' +
+                            '<div>Начальнаты начала</div>' +
+                            '<div><label for="Segment.BreadthS">Широта</label> <input id="breadthSegS' + increment + '" name="Segment.BreadthS" readonly="" type="text" value="">' +
+                            '<label for="Segment.LengthS">Долгота</label> <input id="lengthSegS' + increment + '" name="Segment.LengthS" readonly="" type="text" value="">' +
+                            '</div><div>Координаты конца</div><div>' +
+                            '<label for="Segment.BreadthE">Широта</label> <input id="breadthSegE' + increment + '" name="Segment.BreadthE" readonly="" type="text" value="">' +
+                            '<label for="Segment.LengthE">Долгота</label> <input id="lengthSegE' + increment + '" name="Segment.LengthE" readonly="" type="text" value=""></div></div>'
+                        );
+                    }
+
+                    if (increment > 4) {
+
+                        if (increment == 5) {
+                            $("#segment4+div").remove();
+                            $("#interData+h5").css("clear", "left");
+                            $("#interData").after('<div style="float: left"  >' +
+                                '<button type="button"  class="btn btn-default setSegment">Задать/Изменить координаты</button>' +
+                                '<button id="BlockSegment" type="button" class="btn btn-primary">Сохранить</button>' +
+                                '</div>');
                         }
-                        if (increment != 1) {
-                            $('[class^="DataOfRoad"]:last').after("<div style='clear: both' class='DataOfRoad" + increment + "'>" +
-                                "<div>" +
-                                "<b><u>Участок " + increment + "</u></b>" +
-                                "</div>" +
-                                "<div class='file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
-                                "<button type='button' id='changeColorDislocation" + increment + "'  class='btn btn-default'>Загрузить Дислокацию ТСОДД</button> " +
-                                "<input name='layoutDislocation" + increment + "' onchange=\"$('#changeColorDislocation" + increment + "').removeClass('btn-default').addClass('btn-danger');setColorSegmentByLoadImage(" + increment + ")\" type='file'>" +
-                                "</div>" +
-                                "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
-                                "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + increment + "'>Ввести данные о дорожных знаках</button>" +
-                                "</div>" +
-                                "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' >" +
-                                "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#RoadBarriers" + increment + "'>Ввести данные о дорожных ограждениях</button>" +
-                                "</div>" +
-                                "<div style='clear: both'>" +
-                                "Участок требует изменения дислокации ТСОДД" +
-                                "<select id='Segment_ChangeDislocationTCODD' onchange='setColorSegment(" + increment + ",this)' name='Segment.ChangeDislocationTCODD'>" +
-                                "<option value='true'>Да</option>" +
-                                "<option selected='selected' value='false'>Нет</option>" +
-                                "</select>" +
-                                "<input name='Segment.string120Symbol" + increment + "'  style='max-width: 960px; width: 960px; visibility:hidden'/>" +
-                                "</div>" +
-                                "</div>");
-
-                            //вставка модальных окон
-
-                            $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
-                                .attr("id", "ModalRoadSigns" + increment).find(".buttonclose")
-                                .attr("onclick", "cleaningRoadSigns(" + increment + ")").end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + increment + ",event)").end().find("li a").each(function(ind, element) {
-                                    $(element).attr("href", "#tab" + incForTab1);
-                                    incForTab1++;
-                                }).end().find('[role="tabpanel"]').each(function(ind, element) {
-                                    $(element).attr("id", "tab" + incForTab2);
-                                    incForTab2++;
-                                }).end());
-
-
-                            $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
-                                .attr("id", "RoadBarriers" + increment).find(".buttonclose")
-                                .attr("onclick", "cleaningRoadBarrier(" + increment + ")").end()
-                                .find("td input").each(function(ind, element) {
-                                    $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
-                                }).end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + increment + ",event)").end());
-
-
+                        if (tempDataFor3 == increment) {
+                            $("#interData").before('<div class="form-group" style="margin-top: 10px"><div id="segment' + increment + '" style="width: 30.2%;float: left;height: 115px"></div><div id="segment' + (increment + 1) + '" style="width:29%;float: left;height: 115px"></div><div id="segment' + (increment + 2) + '" style="width: 39.8%;float: left;height: 115px"></div></div>');
+                            tempDataFor3 = tempDataFor3 + 3;
                         }
+                        $("#segment" + increment).html('<b><u>Координаты участка ' + increment + '</u></b>' +
+                            '<div>Начальнаты начала</div>' +
+                            '<div><label for="Segment.BreadthS">Широта</label> <input id="breadthSegS' + increment + '" name="Segment.BreadthS" readonly="" type="text" value="">' +
+                            '<label for="Segment.LengthS">Долгота</label> <input id="lengthSegS' + increment + '" name="Segment.LengthS" readonly="" type="text" value="">' +
+                            '</div><div>Координаты конца</div>' +
+                            '<div>' +
+                            '<label for="Segment.BreadthE">Широта</label> <input id="breadthSegE' + increment + '" name="Segment.BreadthE" readonly="" type="text" value="">' +
+                            '<label for="Segment.LengthE">Долгота</label> <input id="lengthSegE' + increment + '" name="Segment.LengthE" readonly="" type="text" value=""></div><div>' +
+                            '</div></div>'
+                        );
+                    }
+                    if (increment != 1) {
+                        $('[class^="DataOfRoad"]:last').after("<div style='clear: both' class='DataOfRoad" + increment + "'>" +
+                            "<div>" +
+                            "<b><u>Участок " + increment + "</u></b>" +
+                            "</div>" +
+                            "<div class='file_upload col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
+                            "<button type='button' id='changeColorDislocation" + increment + "'  class='btn btn-default'>Загрузить Дислокацию ТСОДД</button> " +
+                            "<input name='layoutDislocation" + increment + "' onchange=\"$('#changeColorDislocation" + increment + "').removeClass('btn-default').addClass('btn-danger');setColorSegmentByLoadImage(" + increment + ")\" type='file'>" +
+                            "</div>" +
+                            "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='float: left'>" +
+                            "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#ModalRoadSigns" + increment + "'>Ввести данные о дорожных знаках</button>" +
+                            "</div>" +
+                            "<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4' >" +
+                            "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#RoadBarriers" + increment + "'>Ввести данные о дорожных ограждениях</button>" +
+                            "</div>" +
+                            "<div style='clear: both'>" +
+                            "Участок требует изменения дислокации ТСОДД" +
+                            "<select id='Segment_ChangeDislocationTCODD' onchange='setColorSegment(" + increment + ",this)' name='Segment.ChangeDislocationTCODD'>" +
+                            "<option value='true'>Да</option>" +
+                            "<option selected='selected' value='false'>Нет</option>" +
+                            "</select>" +
+                            "<input name='Segment.string120Symbol" + increment + "'  style='max-width: 960px; width: 960px; visibility:hidden'/>" +
+                            "</div>" +
+                            "</div>");
 
-                        $("#CountSides").val(increment);
-                        $("#breadthSegS" + increment).attr("value", tempData[0]);
-                        $("#lengthSegS" + increment).attr("value", tempData[1]);
-                        $("#breadthSegE" + increment).attr("value", coords[0].toPrecision(6));
-                        $("#lengthSegE" + increment).attr("value", coords[1].toPrecision(6));
-                        var segment = new ymaps.GeoObject({
-                            geometry: {
-                                type: "Point", // тип геометрии - точка
-                                coordinates: [coords[0].toPrecision(6), coords[1].toPrecision(6)] // координаты точки
+                        //вставка модальных окон
 
-                            },
-                            properties: {
-                                iconContent: increment,
-                                balloonContentHeader: "<a href='#' onclick='deleteSegment(" + increment + ")'>Удалить Обьект</a>",
-                                balloonContent: "[" + coords[0].toPrecision(6) + "," + coords[1].toPrecision(6) + "]"
-                            }
+                        $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
+                            .attr("id", "ModalRoadSigns" + increment).find(".buttonclose")
+                            .attr("onclick", "cleaningRoadSigns(" + increment + ")").end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + increment + ",event)").end().find("li a").each(function(ind, element) {
+                                $(element).attr("href", "#tab" + incForTab1);
+                                incForTab1++;
+                            }).end().find('[role="tabpanel"]').each(function(ind, element) {
+                                $(element).attr("id", "tab" + incForTab2);
+                                incForTab2++;
+                            }).end());
+
+
+                        $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
+                            .attr("id", "RoadBarriers" + increment).find(".buttonclose")
+                            .attr("onclick", "cleaningRoadBarrier(" + increment + ")").end()
+                            .find("td input").each(function(ind, element) {
+                                $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
+                            }).end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + increment + ",event)").end());
+
+
+                    }
+
+                    $("#CountSides").val(increment);
+                    $("#breadthSegS" + increment).attr("value", tempData[0]);
+                    $("#lengthSegS" + increment).attr("value", tempData[1]);
+                    $("#breadthSegE" + increment).attr("value", coords[0].toPrecision(6));
+                    $("#lengthSegE" + increment).attr("value", coords[1].toPrecision(6));
+                    var segment = new ymaps.GeoObject({
+                        geometry: {
+                            type: "Point", // тип геометрии - точка
+                            coordinates: [coords[0].toPrecision(6), coords[1].toPrecision(6)] // координаты точки
+
                         },
-                        {
-                            preset: "islands#grayCircleIcon",
-                            draggable: true
-                        });
+                        properties: {
+                            iconContent: increment,
+                            balloonContentHeader: "<a href='#' onclick='deleteSegment(" + increment + ")'>Удалить Обьект</a>",
+                            balloonContent: "[" + coords[0].toPrecision(6) + "," + coords[1].toPrecision(6) + "]"
+                        }
+                    },
+                    {
+                        preset: "islands#grayCircleIcon",
+                        draggable: true
+                    });
 
-                        var myCircle = new ymaps.Circle([[coords[0].toPrecision(6), coords[1].toPrecision(6)], 3], null, { draggable: true, visible: false });
+                    var myCircle = new ymaps.Circle([[coords[0].toPrecision(6), coords[1].toPrecision(6)], 3], null, { draggable: true, visible: false });
 
 
-                        myMap.geoObjects.add(myCircle);
-                        myMap.geoObjects.add(segment);
+                    myMap.geoObjects.add(myCircle);
+                    myMap.geoObjects.add(segment);
 
-                        objects = ymaps.geoQuery([myCircle]);
+                    objects = ymaps.geoQuery([myCircle]);
 
-                        var tempCoordinates;
-                        segment.events.add('dragstart', function() {
-                            tempCoordinates = segment.geometry._xl[0];
-                        });
-                        var Edit = increment;
-                        segment.events.add('drag', function(e) {
+                    var tempCoordinates;
+                    segment.events.add('dragstart', function() {
+                        tempCoordinates = segment.geometry._xl[0];
+                    });
+                    var Edit = increment;
+                    segment.events.add('drag', function(e) {
+
+                        $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                        $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                        $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
+                        $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
+                    });
+
+
+                    segment.events.add('dragend', function(e) {
+
+                        var routeObjects = ymaps.geoQuery(edges).setOptions('visible', false).addToMap(myMap);
+                        myCircle.geometry.setCoordinates(
+                            segment.geometry._xl[0]
+                        );
+
+                        var boundaryObjects = routeObjects.searchIntersect(myCircle);
+
+
+                        if (boundaryObjects._xg.length == 0) {
+
+                            segment.geometry.setCoordinate(tempCoordinates);
 
                             $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
                             $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
                             $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
                             $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
-                        });
+                        }
 
 
-                        segment.events.add('dragend', function(e) {
+                    });
 
-                            var routeObjects = ymaps.geoQuery(edges).setOptions('visible', false).addToMap(myMap);
-                            myCircle.geometry.setCoordinates(
-                                segment.geometry._xl[0]
-                            );
+                    tempDate2.push(tempData);
+                    tempData = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
+                    massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
+                    increment++;
 
-                            var boundaryObjects = routeObjects.searchIntersect(myCircle);
-
-
-                            if (boundaryObjects._xg.length == 0) {
-
-                                segment.geometry.setCoordinate(tempCoordinates);
-
-                                $("#breadthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][0].toString().substring(0, 7));
-                                $("#lengthSegS" + (Edit + 1).toString()).val(segment.geometry._xl[0][1].toString().substring(0, 7));
-                                $("#breadthSegE" + Edit).val(segment.geometry._xl[0][0].toString().substring(0, 7));
-                                $("#lengthSegE" + Edit).val(segment.geometry._xl[0][1].toString().substring(0, 7));
-                            }
-
-
-                        });
-
-                        tempDate2.push(tempData);
-                        tempData = [coords[0].toPrecision(6), coords[1].toPrecision(6)];
-                        massSegment[increment - 1] = myMap.geoObjects.indexOf(segment);
-                        increment++;
-
-
-                    }
-                    currentRoute.getPaths().events.add('click', handlerSegment);
 
                 }
+                currentRoute.getPaths().events.add('click', handlerSegment);
+
             }
+        }
 
-            function BlockForm() {
-                alert("Вы не сохранили координаты участков");
-                return false;
-            }
+        function BlockForm() {
+            alert("Вы не сохранили координаты участков");
+            return false;
+        }
 
-            //отправка формы
-            $('form[action="/Home/SaveSuccess"]').on('click', "#BlockSegment", function() {
+        //отправка формы
+        $('form[action="/Home/SaveSuccess"]').on('click', "#BlockSegment", function() {
 
-                $('form[action="/Home/SaveSuccess"]').off("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
-                currentRoute.getPaths().events.remove('click', handlerSegment);
-                $("#BlockSegment").css("display", "none");
-                $(".setSegment").one('click', setSegment);
-                myMap.geoObjects.each(function(el, index) {
-
-                    for (var i = 0; i < massSegment.length; i++) {
-                        if (massSegment[i] == index) {
-                            el.balloon.destroy();
-                            el.options.set({
-                                draggable: false
-                            });
-                        };
-                    }
-
-                });
-            });
-
-            $('form[action="/Home/SaveSuccess"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
-
-
+            $('form[action="/Home/SaveSuccess"]').off("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
+            currentRoute.getPaths().events.remove('click', handlerSegment);
+            $("#BlockSegment").css("display", "none");
             $(".setSegment").one('click', setSegment);
+            myMap.geoObjects.each(function(el, index) {
 
-            $("#breadthS, #lengthS, #breadthE, #lengthE").change(function() {
-                Set();
-            });
-            //закрытие модального окна
-            $("#closeModel").click(function() {
-                $("#ModalTable").modal('hide');
-            });
-
-
-            //заблокировать наименовае улицы
-            $("#blockStreet").click(function() {
-                if ($(this).parent().prev().children("input").eq(2).val() != '') {
-                    $(this).parent().prev().children("input").each(function(indx, element) {
-                        $(element).attr("readonly", "");
-                    });
-                    $(this).css("display", "none");
-                } else {
-                    alert("Введите название улицы");
+                for (var i = 0; i < massSegment.length; i++) {
+                    if (massSegment[i] == index) {
+                        el.balloon.destroy();
+                        el.options.set({
+                            draggable: false
+                        });
+                    };
                 }
+
             });
-            //заблокировать поля  улицы и убрать координаты
-            $("#blockStreetCoord").click(function() {
+        });
 
-                //делает readOnly  инпуты
-                if (currentRoute != undefined && identifierForDelete != 1) {
-                    $(this).parent().prev().children("input").each(function(indx, element) {
-                        $(element).attr("readonly", "");
-                    });
+        $('form[action="/Home/SaveSuccess"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
 
-                    $(this).parent().prev().prev().prev().children("input").each(function(indx, element) {
-                        $(element).attr("readonly", "");
-                    });
 
-                    $(this).css("display", "none");
-                    //currentRoute.editor.start({ editWayPoints: false });
-                    if (currentRoute != undefined) {
-                        myMap.geoObjects.remove(currentRoute);
-                    }
-                    currentRoute.getPaths().options.set({
+        $(".setSegment").one('click', setSegment);
 
-                        //можно выставить настройки графики маршруту
-                        strokeColor: '0000ffff',
-                        opacity: 0.9,
-                        strokeWidth: 4
-                    });
-                    //var segments= currentRoute.getPaths().get(0).getSegments();
+        $("#breadthS, #lengthS, #breadthE, #lengthE").change(function() {
+            Set();
+        });
+        //закрытие модального окна
+        $("#closeModel").click(function() {
+            $("#ModalTable").modal('hide');
+        });
 
-                    tempData = Arr[0];
 
-                    myMap.geoObjects.add(currentRoute.getPaths());
-                    //убитие балуна
-                    currentRoute.getPaths().events.add('click', function(e) {
-                        e.preventDefault();
+        //заблокировать наименовае улицы
+        $("#blockStreet").click(function() {
+            if ($(this).parent().prev().children("input").eq(2).val() != '') {
+                $(this).parent().prev().children("input").each(function(indx, element) {
+                    $(element).attr("readonly", "");
+                });
+                $(this).css("display", "none");
+            } else {
+                alert("Введите название улицы");
+            }
+        });
+        //заблокировать поля  улицы и убрать координаты
+        $("#blockStreetCoord").click(function() {
 
-                        currentRoute.getPaths().get(0).balloon.close();
-                    });
-                } else {
-                    alert("Задайте сначала маршрут");
-                }
-            });
-            //подсказки улиц
-            var autocompleteUrl = '/Home/FindStreets';
-            $('[name="Street.Name"]').autocomplete({
-                source: autocompleteUrl,
-                minLength: 2,
-                select: function(event, ui) {
-
-                }
-            });
-            //подсказки разметки
-            var autocompleteUrlRS = '/Home/FindRoadMarking';
-            $(' body').on('keydown.autocomplete', ".FindRoadMarking", function () {
-                $(this).autocomplete({
-                    source: autocompleteUrlRS,
-                    minLength: 1,
-                    select: function(event, ui) {}
+            //делает readOnly  инпуты
+            if (currentRoute != undefined && identifierForDelete != 1) {
+                $(this).parent().prev().children("input").each(function(indx, element) {
+                    $(element).attr("readonly", "");
                 });
 
+                $(this).parent().prev().prev().prev().children("input").each(function(indx, element) {
+                    $(element).attr("readonly", "");
+                });
+
+                $(this).css("display", "none");
+                //currentRoute.editor.start({ editWayPoints: false });
+                if (currentRoute != undefined) {
+                    myMap.geoObjects.remove(currentRoute);
+                }
+                currentRoute.getPaths().options.set({
+
+                    //можно выставить настройки графики маршруту
+                    strokeColor: '0000ffff',
+                    opacity: 0.9,
+                    strokeWidth: 4
+                });
+                //var segments= currentRoute.getPaths().get(0).getSegments();
+
+                tempData = Arr[0];
+
+                myMap.geoObjects.add(currentRoute.getPaths());
+                //убитие балуна
+                currentRoute.getPaths().events.add('click', function(e) {
+                    e.preventDefault();
+
+                    currentRoute.getPaths().get(0).balloon.close();
+                });
+            } else {
+                alert("Задайте сначала маршрут");
+            }
+        });
+        //подсказки улиц
+        var autocompleteUrl = '/Home/FindStreets';
+        $('[name="Street.Name"]').autocomplete({
+            source: autocompleteUrl,
+            minLength: 2,
+            select: function(event, ui) {
+
+            }
+        });
+        //подсказки разметки
+        var autocompleteUrlRM = '/Home/FindRoadMarking';
+        $(' form').on('keydown.autocomplete', ".FindRoadMarking", function() {
+            $(this).autocomplete({
+                source: autocompleteUrlRM,
+                minLength: 1,
+                select: function(event, ui) {
+                    $.get('@Url.Action("GetRoadMarking", "Home")', {
+                        idRM: ui.item.value
+                    }).success(function (result) {
+                        var JsonObject = JSON.parse(result);
+                        console.log(JsonObject);
+                        $(event.target).closest("tr").children("td").eq(1).html('<img style="height: 150px; width: 150px" src="/HorizontalRoadMarkings/GetImage/' + JsonObject[0].id + '">');
+                        $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].description);
+                        $(event.target).closest("tr").children("td").eq(3).html('<input type="number"   name="ModalsL' + ui.item.value + '" type="text"/>');
+                        $(event.target).closest("tr").children("td").eq(4).html('<input type="number"   name="ModalsA' + ui.item.value + '" type="text"/>');
+                    });
+                }
             });
+        });
             //подсказки знаков
             var autocompleteUrlRS = '/Home/FindRoadSings';
             $('form').on('keydown.autocomplete', ".FindRoadSings", function() {
@@ -966,7 +976,7 @@
                                 } else {
                                     $(event.target).closest("tr").children("td").eq(4).html('<input type="number"  name="1ModalC' + ui.item.value + 'I1" type="text"/>');
                                     var dd = '<select  class="dd">';
-                                    
+
                                     for (var i = 0; i < JsonObject[0].RoadSignItems.length; i++) {
                                         dd += '<option  value="' + JsonObject[0].RoadSignItems[i].ItemOrder + '">' + JsonObject[0].RoadSignItems[i].Description + '</option>';
 
@@ -1003,7 +1013,7 @@
             }));
             //при клике по tr фокус по input
 
-        //Чистка первого значения в roadsings
+        //Чистка первого значения 
             $("form").on("click",".lastA",function(e) {
                 $(e.currentTarget).closest("tr").children("td").eq(0).children().val("");
                 $(e.currentTarget).closest("tr").children("td").eq(1).children().remove();
@@ -1011,6 +1021,14 @@
                 $(e.currentTarget).closest("tr").children("td").eq(3).children().remove();
             }
                 );
+            $("form").on("click", ".lastB", function (e) {
+                $(e.currentTarget).closest("tr").children("td").eq(0).children().val("");
+                $(e.currentTarget).closest("tr").children("td").eq(1).children().remove();
+                $(e.currentTarget).closest("tr").children("td").eq(2).html("");
+                $(e.currentTarget).closest("tr").children("td").eq(3).children().remove();
+                $(e.currentTarget).closest("tr").children("td").eq(4).children().remove();
+            }
+             );
         //чистка полей в модальном окне при нажатии по close
         $("#close").click(function (e) {
 
@@ -1025,7 +1043,7 @@
             show: false
         });
     });
-   
+
 </script>
 <style>
     /*fix autocomplete in bootstrap*/
@@ -1179,12 +1197,12 @@
                             <th></th>
                         </tr>
                         <tr>
-                            <td style="width: 185px;height: 115px"><input class="FindRoadMarking" type="text" ></td>
-                            <td style="width: 115px;height: 115px"></td>
+                            <td style="width: 100px;height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text" ></td>
+                            <td style="width: 167px;height: 115px"></td>
                             <td style="width: 117px"></td>
-                            <td style="width: 115px"></td>
+                            <td style="width: 115px;vertical-align: middle"></td>
                             <td style="vertical-align: middle"></td>
-                            <td><a class="lastA" href="#">Удалить строку</a></td>
+                            <td><a class="lastB" href="#">Удалить строку</a></td>
                         </tr>
 
                     </table>
