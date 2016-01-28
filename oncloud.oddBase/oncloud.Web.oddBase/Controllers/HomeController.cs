@@ -178,6 +178,11 @@ namespace oncloud.Web.oddBase.Controllers
 
             return JsonConvert.SerializeObject(db.RoadSigns.Where(a=>a.NumberRoadSigns== idRS).Select(a=>new {a.id,a.Description,a.RoadSignItems}));
         }
+        public virtual string GetRoadMarking(string idRM)
+        {
+
+            return JsonConvert.SerializeObject(db.TheHorizontalRoadMarking.Where(a => a.NumberMarking == idRM).Select(a => new { a.id, a.description, a.SpecificationofRM }));
+        }
         [Authorize(Roles = "admin,SetMembers,EditData")]
         public void DeleteDataStreet(int id,bool isEdit)
         {
@@ -480,6 +485,19 @@ namespace oncloud.Web.oddBase.Controllers
                              {
                                  label = t.NumberRoadSigns,
                                  value = t.NumberRoadSigns
+                             };
+            return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
+        }
+        public virtual ActionResult FindRoadMarking(string term)
+        {
+            var contain = term.Count();
+            var numberRoadMarking = from m in db.TheHorizontalRoadMarking select m;
+            numberRoadMarking = numberRoadMarking.Where(a => a.NumberMarking.Substring(0, contain) == term.Substring(0, contain));
+            var projection = from t in numberRoadMarking
+                             select new
+                             {
+                                 label = t.NumberMarking,
+                                 value = t.NumberMarking
                              };
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
         }

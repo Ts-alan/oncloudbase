@@ -909,6 +909,16 @@
 
                 }
             });
+            //подсказки разметки
+            var autocompleteUrlRS = '/Home/FindRoadMarking';
+            $(' body').on('keydown.autocomplete', ".FindRoadMarking", function () {
+                $(this).autocomplete({
+                    source: autocompleteUrlRS,
+                    minLength: 1,
+                    select: function(event, ui) {}
+                });
+
+            });
             //подсказки знаков
             var autocompleteUrlRS = '/Home/FindRoadSings';
             $('form').on('keydown.autocomplete', ".FindRoadSings", function() {
@@ -1166,25 +1176,16 @@
                             <th>Описание</th>
                             <th>Длина (м.пог) / штуки</th>
                             <th>Площадь (м.кв)</th>
+                            <th></th>
                         </tr>
-                        @foreach (var item in (IEnumerable<oncloud.Domain.Entities.TheHorizontalRoadMarking>)ViewBag.RoadMarking)
-                        {
-                            <tr>
-
-                                <td>@item.NumberMarking</td>
-                                <td>
-                                    @if (item.ImageData != null)
-                                    {
-                                        <img src="@Url.Action("GetImage",  "HorizontalRoadMarkings", new { item.id})" />
-                                    }
-                                </td>
-                                <td>
-                                    @item.description
-                                </td>
-                                <td  style="vertical-align: middle"><input   name="ModalsL@(item.NumberMarking)" type="text" /></td>
-                                <td  style="vertical-align: middle"><input  name="ModalsA@(item.NumberMarking)" type="text" /></td>
-                            </tr>
-                        }
+                        <tr>
+                            <td style="width: 185px;height: 115px"><input class="FindRoadMarking" type="text" ></td>
+                            <td style="width: 115px;height: 115px"></td>
+                            <td style="width: 117px"></td>
+                            <td style="width: 115px"></td>
+                            <td style="vertical-align: middle"></td>
+                            <td><a class="lastA" href="#">Удалить строку</a></td>
+                        </tr>
 
                     </table>
                 </div>
