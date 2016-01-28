@@ -936,12 +936,12 @@
                             $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].Description);
                             $(event.target).closest("tr").children("td").eq(3).children().remove();
                             if (JsonObject[0].RoadSignItems.length == 0) {
-                                $(event.target).closest("tr").children("td").eq(4).html('<input  name="1ModalC' + ui.item.value + '" type="text"/>');
+                                $(event.target).closest("tr").children("td").eq(4).html('<input type="number"   name="1ModalC' + ui.item.value + '" type="text"/>');
                             }
 
                             if (JsonObject[0].RoadSignItems.length > 0) {
                                 if (JsonObject[0].RoadSignItems[0].ImageData != null) {
-                                    $(event.target).closest("tr").children("td").eq(4).html('<input  name="1ModalC' + ui.item.value + 'I1" type="text"/>');
+                                    $(event.target).closest("tr").children("td").eq(4).html('<input type="number"  name="1ModalC' + ui.item.value + 'I1" type="text"/>');
                                     var dd = '<select  class="dd">';
                                     dd += '<option selected ">Выбирите маркер</option>';
                                     for (var i = 0; i < JsonObject[0].RoadSignItems.length; i++) {
@@ -954,7 +954,7 @@
 
                                     $(event.target).closest("tr").children("td").eq(3).children().msDropDown();
                                 } else {
-                                    $(event.target).closest("tr").children("td").eq(4).html('<input  name="1ModalC' + ui.item.value + 'I1" type="text"/>');
+                                    $(event.target).closest("tr").children("td").eq(4).html('<input type="number"  name="1ModalC' + ui.item.value + 'I1" type="text"/>');
                                     var dd = '<select  class="dd">';
                                     
                                     for (var i = 0; i < JsonObject[0].RoadSignItems.length; i++) {
