@@ -504,20 +504,39 @@
         $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-default");
     }
 
-    function cleaningModalMackUp() {
-
-        $("#ModalMackUp input").each(function(indx, element) {
-            $(element).val("");
-        });
-        $('[data-target="#ModalMackUp"]').removeClass("btn-danger");
-        $('[data-target="#ModalMackUp"]').addClass("btn-default");
+    function cleaningModalMackUp(par) {
+        var mkp = '<td style="width: 100px;height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text" ></td>'+
+                           '<td style="width: 167px;height: 115px"></td><td style="width: 117px"></td>'+
+                           '<td style="width: 115px;vertical-align: middle"></td><td style="vertical-align: middle"></td>'+
+                           '<td><a class="lastB" href="#">Удалить строку</a></td>';
+       
+        $("#ModalMackUp > div > div > div.modal-body > table > tbody > tr:eq(1)").empty().html(mkp);
+        $("#ModalMackUp > div > div > div.modal-body > table > tbody > tr:gt(1)").remove();
+        
+        
+        $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-danger");
+        $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-default");
     }
 
-    function cleaningRoadBarrier(par) {
 
-        $("#RoadBarriers" + par + " input").each(function(indx, element) {
-            $(element).val("");
-        });
+    //function cleaningModalMackUp() {
+
+    //    $("#ModalMackUp input").each(function(indx, element) {
+    //        $(element).val("");
+    //    });
+    //    $('[data-target="#ModalMackUp"]').removeClass("btn-danger");
+    //    $('[data-target="#ModalMackUp"]').addClass("btn-default");
+    //}
+
+    function cleaningRoadBarriers(par) {
+
+        var mkp = 
+                    '<td style="width: 185px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' + 
+                    '<td style="width: 115px;height: 115px"></td><td style="width: 117px"></td>' +
+                    '<td style="vertical-align: middle"></td><td><a class="lastA" href="#">Удалить строку</a></td>';
+         
+        $("#RoadBarriers1 > div > div > div.modal-body > table > tbody > tr:eq(1)").empty().html(mkp);
+        $("#RoadBarriers1 > div > div > div.modal-body > table > tbody > tr:gt(1)").remove();
         $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-danger");
         $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-default");
     }
@@ -920,11 +939,49 @@
                         idRM: ui.item.value
                     }).success(function (result) {
                         var JsonObject = JSON.parse(result);
-                        console.log(JsonObject);
+                        
                         $(event.target).closest("tr").children("td").eq(1).html('<img style="height: 150px; width: 150px" src="/HorizontalRoadMarkings/GetImage/' + JsonObject[0].id + '">');
                         $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].description);
                         $(event.target).closest("tr").children("td").eq(3).html('<input type="number"   name="ModalsL' + ui.item.value + '" type="text"/>');
                         $(event.target).closest("tr").children("td").eq(4).html('<input type="number"   name="ModalsA' + ui.item.value + '" type="text"/>');
+                        $(event.target).closest("tbody").append('<tr>' +
+                               '<td style="width: 185px;height: 115px"><input type="text" class="FindRoadMarking"></td>' +
+                               '<td style="width: 115px;height: 115px"></td>' +
+                               '<td style="width: 117px"></td>' +
+                               '<td style="width: 115px"></td>' +
+                               '<td style="vertical-align: middle"></td>' +
+                               '<td><a href="#">Удалить строку</a></td>' +
+                               '</tr>');
+                    });
+                }
+            });
+        });
+        //подсказки ограждений
+        var autocompleteUrlRB = '/Home/FindRoadBarriers';
+        $(' form').on('keydown.autocomplete', ".FindRoadBarriers", function () {
+            $(this).autocomplete({
+                source: autocompleteUrlRB,
+                minLength: 1,
+                select: function (event, ui) {
+                    $.get('@Url.Action("GetRoadBarriers", "Home")', {
+                        idRB: ui.item.value
+                    }).success(function (result) {
+                        console.log(result);
+                        var JsonObject = JSON.parse(result);
+                        console.log(JsonObject);
+                        $(event.target).closest("tr").children("td").eq(1).html('<img style="height: 150px; width: 150px" src="/RoadBarriers/GetImage/' + JsonObject[0].Id + '">');
+                        $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].Description);
+                        $(event.target).closest("tr").children("td").eq(3).html('<input type="number"   name="1RoadBarriers' + ui.item.value + '" type="text"/>');
+                        //$(event.target).closest("tr").children("td").eq(4).html('<input type="number"   name="ModalsA' + ui.item.value + '" type="text"/>');
+                        $(event.target).closest("tbody").append('<tr>' +
+                               '<td style="width: 185px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' +
+                               '<td style="width: 115px;height: 115px"></td>' +
+                               '<td style="width: 117px"></td>' +
+                               '<td style="vertical-align: middle">' + 
+                               
+                               '</td>' +
+                               '<td><a href="#">Удалить строку</a></td>' +
+                               '</tr>');
                     });
                 }
             });
@@ -1188,7 +1245,7 @@
                 </div>
                 <div class="modal-body" style="height: 640px;overflow: auto">
                     <table  class="table table-bordered"  >
-                        <tr>
+                        <tr >
                             <th>№ разметки</th>
                             <th>Картинка</th>
                             <th>Описание</th>
@@ -1208,7 +1265,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="closeModalMackUp" onclick="cleaningModalMackUp()" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    <button type="button" id="closeModalMackUp" onclick="cleaningModalMackUp(1)" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                     <button type="button" class="btn btn-primary" onclick="changeColorMackUp(event)" data-dismiss="modal">Сохранить</button>
                 </div>
             </div>
@@ -1218,8 +1275,8 @@
      <!-- ModalRoadSigns -->
     <div class="modal fade" id="ModalRoadSigns1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 800px; ">
-                <div class="modal-header" style="border-bottom:0px">
+            <div class="modal-content" style="width: 800px;">
+                <div class="modal-header" style="border-bottom: 0px">
 
 
                 </div>
@@ -1234,24 +1291,58 @@
                             <th style="width: 125px"></th>
                         </tr>
                         <tr>
-                            <td style="width: 185px;height: 115px"><input type="text" class="FindRoadSings"></td>
-                            <td style="width: 115px;height: 115px"></td>
+                            <td style="width: 185px; height: 115px"><input type="text" class="FindRoadSings"></td>
+                            <td style="width: 115px; height: 115px"></td>
                             <td style="width: 117px"></td>
                             <td style="width: 115px"></td>
                             <td style="vertical-align: middle"></td>
                             <td><a class="lastA" href="#">Удалить строку</a></td>
                         </tr>
-</table>
+                    </table>
                 </div>
-                <div class="modal-footer" style="border-top:0px">
+                <div class="modal-footer" style="border-top: 0px">
                     <button type="button" class="btn btn-default buttonclose" onclick="cleaningRoadSigns(1)" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadSigns(1,event)" data-dismiss="modal">Сохранить</button>
+                    <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadSigns(1, event)" data-dismiss="modal">Сохранить</button>
                 </div>
             </div>
         </div>
     </div>
-        <!-- RoadBarriers  -->
+
+    <!-- RoadBarriers -->
     <div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 800px; ">
+                <div class="modal-header" style="border-bottom: 0px">
+
+                </div>
+                <div class="modal-body " style="height: 800px; overflow: auto;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>№ </th>
+                            <th>Картинка</th>
+                            <th>Описание</th>
+                            <th>Погонные метры</th>
+                            <th style="width: 125px"></th>
+                        </tr>
+                        <tr>
+                            <td style="width: 185px;height: 115px"><input type="text" class="FindRoadBarriers"></td>
+                            <td style="width: 115px;height: 115px"></td>
+                            <td style="width: 117px"></td>
+                            <td style="vertical-align: middle"></td>
+                            <td><a class="lastA" href="#">Удалить строку</a></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer" style="border-top:0px">
+                    <button type="button" class="btn btn-default buttonclose" onclick="cleaningRoadBarriers(1)" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadBarriers(1,event)" data-dismiss="modal">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- RoadBarriers  -->
+    @*<div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
         <div class="modal-dialog" style="width: 1000px" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1292,7 +1383,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 
                                     <div>
                                         <div id="blockElement" style="clear: both">

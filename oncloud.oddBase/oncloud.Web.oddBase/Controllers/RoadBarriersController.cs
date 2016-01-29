@@ -153,7 +153,7 @@ namespace oncloud.Web.oddBase.Controllers
         {
             RoadBarriers roadBarriers = db.RoadBarriers.Find(id);
 
-            if (roadBarriers != null)
+            if (roadBarriers != null && roadBarriers.ImageMimeType != null)
             {
                 return File(roadBarriers.ImageData, roadBarriers.ImageMimeType);
             }

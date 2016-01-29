@@ -180,9 +180,17 @@ namespace oncloud.Web.oddBase.Controllers
         }
         public virtual string GetRoadMarking(string idRM)
         {
-
-            return JsonConvert.SerializeObject(db.TheHorizontalRoadMarking.Where(a => a.NumberMarking == idRM).Select(a => new { a.id, a.description, a.SpecificationofRM }));
+            var mkg =
+                db.TheHorizontalRoadMarking.Where(a => a.NumberMarking == idRM).Select(a => new {a.id, a.description});
+            return JsonConvert.SerializeObject(mkg, new  JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects} );
         }
+
+        public virtual string GetRoadBarriers(string idRB)
+        {
+
+            return JsonConvert.SerializeObject(db.RoadBarriers.Where(a => a.NumberBarriers == idRB).Select(a => new { a.Id, a.Description }));
+        }
+
         [Authorize(Roles = "admin,SetMembers,EditData")]
         public void DeleteDataStreet(int id,bool isEdit)
         {
@@ -498,6 +506,19 @@ namespace oncloud.Web.oddBase.Controllers
                              {
                                  label = t.NumberMarking,
                                  value = t.NumberMarking
+                             };
+            return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
+        }
+        public virtual ActionResult FindRoadBarriers(string term)
+        {
+            var contain = term.Count();
+            var numberRoadMarking = from m in db.RoadBarriers select m;
+            numberRoadMarking = numberRoadMarking.Where(a => a.NumberBarriers.Substring(0, contain) == term.Substring(0, contain));
+            var projection = from t in numberRoadMarking
+                             select new
+                             {
+                                 label = t.NumberBarriers,
+                                 value = t.NumberBarriers
                              };
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
         }
