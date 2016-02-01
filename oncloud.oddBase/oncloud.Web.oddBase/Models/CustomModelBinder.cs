@@ -56,13 +56,20 @@ namespace OddBasyBY.Models
             List<string> ModalsA = request.Form.AllKeys.Where(a => a.Contains("ModalsA")).ToList();
             for (int i = 0; i < ModelsL.Count; i++)
             {
-                string tempValueL = request.Form.Get(ModelsL.ElementAt(i));
-                string tempValueA = request.Form.Get(ModalsA.ElementAt(i));
-
-                if (tempValueL != "" || tempValueA != "")
+                string[] tempValueL = request.Form.Get(ModelsL.ElementAt(i)).Split(',');
+                string[] tempValueA = request.Form.Get(ModalsA.ElementAt(i)).Split(',');
+                for (int j = 0; tempValueL.Length > j; j++)
                 {
+                    if (tempValueL[j] != "" || tempValueA[j] != "")
+                    {
 
-                    ListSpecificationofRM.Add(new SpecificationofRM() {length = tempValueL, area = tempValueA,TheHorizontalRoadMarkingIdModel = ModalsA.ElementAt(i).Substring(7) });
+                        ListSpecificationofRM.Add(new SpecificationofRM()
+                        {
+                            length = tempValueL[j],
+                            area = tempValueA[j],
+                            TheHorizontalRoadMarkingIdModel = ModalsA.ElementAt(i).Substring(7)
+                        });
+                    }
                 }
             }
             return ListSpecificationofRM;
@@ -123,17 +130,21 @@ namespace OddBasyBY.Models
 
                 for (int i = 0; i < ModalM.Count; i++)
                 {
-                    string tempValueM = request.Form.Get(ModalM.ElementAt(i));
-
-                    if (tempValueM != "")
+                    string[] tempValueM = request.Form.Get(ModalM.ElementAt(i)).Split(',');
+                    for (int j=0; tempValueM.Length > j; j++)
                     {
-
-                        ListSpecificationofRS.Add(new SpecificationOfRb()
+                        if (tempValueM[j] != "")
                         {
-                            Length = Double.Parse(tempValueM),
-                            SegmentIdModel = int.Parse(ModalM.ElementAt(i).Substring(0, ModalM.ElementAt(i).IndexOf("R"))),
-                            RoadBarriersIdModel = ModalM.ElementAt(i).Substring(ModalM.ElementAt(i).IndexOf("s")+1)
-                        });
+
+                            ListSpecificationofRS.Add(new SpecificationOfRb()
+                            {
+                                Length = Double.Parse(tempValueM[j]),
+                                SegmentIdModel =
+                                    int.Parse(ModalM.ElementAt(i).Substring(0, ModalM.ElementAt(i).IndexOf("R"))),
+                                RoadBarriersIdModel =
+                                    ModalM.ElementAt(i).Substring(ModalM.ElementAt(i).IndexOf("s") + 1)
+                            });
+                        }
                     }
                 }
                 return ListSpecificationofRS;
