@@ -980,12 +980,13 @@
                                 load: function ()
                                 {
                                     $("#AddSrc" + JsonObject[0].Id).attr("src", "/RoadBarriers/GetImage/" + JsonObject[0].Id);
+                                    $("#AddSrc" + JsonObject[0].Id).css({ "height": "150px", "width": "150px" });
                                 }
                             });
                         }
                         
                         //$(event.target).closest("tr").children("td").eq(1).html('<img style="height: 150px; width: 150px" src="/RoadBarriers/GetImage/' + JsonObject[0].Id + '">');
-                        $(event.target).closest("tr").children("td").eq(1).html('<img id="AddSrc' + 'JsonObject[0].Id">');
+                        $(event.target).closest("tr").children("td").eq(1).html('<img id="AddSrc' + JsonObject[0].Id + '">');
                         IsValidImageUrl(url);
                         $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].Description);
                         $(event.target).closest("tr").children("td").eq(3).html('<input type="number"   name="1RoadBarriers' + ui.item.value + '" type="text"/>');
