@@ -643,6 +643,8 @@
     <Content Include="Scripts\CustomPrint.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\TableRowsAdder.js" />
+    <Content Include="Scripts\TableRowsCleaner.js" />
     <Content Include="Scripts\_references.js" />
     <None Include="T4MVC.tt.settings.xml" />
     <Content Include="Web.config">
