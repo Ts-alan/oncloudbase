@@ -404,7 +404,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\csstablegenerator.css" />
     <Content Include="Content\dd.css" />
+    <Content Include="Content\images\close.jpg" />
     <Content Include="Content\images\ONCLOUD logo site.png" />
+    <Content Include="Content\images\save.jpg" />
+    <Content Include="Content\images\StrikethroughСircle.jpg" />
     <Content Include="Content\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="Content\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
     <Content Include="Content\images\ui-bg_flat_10_000000_40x100.png" />
@@ -643,8 +646,6 @@
     <Content Include="Scripts\CustomPrint.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\TableRowsAdder.js" />
-    <Content Include="Scripts\TableRowsCleaner.js" />
     <Content Include="Scripts\_references.js" />
     <None Include="T4MVC.tt.settings.xml" />
     <Content Include="Web.config">
