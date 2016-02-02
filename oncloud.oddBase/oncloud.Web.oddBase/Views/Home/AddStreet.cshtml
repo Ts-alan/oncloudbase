@@ -33,6 +33,7 @@
         handlerSegment,
         countElementSegGlobal = new Object(),
         incForTab1 = 8,
+        indexSetCoords = 0;
         incForTab2 = 8;
     countElementSegGlobal.length = 0;
 
@@ -238,7 +239,7 @@
     function SetCoords() {
         if ($("#blockStreet").css("display") == "none") {
             if (countElementSegGlobal.length == 0) {
-
+                if (indexSetCoords == 0){
 
                 if (currentRoute != undefined) {
                     $("#blockStreetCoord").css("display", "inline");
@@ -300,9 +301,10 @@
 
                         }
                     }
-
+                }
+                    indexSetCoords++;
                     myMap.events.add('dblclick', handlerRoute);
-
+                    
                 }
             } else {
                 alert('Вы не можете редактировать улицу пока на нем находится хотя бы один участок');
@@ -821,14 +823,14 @@
                 currentRoute.getPaths().events.add('click', handlerSegment);
                 myMap.geoObjects.each(function (el, index) {
 
-                    //for (var i = 0; i < massSegment.length; i++) {
-                    //    if (massSegment[i] == index) {
-                    //        //el.balloon.destroy();
-                    //        el.options.set({
-                    //            draggable: true
-                    //        });
-                    //    };
-                    //}
+                    for (var i = 0; i < massSegment.length; i++) {
+                        if (massSegment[i] == index) {
+                           
+                            el.options.set({
+                                draggable: true
+                            });
+                        };
+                    }
 
                 });
             }
@@ -846,18 +848,18 @@
             currentRoute.getPaths().events.remove('click', handlerSegment);
             $("#BlockSegment").css("display", "none");
             $(".setSegment").one('click', setSegment);
-            //myMap.geoObjects.each(function(el, index) {
+            myMap.geoObjects.each(function(el, index) {
 
-            //    for (var i = 0; i < massSegment.length; i++) {
-            //        if (massSegment[i] == index) {
-            //            el.balloon.destroy();
-            //            el.options.set({
-            //                draggable: false
-            //            });
-            //        };
-            //    }
+                for (var i = 0; i < massSegment.length; i++) {
+                    if (massSegment[i] == index) {
+                        //el.balloon.destroy();
+                        el.options.set({
+                            draggable: false
+                        });
+                    };
+                }
 
-            //});
+            });
         });
 
         $('form[action="/Home/SaveSuccess"]').on("click", "#blockElement button,#blockElement input,#blockForm button", BlockForm);
@@ -887,7 +889,7 @@
         });
         //заблокировать поля  улицы и убрать координаты
         $("#blockStreetCoord").click(function() {
-
+            indexSetCoords = 0;
             //делает readOnly  инпуты
             if (currentRoute != undefined && identifierForDelete != 1) {
                 $(this).parent().prev().children("input").each(function(indx, element) {
@@ -947,12 +949,12 @@
                         var JsonObject = JSON.parse(result);
                         
                         
-                        $(event.target).closest("tr").children("td").eq(1).html('<img style="height: 150px; width: 150px" src="/HorizontalRoadMarkings/GetImage/' + JsonObject[0].id + '">');$(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].description);
+                        $(event.target).closest("tr").children("td").eq(1).html('<img  src="/HorizontalRoadMarkings/GetImage/' + JsonObject[0].id + '">'); $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].description);
                         $(event.target).closest("tr").children("td").eq(3).html('<input type="number"   name="ModalsL' + ui.item.value + '" type="text"/>');
                         $(event.target).closest("tr").children("td").eq(4).html('<input type="number"   name="ModalsA' + ui.item.value + '" type="text"/>');
                         $(event.target).closest("tbody").append('<tr>' +
                                '<td style="width: 100px;padding:0px;height: 115px"><input style="width: 100px" type="text" class="FindRoadMarking"></td>' +
-                               '<td style="width: 115px;height: 115px"></td>' +
+                               '<td style="width: 224px;"></td>' +
                                '<td style="width: 117px"></td>' +
                                '<td style="width: 115px; vertical-align: middle"></td>' +
                                '<td style="vertical-align: middle"></td>' +
@@ -1095,7 +1097,11 @@
             //при клике по tr фокус по input
 
         //Чистка первого значения 
-            $("form").on("click",".lastA",function(e) {
+            $("form").on("click", ".lastA", function (e) {
+
+                if ($(e.currentTarget).closest("tbody").children("tr").length > 2) {
+                    $(e.currentTarget).closest("tbody").children("tr:last").remove()
+                };
                 $(e.currentTarget).closest("tr").children("td").eq(0).children().val("");
                 $(e.currentTarget).closest("tr").children("td").eq(1).children().remove();
                 $(e.currentTarget).closest("tr").children("td").eq(2).html("");
@@ -1103,6 +1109,9 @@
             }
                 );
             $("form").on("click", ".lastB", function (e) {
+                if ($(e.currentTarget).closest("tbody").children("tr").length > 2) {
+                    $(e.currentTarget).closest("tbody").children("tr:last").remove();
+                };
                 $(e.currentTarget).closest("tr").children("td").eq(0).children().val("");
                 $(e.currentTarget).closest("tr").children("td").eq(1).children().remove();
                 $(e.currentTarget).closest("tr").children("td").eq(2).html("");
@@ -1128,7 +1137,7 @@
 </script>
 <style>
     /*fix autocomplete in bootstrap*/
-     .ui-autocomplete { z-index:2147483647; }
+     .ui-autocomplete { z-index:2147483647;height: 300px; overflow-y: scroll; overflow-x: hidden }
 
      span>img {
          width: 100px!important
@@ -1271,7 +1280,7 @@
                     <table  class="table table-bordered"  >
                         <tr >
                             <th style="width: 100px;">№ разметки</th>
-                            <th style="width: 150px;">Картинка</th>
+                            <th style="width: 224px;">Картинка</th>
                             <th style="width: 117px">Описание</th>
                             <th style="width: 115px;">Длина (м.пог) / штуки</th>
                             <th>Площадь (м.кв)</th>
@@ -1279,7 +1288,7 @@
                         </tr>
                         <tr>
                             <td style="width: 100px; padding: 0px;height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text" ></td>
-                            <td style="width: 150px;height: 115px"></td>
+                            <td style="width: 224px;"></td>
                             <td style="width: 117px"></td>
                             <td style="width: 115px;vertical-align: middle"></td>
                             <td style="vertical-align: middle"></td>

@@ -135,10 +135,10 @@ namespace OddBasyBY.Models
                     {
                         if (tempValueM[j] != "")
                         {
-
+                            
                             ListSpecificationofRS.Add(new SpecificationOfRb()
                             {
-                                Length = Double.Parse(tempValueM[j]),
+                                Length = Double.Parse(tempValueM[j].Replace('.',',')),
                                 SegmentIdModel =
                                     int.Parse(ModalM.ElementAt(i).Substring(0, ModalM.ElementAt(i).IndexOf("R"))),
                                 RoadBarriersIdModel =
