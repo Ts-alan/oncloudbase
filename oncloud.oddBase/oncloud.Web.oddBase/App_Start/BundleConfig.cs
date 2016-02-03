@@ -39,6 +39,8 @@ namespace oncloud.Web.oddBase
                       "~/Content/jqGrid/ui.jqgrid-bootstarp.css",
                       "~/Content/jqGrid/ui.multiselect.css",
                       "~/Content/GridSystemForTable.css"
+                     
+
                     ));
 
             bundles.Add(new StyleBundle("~/Content/CSSTableGenerator").Include(
@@ -56,7 +58,8 @@ namespace oncloud.Web.oddBase
             bundles.Add(new ScriptBundle("~/bundles/jqCrid").Include(
             "~/Scripts/jqGrid/i18n/grid.locale-en.js",
             "~/Scripts/jqGrid/jquery.jqGrid.js",
-            "~/Scripts/jqGrid/plugins/grid.tbltogrid.js"
+            "~/Scripts/jqGrid/plugins/grid.tbltogrid.js",
+             "~/Scripts/jquery.freezetable.js"
             ));
 
             bundles.Add(new ScriptBundle("~/bundles/print").Include(

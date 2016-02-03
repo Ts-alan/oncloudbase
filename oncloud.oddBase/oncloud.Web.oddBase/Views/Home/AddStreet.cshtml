@@ -522,7 +522,7 @@
             var mkp = '<td style="width: 100px;height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text" ></td>' +
                                '<td style="width: 167px;height: 115px"></td><td style="width: 117px"></td>' +
                                '<td style="width: 115px;vertical-align: middle"></td><td style="vertical-align: middle"></td>' +
-                               '<td><a class="lastB" href="#"><img style="width: 30px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>';
+                               '<td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>';
 
             $("#ModalMackUp > div > div > div.modal-body > table > tbody > tr:eq(1)").empty().html(mkp);
             $("#ModalMackUp > div > div > div.modal-body > table > tbody > tr:gt(1)").remove();
@@ -545,7 +545,7 @@
         var mkp =
                     '<td style="width: 185px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' +
                     '<td style="width: 115px;height: 115px"></td><td style="width: 117px"></td>' +
-                    '<td style="vertical-align: middle"></td><td><a class="lastA" href="#"><img style="width: 30px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>';
+                    '<td style="vertical-align: middle"></td><td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>';
             $("#RoadBarriers" + par + " tr:eq(1)")
                         .children().eq(0).children().val("");
             $("#RoadBarriers" + par + " tr:eq(1)")
@@ -583,12 +583,17 @@
         $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-default");
         $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-danger");
     }
-
+    //$(document).ready(function () {
+    //    $('.table').freezeTable({
+    //        'autoHeight': false,
+    //        'height': 800
+    //    });
+    //});
     //задание координат
     $(document).ready(function () {
-
-  
-
+       
+    
+        
         function setSegment(eventObject) {
 
             if ($(eventObject.target).next("button").css("display") == "none") {
@@ -949,7 +954,7 @@
                                '<td style="width: 117px"></td>' +
                                '<td style="width: 115px; vertical-align: middle"></td>' +
                                '<td style="vertical-align: middle"></td>' +
-                               '<td><a href="#"><img style="width: 30px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
+                               '<td style="vertical-align: middle"><a href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
                                '</tr>');
 
                         $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function (e) {
@@ -999,7 +1004,7 @@
                                '<td style="vertical-align: middle">' +
 
                                '</td>' +
-                               '<td><a href="#"><img style="width: 30px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
+                               '<td style="vertical-align: middle"><a href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
                                '</tr>');
                         $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function (e) {
                             $(e.currentTarget).closest("tr").remove();
@@ -1076,7 +1081,7 @@
                             '<td style="width: 117px"></td>' +
                             '<td style="width: 115px"></td>' +
                             '<td style="vertical-align: middle"></td>' +
-                            '<td><a href="#"><img style="width: 30px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
+                            '<td style="vertical-align: middle"><a href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
                             '</tr>');
                         $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function (e) {
                             $(e.currentTarget).closest("tr").remove();
@@ -1269,8 +1274,8 @@
             <div class="modal-content">
                 <div class="modal-header">
 
-                    <button type="button" class="close" data-dismiss="modal" onclick="changeColorMackUp(event)" aria-label="Close">Сохранить<br /><img style="width: 100px;height: 16px" src="../../Content/images/save.jpg" /></button>
-                    <button type="button" class="close" data-dismiss="modal" onclick="cleaningModalMackUp(1)" aria-label="Close">Закрыть<br /><img style="width: 100px;height: 16px" src="../../Content/images/close.jpg" /></button>
+                    <button type="button" class="close" data-dismiss="modal" onclick="changeColorMackUp(event)" aria-label="Close"><img style="width: 100px;height: 16px" src="../../Content/images/save.jpg" /></button>
+                    <button type="button" class="close" data-dismiss="modal" onclick="cleaningModalMackUp(1)" aria-label="Close"><img style="width: 100px;height: 16px" src="../../Content/images/close.jpg" /></button>
                     <h4 class="modal-title" id="myModalLabel">
                         Спецификация горизонтальной дорожной разметки
                         <p>по ул. <span class="text">_________________</span> в г. Минске
@@ -1279,8 +1284,9 @@
                 </div>
                 <div class="modal-body" style="height: 640px;overflow: auto">
                     <table class="table table-bordered">
+                      
                         <tr>
-                            <th style=" width: 100px;">№ разметки</th>
+                            <th style="width: 100px;">№ разметки</th>
                             <th style="width: 224px;">Картинка</th>
                             <th style="width: 180px">Описание</th>
                             <th >Длина (м.пог) / штуки</th>
@@ -1288,12 +1294,12 @@
                             <th></th>
                         </tr>
                         <tr>
-                            <td style="vertical-align: middle;width: 100px; padding: 0px;height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>
+                            <td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>
                             <td style="width: 224px;"></td>
                             <td style="width: 180px"></td>
                             <td style="vertical-align: middle"></td>
                             <td style="vertical-align: middle"></td>
-                            <td><a class="lastB" href="#"><img style="width: 30px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>
+                            <td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>
                         </tr>
 
                     </table>
@@ -1309,8 +1315,8 @@
             <div class="modal-content" style="width: 800px;">
                 <div class="modal-header">
 
-                    <button type="button" class="close  buttonSave" data-dismiss="modal" onclick="changeColorRoadSigns(1, event)" aria-label="Close">Сохранить<br /><img style="width: 100px;height: 16px" src="../../Content/images/save.jpg" /></button>
-                    <button type="button" class="close buttonclose" data-dismiss="modal" onclick="cleaningRoadSigns(1)" aria-label="Close">Закрыть<br /><img style="width: 100px; height: 16px" src="../../Content/images/close.jpg" /></button>
+                    <button type="button" class="close  buttonSave" data-dismiss="modal" onclick="changeColorRoadSigns(1, event)" aria-label="Close"><img style="width: 100px;height: 16px" src="../../Content/images/save.jpg" /></button>
+                    <button type="button" class="close buttonclose" data-dismiss="modal" onclick="cleaningRoadSigns(1)" aria-label="Close"><img style="width: 100px; height: 16px" src="../../Content/images/close.jpg" /></button>
                     <h4 class="modal-title" id="myModalLabel">
                         Ведомость о дорожных знаков
                         <p>по ул. <span class="text">_________________</span> в г. Минске
@@ -1332,7 +1338,7 @@
                             <td style="width: 117px"></td>
                             <td style="width: 115px"></td>
                             <td style="vertical-align: middle"></td>
-                            <td><a class="lastA" href="#"><img style="width: 30px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>
+                            <td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>
                         </tr>
                     </table>
                 </div>
@@ -1346,8 +1352,8 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="width: 800px; ">
                 <div class="modal-header">
-                    <button type="button" class="close buttonSave" data-dismiss="modal" onclick="changeColorRoadBarriers(1, event)" aria-label="Close">Сохранить<br /><img style="width: 100px;height: 16px" src="../../Content/images/save.jpg" /></button>
-                    <button type="button" class="close buttonclose" data-dismiss="modal" onclick="cleaningRoadBarriers(1)" aria-label="Close">Закрыть<br /><img style="width: 100px;height: 16px" src="../../Content/images/close.jpg" /></button>
+                    <button type="button" class="close buttonSave" data-dismiss="modal" onclick="changeColorRoadBarriers(1, event)" aria-label="Close"><img style="width: 100px;height: 16px" src="../../Content/images/save.jpg" /></button>
+                    <button type="button" class="close buttonclose" data-dismiss="modal" onclick="cleaningRoadBarriers(1)" aria-label="Close"><img style="width: 100px;height: 16px" src="../../Content/images/close.jpg" /></button>
                     <h4 class="modal-title" id="myModalLabel">
                         Ведомость о дорожных ограждений
                         <p>по ул. <span class="text">_________________</span> в г. Минске
@@ -1367,7 +1373,7 @@
                             <td style="width: 115px;height: 115px"></td>
                             <td style="width: 117px"></td>
                             <td style="vertical-align: middle"></td>
-                            <td><a class="lastA" href="#"><img style="width: 30px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>
+                            <td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>
                         </tr>
                     </table>
                 </div>
