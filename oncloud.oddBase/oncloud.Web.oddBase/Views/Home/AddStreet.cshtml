@@ -12,7 +12,7 @@
     ymaps.ready(init);
     var myMap, ModalMackUpSave = false,
         myPlacemark, ModalRoadSignsSave = [],
-        Arr = [[]], RoadBarriersSave=[],
+        Arr = [[]], RoadBarriersSave = [],
         counterArr = 0,
         handlerRoute,
         currentRoute,
@@ -517,9 +517,9 @@
     }
 
     function cleaningModalMackUp(par) {
-        
+
         if (ModalMackUpSave == false) {
-            var mkp = '<td style="width: 100px;height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text" ></td>' +
+            var mkp = '<td style="vertical-align: middle;width: 100px;height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text" ></td>' +
                                '<td style="width: 167px;height: 115px"></td><td style="width: 117px"></td>' +
                                '<td style="width: 115px;vertical-align: middle"></td><td style="vertical-align: middle"></td>' +
                                '<td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>';
@@ -542,10 +542,10 @@
             }
         }
         if (select == true) {
-        var mkp =
-                    '<td style="width: 185px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' +
-                    '<td style="width: 115px;height: 115px"></td><td style="width: 117px"></td>' +
-                    '<td style="vertical-align: middle"></td><td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>';
+            var mkp =
+                        '<td style="width: 185px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' +
+                        '<td style="width: 115px;height: 115px"></td><td style="width: 117px"></td>' +
+                        '<td style="vertical-align: middle"></td><td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>';
             $("#RoadBarriers" + par + " tr:eq(1)")
                         .children().eq(0).children().val("");
             $("#RoadBarriers" + par + " tr:eq(1)")
@@ -557,11 +557,11 @@
             $("#RoadBarriers" + par + " tr:eq(1)")
             .children().eq(3).children().remove();
             $("#RoadBarriers" + par + " > div > div > div.modal-body > table > tbody > tr:eq(1)").empty().html(mkp);
-            
+
             $("#RoadBarriers" + par + " > div > div > div.modal-body > table > tbody > tr:gt(1)").each(function (indx, element) { $(element).remove() });
-        
-        $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-danger");
-        $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-default");
+
+            $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-danger");
+            $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-default");
         }
     }
 
@@ -583,17 +583,12 @@
         $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-default");
         $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-danger");
     }
-    //$(document).ready(function () {
-    //    $('.table').freezeTable({
-    //        'autoHeight': false,
-    //        'height': 800
-    //    });
-    //});
+
     //задание координат
     $(document).ready(function () {
-       
-    
-        
+
+
+
         function setSegment(eventObject) {
 
             if ($(eventObject.target).next("button").css("display") == "none") {
@@ -870,7 +865,7 @@
 
             if (textStreet != "") {
                 $('.text').each(function (index, domElement) {
-                    
+
                     $(domElement).text(textStreet);
                 });
             }
@@ -1101,7 +1096,7 @@
         //Чистка первого значения
         $("form").on("click", ".lastA", function (e) {
 
-            if ($(e.currentTarget).closest("tbody").children("tr").length > 2) {
+            if ($(e.currentTarget).closest("tbody").children("tr").length > 1) {
                 $(e.currentTarget).closest("tbody").children("tr:last").remove();
             };
             $(e.currentTarget).closest("tr").children("td").eq(0).children().val("");
@@ -1111,7 +1106,8 @@
         }
             );
         $("form").on("click", ".lastB", function (e) {
-            if ($(e.currentTarget).closest("tbody").children("tr").length > 2) {
+            console.log($(e.currentTarget).closest("tbody").children("tr").length);
+            if ($(e.currentTarget).closest("tbody").children("tr").length > 1) {
                 $(e.currentTarget).closest("tbody").children("tr:last").remove();
             };
             $(e.currentTarget).closest("tr").children("td").eq(0).children().val("");
@@ -1273,36 +1269,45 @@
         <div class="modal-dialog" style="width: 1000px; " role="document">
             <div class="modal-content">
                 <div class="modal-header">
-
-                    <button type="button" class="close" data-dismiss="modal" onclick="changeColorMackUp(event)" aria-label="Close"><img style="width: 100px;height: 16px" src="../../Content/images/save.jpg" /></button>
-                    <button type="button" class="close" data-dismiss="modal" onclick="cleaningModalMackUp(1)" aria-label="Close"><img style="width: 100px;height: 16px" src="../../Content/images/close.jpg" /></button>
+                    <div style="text-align: right">
+                        <img data-dismiss="modal" onclick="changeColorMackUp(event)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+                        <img data-dismiss="modal" onclick="cleaningModalMackUp(1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
+                    </div>
                     <h4 class="modal-title" id="myModalLabel">
                         Спецификация горизонтальной дорожной разметки
                         <p>по ул. <span class="text">_________________</span> в г. Минске
                     </h4>
 
                 </div>
-                <div class="modal-body" style="height: 640px;overflow: auto">
-                    <table class="table table-bordered">
-                      
-                        <tr>
-                            <th style="width: 100px;">№ разметки</th>
-                            <th style="width: 224px;">Картинка</th>
-                            <th style="width: 180px">Описание</th>
-                            <th >Длина (м.пог) / штуки</th>
-                            <th>Площадь (м.кв)</th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>
-                            <td style="width: 224px;"></td>
-                            <td style="width: 180px"></td>
-                            <td style="vertical-align: middle"></td>
-                            <td style="vertical-align: middle"></td>
-                            <td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>
-                        </tr>
+                <div class="modal-body" style="height: 640px">
 
+                    <table class="table table-bordered" style="margin-bottom: 0px">
+                        <thead>
+                            <tr>
+                                <th style="width: 101px;">№ разметки</th>
+                                <th style="width: 241px;">Картинка</th>
+                                <th style="width: 180px">Описание</th>
+                                <th style="width: 117px">Длина (м.пог) / штуки</th>
+                                <th style="width: 157px">Площадь (м.кв)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
                     </table>
+                    <div style="height: 530px;overflow-y:scroll">
+                        <table class="table table-bordered">
+                            <tbody style="height: 640px; overflow: auto">
+                                <tr>
+                                    <td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>
+                                    <td style="width: 241px;"></td>
+                                    <td style="width: 180px"></td>
+                                    <td style="vertical-align: middle;width: 117px"></td>
+                                    <td style="vertical-align: middle;width: 157px"></td>
+                                    <td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
                 </div>
 
             </div>
@@ -1314,34 +1319,44 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="width: 800px;">
                 <div class="modal-header">
+                    <div style="text-align: right">
+                        <img class="buttonSave" data-dismiss="modal" onclick="changeColorRoadSigns(1, event)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+                        <img class="buttonclose" data-dismiss="modal" onclick="cleaningRoadSigns(1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
+                    </div>
 
-                    <button type="button" class="close  buttonSave" data-dismiss="modal" onclick="changeColorRoadSigns(1, event)" aria-label="Close"><img style="width: 100px;height: 16px" src="../../Content/images/save.jpg" /></button>
-                    <button type="button" class="close buttonclose" data-dismiss="modal" onclick="cleaningRoadSigns(1)" aria-label="Close"><img style="width: 100px; height: 16px" src="../../Content/images/close.jpg" /></button>
                     <h4 class="modal-title" id="myModalLabel">
                         Ведомость о дорожных знаков
                         <p>по ул. <span class="text">_________________</span> в г. Минске
                     </h4>
                 </div>
-                <div class="modal-body " style="height: 800px; overflow: auto;">
-                    <table class="table table-bordered">
+                <div class="modal-body " style="height: 800px">
+                    <table class="table table-bordered" style="margin-bottom: 0px">
+                        <thead>
                         <tr>
-                            <th>№ знака</th>
-                            <th>Картинка</th>
-                            <th>Описание</th>
-                            <th width="115px">Маркер</th>
-                            <th>Количество</th>
-                            <th style="width: 125px"></th>
+                            <th style="width: 187px;">№ знака</th>
+                            <th style="width: 117px;">Картинка</th>
+                            <th style="width: 150px">Описание</th>
+                            <th style="width: 161px">Маркер</th>
+                            <th style="width: 192px">Количество</th>
+                            <th ></th>
                         </tr>
-                        <tr>
-                            <td style="vertical-align: middle;width: 185px; height: 115px"><input type="text" class="FindRoadSings"></td>
-                            <td style="width: 115px; height: 115px"></td>
-                            <td style="width: 117px"></td>
-                            <td style="width: 115px"></td>
-                            <td style="vertical-align: middle"></td>
-                            <td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>
-                        </tr>
+                        </thead>
                     </table>
-                </div>
+                    <div style="height: 700px;overflow-y:scroll">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <td style="vertical-align: middle; width: 185px; height: 115px"><input type="text" class="FindRoadSings"></td>
+                                <td style="width: 117px; height: 115px"></td>
+                                <td style="width: 150px"></td>
+                                <td style="width: 161px"></td>
+                                <td style="vertical-align: middle;width: 192px"></td>
+                                <td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
 
             </div>
         </div>
@@ -1352,31 +1367,42 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="width: 800px; ">
                 <div class="modal-header">
-                    <button type="button" class="close buttonSave" data-dismiss="modal" onclick="changeColorRoadBarriers(1, event)" aria-label="Close"><img style="width: 100px;height: 16px" src="../../Content/images/save.jpg" /></button>
-                    <button type="button" class="close buttonclose" data-dismiss="modal" onclick="cleaningRoadBarriers(1)" aria-label="Close"><img style="width: 100px;height: 16px" src="../../Content/images/close.jpg" /></button>
+                    <div style="text-align: right">
+                        <img class="buttonSave" data-dismiss="modal" onclick="changeColorRoadBarriers(1, event)" aria-label="Close" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+                        <img class="buttonclose" data-dismiss="modal" onclick="cleaningRoadBarriers(1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
+                    </div>
+
                     <h4 class="modal-title" id="myModalLabel">
                         Ведомость о дорожных ограждений
                         <p>по ул. <span class="text">_________________</span> в г. Минске
                     </h4>
                 </div>
                 <div class="modal-body " style="height: 800px; overflow: auto;">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" style="margin-bottom: 0px">
+                        <thead>
                         <tr>
-                            <th>№ </th>
-                            <th>Картинка</th>
-                            <th>Описание</th>
-                            <th>Погонные метры</th>
-                            <th style="width: 125px"></th>
+                            <th style="width: 187px">№ </th>
+                            <th style="width: 170px">Картинка</th>
+                            <th style="width: 180px">Описание</th>
+                            <th style="width: 258px">Погонные метры</th>
+                            <th ></th>
                         </tr>
-                        <tr>
-                            <td style="vertical-align: middle;width: 145px;height: 115px"><input type="text" class="FindRoadBarriers"></td>
-                            <td style="width: 115px;height: 115px"></td>
-                            <td style="width: 117px"></td>
-                            <td style="vertical-align: middle"></td>
-                            <td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>
-                        </tr>
+                        </thead>
                     </table>
-                </div>
+                    <div style="height: 700px; overflow-y: scroll">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <td style="vertical-align: middle; width: 187px;"><input type="text" class="FindRoadBarriers"></td>
+                                <td style="width: 170px;"></td>
+                                <td style="width: 180px"></td>
+                                <td style="vertical-align: middle;width: 258px"></td>
+                                <td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
 
             </div>
         </div>
