@@ -938,6 +938,8 @@
                         idRM: ui.item.value
                     }).success(function (result) {
                         var JsonObject = JSON.parse(result);
+                       
+                       
 
 
                         $(event.target).closest("tr").children("td").eq(1).html('<img  src="/HorizontalRoadMarkings/GetImage/' + JsonObject[0].id + '">'); $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].description);
@@ -955,6 +957,9 @@
                         $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function (e) {
                             $(e.currentTarget).closest("tr").remove();
                         });
+                        //скролин элимента
+                        var rowpos = $(event.target).closest("table").find("tr:last").position();
+                        $(event.target).closest("div").scrollTop(rowpos.top);
                     });
                 }
             });
@@ -1004,7 +1009,9 @@
                         $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function (e) {
                             $(e.currentTarget).closest("tr").remove();
                         });
-
+                        //скролин элимента
+                        var rowpos = $(event.target).closest("table").find("tr:last").position();
+                        $(event.target).closest("div").scrollTop(rowpos.top);
                     });
                 }
             });
@@ -1081,6 +1088,9 @@
                         $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function (e) {
                             $(e.currentTarget).closest("tr").remove();
                         });
+                        //скролин элимента
+                        var rowpos = $(event.target).closest("table").find("tr:last").position();
+                        $(event.target).closest("div").scrollTop(rowpos.top);
                     });
                 }
             });
@@ -1293,7 +1303,7 @@
                             </tr>
                         </thead>
                     </table>
-                    <div style="height: 530px;overflow-y:scroll">
+                    <div id="container" style="height: 530px;overflow-y:scroll">
                         <table class="table table-bordered">
                             <tbody style="height: 640px; overflow: auto">
                                 <tr>
