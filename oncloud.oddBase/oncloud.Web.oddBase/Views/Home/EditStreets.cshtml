@@ -7,7 +7,7 @@
 
 <script type="text/javascript">
     ymaps.ready(init);
-    var myMap, myPlacemark, Arr = [[]], counterArr = 0, handlerRoute, currentRoute,
+    var myMap, myPlacemark, Arr = [[]], counterArr = 0, handlerRoute, currentRoute, ModalMackUpSave = false, ModalRoadSignsSave = [], RoadBarriersSave = [],
         firstPointRoute, endPointRoute, position, identifierForDelete = 0, routeSegment,
         increment = 1, tempData = [], tempDate2 = [], tempDataFor3 = 5, objects, identifierForDelBallon = true, CoordinatesforFirstLoad,
         CountObjectInMap, transfercurrentRoute, massSegment = [], handlerSegment, countElementSegGlobal;
@@ -259,25 +259,21 @@
                              return stringSegment;
                          });
                      }
-                     if (i != 0) {
-                         $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
-                                   .attr("id", "ModalRoadSigns" + (i + 1)).find(".buttonclose")
-                                   /*.attr("onclick", "cleaningRoadSigns(" + (i + 1) + ")")*/.end().find("td input").each(function (ind, element) {
-                                       $(element).attr("name", (i + 1).toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
-                                   }).end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + (i + 1) + ",event)").end().find("li a").each(function (ind, element) {
-                                       $(element).attr("href", "#tab" + incForTab1);
-                                       incForTab1++;
-                                   }).end().find('[role="tabpanel"]').each(function (ind, element) {
-                                       $(element).attr("id", "tab" + incForTab2);
-                                       incForTab2++;
-                                   }).end());
+                     if ((i + 1) != 1) {
+                     $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
+                        .attr("id", "ModalRoadSigns" + (i + 1)).find(".buttonclose")
+                        .attr("onclick", "cleaningRoadSigns(" + (i + 1) + ")").end().find("td input").end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + (i + 1) + ",event)").end().find("li a").each(function (ind, element) {
+                            $(element).attr("href", "#tab" + incForTab1);
+                            incForTab1++;
+                        }).end().find('[role="tabpanel"]').each(function (ind, element) {
+                            $(element).attr("id", "tab" + incForTab2);
+                            incForTab2++;
+                        }).end());
 
-                         $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
-                             .attr("id", "RoadBarriers" + (i + 1)).find(".buttonclose")
-                             /*.attr("onclick", "cleaningRoadBarrier(" + (i + 1) + ")")*/.end()
-                             .find("td input").each(function (ind, element) {
-                                 $(element).attr("name", (i + 1).toString() + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
-                             }).end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + (i + 1) + ",event)").end());
+                     $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
+                         .attr("id", "RoadBarriers" + (i + 1)).find(".buttonclose")
+                         .attr("onclick", "cleaningRoadBarriers(" + (i + 1) + ")").end()
+                         .find("td input").end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + (i + 1) + ",event)").end());
                      }
 
                      tempData[0] = DataOfSegment[i].BreadthE;
@@ -323,7 +319,27 @@
 
 
                  countElementSegGlobal = new Array(parseInt("@Model.Segment.Count"));
+                 $("[id^= ModalRoadSigns]").find("table:eq(1) tbody").each(function(ind, domElement) {
+                     var z = 0;
+                     for (var i = 0; i < DataOfRoadSings.length; i++) {
+                         
+                         if (parseInt(DataOfRoadSings[i].Name) == (ind + 1)) {
+                             z++;
+                             $.get('@Url.Action("GetRoadSigns", "Home")', {
+                             idRS: DataOfRoadSings[i].NumberRoadSigns
+                             }).success(function (result) {
+                                 var JsonObject = JSON.parse(result);
+                                 if (z == 0) {
+                                     $(domElement).find("td").eq(1).html('<img style="height: 100px; width: 100px" src="/RoadSigns/GetImage/' + JsonObject[0].id + '">');
+                                     $(domElement).find("td").eq(2).text(JsonObject[0].Description);
+                                 } else {
+                                     
+                                 }
 
+                             });
+                         }
+                     }
+                 });
                  var multiplicity, incrementMul = 0, changeColor;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
                      if (multiplicity != undefined) {
@@ -335,8 +351,8 @@
                      }
                      multiplicity = DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString();
 
-                     $("[name='" + DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString() + "']").eq(incrementMul)
-                       .attr("value", DataOfRoadSings[i].CountRS);
+
+
                      if (changeColor != undefined) {
                          if (changeColor != DataOfRoadSings[i].Name) {
                              changeColorRoadSigns(DataOfRoadSings[i].Name);
@@ -348,8 +364,7 @@
                      }
                  }
                  for (var i = 0; i < DataOfRoadBarriers.length; i++) {
-                     $("[name='" + DataOfRoadBarriers[i].Name.toString() + "RoadBarriers" + DataOfRoadBarriers[i].NumberBarriers.toString() + "']")
-                    .attr("value", DataOfRoadBarriers[i].Length);
+
                      if (changeColor != undefined) {
                          if (changeColor != DataOfRoadBarriers[i].Name) {
                              changeColorRoadBarriers(DataOfRoadBarriers[i].Name);
@@ -610,7 +625,7 @@
     //задать координаты
     function SetCoords() {
         if ($("#blockStreet").css("display") == "none") {
-            
+
             if (countElementSegGlobal.length == 0) {
 
 
@@ -686,6 +701,7 @@
         }
 
     }
+
 
     //удаление сегмента
     function deleteSegment(index) {
@@ -776,7 +792,8 @@
             $('[id^="ModalRoadSigns"]').each(function (ind, element) {
                 $(element).attr("id", "ModalRoadSigns" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadSigns(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadSigns(' + (ind + 1) + ',event)');
             }).each(function (indMR, elementMR) {
-                $(elementMR).find("td input").each(function (ind, element) {
+                $(elementMR).find("tr input:not(.FindRoadSings)").each(function (ind, element) {
+
                     $(element).attr("name", (indMR + 1) + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
                 });
 
@@ -786,8 +803,7 @@
             $('[id^="RoadBarriers"]').each(function (ind, element) {
                 $(element).attr("id", "RoadBarriers" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadBarriers(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadBarriers(' + (ind + 1) + ',event)');
             }).each(function (indMR, elementMR) {
-
-                $(elementMR).find("td input").each(function (ind, element) {
+                $(elementMR).find("tr input:not(.FindRoadBarriers)").each(function (ind, element) {
                     $(element).attr("name", (indMR + 1) + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
 
                 });
@@ -807,10 +823,6 @@
             }
         });
         increment = massSegment.length + 1;
-        if (index == 1) {
-
-            $('[name="LayoutDislocationDelete"]').first().remove();
-        }
 
         if ((massSegment.length + 1) == index) {
 
@@ -818,90 +830,129 @@
             if (massSegment.length != 0) {
 
                 ymaps.route([
-                        ['@Model.BreadthS', '@Model.LengthS'],
-                              tempDate2.pop()
+                        Arr[0],
+                        tempDate2.pop()
                 ]
-                      ).then(
-                          function (route) {
-                              route.getPaths().options.set({
+                ).then(
+                    function (route) {
+                        route.getPaths().options.set({
 
-                                  //можно выставить настройки графики маршруту
-                                  strokeColor: 'rgb(20,10,115)',
-                                  opacity: 0.9,
-                                  strokeWidth: 4
-                              });
-                              route.getPaths().get(0).balloon.destroy();
-                              myMap.geoObjects.add(route.getPaths());
-                              routeSegment = route;
-                              route.getPaths().events.add('click', function () {
+                            //можно выставить настройки графики маршруту
+                            strokeColor: 'rgb(20,10,115)',
+                            opacity: 0.9,
+                            strokeWidth: 4
+                        });
+                        route.getPaths().get(0).balloon.destroy();
+                        myMap.geoObjects.add(route.getPaths());
+                        routeSegment = route;
+                        route.getPaths().events.add('click', function () {
 
-                                  alert("Вы неправльно поставили участок");
+                            alert("Вы неправльно поставили участок");
 
-                              });
-                          });
+                        });
+                    });
             }
-        }
-        else {
+        } else {
+
             tempDate2.splice(index, 1);
 
         }
+
     }
     //чистка полей
     function cleaningRoadSigns(par) {
-
-        $("#ModalRoadSigns" + par + " input").each(function (indx, element) {
-            $(element).val("");
-        });
-
-        $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-danger");
-        $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-default");
+        var select = true;
+        for (var i = 0; i < ModalRoadSignsSave.length; i++) {
+            if (ModalRoadSignsSave[i] == par) {
+                select = false;
+            }
+        }
+        if (select == true) {
+            $("#ModalRoadSigns" + par + " tr:gt(1)").each(function (indx, element) {
+                $(element).remove();
+            });
+            $("#ModalRoadSigns" + par + " tr:eq(1)")
+                .children().eq(0).children().val("");
+            $("#ModalRoadSigns" + par + " tr:eq(1)")
+                .children().eq(1).children().remove();
+            $("#ModalRoadSigns" + par + " tr:eq(1)")
+                .children().eq(2).html("");
+            $("#ModalRoadSigns" + par + " tr:eq(1)")
+                .children().eq(3).children().remove();
+            $("#ModalRoadSigns" + par + " tr:eq(1)")
+                .children().eq(4).children().remove();
+            $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-danger");
+            $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-default");
+        }
     }
-    function cleaningModalMackUp() {
 
-        $("#ModalMackUp input").each(function (indx, element) {
-            $(element).val("");
-        });
-        $('[data-target="#ModalMackUp"]').removeClass("btn-danger");
-        $('[data-target="#ModalMackUp"]').addClass("btn-default");
+    function cleaningModalMackUp(par) {
+
+        if (ModalMackUpSave == false) {
+            var mkp = '<td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>' +
+                                    '<td style="width: 241px;"></td>' +
+                                    '<td style="width: 180px"></td>' +
+                                    '<td style="vertical-align: middle;width: 117px"></td>' +
+                                    '<td style="vertical-align: middle;width: 157px"></td>' +
+                                    '<td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>';
+
+            $("#ModalMackUp > div > div > div.modal-body > table > tbody > tr:eq(1)").empty();
+            $("#ModalMackUp > div > div > div.modal-body > table  > tr:gt(1)").each(function (i, val) { $(val).remove() });
+            $("#ModalMackUp tr:eq(1)").empty().html(mkp);
+            $("#ModalMackUp tr:gt(1)").remove();
+
+        }
     }
 
-    function cleaningRoadBarrier(par) {
 
-        $("#RoadBarriers" + par + " input").each(function (indx, element) {
-            $(element).val("");
-        });
-        $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-danger");
-        $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-default");
+    function cleaningRoadBarriers(par) {
+        var select = true;
+        for (var i = 0; i < RoadBarriersSave.length; i++) {
+            if (RoadBarriersSave[i] == par) {
+                select = false;
+            }
+        }
+        if (select == true) {
+            var mkp =
+                        '<td style="width: 185px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' +
+                        '<td style="width: 115px;height: 115px"></td><td style="width: 117px"></td>' +
+                        '<td style="vertical-align: middle"></td><td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>';
+            $("#RoadBarriers" + par + " tr:eq(1)")
+                        .children().eq(0).children().val("");
+            $("#RoadBarriers" + par + " tr:eq(1)")
+            .children().eq(1).children().remove();
+            console.log($("#RoadBarriers" + par + " tr:eq(1)")
+            .children().eq(3).children());
+            $("#RoadBarriers" + par + " tr:eq(1)")
+            .children().eq(2).html("");
+            $("#RoadBarriers" + par + " tr:eq(1)")
+            .children().eq(3).children().remove();
+            $("#RoadBarriers" + par + " > div > div > div.modal-body > table > tbody > tr:eq(1)").empty().html(mkp);
+
+            $("#RoadBarriers" + par + " > div > div > div.modal-body > table > tbody > tr:gt(1)").each(function (indx, element) { $(element).remove() });
+
+            $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-danger");
+            $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-default");
+        }
     }
+
     //изменения цвета
     function changeColorMackUp(e) {
-        $('[onclick="changeColorMackUp(event)"]').closest("#ModalMackUp").find("td>input").each(function (ind, element) {
-
-            if ($(element).hasClass("input-validation-error")) {
-
-                alert("Вы ввели недопустимые знаки в полях");
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                return false;
-            }
-        });
+        ModalMackUpSave = true;
         $('[data-target="#ModalMackUp"]').removeClass("btn-default");
         $('[data-target="#ModalMackUp"]').addClass("btn-danger");
     }
 
     function changeColorRoadSigns(par, e) {
-        $('[onclick="changeColorRoadSigns(' + par + ',event)"]').closest("#ModalRoadSigns" + par + "").find("td>input").each(function (ind, element) {
-
-            if ($(element).hasClass("input-validation-error")) {
-
-                alert("Вы ввели недопустимые знаки в полях");
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                return false;
-            }
-        });
+        ModalRoadSignsSave.push(par);
         $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-default");
         $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-danger");
+    }
+
+    function changeColorRoadBarriers(par, e) {
+        RoadBarriersSave.push(par);
+        $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-default");
+        $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-danger");
     }
 
     function changeColorRoadBarriers(par, e) {
@@ -1160,7 +1211,198 @@
 
             }
         }
+        //подсказки разметки
+        var autocompleteUrlRM = '/Home/FindRoadMarking';
+        $(' form').on('keydown.autocomplete', ".FindRoadMarking", function () {
+            $(this).autocomplete({
+                source: autocompleteUrlRM,
+                minLength: 1,
+                select: function (event, ui) {
+                    $.get('@Url.Action("GetRoadMarking", "Home")', {
+                        idRM: ui.item.value
+                    }).success(function (result) {
+                        var JsonObject = JSON.parse(result);
 
+
+
+
+                        $(event.target).closest("tr").children("td").eq(1).html('<img  src="/HorizontalRoadMarkings/GetImage/' + JsonObject[0].id + '">'); $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].description);
+                        $(event.target).closest("tr").children("td").eq(3).html('<input type="number" style="width:100px"  name="ModalsL' + ui.item.value + '" type="text"/>');
+                        $(event.target).closest("tr").children("td").eq(4).html('<input type="number" style="width:100px"  name="ModalsA' + ui.item.value + '" type="text"/>');
+                        $(event.target).closest("tbody").append('<tr>' +
+                               '<td style="vertical-align: middle;width: 100px;padding:0px;height: 115px"><input style="width: 100px" type="text" class="FindRoadMarking"></td>' +
+                               '<td style="width: 224px;"></td>' +
+                               '<td style="width: 117px"></td>' +
+                               '<td style="width: 115px; vertical-align: middle"></td>' +
+                               '<td style="vertical-align: middle"></td>' +
+                               '<td style="vertical-align: middle"><a href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
+                               '</tr>');
+
+                        $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function (e) {
+                            $(e.currentTarget).closest("tr").remove();
+                        });
+                        //скролин элимента
+                        var rowpos = $(event.target).closest("table").find("tr:last").position();
+                        $(event.target).closest("div").scrollTop(rowpos.top);
+                    });
+                }
+            });
+        });
+        //подсказки ограждений
+        var autocompleteUrlRB = '/Home/FindRoadBarriers';
+        $(' form').on('keydown.autocomplete', ".FindRoadBarriers", function () {
+            $(this).autocomplete({
+                source: autocompleteUrlRB,
+                minLength: 1,
+                select: function (event, ui) {
+                    $.get('@Url.Action("GetRoadBarriers", "Home")', {
+                        idRB: ui.item.value
+                    }).success(function (result) {
+                        var JsonObject = JSON.parse(result);
+
+                        var url = '/RoadBarriers/GetImage/' + JsonObject[0].Id;
+
+                        function IsValidImageUrl(url) {
+                            $("<img>", {
+                                src: url,
+                                error: function () {
+                                    //alert(url + ': ' + false);
+                                },
+                                load: function () {
+                                    $("#AddSrc" + JsonObject[0].Id).attr("src", "/RoadBarriers/GetImage/" + JsonObject[0].Id);
+                                    $("#AddSrc" + JsonObject[0].Id).css({ "height": "150px", "width": "150px" });
+                                }
+                            });
+                        }
+
+
+                        $(event.target).closest("tr").children("td").eq(1).html('<img id="AddSrc' + JsonObject[0].Id + '">');
+                        IsValidImageUrl(url);
+                        $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].Description);
+                        $(event.target).closest("tr").children("td").eq(3).html('<input type="number"   name="' + $(event.target).closest("[role='dialog']").attr("id").substr($(event.target).closest("[role='dialog']").attr("id").indexOf("s") + 1) + 'RoadBarriers' + ui.item.value + '" type="text"/>');
+
+                        $(event.target).closest("tbody").append('<tr>' +
+                               '<td style="vertical-align: middle;width: 145px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' +
+                               '<td style="width: 115px;height: 115px"></td>' +
+                               '<td style="width: 117px"></td>' +
+                               '<td style="vertical-align: middle">' +
+
+                               '</td>' +
+                               '<td style="vertical-align: middle"><a href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
+                               '</tr>');
+                        $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function (e) {
+                            $(e.currentTarget).closest("tr").remove();
+                        });
+                        //скролин элимента
+                        var rowpos = $(event.target).closest("table").find("tr:last").position();
+                        $(event.target).closest("div").scrollTop(rowpos.top);
+                    });
+                }
+            });
+        });
+        //подсказки знаков
+        var autocompleteUrlRS = '/Home/FindRoadSings';
+        $('form').on('keydown.autocomplete', ".FindRoadSings", function () {
+            $(this).autocomplete({
+                source: autocompleteUrlRS,
+                minLength: 1,
+                select: function (event, ui) {
+                    $(event.target).closest("tr").children("td").eq(2).attr("");
+                    $.get('@Url.Action("GetRoadSigns", "Home")', {
+                        idRS: ui.item.value
+                    }).success(function (result) {
+                        function compare(a, b) {
+                            if (a.ItemOrder < b.ItemOrder)
+                                return -1;
+                            else if (a.ItemOrder > b.ItemOrder)
+                                return 1;
+                            else
+                                return 0;
+                        }
+
+                        var JsonObject = JSON.parse(result);
+                        JsonObject[0].RoadSignItems.sort(compare);
+
+                        $(event.target).closest("tr").children("td").eq(1).html('<img style="height: 100px; width: 100px" src="/RoadSigns/GetImage/' + JsonObject[0].id + '">');
+                        $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].Description);
+                        $(event.target).closest("tr").children("td").eq(3).children().remove();
+                        if (JsonObject[0].RoadSignItems.length == 0) {
+                            $(event.target).closest("tr").children("td").eq(4).html('<input type="number"   name="' + $(event.target).closest("[role='dialog']").attr("id").substr($(event.target).closest("[role='dialog']").attr("id").indexOf("s") + 1) + 'ModalC' + ui.item.value + '" type="text"/>');
+                        }
+
+                        if (JsonObject[0].RoadSignItems.length > 0) {
+                            if (JsonObject[0].RoadSignItems[0].ImageData != null) {
+                                $(event.target).closest("tr").children("td").eq(4).html('<input type="number"  name="1ModalC' + ui.item.value + 'I1" type="text"/>');
+                                var dd = '<select  class="dd">';
+                                dd += '<option selected ">Выбирите маркер</option>';
+                                for (var i = 0; i < JsonObject[0].RoadSignItems.length; i++) {
+                                    dd += '<option value="' + JsonObject[0].RoadSignItems[i].ItemOrder + '" data-image="/RoadSigns/GetItemImage/' + JsonObject[0].RoadSignItems[i].Id + '?hallmark=' + JsonObject[0].RoadSignItems[i].Hallmark + '"></option>';
+
+                                }
+                                dd += '</select>';
+
+                                $(event.target).closest("tr").children("td").eq(3).html(dd);
+
+                                $(event.target).closest("tr").children("td").eq(3).children().msDropDown();
+                            } else {
+                                $(event.target).closest("tr").children("td").eq(4).html('<input type="number"  name="1ModalC' + ui.item.value + 'I1" type="text"/>');
+                                var dd = '<select  class="dd">';
+
+                                for (var i = 0; i < JsonObject[0].RoadSignItems.length; i++) {
+                                    dd += '<option  value="' + JsonObject[0].RoadSignItems[i].ItemOrder + '">' + JsonObject[0].RoadSignItems[i].Description + '</option>';
+
+                                }
+                                dd += '</select>';
+
+                                $(event.target).closest("tr").children("td").eq(3).html(dd);
+                            }
+                            $(event.target).closest("tr").find("select").change(function () {
+                                $(event.target).closest("tr").children("td").eq(4).html('<input   name="1ModalC' + ui.item.value + 'I' + $(this).val() + '" type="text"/>');
+
+                            });
+                        }
+                        $(event.target).closest("tbody").append('<tr>' +
+                            '<td style="vertical-align: middle;width: 185px;height: 115px"><input type="text" style="vertical-align: middle" class="FindRoadSings"></td>' +
+                            '<td style="width: 115px;height: 115px"></td>' +
+                            '<td style="width: 117px"></td>' +
+                            '<td style="width: 115px"></td>' +
+                            '<td style="vertical-align: middle"></td>' +
+                            '<td style="vertical-align: middle"><a href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
+                            '</tr>');
+                        $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function (e) {
+                            $(e.currentTarget).closest("tr").remove();
+                        });
+                        //скролин элимента
+                        var rowpos = $(event.target).closest("table").find("tr:last").position();
+                        $(event.target).closest("div").scrollTop(rowpos.top);
+                    });
+                }
+            });
+        });
+        //Чистка первого значения
+        $("form").on("click", ".lastA", function (e) {
+
+            if ($(e.currentTarget).closest("tbody").children("tr").length > 1) {
+                $(e.currentTarget).closest("tbody").children("tr:last").remove();
+            };
+            $(e.currentTarget).closest("tr").children("td").eq(0).children().val("");
+            $(e.currentTarget).closest("tr").children("td").eq(1).children().remove();
+            $(e.currentTarget).closest("tr").children("td").eq(2).html("");
+            $(e.currentTarget).closest("tr").children("td").eq(3).children().remove();
+        }
+            );
+        $("form").on("click", ".lastB", function (e) {
+            console.log($(e.currentTarget).closest("tbody").children("tr").length);
+            if ($(e.currentTarget).closest("tbody").children("tr").length > 1) {
+                $(e.currentTarget).closest("tbody").children("tr:last").remove();
+            };
+            $(e.currentTarget).closest("tr").children("td").eq(0).children().val("");
+            $(e.currentTarget).closest("tr").children("td").eq(1).children().remove();
+            $(e.currentTarget).closest("tr").children("td").eq(2).html("");
+            $(e.currentTarget).closest("tr").children("td").eq(3).children().remove();
+            $(e.currentTarget).closest("tr").children("td").eq(4).children().remove();
+        }
+         );
         function BlockForm() {
             alert("Вы не сохранили координаты участков");
             return false;
@@ -1266,11 +1508,12 @@
 
             }
         });
+
         //при клике по tr фокус по input
-        $("tr td").has("input").click(function (eventObject) {
+        $("form").has("input").on("click", "tr td", (function (eventObject) {
 
             $(eventObject.target).children().focus();
-        });
+        }));
 
         //чистка полей в модальном окне при нажатии по close
         $("#close").click(function (e) {
@@ -1290,29 +1533,36 @@
 
 </script>
 <style>
+       /*fix autocomplete in bootstrap*/
+    .ui-autocomplete {
+        z-index: 2147483647;
+        height: 300px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
     /*стили на для Upload кнопки*/
-    .file_upload {
-        position: relative;
-        overflow: hidden;
-        height: 34px; /* example */
-        margin-bottom: 10px;
+     .file_upload {
+         position: relative;
+         overflow: hidden;
+         height: 34px; /* example */
+         margin-bottom: 10px;
+     }
+
+    .file_upload > input {
+        max-width: 284px;
     }
 
-        .file_upload > input {
-            max-width: 284px;
-        }
-
-        .file_upload input[type=file] {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            transform: scale(1);
-            letter-spacing: 10em; /* IE 9 fix */
-            -ms-transform: scale(1); /* IE 9 fix */
-            opacity: 0;
-            cursor: pointer;
-        }
+    .file_upload input[type=file] {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        transform: scale(1);
+        letter-spacing: 10em; /* IE 9 fix */
+        -ms-transform: scale(1); /* IE 9 fix */
+        opacity: 0;
+        cursor: pointer;
+    }
     /*модальное окно*/
     .modal-dialog {
         width: 645px;
@@ -1359,7 +1609,7 @@
         .modal-content {
             width: 900px !important;
         }
-}
+    }
 </style>
 <h2 style="text-align: center">ИЗМЕНЕНИЕ ДАННЫХ УЛИЦЫ</h2>
 
@@ -1428,193 +1678,145 @@
     <h5>После сохранения координат участков, появляется возможность вводить информацию об участках</h5>
     <!-- ModalMackUp -->
     <div class="modal fade" id="ModalMackUp" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" style="width: 1000px" role="document">
+        <div class="modal-dialog" style="width: 1000px; " role="document">
             <div class="modal-content">
                 <div class="modal-header">
-
+                    <div style="text-align: right">
+                        <img data-dismiss="modal" onclick="changeColorMackUp(event)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+                        <img data-dismiss="modal" onclick="cleaningModalMackUp(1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
+                    </div>
                     <h4 class="modal-title" id="myModalLabel">
                         Спецификация горизонтальной дорожной разметки
-                        <p>по ул. <span id="text">_________________</span> в г. Минске
+                        <p>по ул. <span class="text">_________________</span> в г. Минске
                     </h4>
 
                 </div>
-                <div class="modal-body" style="height: 640px;overflow: auto">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>№ разметки</th>
-                            <th>Картинка</th>
-                            <th>Описание</th>
-                            <th>Длина (м.пог) / штуки</th>
-                            <th>Площадь (м.кв)</th>
-                        </tr>
-                        @foreach (var item in (IEnumerable<oncloud.Domain.Entities.TheHorizontalRoadMarking>)ViewBag.RoadMarking)
-                        {
+                <div class="modal-body" style="height: 640px">
+
+                    <table class="table table-bordered" style="margin-bottom: 0px">
+                        <thead>
                             <tr>
-                                <td>@item.NumberMarking</td>
-                                <td>
-                                    @if (item.ImageData != null)
-                                    {
-                                        <img src="@Url.Action("GetImage",  "HorizontalRoadMarkings", new { item.id})" />
-                                    }
-                                </td>
-                                <td>
-                                    @item.description
-                                </td>
-
-                                @if (Model.SpecificationofRM.Any(a => a.TheHorizontalRoadMarkingId == item.id))
-                                {
-                                    <td style="vertical-align: middle">
-                                        @try
-                                        {
-                                            <input name="ModalsL@(item.NumberMarking)" value="@Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarkingId == item.id).length" type="text" />
-                                        }
-                                        catch
-                                        {
-                                            <input name="ModalsL@(item.NumberMarking)" value="" type="text" />
-                                        }
-                                    </td>
-                                    <td style="vertical-align: middle">
-                                        @try
-                                        {
-                                            <input name="ModalsA@(item.NumberMarking)" value="@Model.SpecificationofRM.Single(a => a.TheHorizontalRoadMarkingId == item.id).area" type="text" />
-                                        }
-                                        catch
-                                        {
-                                            <input name="ModalsA@(item.NumberMarking)" type="text" />
-                                        }
-                                    </td>
-
-                                }
-                                else
-                                {
-                                    <td style="vertical-align: middle"><input name="ModalsL@(item.NumberMarking)" type="text" /></td>
-                                    <td style="vertical-align: middle"><input name="ModalsA@(item.NumberMarking)" type="text" /></td>
-                                }
-
+                                <th style="width: 101px;">№ разметки</th>
+                                <th style="width: 241px;">Картинка</th>
+                                <th style="width: 180px">Описание</th>
+                                <th style="width: 117px">Длина (м.пог) / штуки</th>
+                                <th style="width: 157px">Площадь (м.кв)</th>
+                                <th></th>
                             </tr>
-                        }
-
+                        </thead>
                     </table>
+                    <div id="container" style="height: 530px;overflow-y:scroll">
+                        <table class="table table-bordered">
+                            <tbody style="height: 640px; overflow: auto">
+                                <tr>
+                                    <td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>
+                                    <td style="width: 241px;"></td>
+                                    <td style="width: 180px"></td>
+                                    <td style="vertical-align: middle;width: 117px"></td>
+                                    <td style="vertical-align: middle;width: 157px"></td>
+                                    <td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" id="closeModalMackUp" @*onclick="cleaningModalMackUp()"*@ class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary" onclick="changeColorMackUp(event)" data-dismiss="modal">Сохранить</button>
-                </div>
+
             </div>
         </div>
     </div>
-
-     <!-- ModalRoadSigns -->
+    //ModalRoadSigns
     <div class="modal fade" id="ModalRoadSigns1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 800px">
+            <div class="modal-content" style="width: 800px;">
                 <div class="modal-header">
-
-
-                </div>
-                <div class="modal-body" style="height: 800px;overflow: auto">
-                    <div>
-
-                        <!-- Nav tabs -->
-                        <ul style="width: 400px" class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#tab1" aria-controls="1" role="tab" data-toggle="tab">1</a></li>
-                            <li role="presentation"><a href="#tab2" aria-controls="2" role="tab" data-toggle="tab">2</a></li>
-                            <li role="presentation"><a href="#tab3" aria-controls="3" role="tab" data-toggle="tab">3</a></li>
-                            <li role="presentation"><a href="#tab4" aria-controls="4" role="tab" data-toggle="tab">4</a></li>
-                            <li role="presentation"><a href="#tab5" aria-controls="5" role="tab" data-toggle="tab">5</a></li>
-                            <li role="presentation"><a href="#tab6" aria-controls="6" role="tab" data-toggle="tab">6</a></li>
-                            <li role="presentation"><a href="#tab7" aria-controls="7" role="tab" data-toggle="tab">7</a></li>
-
-                        </ul>
-
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane active" id="tab1">
-                                @{
-                                    Session["increment"] = "1";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="tab2">
-                                @{ Session["increment"] = "2";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="tab3">
-                                @{ Session["increment"] = "3";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="tab4">
-                                @{ Session["increment"] = "4";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="tab5">
-                                @{ Session["increment"] = "5";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="tab6">
-                                @{ Session["increment"] = "6";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="tab7">
-                                @{ Session["increment"] = "7";
-                                    Html.RenderPartial("Partials/RoadSingns", (IEnumerable<oncloud.Domain.Entities.RoadSigns>)ViewBag.RoadSigns);}
-                            </div>
-                        </div>
-
+                    <div style="text-align: right">
+                        <img class="buttonSave" data-dismiss="modal" onclick="changeColorRoadSigns(1, event)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+                        <img class="buttonclose" data-dismiss="modal" onclick="cleaningRoadSigns(1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
                     </div>
 
+                    <h4 class="modal-title" id="myModalLabel">
+                        Ведомость о дорожных знаков
+                        <p>по ул. <span class="text">_________________</span> в г. Минске
+                    </h4>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default buttonclose" @*onclick="cleaningRoadSigns(1)"*@ data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadSigns(1,event)" data-dismiss="modal">Сохранить</button>
+                <div class="modal-body " style="height: 800px">
+                    <table class="table table-bordered" style="margin-bottom: 0px">
+                        <thead>
+                            <tr>
+                                <th style="width: 187px;">№ знака</th>
+                                <th style="width: 117px;">Картинка</th>
+                                <th style="width: 150px">Описание</th>
+                                <th style="width: 161px">Маркер</th>
+                                <th style="width: 192px">Количество</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div style="height: 700px;overflow-y:scroll">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td style="vertical-align: middle; width: 185px; height: 115px"><input type="text" class="FindRoadSings"></td>
+                                    <td style="width: 117px; height: 115px"></td>
+                                    <td style="width: 150px"></td>
+                                    <td style="width: 161px"></td>
+                                    <td style="vertical-align: middle;width: 192px"></td>
+                                    <td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
-        <!-- RoadBarriers  -->
-                                    <div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
-                                        <div class="modal-dialog" style="width: 1000px" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
+       <!-- RoadBarriers -->
+    <div class="modal fade" id="RoadBarriers1" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 800px; ">
+                <div class="modal-header">
+                    <div style="text-align: right">
+                        <img class="buttonSave" data-dismiss="modal" onclick="changeColorRoadBarriers(1, event)" aria-label="Close" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+                        <img class="buttonclose" data-dismiss="modal" onclick="cleaningRoadBarriers(1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
+                    </div>
 
-                                                </div>
-                                                <div class="modal-body" style="height: 800px;overflow: auto">
-                                                    <table class="table table-bordered">
-                                                        <tr>
-                                                            <th>№ </th>
-                                                            <th>Картинка</th>
-                                                            <th>Описание</th>
-                                                            <th>Погонные метры</th>
-                                                        </tr>
-                                                        @foreach (var item in (IEnumerable<oncloud.Domain.Entities.RoadBarriers>)ViewBag.RoadBarriers)
-                                                        {
-                                                            <tr>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Ведомость о дорожных ограждений
+                        <p>по ул. <span class="text">_________________</span> в г. Минске
+                    </h4>
+                </div>
+                <div class="modal-body " style="height: 800px; overflow: auto;">
+                    <table class="table table-bordered" style="margin-bottom: 0px">
+                        <thead>
+                            <tr>
+                                <th style="width: 187px">№ </th>
+                                <th style="width: 170px">Картинка</th>
+                                <th style="width: 180px">Описание</th>
+                                <th style="width: 258px">Погонные метры</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div style="height: 700px; overflow-y: scroll">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td style="vertical-align: middle; width: 187px;"><input type="text" class="FindRoadBarriers"></td>
+                                    <td style="width: 170px;"></td>
+                                    <td style="width: 180px"></td>
+                                    <td style="vertical-align: middle;width: 258px"></td>
+                                    <td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-                                                                <td>@item.NumberBarriers</td>
-                                                                <td>
-                                                                    @if (item.ImageData != null)
-                                                                    {
-                                                                        <img style="width: 100px;height: 100px" src="@Url.Action("GetImage",  "RoadBarriers", new { item.Id})" />
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    @item.Description
-                                                                </td>
-                                                                <td style="vertical-align: middle"><input name="1RoadBarriers@(item.NumberBarriers)" type="text" /></td>
-
-                                                            </tr>
-                                                        }
-
-                                                    </table>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" id="closeModalMackUp" @*onclick="cleaningRoadBarrier(1)"*@ class="btn btn-default buttonclose" data-dismiss="modal">Закрыть</button>
-                                                    <button type="button" class="btn btn-primary buttonSave" onclick="changeColorRoadBarriers(1, event)" data-dismiss="modal">Сохранить</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+            </div>
+        </div>
+    </div>
 
                                     <div>
                                         <div id="blockElement" style="clear: both">

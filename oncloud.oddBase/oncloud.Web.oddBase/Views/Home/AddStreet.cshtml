@@ -519,17 +519,18 @@
     function cleaningModalMackUp(par) {
 
         if (ModalMackUpSave == false) {
-            var mkp = '<td style="vertical-align: middle;width: 100px;height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text" ></td>' +
-                               '<td style="width: 167px;height: 115px"></td><td style="width: 117px"></td>' +
-                               '<td style="width: 115px;vertical-align: middle"></td><td style="vertical-align: middle"></td>' +
-                               '<td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>';
+            var mkp = '<td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>'+
+                                    '<td style="width: 241px;"></td>'+
+                                    '<td style="width: 180px"></td>'+
+                                    '<td style="vertical-align: middle;width: 117px"></td>'+
+                                    '<td style="vertical-align: middle;width: 157px"></td>'+
+                                    '<td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>';
 
-            $("#ModalMackUp > div > div > div.modal-body > table > tbody > tr:eq(1)").empty().html(mkp);
-            $("#ModalMackUp > div > div > div.modal-body > table > tbody > tr:gt(1)").remove();
+            $("#ModalMackUp > div > div > div.modal-body > table > tbody > tr:eq(1)").empty();
+            $("#ModalMackUp > div > div > div.modal-body > table  > tr:gt(1)").each(function (i, val){$(val).remove()});
+            $("#ModalMackUp tr:eq(1)").empty().html(mkp);
+            $("#ModalMackUp tr:gt(1)").remove();
 
-
-            $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-danger");
-            $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-default");
         }
     }
 
@@ -712,7 +713,7 @@
                                                       "</div>");
 
                         //вставка модальных окон
-
+                        
                         $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
                          .attr("id", "ModalRoadSigns" + increment).find(".buttonclose")
                          .attr("onclick", "cleaningRoadSigns(" + increment + ")").end().find("td input").end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + increment + ",event)").end().find("li a").each(function (ind, element) {
@@ -1101,7 +1102,7 @@
 
             $(eventObject.target).children().focus();
         }));
-        //при клике по tr фокус по input
+      
 
         //Чистка первого значения
         $("form").on("click", ".lastA", function (e) {
