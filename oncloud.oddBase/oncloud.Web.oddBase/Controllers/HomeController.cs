@@ -492,7 +492,8 @@ namespace oncloud.Web.oddBase.Controllers
                              select new
                              {
                                  label = t.NumberRoadSigns,
-                                 value = t.NumberRoadSigns
+                                 value = t.NumberRoadSigns,
+                                 indexManyElement=t.RoadSignItems.Count()
                              };
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
         }

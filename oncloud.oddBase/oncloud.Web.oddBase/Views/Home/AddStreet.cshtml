@@ -13,9 +13,9 @@
     var myMap, ModalMackUpSave = false,
         myPlacemark, ModalRoadSignsSave = [],
         Arr = [[]], RoadBarriersSave = [],
-        counterArr = 0,
-        handlerRoute,
-        currentRoute,
+        counterArr = 0,indexAutoRs=[],
+        handlerRoute, indexAutoRB=[],
+        currentRoute, indexAutoRm = [],
         firstPointRoute,
         endPointRoute,
         position,
@@ -932,17 +932,37 @@
         var autocompleteUrlRM = '/Home/FindRoadMarking';
         $(' form').on('keydown.autocomplete', ".FindRoadMarking", function () {
             $(this).autocomplete({
-                source: autocompleteUrlRM,
+                source: function (request, response) {
+                    $.ajax({
+                        url: autocompleteUrlRM,
+                        data: request,
+                        success: function (data) {
+                            var index;
+                            response($.map(data, function (item) {
+                                index = false;
+                                for (var i = 0; indexAutoRm.length > i; i++) {
+
+                                    if (item.value == indexAutoRm[i])
+                                        index = true;
+                                }
+                                if (index == false) {
+                                    return {
+                                        label: item.label,
+                                        value: item.value
+                                    }
+                                }
+                            }));
+                        }
+                    });
+                },
                 minLength: 1,
                 select: function (event, ui) {
+                    indexAutoRm.push(ui.item.label);
                     $.get('@Url.Action("GetRoadMarking", "Home")', {
                         idRM: ui.item.value
                     }).success(function (result) {
                         var JsonObject = JSON.parse(result);
                        
-                       
-
-
                         $(event.target).closest("tr").children("td").eq(1).html('<img  src="/HorizontalRoadMarkings/GetImage/' + JsonObject[0].id + '">'); $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].description);
                         $(event.target).closest("tr").children("td").eq(3).html('<input type="number" style="width:100px"  name="ModalsL' + ui.item.value + '" type="text"/>');
                         $(event.target).closest("tr").children("td").eq(4).html('<input type="number" style="width:100px"  name="ModalsA' + ui.item.value + '" type="text"/>');
@@ -969,12 +989,37 @@
         var autocompleteUrlRB = '/Home/FindRoadBarriers';
         $(' form').on('keydown.autocomplete', ".FindRoadBarriers", function () {
             $(this).autocomplete({
-                source: autocompleteUrlRB,
+                source: function (request, response) {
+                    $.ajax({
+                        url: autocompleteUrlRB,
+                        data: request,
+                        success: function (data) {
+                            var index;
+                            response($.map(data, function (item) {
+                                index = false;
+                                for (var i = 0; indexAutoRB.length > i; i++) {
+
+                                    if (item.value == indexAutoRB[i])
+                                        index = true;
+                                }
+                                if (index == false) {
+                                    return {
+                                        label: item.label,
+                                        value: item.value
+                                    }
+                                }
+                            }));
+                        }
+                    });
+                },
                 minLength: 1,
                 select: function (event, ui) {
+                   
+                    indexAutoRB.push(ui.item.label);
                     $.get('@Url.Action("GetRoadBarriers", "Home")', {
                         idRB: ui.item.value
                     }).success(function (result) {
+                        
                         var JsonObject = JSON.parse(result);
 
                         var url = '/RoadBarriers/GetImage/' + JsonObject[0].Id;
@@ -1021,9 +1066,33 @@
         var autocompleteUrlRS = '/Home/FindRoadSings';
         $('form').on('keydown.autocomplete', ".FindRoadSings", function () {
             $(this).autocomplete({
-                source: autocompleteUrlRS,
+                source: function (request,response) {
+                    $.ajax({
+                            url: autocompleteUrlRS,
+                            data:request,
+                            success: function (data) {
+                                var index ;
+                                response($.map(data, function (item) {
+                                    index = false;
+                                    for (var i = 0; indexAutoRs.length > i; i++) {
+                                       
+                                        if (item.value == indexAutoRs[i] && item.indexManyElement==0)
+                                            index = true;
+                                    }
+                                    if (index == false){
+                                        return {
+                                            label: item.label,
+                                            value: item.value
+                                        }
+                                    }
+                                }));
+                            }});
+                },
                 minLength: 1,
+
                 select: function (event, ui) {
+                    
+                    indexAutoRs.push(ui.item.label);
                     $(event.target).closest("tr").children("td").eq(2).attr("");
                     $.get('@Url.Action("GetRoadSigns", "Home")', {
                         idRS: ui.item.value
@@ -1037,6 +1106,7 @@
                                 return 0;
                         }
 
+                        
                         var JsonObject = JSON.parse(result);
                         JsonObject[0].RoadSignItems.sort(compare);
 
