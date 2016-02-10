@@ -500,7 +500,7 @@
         
         if (select == true) {
             for (var j = 0; indexAutoRs.length > j; j++) {
-                if (indexAutoRs[j][0].substring(indexAutoRs[j][0].indexOf("s") + 1) == par) {
+               if (indexAutoRs[j][0].substring(indexAutoRs[j][0].indexOf("s") + 1) == par) {
                     indexAutoRs.splice(j, 1);
                 };
             }
@@ -525,6 +525,12 @@
     function cleaningModalMackUp(par) {
 
         if (ModalMackUpSave == false) {
+            var j = indexAutoRm.length;
+            while (j--) {
+                indexAutoRm.splice(j, 1);
+                
+            }
+
             var mkp = '<td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>'+
                                     '<td style="width: 241px;"></td>'+
                                     '<td style="width: 180px"></td>'+
@@ -542,13 +548,24 @@
 
 
     function cleaningRoadBarriers(par) {
+        
         var select = true;
         for (var i = 0; i < RoadBarriersSave.length; i++) {
             if (RoadBarriersSave[i] == par) {
                 select = false;
             }
         }
+        
         if (select == true) {
+            var j = indexAutoRB.length;
+            while (j--) {
+              if (indexAutoRB[j][0].substring(indexAutoRB[j][0].indexOf("s") + 1) == par) {
+                   
+                    indexAutoRB.splice(j, 1);                 
+                }
+            }
+             
+            
             var mkp =
                         '<td style="width: 185px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' +
                         '<td style="width: 115px;height: 115px"></td><td style="width: 117px"></td>' +
@@ -993,20 +1010,21 @@
         });
         //подсказки ограждений
         var autocompleteUrlRB = '/Home/FindRoadBarriers';
-        $(' form').on('keydown.autocomplete', ".FindRoadBarriers", function () {
+        $(' form').on('keydown.autocomplete', ".FindRoadBarriers", function() {
             $(this).autocomplete({
-                source: function (request, response) {
+                
+                source: function(request, response) {
                     var valThis = $($(this)[0].bindings[0]).closest('[id^="RoadBarriers"').attr("id");
                     $.ajax({
                         url: autocompleteUrlRB,
                         data: request,
-                        success: function (data) {
+                        success: function(data) {
                             var index;
-                            response($.map(data, function (item) {
+                            response($.map(data, function(item) {
                                 index = false;
                                 for (var i = 0; indexAutoRB.length > i; i++) {
-                                    
-                                    if ( item.value == indexAutoRB[i][0])
+                                   
+                                    if (indexAutoRB[i][0] == valThis && item.value == indexAutoRB[i][1])
                                         index = true;
                                 }
                                 if (index == false) {
@@ -1019,14 +1037,14 @@
                         }
                     });
                 },
-                minLength: 1,
-                select: function (event, ui) {
-                   
-                    indexAutoRB.push(ui.item.label);
+                minLength: 0,
+                select: function(event, ui) {
+
+                    indexAutoRB.push([$($(this)[0]).closest('[id^="RoadBarriers"').attr("id"), ui.item.label]);
                     $.get('@Url.Action("GetRoadBarriers", "Home")', {
                         idRB: ui.item.value
-                    }).success(function (result) {
-                        
+                    }).success(function(result) {
+
                         var JsonObject = JSON.parse(result);
 
                         var url = '/RoadBarriers/GetImage/' + JsonObject[0].Id;
@@ -1034,10 +1052,10 @@
                         function IsValidImageUrl(url) {
                             $("<img>", {
                                 src: url,
-                                error: function () {
+                                error: function() {
                                     //alert(url + ': ' + false);
                                 },
-                                load: function () {
+                                load: function() {
                                     $("#AddSrc" + JsonObject[0].Id).attr("src", "/RoadBarriers/GetImage/" + JsonObject[0].Id);
                                     $("#AddSrc" + JsonObject[0].Id).css({ "height": "150px", "width": "150px" });
                                 }
@@ -1051,15 +1069,14 @@
                         $(event.target).closest("tr").children("td").eq(3).html('<input type="number"   name="' + $(event.target).closest("[role='dialog']").attr("id").substr($(event.target).closest("[role='dialog']").attr("id").indexOf("s") + 1) + 'RoadBarriers' + ui.item.value + '" type="text"/>');
 
                         $(event.target).closest("tbody").append('<tr>' +
-                               '<td style="vertical-align: middle;width: 145px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' +
-                               '<td style="width: 115px;height: 115px"></td>' +
-                               '<td style="width: 117px"></td>' +
-                               '<td style="vertical-align: middle">' +
-
-                               '</td>' +
-                               '<td style="vertical-align: middle"><a href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
-                               '</tr>');
-                        $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function (e) {
+                            '<td style="vertical-align: middle;width: 145px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' +
+                            '<td style="width: 115px;height: 115px"></td>' +
+                            '<td style="width: 117px"></td>' +
+                            '<td style="vertical-align: middle">' +
+                            '</td>' +
+                            '<td style="vertical-align: middle"><a href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
+                            '</tr>');
+                        $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function(e) {
                             $(e.currentTarget).closest("tr").remove();
                         });
                         //скролин элимента
@@ -1068,8 +1085,7 @@
                     });
                 }
             });
-        });
-        //подсказки знаков
+        })        //подсказки знаков
         var autocompleteUrlRS = '/Home/FindRoadSings';
         $('form').on('keydown.autocomplete', ".FindRoadSings", function () {
             $(this).autocomplete({
@@ -1223,6 +1239,11 @@
         $('#ModalMackUp').on('hidden.bs.modal', function (e) {
             
             if (ModalMackUpSave == false) {
+                var j = indexAutoRm.length;
+                while (j--) {
+                    indexAutoRm.splice(j, 1);
+
+                }
                 var mkp = '<td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>' +
                                         '<td style="width: 241px;"></td>' +
                                         '<td style="width: 180px"></td>' +
@@ -1278,6 +1299,13 @@
             }
            
             if (select == true) {
+                var j = indexAutoRB.length;
+                while (j--) {
+                    if (indexAutoRB[j][0].substring(indexAutoRB[j][0].indexOf("s") + 1) == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
+
+                        indexAutoRB.splice(j, 1);
+                    }
+                }
                 var mkp =
                             '<td style="width: 187px;"><input type="text" class="FindRoadBarriers"></td>' +
                             '<td style="width: 170px;"></td><td style="width: 180px"></td>' +

@@ -510,11 +510,11 @@ namespace oncloud.Web.oddBase.Controllers
                              };
             return Json(projection.ToList(), JsonRequestBehavior.AllowGet);
         }
-        public virtual ActionResult FindRoadBarriers(string term)
+        public virtual ActionResult FindRoadBarriers()
         {
-            var contain = term.Count();
+           
             var numberRoadMarking = from m in db.RoadBarriers select m;
-            numberRoadMarking = numberRoadMarking.Where(a => a.NumberBarriers.Substring(0, contain) == term.Substring(0, contain));
+            
             var projection = from t in numberRoadMarking
                              select new
                              {
