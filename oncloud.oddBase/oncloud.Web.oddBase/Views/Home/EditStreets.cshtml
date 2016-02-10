@@ -10,7 +10,7 @@
     var myMap, myPlacemark, Arr = [[]], counterArr = 0, handlerRoute, currentRoute, ModalMackUpSave = false, ModalRoadSignsSave = [], RoadBarriersSave = [],
         firstPointRoute, endPointRoute, position, identifierForDelete = 0, routeSegment,
         increment = 1, tempData = [], tempDate2 = [], tempDataFor3 = 5, objects, identifierForDelBallon = true, CoordinatesforFirstLoad,
-        CountObjectInMap, transfercurrentRoute, massSegment = [], handlerSegment, countElementSegGlobal;
+        CountObjectInMap, transfercurrentRoute, massSegment = [], handlerSegment, countElementSegGlobal, indexAutoRs = new Array(), indexAutoRB = new Array(), indexAutoRm = new Array();
     incForTab1 = 8, incForTab2 = 8;
 
     function init() {
@@ -319,26 +319,36 @@
 
 
                  countElementSegGlobal = new Array(parseInt("@Model.Segment.Count"));
+                 var j = 0;
                  $("[id^= ModalRoadSigns]").find("table:eq(1) tbody").each(function(ind, domElement) {
-                     var z = 0;
+                     
                      for (var i = 0; i < DataOfRoadSings.length; i++) {
-                         
                          if (parseInt(DataOfRoadSings[i].Name) == (ind + 1)) {
-                             z++;
-                             $.get('@Url.Action("GetRoadSigns", "Home")', {
-                             idRS: DataOfRoadSings[i].NumberRoadSigns
+                            
+                             $(domElement).append(
+                                 '<tr>' +
+                                 '<td style="vertical-align: middle; width: 185px; height: 115px"><input type="text" class="FindRoadSings"></td>' +
+                                 '<td style="width: 117px; height: 115px"></td>' +
+                                 '<td style="width: 150px"></td>' +
+                                 '<td style="width: 161px"></td>' +
+                                 '<td style="vertical-align: middle;width: 192px"></td>' +
+                                 '<td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
+                                 '</tr>');
+                             $.ajax({
+                                 url:  '@Url.Action("GetRoadSigns", "Home")',
+                                 data: { idRS: DataOfRoadSings[i].NumberRoadSigns },
+                                 async:false
                              }).success(function (result) {
                                  var JsonObject = JSON.parse(result);
-                                 if (z == 0) {
-                                     $(domElement).find("td").eq(1).html('<img style="height: 100px; width: 100px" src="/RoadSigns/GetImage/' + JsonObject[0].id + '">');
-                                     $(domElement).find("td").eq(2).text(JsonObject[0].Description);
-                                 } else {
-                                     
-                                 }
 
+                                 $(domElement).find("tr:eq("+j+") td").eq(1).html('<img style="height: 100px; width: 100px" src="/RoadSigns/GetImage/' + JsonObject[0].id + '">');
+                                 $(domElement).find("tr:eq("+j+") td").eq(2).text(JsonObject[0].Description);
+                                 
                              });
+                             j++;
                          }
                      }
+                     j = 0;
                  });
                  var multiplicity, incrementMul = 0, changeColor;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
@@ -867,7 +877,13 @@
                 select = false;
             }
         }
+
         if (select == true) {
+            for (var j = 0; indexAutoRs.length > j; j++) {
+                if (indexAutoRs[j][0].substring(indexAutoRs[j][0].indexOf("s") + 1) == par) {
+                    indexAutoRs.splice(j, 1);
+                };
+            }
             $("#ModalRoadSigns" + par + " tr:gt(1)").each(function (indx, element) {
                 $(element).remove();
             });
@@ -889,6 +905,12 @@
     function cleaningModalMackUp(par) {
 
         if (ModalMackUpSave == false) {
+            var j = indexAutoRm.length;
+            while (j--) {
+                indexAutoRm.splice(j, 1);
+
+            }
+
             var mkp = '<td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>' +
                                     '<td style="width: 241px;"></td>' +
                                     '<td style="width: 180px"></td>' +
@@ -906,13 +928,24 @@
 
 
     function cleaningRoadBarriers(par) {
+
         var select = true;
         for (var i = 0; i < RoadBarriersSave.length; i++) {
             if (RoadBarriersSave[i] == par) {
                 select = false;
             }
         }
+
         if (select == true) {
+            var j = indexAutoRB.length;
+            while (j--) {
+                if (indexAutoRB[j][0].substring(indexAutoRB[j][0].indexOf("s") + 1) == par) {
+
+                    indexAutoRB.splice(j, 1);
+                }
+            }
+
+
             var mkp =
                         '<td style="width: 185px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' +
                         '<td style="width: 115px;height: 115px"></td><td style="width: 117px"></td>' +
@@ -921,8 +954,8 @@
                         .children().eq(0).children().val("");
             $("#RoadBarriers" + par + " tr:eq(1)")
             .children().eq(1).children().remove();
-            console.log($("#RoadBarriers" + par + " tr:eq(1)")
-            .children().eq(3).children());
+            $("#RoadBarriers" + par + " tr:eq(1)")
+            .children().eq(3).children();
             $("#RoadBarriers" + par + " tr:eq(1)")
             .children().eq(2).html("");
             $("#RoadBarriers" + par + " tr:eq(1)")
@@ -1215,16 +1248,36 @@
         var autocompleteUrlRM = '/Home/FindRoadMarking';
         $(' form').on('keydown.autocomplete', ".FindRoadMarking", function () {
             $(this).autocomplete({
-                source: autocompleteUrlRM,
+                source: function (request, response) {
+                    $.ajax({
+                        url: autocompleteUrlRM,
+                        data: request,
+                        success: function (data) {
+                            var index;
+                            response($.map(data, function (item) {
+                                index = false;
+                                for (var i = 0; indexAutoRm.length > i; i++) {
+
+                                    if (item.value == indexAutoRm[i])
+                                        index = true;
+                                }
+                                if (index == false) {
+                                    return {
+                                        label: item.label,
+                                        value: item.value
+                                    }
+                                }
+                            }));
+                        }
+                    });
+                },
                 minLength: 1,
                 select: function (event, ui) {
+                    indexAutoRm.push(ui.item.label);
                     $.get('@Url.Action("GetRoadMarking", "Home")', {
                         idRM: ui.item.value
                     }).success(function (result) {
                         var JsonObject = JSON.parse(result);
-
-
-
 
                         $(event.target).closest("tr").children("td").eq(1).html('<img  src="/HorizontalRoadMarkings/GetImage/' + JsonObject[0].id + '">'); $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].description);
                         $(event.target).closest("tr").children("td").eq(3).html('<input type="number" style="width:100px"  name="ModalsL' + ui.item.value + '" type="text"/>');
@@ -1250,14 +1303,41 @@
         });
         //подсказки ограждений
         var autocompleteUrlRB = '/Home/FindRoadBarriers';
-        $(' form').on('keydown.autocomplete', ".FindRoadBarriers", function () {
+        $(' form').on('keydown.autocomplete', ".FindRoadBarriers", function() {
             $(this).autocomplete({
-                source: autocompleteUrlRB,
-                minLength: 1,
-                select: function (event, ui) {
+
+                source: function(request, response) {
+                    var valThis = $($(this)[0].bindings[0]).closest('[id^="RoadBarriers"').attr("id");
+                    $.ajax({
+                        url: autocompleteUrlRB,
+                        data: request,
+                        success: function(data) {
+                            var index;
+                            response($.map(data, function(item) {
+                                index = false;
+                                for (var i = 0; indexAutoRB.length > i; i++) {
+
+                                    if (indexAutoRB[i][0] == valThis && item.value == indexAutoRB[i][1])
+                                        index = true;
+                                }
+                                if (index == false) {
+                                    return {
+                                        label: item.label,
+                                        value: item.value
+                                    }
+                                }
+                            }));
+                        }
+                    });
+                },
+                minLength: 0,
+                select: function(event, ui) {
+
+                    indexAutoRB.push([$($(this)[0]).closest('[id^="RoadBarriers"').attr("id"), ui.item.label]);
                     $.get('@Url.Action("GetRoadBarriers", "Home")', {
                         idRB: ui.item.value
-                    }).success(function (result) {
+                    }).success(function(result) {
+
                         var JsonObject = JSON.parse(result);
 
                         var url = '/RoadBarriers/GetImage/' + JsonObject[0].Id;
@@ -1265,10 +1345,10 @@
                         function IsValidImageUrl(url) {
                             $("<img>", {
                                 src: url,
-                                error: function () {
+                                error: function() {
                                     //alert(url + ': ' + false);
                                 },
-                                load: function () {
+                                load: function() {
                                     $("#AddSrc" + JsonObject[0].Id).attr("src", "/RoadBarriers/GetImage/" + JsonObject[0].Id);
                                     $("#AddSrc" + JsonObject[0].Id).css({ "height": "150px", "width": "150px" });
                                 }
@@ -1282,15 +1362,14 @@
                         $(event.target).closest("tr").children("td").eq(3).html('<input type="number"   name="' + $(event.target).closest("[role='dialog']").attr("id").substr($(event.target).closest("[role='dialog']").attr("id").indexOf("s") + 1) + 'RoadBarriers' + ui.item.value + '" type="text"/>');
 
                         $(event.target).closest("tbody").append('<tr>' +
-                               '<td style="vertical-align: middle;width: 145px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' +
-                               '<td style="width: 115px;height: 115px"></td>' +
-                               '<td style="width: 117px"></td>' +
-                               '<td style="vertical-align: middle">' +
-
-                               '</td>' +
-                               '<td style="vertical-align: middle"><a href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
-                               '</tr>');
-                        $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function (e) {
+                            '<td style="vertical-align: middle;width: 145px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' +
+                            '<td style="width: 115px;height: 115px"></td>' +
+                            '<td style="width: 117px"></td>' +
+                            '<td style="vertical-align: middle">' +
+                            '</td>' +
+                            '<td style="vertical-align: middle"><a href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
+                            '</tr>');
+                        $(event.target).closest("tbody").children("tr").last().children("td").last().children("a").click(function(e) {
                             $(e.currentTarget).closest("tr").remove();
                         });
                         //скролин элимента
@@ -1299,14 +1378,42 @@
                     });
                 }
             });
-        });
-        //подсказки знаков
+        })        //подсказки знаков
         var autocompleteUrlRS = '/Home/FindRoadSings';
         $('form').on('keydown.autocomplete', ".FindRoadSings", function () {
             $(this).autocomplete({
-                source: autocompleteUrlRS,
+
+                source: function (request, response) {
+                    var valThis = $($(this)[0].bindings[0]).closest('[id^="ModalRoadSigns"').attr("id");
+                    $.ajax({
+                            url: autocompleteUrlRS,
+                            data:request,
+                            success: function (data) {
+                                var index ;
+                                response($.map(data, function (item) {
+                                    index = false;
+
+                                    for (var i = 0; indexAutoRs.length > i; i++) {
+
+                                        if (indexAutoRs[i][0] == valThis && item.value == indexAutoRs[i][1] && item.indexManyElement == 0)
+
+                                            index = true;
+                                    }
+                                    if (index == false){
+                                        return {
+                                            label: item.label,
+                                            value: item.value
+                                        }
+                                    }
+                                }));
+                            }});
+                },
                 minLength: 1,
+
                 select: function (event, ui) {
+
+                    indexAutoRs.push([$($(this)[0]).closest('[id^="ModalRoadSigns"').attr("id"), ui.item.label]);
+
                     $(event.target).closest("tr").children("td").eq(2).attr("");
                     $.get('@Url.Action("GetRoadSigns", "Home")', {
                         idRS: ui.item.value
@@ -1319,6 +1426,7 @@
                             else
                                 return 0;
                         }
+
 
                         var JsonObject = JSON.parse(result);
                         JsonObject[0].RoadSignItems.sort(compare);
@@ -1523,10 +1631,94 @@
             });
         });
 
-        //отмена клавиши esc для модальных окон
-        $('.modal').modal({
-            keyboard: false,
-            show: false
+        $('#ModalMackUp').on('hidden.bs.modal', function (e) {
+
+            if (ModalMackUpSave == false) {
+                var j = indexAutoRm.length;
+                while (j--) {
+                    indexAutoRm.splice(j, 1);
+
+                }
+                var mkp = '<td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>' +
+                                        '<td style="width: 241px;"></td>' +
+                                        '<td style="width: 180px"></td>' +
+                                        '<td style="vertical-align: middle;width: 117px"></td>' +
+                                        '<td style="vertical-align: middle;width: 157px"></td>' +
+                                        '<td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>';
+
+                $("e.target").find("tr:eq(1)").empty();
+                $("e.target").find("tr:gt(1)").each(function (i, val) { $(val).remove() });
+                $("e.target").find("tr:eq(1)").empty().html(mkp);
+                $("e.target").find("tr:gt(1)").remove();
+
+            }
+        });
+        $("form").on('hidden.bs.modal', '[id^="ModalRoadSigns"]', function (e) {
+
+            var select = true;
+
+            for (var i = 0; i < ModalRoadSignsSave.length; i++) {
+                if (ModalRoadSignsSave[i] == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
+                    select = false;
+                }
+            }
+            if (select == true) {
+                for (var j = 0; indexAutoRs.length > j; j++) {
+                    if (indexAutoRs[j][0].substring(indexAutoRs[j][0].indexOf("s") + 1) == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
+                        indexAutoRs.splice(j, 1);
+                    };
+                }
+
+                $(e.target).find(" tr:gt(1)").each(function (indx, element) {
+                    $(element).remove();
+                });
+                $(e.target).find(" tr:eq(1)")
+                    .children().eq(0).children().val("");
+                $(e.target).find(" tr:eq(1)")
+                    .children().eq(1).children().remove();
+                $(e.target).find(" tr:eq(1)")
+                    .children().eq(2).html("");
+                $(e.target).find(" tr:eq(1)")
+                    .children().eq(3).children().remove();
+                $(e.target).find(" tr:eq(1)")
+                    .children().eq(4).children().remove();
+
+            }
+        });
+        $("form").on('hidden.bs.modal', '[id^="RoadBarriers"]', function (e) {
+            var select = true;
+            for (var i = 0; i < RoadBarriersSave.length; i++) {
+                if (RoadBarriersSave[i] == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
+                    select = false;
+                }
+            }
+
+            if (select == true) {
+                var j = indexAutoRB.length;
+                while (j--) {
+                    if (indexAutoRB[j][0].substring(indexAutoRB[j][0].indexOf("s") + 1) == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
+
+                        indexAutoRB.splice(j, 1);
+                    }
+                }
+                var mkp =
+                            '<td style="width: 187px;"><input type="text" class="FindRoadBarriers"></td>' +
+                            '<td style="width: 170px;"></td><td style="width: 180px"></td>' +
+                            '<td style="vertical-align: middle;width: 258px"></td><td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>';
+                $(e.target).find("tr:eq(1)")
+                            .children().eq(0).children().val("");
+                $(e.target).find(" tr:eq(1)")
+                .children().eq(1).children().remove();
+                $(e.target).find(" tr:eq(1)")
+                .children().eq(3).children();
+                $(e.target).find(" tr:eq(1)")
+                .children().eq(2).html("");
+                $(e.target).find(" tr:eq(1)")
+                .children().eq(3).children().remove();
+                $(e.target).find("tr:eq(1)").empty().html(mkp);
+
+                $(e.target).find(" tr:gt(1)").each(function (indx, element) { $(element).remove() });
+            }
         });
 
     });
