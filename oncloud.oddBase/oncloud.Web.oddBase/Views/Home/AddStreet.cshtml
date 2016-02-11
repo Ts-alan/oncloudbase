@@ -10,7 +10,7 @@
 
 <script type="text/javascript">
     ymaps.ready(init);
-    var myMap, ModalMackUpSave = false,
+    var myMap, ModalMackUpSave = new Array(),
         myPlacemark, ModalRoadSignsSave = [],
         Arr = [[]], RoadBarriersSave = [],
         counterArr = 0, indexAutoRs = new Array(),
@@ -522,9 +522,36 @@
         }
     }
 
-    function cleaningModalMackUp(par) {
+    function cleaningModalMackUp(par, e) {
+        var index;
+        
+        for (var i = $(par).closest(".modal-content").find("tbody tr").length; i !=-1; i--) {
+            index = false;
+            console.log();
+            for (var j = 0; ModalMackUpSave.length > j; j++) {
+                
+                    if (ModalMackUpSave[j] == $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()) {
+                        
+                    index = true;
+                };
+             
+                }
+           
+                if (index == false) {
+                    
+                    $($(par).closest(".modal-content").find("tbody tr")[i]).remove();
+                }
+                console.log($($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val());
+                //for (var z = 0; indexAutoRm.length > z; z++) {
+                //    //console.log(indexAutoRm[z]);
 
-        if (ModalMackUpSave == false) {
+                //    //if (indexAutoRm[z] == $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val() ){
+                //    //    indexAutoRm.splice(z, 1);
+                //    //}
+                //}
+        }
+        if (ModalMackUpSave.length == 0) {
+            
             var j = indexAutoRm.length;
             while (j--) {
                 indexAutoRm.splice(j, 1);
@@ -590,8 +617,13 @@
     }
 
     //изменения цвета
-    function changeColorMackUp(e) {
-        ModalMackUpSave = true;
+    function changeColorMackUp(par, e) {
+        ModalMackUpSave.length = 0;
+        for (var i = 0; $(par).closest(".modal-content").find("tbody tr").length > i; i++) {
+           
+            ModalMackUpSave.push($($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val());
+        };
+       
         $('[data-target="#ModalMackUp"]').removeClass("btn-default");
         $('[data-target="#ModalMackUp"]').addClass("btn-danger");
     }
@@ -1465,8 +1497,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <div style="text-align: right">
-                        <img data-dismiss="modal" onclick="changeColorMackUp(event)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
-                        <img data-dismiss="modal" onclick="cleaningModalMackUp(1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
+                        <img data-dismiss="modal" onclick="changeColorMackUp(this,event)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+                        <img data-dismiss="modal" onclick="cleaningModalMackUp(this,1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
                     </div>
                     <h4 class="modal-title" id="myModalLabel">
                         Спецификация горизонтальной дорожной разметки
