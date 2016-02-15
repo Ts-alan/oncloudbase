@@ -11,7 +11,7 @@
 <script type="text/javascript">
     ymaps.ready(init);
     var myMap, ModalMackUpSave = new Array(),
-        myPlacemark, ModalRoadSignsSave = [],
+     myPlacemark, ModalRoadSignsSave = [],
         Arr = [[]], RoadBarriersSave = [],
         counterArr = 0, indexAutoRs = new Array(),
         handlerRoute, indexAutoRB = new Array(),
@@ -419,7 +419,7 @@
         if (countElement.length != 1) {
             $('[id="ModalRoadSigns' + index + '"]').remove();
             $('[id^="ModalRoadSigns"]').each(function (ind, element) {
-                $(element).attr("id", "ModalRoadSigns" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadSigns(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadSigns(' + (ind + 1) + ',event)');
+                $(element).attr("id", "ModalRoadSigns" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadSigns(" + (ind + 1) + ",this)").next().attr('onclick', 'changeColorRoadSigns(' + (ind + 1) + ',this)');
             }).each(function (indMR, elementMR) {
                 $(elementMR).find("tr input:not(.FindRoadSings)").each(function (ind, element) {
 
@@ -430,7 +430,7 @@
 
             $('[id="RoadBarriers' + index + '"]').remove();
             $('[id^="RoadBarriers"]').each(function (ind, element) {
-                $(element).attr("id", "RoadBarriers" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadBarriers(" + (ind + 1) + ")").next().attr('onclick', 'changeColorRoadBarriers(' + (ind + 1) + ',event)');
+                $(element).attr("id", "RoadBarriers" + (ind + 1)).find(".buttonclose").attr("onclick", "cleaningRoadBarriers(" + (ind + 1) + ",this)").next().attr('onclick', 'changeColorRoadBarriers(' + (ind + 1) + ',this)');
             }).each(function (indMR, elementMR) {
                 $(elementMR).find("tr input:not(.FindRoadBarriers)").each(function (ind, element) {
                     $(element).attr("name", (indMR + 1) + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
@@ -490,65 +490,91 @@
     }
 
     //чистка полей
-    function cleaningRoadSigns(par) {
-        var select = true;
-        for (var i = 0; i < ModalRoadSignsSave.length; i++) {
-            if (ModalRoadSignsSave[i] == par) {
-                select = false;
+    function cleaningRoadSigns(number,par) {
+        if (ModalRoadSignsSave.length != 0) {
+            var index;
+            var elementIndex;
+            for (var i = $(par).closest(".modal-content").find("tbody tr").length; i != -1; i--) {
+                index = false;
+                
+                for (var j = 0; ModalRoadSignsSave.length > j; j++) {
+                   
+                    if (ModalRoadSignsSave[j][0] == number) {
+                        if (ModalRoadSignsSave[j][1] == $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()) {
+
+                            index = true;
+
+                        };
+                    }
+                }
+                
+                if (index == false) {
+                    elementIndex = $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val();
+                    $($(par).closest(".modal-content").find("tbody tr")[i]).remove();
+                }
+               
+                for (var z = 0; indexAutoRs.length > z; z++) {
+                    if (indexAutoRs[z][0].substring(indexAutoRs[z][0].indexOf("s") + 1) == number){
+                        if (indexAutoRs[z][1] == elementIndex) {
+                            indexAutoRs.splice(z, 1);
+                        }
+                    }
+                }
             }
         }
-        
-        if (select == true) {
+        if (ModalRoadSignsSave.length == 0) {
             for (var j = 0; indexAutoRs.length > j; j++) {
-               if (indexAutoRs[j][0].substring(indexAutoRs[j][0].indexOf("s") + 1) == par) {
+                if (indexAutoRs[j][0].substring(indexAutoRs[j][0].indexOf("s") + 1) == number) {
                     indexAutoRs.splice(j, 1);
                 };
             }
-            $("#ModalRoadSigns" + par + " tr:gt(1)").each(function (indx, element) {
+            $("#ModalRoadSigns" + number + " tr:gt(1)").each(function (indx, element) {
                 $(element).remove();
             });
-            $("#ModalRoadSigns" + par + " tr:eq(1)")
+            $("#ModalRoadSigns" + number + " tr:eq(1)")
                 .children().eq(0).children().val("");
-            $("#ModalRoadSigns" + par + " tr:eq(1)")
+            $("#ModalRoadSigns" + number + " tr:eq(1)")
                 .children().eq(1).children().remove();
-            $("#ModalRoadSigns" + par + " tr:eq(1)")
+            $("#ModalRoadSigns" + number + " tr:eq(1)")
                 .children().eq(2).html("");
-            $("#ModalRoadSigns" + par + " tr:eq(1)")
+            $("#ModalRoadSigns" + number + " tr:eq(1)")
                 .children().eq(3).children().remove();
-            $("#ModalRoadSigns" + par + " tr:eq(1)")
+            $("#ModalRoadSigns" + number + " tr:eq(1)")
                 .children().eq(4).children().remove();
-            $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-danger");
-            $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-default");
+            $('[data-target="#ModalRoadSigns' + number + '"]').removeClass("btn-danger");
+            $('[data-target="#ModalRoadSigns' + number + '"]').addClass("btn-default");
         }
+
+   
     }
 
     function cleaningModalMackUp(par, e) {
+        if (ModalMackUpSave.length != 0){
         var index;
-        
-        for (var i = $(par).closest(".modal-content").find("tbody tr").length; i !=-1; i--) {
+        var elementIndex;
+        for (var i = $(par).closest(".modal-content").find("tbody tr").length; i != -1; i--) {
             index = false;
-            console.log();
+           
             for (var j = 0; ModalMackUpSave.length > j; j++) {
                 
-                    if (ModalMackUpSave[j] == $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()) {
+                if (ModalMackUpSave[j] == $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val() ) {
                         
-                    index = true;
-                };
+                        index = true;
+                      
+                    };
              
                 }
-           
+            
                 if (index == false) {
-                    
+                    elementIndex=$($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val();
                     $($(par).closest(".modal-content").find("tbody tr")[i]).remove();
                 }
-                console.log($($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val());
-                //for (var z = 0; indexAutoRm.length > z; z++) {
-                //    //console.log(indexAutoRm[z]);
-
-                //    //if (indexAutoRm[z] == $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val() ){
-                //    //    indexAutoRm.splice(z, 1);
-                //    //}
-                //}
+            for (var z = 0; indexAutoRm.length > z; z++) {
+                if (indexAutoRm[z] == elementIndex) {
+                    indexAutoRm.splice(z, 1);
+                }
+            }
+        }
         }
         if (ModalMackUpSave.length == 0) {
             
@@ -574,46 +600,75 @@
     }
 
 
-    function cleaningRoadBarriers(par) {
-        
-        var select = true;
-        for (var i = 0; i < RoadBarriersSave.length; i++) {
-            if (RoadBarriersSave[i] == par) {
-                select = false;
+    function cleaningRoadBarriers(number, par) {
+     
+        if (RoadBarriersSave.length != 0) {
+            
+            var index;
+            var elementIndex;
+       
+            for (var i = $(par).closest(".modal-content").find("tbody tr").length; i != -1; i--) {
+                index = false;
+                
+                for (var j = 0; RoadBarriersSave.length > j; j++) {
+                   
+                    if (RoadBarriersSave[j][0] == number) {
+                        if (RoadBarriersSave[j][1] == $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()) {
+
+                            index = true;
+
+                        };
+                    }
+                }
+               
+                if (index == false) {
+                    elementIndex = $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val();
+                    $($(par).closest(".modal-content").find("tbody tr")[i]).remove();
+                }
+
+                
+                for (var z = 0; indexAutoRB.length > z; z++) {
+                    
+                    if (indexAutoRB[z][0].substring(indexAutoRB[z][0].indexOf("s") + 1) == number) {
+                        if (indexAutoRB[z][1] == elementIndex) {
+                            indexAutoRB.splice(z, 1);
+                        }
+                    }
+                }
             }
         }
-        
-        if (select == true) {
+        if (RoadBarriersSave.length == 0) {
+            
             var j = indexAutoRB.length;
             while (j--) {
-              if (indexAutoRB[j][0].substring(indexAutoRB[j][0].indexOf("s") + 1) == par) {
+              if (indexAutoRB[j][0].substring(indexAutoRB[j][0].indexOf("s") + 1) == number) {
                    
                     indexAutoRB.splice(j, 1);                 
                 }
             }
-             
+        
             
             var mkp =
                         '<td style="width: 185px;height: 115px"><input type="text" class="FindRoadBarriers"></td>' +
                         '<td style="width: 115px;height: 115px"></td><td style="width: 117px"></td>' +
                         '<td style="vertical-align: middle"></td><td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>';
-            $("#RoadBarriers" + par + " tr:eq(1)")
+            $("#RoadBarriers" + number + " tr:eq(1)")
                         .children().eq(0).children().val("");
-            $("#RoadBarriers" + par + " tr:eq(1)")
+            $("#RoadBarriers" + number + " tr:eq(1)")
             .children().eq(1).children().remove();
-            $("#RoadBarriers" + par + " tr:eq(1)")
+            $("#RoadBarriers" + number + " tr:eq(1)")
             .children().eq(3).children();
-            $("#RoadBarriers" + par + " tr:eq(1)")
+            $("#RoadBarriers" + number + " tr:eq(1)")
             .children().eq(2).html("");
-            $("#RoadBarriers" + par + " tr:eq(1)")
+            $("#RoadBarriers" + number + " tr:eq(1)")
             .children().eq(3).children().remove();
-            $("#RoadBarriers" + par + " > div > div > div.modal-body > table > tbody > tr:eq(1)").empty().html(mkp);
+            $("#RoadBarriers" + number + " > div > div > div.modal-body > table > tbody > tr:eq(1)").empty().html(mkp);
+          
+            $("#RoadBarriers" + number + " tbody tr:gt(0)").remove();
 
-            $("#RoadBarriers" + par + " > div > div > div.modal-body > table > tbody > tr:gt(1)").each(function (indx, element) { $(element).remove() });
-
-            $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-danger");
-            $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-default");
+           
         }
+      
     }
 
     //изменения цвета
@@ -628,16 +683,24 @@
         $('[data-target="#ModalMackUp"]').addClass("btn-danger");
     }
 
-    function changeColorRoadSigns(par, e) {
-        ModalRoadSignsSave.push(par);
-        $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-default");
-        $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-danger");
+    function changeColorRoadSigns(number, par) {
+        for (var i = 0; $(par).closest(".modal-content").find("tbody tr").length > i; i++) {
+
+            ModalRoadSignsSave.push([number,$($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()]);
+        };
+        
+        $('[data-target="#ModalRoadSigns' + number + '"]').removeClass("btn-default");
+        $('[data-target="#ModalRoadSigns' + number + '"]').addClass("btn-danger");
     }
 
-    function changeColorRoadBarriers(par, e) {
-        RoadBarriersSave.push(par);
-        $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-default");
-        $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-danger");
+    function changeColorRoadBarriers(number,par) {
+        for (var i = 0; $(par).closest(".modal-content").find("tbody tr").length > i; i++) {
+
+            RoadBarriersSave.push([number, $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()]);
+        };
+        
+        $('[data-target="#RoadBarriers' + number + '"]').removeClass("btn-default");
+        $('[data-target="#RoadBarriers' + number + '"]').addClass("btn-danger");
     }
 
     //задание координат
@@ -771,7 +834,7 @@
                         
                         $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
                          .attr("id", "ModalRoadSigns" + increment).find(".buttonclose")
-                         .attr("onclick", "cleaningRoadSigns(" + increment + ")").end().find("td input").end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + increment + ",event)").end().find("li a").each(function (ind, element) {
+                         .attr("onclick", "cleaningRoadSigns(" + increment + ",this)").end().find("td input").end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + increment + ",this)").end().find("li a").each(function (ind, element) {
                              $(element).attr("href", "#tab" + incForTab1);
                              incForTab1++;
                          }).end().find('[role="tabpanel"]').each(function (ind, element) {
@@ -781,8 +844,8 @@
 
                         $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
                             .attr("id", "RoadBarriers" + increment).find(".buttonclose")
-                            .attr("onclick", "cleaningRoadBarriers(" + increment + ")").end()
-                            .find("td input").end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + increment + ",event)").end());
+                            .attr("onclick", "cleaningRoadBarriers(" + increment + ",this)").end()
+                            .find("td input").end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + increment + ",this)").end());
 
 
                     }
@@ -1269,13 +1332,44 @@
        
 
         $('#ModalMackUp').on('hidden.bs.modal', function (e) {
-            
-            if (ModalMackUpSave == false) {
+           
+            if (ModalMackUpSave.length != 0) {
+                var index;
+                var elementIndex;
+                
+                for (var i = $(e.currentTarget).find(".modal-content").find("tbody tr").length; i != -1; i--) {
+                    index = false;
+                  
+                    
+                    for (var j = 0; ModalMackUpSave.length > j; j++) {
+                       
+                        if (ModalMackUpSave[j] == $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()) {
+
+                            index = true;
+
+                        };
+
+                    }
+
+                    if (index == false) {
+                        elementIndex = $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val();
+                        $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).remove();
+                    }
+                    for (var z = 0; indexAutoRm.length > z; z++) {
+                        if (indexAutoRm[z] == elementIndex) {
+                            indexAutoRm.splice(z, 1);
+                        }
+                    }
+                }
+            }
+            if (ModalMackUpSave.length == 0) {
+
                 var j = indexAutoRm.length;
                 while (j--) {
                     indexAutoRm.splice(j, 1);
 
                 }
+
                 var mkp = '<td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>' +
                                         '<td style="width: 241px;"></td>' +
                                         '<td style="width: 180px"></td>' +
@@ -1283,23 +1377,47 @@
                                         '<td style="vertical-align: middle;width: 157px"></td>' +
                                         '<td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>';
 
-                $("e.target").find("tr:eq(1)").empty();
-                $("e.target").find("tr:gt(1)").each(function (i, val) { $(val).remove() });
-                $("e.target").find("tr:eq(1)").empty().html(mkp);
-                $("e.target").find("tr:gt(1)").remove();
+                $("#ModalMackUp > div > div > div.modal-body > table > tbody > tr:eq(1)").empty();
+                $("#ModalMackUp > div > div > div.modal-body > table  > tr:gt(1)").each(function (i, val) { $(val).remove() });
+                $("#ModalMackUp tr:eq(1)").empty().html(mkp);
+                $("#ModalMackUp tr:gt(1)").remove();
 
             }
         });
         $("form").on('hidden.bs.modal', '[id^="ModalRoadSigns"]', function (e) {
            
-            var select = true;
-         
-            for (var i = 0; i < ModalRoadSignsSave.length; i++) {
-                if (ModalRoadSignsSave[i] == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
-                    select = false;
+            if (ModalRoadSignsSave.length != 0) {
+                var index;
+                var elementIndex;
+                for (var i = $(e.currentTarget).find(".modal-content").find("tbody tr").length; i != -1; i--) {
+                    index = false;
+
+                    for (var j = 0; ModalRoadSignsSave.length > j; j++) {
+
+                        if (ModalRoadSignsSave[j][0] == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
+                            if (ModalRoadSignsSave[j][1] == $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()) {
+
+                                index = true;
+
+                            };
+                        }
+                    }
+
+                    if (index == false) {
+                        elementIndex = $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val();
+                        $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).remove();
+                    }
+
+                    for (var z = 0; indexAutoRs.length > z; z++) {
+                        if (indexAutoRs[z][0].substring(indexAutoRs[z][0].indexOf("s") + 1) == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
+                            if (indexAutoRs[z][1] == elementIndex) {
+                                indexAutoRs.splice(z, 1);
+                            }
+                        }
+                    }
                 }
             }
-            if (select == true) {
+            if (ModalRoadSignsSave.length == 0) {
                 for (var j = 0; indexAutoRs.length > j; j++) {
                     if (indexAutoRs[j][0].substring(indexAutoRs[j][0].indexOf("s") + 1) == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
                         indexAutoRs.splice(j, 1);
@@ -1323,14 +1441,43 @@
             }
         });
         $("form").on('hidden.bs.modal', '[id^="RoadBarriers"]', function (e) {
-            var select = true;
-            for (var i = 0; i < RoadBarriersSave.length; i++) {
-                if (RoadBarriersSave[i] == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
-                    select = false;
+            if (RoadBarriersSave.length != 0) {
+
+                var index;
+                var elementIndex;
+
+                for (var i = $(e.currentTarget).find(".modal-content").find("tbody tr").length; i != -1; i--) {
+                    index = false;
+
+                    for (var j = 0; RoadBarriersSave.length > j; j++) {
+                        
+                        if (RoadBarriersSave[j][0] == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s")+1)) {
+                            if (RoadBarriersSave[j][1] == $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()) {
+
+                                index = true;
+
+                            };
+                        }
+                    }
+                    
+                    if (index == false) {
+                        elementIndex = $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val();
+                        $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).remove();
+                    }
+
+
+                    for (var z = 0; indexAutoRB.length > z; z++) {
+
+                        if (indexAutoRB[z][0].substring(indexAutoRB[z][0].indexOf("s") + 1) == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s")+1)) {
+                            if (indexAutoRB[z][1] == elementIndex) {
+                                indexAutoRB.splice(z, 1);
+                            }
+                        }
+                    }
                 }
             }
-           
-            if (select == true) {
+            if (RoadBarriersSave.length == 0) {
+ 
                 var j = indexAutoRB.length;
                 while (j--) {
                     if (indexAutoRB[j][0].substring(indexAutoRB[j][0].indexOf("s") + 1) == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
@@ -1354,7 +1501,7 @@
                 .children().eq(3).children().remove();
                 $(e.target).find("tr:eq(1)").empty().html(mkp);
 
-                $(e.target).find(" tr:gt(1)").each(function (indx, element) { $(element).remove() });
+                $(e.target).find(" tbody tr:gt(0)").remove();
              }
         });
     });
@@ -1547,8 +1694,8 @@
             <div class="modal-content" style="width: 800px;">
                 <div class="modal-header">
                     <div style="text-align: right">
-                        <img class="buttonSave" data-dismiss="modal" onclick="changeColorRoadSigns(1, event)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
-                        <img class="buttonclose" data-dismiss="modal" onclick="cleaningRoadSigns(1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
+                        <img class="buttonSave" data-dismiss="modal" onclick="changeColorRoadSigns(1, this)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+                        <img class="buttonclose" data-dismiss="modal" onclick="cleaningRoadSigns(1,this)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
                     </div>
 
                     <h4 class="modal-title" id="myModalLabel">
@@ -1595,8 +1742,8 @@
             <div class="modal-content" style="width: 800px; ">
                 <div class="modal-header">
                     <div style="text-align: right">
-                        <img class="buttonSave" data-dismiss="modal" onclick="changeColorRoadBarriers(1, event)" aria-label="Close" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
-                        <img class="buttonclose" data-dismiss="modal" onclick="cleaningRoadBarriers(1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
+                        <img class="buttonSave" data-dismiss="modal" onclick="changeColorRoadBarriers(1, this)" aria-label="Close" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+                        <img class="buttonclose" data-dismiss="modal" onclick="cleaningRoadBarriers(1,this)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
                     </div>
 
                     <h4 class="modal-title" id="myModalLabel">
