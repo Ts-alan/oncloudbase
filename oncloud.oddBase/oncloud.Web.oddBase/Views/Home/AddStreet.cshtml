@@ -1504,6 +1504,30 @@
                 $(e.target).find(" tbody tr:gt(0)").remove();
              }
         });
+        $("form").on('keypress', '[type="number"]', function (e) {
+            var num;
+            if (e.which == 45) {
+                if ($(e.target).val() == "") {
+                    $(e.target).val("0");
+                }
+                else{
+                 num = parseInt($(e.target).val());
+                $(e.target).val(--num);
+                }
+                return false;
+            }
+            if (e.which == 61 || e.which == 43) {
+                if ($(e.target).val() == "") {
+                    $(e.target).val("0");
+                }
+                else {
+                     num = parseInt($(e.target).val());
+                    $(e.target).val(++num);
+                }
+                return false;
+            }
+        });
+     
     });
 
 </script>
