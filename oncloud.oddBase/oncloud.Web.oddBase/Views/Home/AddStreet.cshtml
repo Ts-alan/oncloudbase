@@ -799,8 +799,8 @@
                     if (increment > 4) {
 
                         if (increment == 5) {
-
-                            $("#segment4").parent().next().remove();
+                         
+                            $("#segment4").next().remove();
                             $("#interData+h5").css("clear", "left");
                             $("#interData").after('<div style="float: left"  >' +
                                 '<button type="button"  class="btn btn-default setSegment">Задать/Изменить координаты</button>' +
@@ -857,12 +857,25 @@
                          }).end().find('[role="tabpanel"]').each(function (ind, element) {
                              $(element).attr("id", "tab" + incForTab2);
                              incForTab2++;
-                         }).end());
+                         }).end().find("tbody").html('<tr>'+
+                                '<td style="vertical-align: middle; width: 185px; height: 115px"><input type="text" class="FindRoadSings"></td>'+
+                                '<td style="width: 117px; height: 115px"></td>'+
+                                '<td style="width: 150px"></td>'+
+                                '<td style="width: 161px"></td>'+
+                                '<td style="vertical-align: middle;width: 192px"></td>'+
+                                '<td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>'+
+                            '</tr>').end());
 
                         $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
                             .attr("id", "RoadBarriers" + increment).find(".buttonclose")
                             .attr("onclick", "cleaningRoadBarriers(" + increment + ",this)").end()
-                            .find("td input").end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + increment + ",this)").end());
+                            .find("td input").end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + increment + ",this)").end().find("tbody").html('<tr>'+
+                                '<td style="vertical-align: middle; width: 187px;"><input type="text" class="FindRoadBarriers"></td>'+
+                                '<td style="width: 170px;"></td>'+
+                                '<td style="width: 180px"></td>'+
+                                '<td style="vertical-align: middle;width: 258px"></td>'+
+                                '<td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>'+
+                            '</tr>').end());
 
 
                     }
@@ -1404,7 +1417,7 @@
         $("form").on('hidden.bs.modal', '[id^="ModalRoadSigns"]', function (e) {
             var lenghtSingle = 0;
             for (var j = 0; ModalRoadSignsSave.length > j; j++) {
-                if (ModalRoadSignsSave[j][0] == number) {
+                if (ModalRoadSignsSave[j][0] == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
                     lenghtSingle++;
                 }
             }
@@ -1467,7 +1480,7 @@
         $("form").on('hidden.bs.modal', '[id^="RoadBarriers"]', function (e) {
             var lenghtSingle = 0;
             for (var j = 0; RoadBarriersSave.length > j; j++) {
-                if (RoadBarriersSave[j][0] == number) {
+                if (RoadBarriersSave[j][0] == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
                     lenghtSingle++;
                 }
             }

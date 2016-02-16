@@ -7,7 +7,7 @@
 
 <script type="text/javascript">
     ymaps.ready(init);
-    var myMap, myPlacemark, Arr = [[]], counterArr = 0, handlerRoute, currentRoute, ModalMackUpSave = false, ModalRoadSignsSave = [], RoadBarriersSave = [],
+    var myMap, myPlacemark, Arr = [[]], counterArr = 0, handlerRoute, currentRoute, ModalMackUpSave = new Array(), ModalRoadSignsSave = [], RoadBarriersSave = [],
         firstPointRoute, endPointRoute, position, identifierForDelete = 0, routeSegment,
         increment = 1, tempData = [], tempDate2 = [], tempDataFor3 = 5, objects, identifierForDelBallon = true, CoordinatesforFirstLoad,
         CountObjectInMap, transfercurrentRoute, massSegment = [], handlerSegment, countElementSegGlobal, indexAutoRs = new Array(), indexAutoRB = new Array(), indexAutoRm = new Array();
@@ -970,40 +970,35 @@
     }
 
     //изменения цвета
-    function changeColorMackUp(e) {
-        ModalMackUpSave = true;
+    function changeColorMackUp(par, e) {
+        ModalMackUpSave.length = 0;
+        for (var i = 0; $(par).closest(".modal-content").find("tbody tr").length > i; i++) {
+
+            ModalMackUpSave.push($($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val());
+        };
+
         $('[data-target="#ModalMackUp"]').removeClass("btn-default");
         $('[data-target="#ModalMackUp"]').addClass("btn-danger");
     }
 
-    function changeColorRoadSigns(par, e) {
-        ModalRoadSignsSave.push(par);
-        $('[data-target="#ModalRoadSigns' + par + '"]').removeClass("btn-default");
-        $('[data-target="#ModalRoadSigns' + par + '"]').addClass("btn-danger");
+    function changeColorRoadSigns(number, par) {
+        for (var i = 0; $(par).closest(".modal-content").find("tbody tr").length > i; i++) {
+
+            ModalRoadSignsSave.push([number, $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()]);
+        };
+
+        $('[data-target="#ModalRoadSigns' + number + '"]').removeClass("btn-default");
+        $('[data-target="#ModalRoadSigns' + number + '"]').addClass("btn-danger");
     }
 
-    function changeColorRoadBarriers(par, e) {
-        RoadBarriersSave.push(par);
-        $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-default");
-        $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-danger");
-    }
+    function changeColorRoadBarriers(number, par) {
+        for (var i = 0; $(par).closest(".modal-content").find("tbody tr").length > i; i++) {
 
-    function changeColorRoadBarriers(par, e) {
+            RoadBarriersSave.push([number, $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()]);
+        };
 
-        $('[onclick="changeColorRoadBarriers(' + par + ',event)"]').closest("#RoadBarriers" + par + "").find("td>input").each(function (ind, element) {
-
-            if ($(element).hasClass("input-validation-error")) {
-
-                alert("Вы ввели недопустимые знаки в полях");
-                e.preventDefault();
-                e.stopImmediatePropagation();
-
-                return false;
-
-            }
-        });
-        $('[data-target="#RoadBarriers' + par + '"]').removeClass("btn-default");
-        $('[data-target="#RoadBarriers' + par + '"]').addClass("btn-danger");
+        $('[data-target="#RoadBarriers' + number + '"]').removeClass("btn-default");
+        $('[data-target="#RoadBarriers' + number + '"]').addClass("btn-danger");
     }
 
     //задание координат
@@ -1148,23 +1143,32 @@
                         //вставка модальных окон
 
                         $('[id^="ModalRoadSigns"]:last').after($('#ModalRoadSigns1').clone()
-                         .attr("id", "ModalRoadSigns" + increment).find(".buttonclose")
-                         .attr("onclick", "cleaningRoadSigns(" + increment + ")").end().find("td input").each(function (ind, element) {
-                             $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("M")));
-                         }).end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + increment + ",event)").end().find("li a").each(function (ind, element) {
-                             $(element).attr("href", "#tab" + incForTab1);
-                             incForTab1++;
-                         }).end().find('[role="tabpanel"]').each(function (ind, element) {
-                             $(element).attr("id", "tab" + incForTab2);
-                             incForTab2++;
-                         }).end());
+                   .attr("id", "ModalRoadSigns" + increment).find(".buttonclose")
+                   .attr("onclick", "cleaningRoadSigns(" + increment + ",this)").end().find("td input").end().find(".buttonSave").attr("onclick", "changeColorRoadSigns(" + increment + ",this)").end().find("li a").each(function (ind, element) {
+                       $(element).attr("href", "#tab" + incForTab1);
+                       incForTab1++;
+                   }).end().find('[role="tabpanel"]').each(function (ind, element) {
+                       $(element).attr("id", "tab" + incForTab2);
+                       incForTab2++;
+                   }).end().find("tbody").html('<tr>' +
+                          '<td style="vertical-align: middle; width: 185px; height: 115px"><input type="text" class="FindRoadSings"></td>' +
+                          '<td style="width: 117px; height: 115px"></td>' +
+                          '<td style="width: 150px"></td>' +
+                          '<td style="width: 161px"></td>' +
+                          '<td style="vertical-align: middle;width: 192px"></td>' +
+                          '<td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
+                      '</tr>').end());
 
                         $('[id^="RoadBarriers"]:last').after($('#RoadBarriers1').clone()
                             .attr("id", "RoadBarriers" + increment).find(".buttonclose")
-                            .attr("onclick", "cleaningRoadBarrier(" + increment + ")").end()
-                            .find("td input").each(function (ind, element) {
-                                $(element).attr("name", increment.toString() + $(this).attr("name").substr($(this).attr("name").indexOf("R")));
-                            }).end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + increment + ",event)").end());
+                            .attr("onclick", "cleaningRoadBarriers(" + increment + ",this)").end()
+                            .find("td input").end().find(".buttonSave").attr("onclick", "changeColorRoadBarriers(" + increment + ",this)").end().find("tbody").html('<tr>' +
+                                '<td style="vertical-align: middle; width: 187px;"><input type="text" class="FindRoadBarriers"></td>' +
+                                '<td style="width: 170px;"></td>' +
+                                '<td style="width: 180px"></td>' +
+                                '<td style="vertical-align: middle;width: 258px"></td>' +
+                                '<td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>' +
+                            '</tr>').end());
 
 
                     }
@@ -1500,7 +1504,7 @@
         }
             );
         $("form").on("click", ".lastB", function (e) {
-            console.log($(e.currentTarget).closest("tbody").children("tr").length);
+            
             if ($(e.currentTarget).closest("tbody").children("tr").length > 1) {
                 $(e.currentTarget).closest("tbody").children("tr:last").remove();
             };
@@ -1633,12 +1637,43 @@
 
         $('#ModalMackUp').on('hidden.bs.modal', function (e) {
 
-            if (ModalMackUpSave == false) {
+            if (ModalMackUpSave.length != 0) {
+                var index;
+                var elementIndex;
+
+                for (var i = $(e.currentTarget).find(".modal-content").find("tbody tr").length; i != -1; i--) {
+                    index = false;
+
+
+                    for (var j = 0; ModalMackUpSave.length > j; j++) {
+
+                        if (ModalMackUpSave[j] == $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()) {
+
+                            index = true;
+
+                        };
+
+                    }
+
+                    if (index == false) {
+                        elementIndex = $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val();
+                        $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).remove();
+                    }
+                    for (var z = 0; indexAutoRm.length > z; z++) {
+                        if (indexAutoRm[z] == elementIndex) {
+                            indexAutoRm.splice(z, 1);
+                        }
+                    }
+                }
+            }
+            if (ModalMackUpSave.length == 0) {
+
                 var j = indexAutoRm.length;
                 while (j--) {
                     indexAutoRm.splice(j, 1);
 
                 }
+
                 var mkp = '<td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>' +
                                         '<td style="width: 241px;"></td>' +
                                         '<td style="width: 180px"></td>' +
@@ -1646,23 +1681,54 @@
                                         '<td style="vertical-align: middle;width: 157px"></td>' +
                                         '<td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>';
 
-                $("e.target").find("tr:eq(1)").empty();
-                $("e.target").find("tr:gt(1)").each(function (i, val) { $(val).remove() });
-                $("e.target").find("tr:eq(1)").empty().html(mkp);
-                $("e.target").find("tr:gt(1)").remove();
+                $("#ModalMackUp > div > div > div.modal-body > table > tbody > tr:eq(1)").empty();
+                $("#ModalMackUp > div > div > div.modal-body > table  > tr:gt(1)").each(function (i, val) { $(val).remove() });
+                $("#ModalMackUp tr:eq(1)").empty().html(mkp);
+                $("#ModalMackUp tr:gt(1)").remove();
 
             }
         });
         $("form").on('hidden.bs.modal', '[id^="ModalRoadSigns"]', function (e) {
-
-            var select = true;
-
-            for (var i = 0; i < ModalRoadSignsSave.length; i++) {
-                if (ModalRoadSignsSave[i] == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
-                    select = false;
+            var lenghtSingle = 0;
+            for (var j = 0; ModalRoadSignsSave.length > j; j++) {
+                if (ModalRoadSignsSave[j][0] == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
+                    lenghtSingle++;
                 }
             }
-            if (select == true) {
+            if (lenghtSingle != 0) {
+                var index;
+                var elementIndex;
+                for (var i = $(e.currentTarget).find(".modal-content").find("tbody tr").length; i != -1; i--) {
+                    index = false;
+
+                    for (var j = 0; ModalRoadSignsSave.length > j; j++) {
+
+                        if (ModalRoadSignsSave[j][0] == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
+                            if (ModalRoadSignsSave[j][1] == $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()) {
+
+                                index = true;
+
+                            };
+                        }
+                    }
+
+                    if (index == false) {
+                        elementIndex = $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val();
+                        if ($(e.currentTarget).find(".modal-content").find("tbody tr").eq(i).find("td:first input").val() != "") {
+                            $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).remove();
+                        }
+                    }
+
+                    for (var z = 0; indexAutoRs.length > z; z++) {
+                        if (indexAutoRs[z][0].substring(indexAutoRs[z][0].indexOf("s") + 1) == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
+                            if (indexAutoRs[z][1] == elementIndex) {
+                                indexAutoRs.splice(z, 1);
+                            }
+                        }
+                    }
+                }
+            }
+            if (lenghtSingle == 0) {
                 for (var j = 0; indexAutoRs.length > j; j++) {
                     if (indexAutoRs[j][0].substring(indexAutoRs[j][0].indexOf("s") + 1) == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
                         indexAutoRs.splice(j, 1);
@@ -1686,14 +1752,51 @@
             }
         });
         $("form").on('hidden.bs.modal', '[id^="RoadBarriers"]', function (e) {
-            var select = true;
-            for (var i = 0; i < RoadBarriersSave.length; i++) {
-                if (RoadBarriersSave[i] == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
-                    select = false;
+            var lenghtSingle = 0;
+            for (var j = 0; RoadBarriersSave.length > j; j++) {
+                if (RoadBarriersSave[j][0] == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
+                    lenghtSingle++;
                 }
             }
+            if (lenghtSingle != 0) {
 
-            if (select == true) {
+                var index;
+                var elementIndex;
+
+                for (var i = $(e.currentTarget).find(".modal-content").find("tbody tr").length; i != -1; i--) {
+                    index = false;
+
+                    for (var j = 0; RoadBarriersSave.length > j; j++) {
+
+                        if (RoadBarriersSave[j][0] == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
+                            if (RoadBarriersSave[j][1] == $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()) {
+
+                                index = true;
+
+                            };
+                        }
+                    }
+
+                    if (index == false) {
+                        elementIndex = $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val();
+                        if ($(e.currentTarget).find(".modal-content").find("tbody tr").eq(i).find("td:first input").val() != "") {
+                            $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).remove();
+                        }
+                    }
+
+
+                    for (var z = 0; indexAutoRB.length > z; z++) {
+
+                        if (indexAutoRB[z][0].substring(indexAutoRB[z][0].indexOf("s") + 1) == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
+                            if (indexAutoRB[z][1] == elementIndex) {
+                                indexAutoRB.splice(z, 1);
+                            }
+                        }
+                    }
+                }
+            }
+            if (lenghtSingle == 0) {
+
                 var j = indexAutoRB.length;
                 while (j--) {
                     if (indexAutoRB[j][0].substring(indexAutoRB[j][0].indexOf("s") + 1) == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
@@ -1717,10 +1820,33 @@
                 .children().eq(3).children().remove();
                 $(e.target).find("tr:eq(1)").empty().html(mkp);
 
-                $(e.target).find(" tr:gt(1)").each(function (indx, element) { $(element).remove() });
+                $(e.target).find(" tbody tr:gt(0)").remove();
             }
         });
-
+        //добавлены +- для полей
+        $("form").on('keypress', '[type="number"]', function (e) {
+            var num;
+            if (e.which == 45) {
+                if ($(e.target).val() == "") {
+                    $(e.target).val("0");
+                }
+                else {
+                    num = parseInt($(e.target).val());
+                    $(e.target).val(--num);
+                }
+                return false;
+            }
+            if (e.which == 61 || e.which == 43) {
+                if ($(e.target).val() == "") {
+                    $(e.target).val("0");
+                }
+                else {
+                    num = parseInt($(e.target).val());
+                    $(e.target).val(++num);
+                }
+                return false;
+            }
+        });
     });
 
 </script>
