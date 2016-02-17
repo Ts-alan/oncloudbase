@@ -1137,7 +1137,6 @@
         var autocompleteUrlRB = '/Home/FindRoadBarriers';
         $(' form').on('keydown.autocomplete', ".FindRoadBarriers", function() {
             $(this).autocomplete({
-                
                 source: function(request, response) {
                     var valThis = $($(this)[0].bindings[0]).closest('[id^="RoadBarriers"').attr("id");
                     $.ajax({
@@ -1148,7 +1147,7 @@
                             response($.map(data, function(item) {
                                 index = false;
                                 for (var i = 0; indexAutoRB.length > i; i++) {
-                                   
+
                                     if (indexAutoRB[i][0] == valThis && item.value == indexAutoRB[i][1])
                                         index = true;
                                 }
@@ -1210,7 +1209,8 @@
                     });
                 }
             });
-        })        //подсказки знаков
+        });
+        //подсказки знаков
         var autocompleteUrlRS = '/Home/FindRoadSings';
         $('form').on('keydown.autocomplete', ".FindRoadSings", function () {
             $(this).autocomplete({
@@ -1297,7 +1297,7 @@
                                 $(event.target).closest("tr").children("td").eq(3).html(dd);
                             }
                             $(event.target).closest("tr").find("select").change(function () {
-                                $(event.target).closest("tr").children("td").eq(4).html('<input   name="1ModalC' + ui.item.value + 'I' + $(this).val() + '" type="text"/>');
+                                $(event.target).closest("tr").children("td").eq(4).html('<input type="number"  name="1ModalC' + ui.item.value + 'I' + $(this).val() + '" type="text"/>');
 
                             });
                         }
