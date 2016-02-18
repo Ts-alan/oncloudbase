@@ -382,12 +382,18 @@
 
 
                                      });
+                                     
                                  }
                                  
                              });
                              j++;
                          }
                      }
+                     for (var g=0;g<$(domElement).find("tr").length;g++) {
+                         ModalRoadSignsSave.push([$(domElement).closest('[id^="ModalRoadSigns"').attr("id").substring($(domElement).closest('[id^="ModalRoadSigns"').attr("id").indexOf("s")+1), $(domElement).find("tr:eq(" + g + ") td:eq(0)").children().val()]);
+                         indexAutoRs.push([$(domElement).closest('[id^="ModalRoadSigns"').attr("id"), $(domElement).find("tr:eq(" + g + ") td:eq(0)").children().val()]);
+                     }
+                
                      j = 0;
                  });
                  var multiplicity, incrementMul = 0, changeColor;
@@ -1123,8 +1129,9 @@
         for (var i = 0; $(par).closest(".modal-content").find("tbody tr").length > i; i++) {
 
             ModalRoadSignsSave.push([number, $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()]);
+            
         };
-
+       
         $('[data-target="#ModalRoadSigns' + number + '"]').removeClass("btn-default");
         $('[data-target="#ModalRoadSigns' + number + '"]').addClass("btn-danger");
     }
@@ -1536,6 +1543,7 @@
                                     index = false;
 
                                     for (var i = 0; indexAutoRs.length > i; i++) {
+                                        
 
                                         if (indexAutoRs[i][0] == valThis && item.value == indexAutoRs[i][1] && item.indexManyElement == 0)
 
@@ -1827,30 +1835,36 @@
             }
         });
         $("form").on('hidden.bs.modal', '[id^="ModalRoadSigns"]', function (e) {
+           
             var lenghtSingle = 0;
             for (var j = 0; ModalRoadSignsSave.length > j; j++) {
                 if (ModalRoadSignsSave[j][0] == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
                     lenghtSingle++;
                 }
             }
+           
             if (lenghtSingle != 0) {
+               
                 var index;
                 var elementIndex;
                 for (var i = $(e.currentTarget).find(".modal-content").find("tbody tr").length; i != -1; i--) {
                     index = false;
 
                     for (var j = 0; ModalRoadSignsSave.length > j; j++) {
-
+                        
                         if (ModalRoadSignsSave[j][0] == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
                             if (ModalRoadSignsSave[j][1] == $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()) {
-
+                                console.log(ModalRoadSignsSave[j][1]);
                                 index = true;
-
+                               
                             };
                         }
+                        
                     }
-
+                    
+             
                     if (index == false) {
+                      
                         elementIndex = $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val();
                         if ($(e.currentTarget).find(".modal-content").find("tbody tr").eq(i).find("td:first input").val() != "") {
                             $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).remove();
@@ -1891,6 +1905,7 @@
         });
         $("form").on('hidden.bs.modal', '[id^="RoadBarriers"]', function (e) {
             var lenghtSingle = 0;
+            console.log(RoadBarriersSave);
             for (var j = 0; RoadBarriersSave.length > j; j++) {
                 if (RoadBarriersSave[j][0] == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
                     lenghtSingle++;
