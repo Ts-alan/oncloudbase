@@ -320,12 +320,12 @@
 
                  countElementSegGlobal = new Array(parseInt("@Model.Segment.Count"));
                  var j = 0;
-                
+
                  $("[id^= ModalRoadSigns]").find("table:eq(1) tbody").each(function(ind, domElement) {
-                     
+
                      for (var i = 0; i < DataOfRoadSings.length; i++) {
                          if (parseInt(DataOfRoadSings[i].Name) == (ind + 1)) {
-                            
+
                              $(domElement).append(
                                  '<tr>' +
                                  '<td style="vertical-align: middle; width: 185px; height: 115px"><input type="text" class="FindRoadSings"></td>' +
@@ -358,9 +358,9 @@
                                  }
                                  if (JsonObject[0].RoadSignItems.length > 0) {
                                      var dd = '<select  class="dd">';
-                                     
+
                                      dd += '<option  ">Выбирите маркер</option>';
-                                    
+
                                      for (var z = 0; z < JsonObject[0].RoadSignItems.length; z++) {
                                          if (DataOfRoadSings[i].ItemOrderId == (z + 1)) {
                                              dd += '<option selected value="' + JsonObject[0].RoadSignItems[z].ItemOrder + '" data-image="/RoadSigns/GetItemImage/' + JsonObject[0].RoadSignItems[z].Id + '?hallmark=' + JsonObject[0].RoadSignItems[z].Hallmark + '"></option>';
@@ -369,7 +369,7 @@
                                          dd += '<option value="' + JsonObject[0].RoadSignItems[z].ItemOrder + '" data-image="/RoadSigns/GetItemImage/' + JsonObject[0].RoadSignItems[z].Id + '?hallmark=' + JsonObject[0].RoadSignItems[z].Hallmark + '"></option>';
                                          }
                                      }
-                                    
+
                                      dd += '</select>';
                                      $(domElement).find("tr:eq(" + j + ") td").eq(3).html(dd);
                                      $(domElement).find("tr:eq(" + j + ") td").eq(3).children().msDropDown();
@@ -377,14 +377,14 @@
                                      var t = i;
                                      var z = j;
                                      $(domElement).find("tr:eq(" + j + ") td").closest("tr").find("select").change(function () {
-                                         
+
                                          $(domElement).find("tr:eq(" + z + ") td").eq(4).html('<input type="number"  name="' + $(domElement).closest("[role='dialog']").attr("id").substr($(domElement).closest("[role='dialog']").attr("id").indexOf("s") + 1) + 'ModalC' + DataOfRoadSings[t].NumberRoadSigns + 'I' + $(this).val() + '" type="text"/>');
 
 
                                      });
-                                     
+
                                  }
-                                 
+
                              });
                              j++;
                          }
@@ -392,11 +392,65 @@
                      for (var g=0;g<$(domElement).find("tr").length;g++) {
                          ModalRoadSignsSave.push([$(domElement).closest('[id^="ModalRoadSigns"').attr("id").substring($(domElement).closest('[id^="ModalRoadSigns"').attr("id").indexOf("s")+1), $(domElement).find("tr:eq(" + g + ") td:eq(0)").children().val()]);
                          indexAutoRs.push([$(domElement).closest('[id^="ModalRoadSigns"').attr("id"), $(domElement).find("tr:eq(" + g + ") td:eq(0)").children().val()]);
+
                      }
-                
+
                      j = 0;
                  });
-                
+                 j = 0;
+                 $("[id^= RoadBarriers]").find("table:eq(1) tbody").each(function(ind, domElement) {
+                     for (var i = 0; i < DataOfRoadBarriers.length; i++) {
+                         if (parseInt(DataOfRoadBarriers[i].Name) == (ind + 1)) {
+                             $(domElement).append(
+                                 ' <tr>'+
+                                    '<td style="vertical-align: middle; width: 187px;"><input type="text" class="FindRoadBarriers"></td>'+
+                                    '<td style="width: 170px;"></td>'+
+                                    '<td style="width: 180px"></td>'+
+                                    '<td style="vertical-align: middle;width: 258px"></td>'+
+                                    '<td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>'+
+                                '</tr>');
+                            
+                             $.ajax({
+                                 url: '@Url.Action("GetRoadBarriers", "Home")',
+                                 data: {
+                                     idRB: DataOfRoadBarriers[i].NumberBarriers
+                                     
+                                 },
+                                 async: false
+                             }).success(function(result) {
+                                 var JsonObject = JSON.parse(result);
+
+                                 $(domElement).find("tr:eq(" + j + ") td").eq(0).children().val(DataOfRoadBarriers[i].NumberBarriers);
+                                 function IsValidImageUrl(url) {
+                                     $("<img>", {
+                                         src: url,
+                                         error: function () {
+                                            
+                                         },
+                                         load: function () {
+                                            
+                                             $("#" + (ind + 1) + "AddSrc" + JsonObject[0].Id).attr("src", "/RoadBarriers/GetImage/" + JsonObject[0].Id);
+                                             $("#" + (ind + 1) + "AddSrc" + JsonObject[0].Id).css({ "height": "150px", "width": "150px" });
+                                         }
+                                     });
+                                 }
+                                 $(domElement).find("tr:eq(" + j + ") td").eq(1).html('<img id="' + (ind + 1) + 'AddSrc' + JsonObject[0].Id+'"/>');
+                                 IsValidImageUrl('/RoadBarriers/GetImage/' + JsonObject[0].Id);
+                                 $(domElement).find("tr:eq(" + j + ") td").eq(2).text(JsonObject[0].Description);
+                                 $(domElement).find("tr:eq(" + j + ") td").eq(3).html('<input type="number" value=' + DataOfRoadBarriers[i].Length + '  name="' + $(domElement).closest("[role='dialog']").attr("id").substr($(domElement).closest("[role='dialog']").attr("id").indexOf("s") + 1) + 'RoadBarriers' + DataOfRoadBarriers[i].NumberBarriers + '" type="text"/>');
+                             });
+                             j++;
+                         };
+                     }
+                     j = 0;
+                     for (var g = 0; g < $(domElement).find("tr").length; g++) {
+                         RoadBarriersSave.push([$(domElement).closest('[id^="RoadBarriers"').attr("id").substring($(domElement).closest('[id^="RoadBarriers"').attr("id").indexOf("s") + 1), $(domElement).find("tr:eq(" + g + ") td:eq(0)").children().val()]);
+                         indexAutoRB.push([$(domElement).closest('[id^="RoadBarriers"').attr("id"), $(domElement).find("tr:eq(" + g + ") td:eq(0)").children().val()]);
+
+                     }
+                    
+                 });
+                 console.log(RoadBarriersSave);
                  var multiplicity, incrementMul = 0, changeColor;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
                      if (multiplicity != undefined) {
@@ -1130,7 +1184,7 @@
         for (var i = 0; $(par).closest(".modal-content").find("tbody tr").length > i; i++) {
 
             ModalRoadSignsSave.push([number, $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()]);
-            
+
         };
         ModalRoadSignsModal = true;
         $('[data-target="#ModalRoadSigns' + number + '"]').removeClass("btn-default");
@@ -1544,7 +1598,7 @@
                                     index = false;
 
                                     for (var i = 0; indexAutoRs.length > i; i++) {
-                                        
+
 
                                         if (indexAutoRs[i][0] == valThis && item.value == indexAutoRs[i][1] && item.indexManyElement == 0)
 
@@ -1651,7 +1705,7 @@
         }
             );
         $("form").on("click", ".lastB", function (e) {
-            
+
             if ($(e.currentTarget).closest("tbody").children("tr").length > 1) {
                 $(e.currentTarget).closest("tbody").children("tr:last").remove();
             };
@@ -1907,7 +1961,7 @@
         });
         $("form").on('hidden.bs.modal', '[id^="RoadBarriers"]', function (e) {
             var lenghtSingle = 0;
-          
+
             for (var j = 0; RoadBarriersSave.length > j; j++) {
                 if (RoadBarriersSave[j][0] == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
                     lenghtSingle++;

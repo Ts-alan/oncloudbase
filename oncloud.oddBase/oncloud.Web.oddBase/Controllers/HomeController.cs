@@ -189,6 +189,7 @@ namespace oncloud.Web.oddBase.Controllers
         {
 
             return JsonConvert.SerializeObject(db.RoadBarriers.Where(a => a.NumberBarriers == idRB).Select(a => new { a.Id, a.Description }));
+            
         }
 
         [Authorize(Roles = "admin,SetMembers,EditData")]
