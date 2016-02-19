@@ -8,7 +8,7 @@
 <script type="text/javascript">
     ymaps.ready(init);
     var myMap, myPlacemark, Arr = [[]], counterArr = 0, handlerRoute, currentRoute, ModalMackUpSave = new Array(), ModalRoadSignsSave = [], RoadBarriersSave = [],
-        firstPointRoute, endPointRoute, position, identifierForDelete = 0, routeSegment,
+        firstPointRoute, endPointRoute, position, identifierForDelete = 0, routeSegment, ModalRoadSignsModal = false,
         increment = 1, tempData = [], tempDate2 = [], tempDataFor3 = 5, objects, identifierForDelBallon = true, CoordinatesforFirstLoad,
         CountObjectInMap, transfercurrentRoute, massSegment = [], handlerSegment, countElementSegGlobal, indexAutoRs = new Array(), indexAutoRB = new Array(), indexAutoRm = new Array();
     incForTab1 = 8, incForTab2 = 8;
@@ -396,6 +396,7 @@
                 
                      j = 0;
                  });
+                
                  var multiplicity, incrementMul = 0, changeColor;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
                      if (multiplicity != undefined) {
@@ -1131,7 +1132,7 @@
             ModalRoadSignsSave.push([number, $($(par).closest(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()]);
             
         };
-       
+        ModalRoadSignsModal = true;
         $('[data-target="#ModalRoadSigns' + number + '"]').removeClass("btn-default");
         $('[data-target="#ModalRoadSigns' + number + '"]').addClass("btn-danger");
     }
@@ -1835,77 +1836,78 @@
             }
         });
         $("form").on('hidden.bs.modal', '[id^="ModalRoadSigns"]', function (e) {
-           
-            var lenghtSingle = 0;
-            for (var j = 0; ModalRoadSignsSave.length > j; j++) {
-                if (ModalRoadSignsSave[j][0] == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
-                    lenghtSingle++;
+            var Temp = ModalRoadSignsSave.slice();
+            if (ModalRoadSignsModal == false) {
+                var lenghtSingle = 0;
+                for (var j = 0; ModalRoadSignsSave.length > j; j++) {
+                    if (ModalRoadSignsSave[j][0] == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
+                        lenghtSingle++;
+                    }
                 }
-            }
-           
-            if (lenghtSingle != 0) {
-               
-                var index;
-                var elementIndex;
-                for (var i = $(e.currentTarget).find(".modal-content").find("tbody tr").length; i != -1; i--) {
-                    index = false;
 
-                    for (var j = 0; ModalRoadSignsSave.length > j; j++) {
-                        
-                        if (ModalRoadSignsSave[j][0] == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
-                            if (ModalRoadSignsSave[j][1] == $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val()) {
-                                console.log(ModalRoadSignsSave[j][1]);
-                                index = true;
-                               
-                            };
-                        }
-                        
-                    }
-                    
-             
-                    if (index == false) {
-                      
-                        elementIndex = $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val();
-                        if ($(e.currentTarget).find(".modal-content").find("tbody tr").eq(i).find("td:first input").val() != "") {
-                            $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).remove();
-                        }
-                    }
+                if (lenghtSingle != 0) {
+                    var index;
+                    var elementIndex;
 
-                    for (var z = 0; indexAutoRs.length > z; z++) {
-                        if (indexAutoRs[z][0].substring(indexAutoRs[z][0].indexOf("s") + 1) == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
-                            if (indexAutoRs[z][1] == elementIndex) {
-                                indexAutoRs.splice(z, 1);
+                    for (var i = 0; $(e.currentTarget).find(".modal-content").find("tbody tr").length > i ; i++) {
+                        index = false;
+
+                        for (var j = 0; ModalRoadSignsSave.length > j; j++) {
+
+                            if (ModalRoadSignsSave[j][0] == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
+                                if ($($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val() == ModalRoadSignsSave[j][1]) {
+
+                                    index = true;
+                                    ModalRoadSignsSave.splice(j, 1);
+                                };
+                            }
+                        }
+
+                        if (index == false) {
+                            elementIndex = $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).find("td:eq(0) input").val();
+                            if ($(e.currentTarget).find(".modal-content").find("tbody tr").eq(i).find("td:first input").val() != "") {
+                                $($(e.currentTarget).find(".modal-content").find("tbody tr")[i]).remove();
+                            }
+                        }
+
+                        for (var z = 0; indexAutoRs.length > z; z++) {
+                            if (indexAutoRs[z][0].substring(indexAutoRs[z][0].indexOf("s") + 1) == $(e.currentTarget).attr("id").substring($(e.currentTarget).attr("id").indexOf("s") + 1)) {
+                                if (indexAutoRs[z][1] == elementIndex) {
+                                    indexAutoRs.splice(z, 1);
+                                }
                             }
                         }
                     }
                 }
-            }
-            if (lenghtSingle == 0) {
-                for (var j = 0; indexAutoRs.length > j; j++) {
-                    if (indexAutoRs[j][0].substring(indexAutoRs[j][0].indexOf("s") + 1) == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
-                        indexAutoRs.splice(j, 1);
-                    };
+                if (lenghtSingle == 0) {
+                    for (var j = 0; indexAutoRs.length > j; j++) {
+                        if (indexAutoRs[j][0].substring(indexAutoRs[j][0].indexOf("s") + 1) == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
+                            indexAutoRs.splice(j, 1);
+                        };
+                    }
+
+                    $(e.target).find(" tr:gt(1)").each(function (indx, element) {
+                        $(element).remove();
+                    });
+                    $(e.target).find(" tr:eq(1)")
+                        .children().eq(0).children().val("");
+                    $(e.target).find(" tr:eq(1)")
+                        .children().eq(1).children().remove();
+                    $(e.target).find(" tr:eq(1)")
+                        .children().eq(2).html("");
+                    $(e.target).find(" tr:eq(1)")
+                        .children().eq(3).children().remove();
+                    $(e.target).find(" tr:eq(1)")
+                        .children().eq(4).children().remove();
+
                 }
-
-                $(e.target).find(" tr:gt(1)").each(function (indx, element) {
-                    $(element).remove();
-                });
-                $(e.target).find(" tr:eq(1)")
-                    .children().eq(0).children().val("");
-                $(e.target).find(" tr:eq(1)")
-                    .children().eq(1).children().remove();
-                $(e.target).find(" tr:eq(1)")
-                    .children().eq(2).html("");
-                $(e.target).find(" tr:eq(1)")
-                    .children().eq(3).children().remove();
-                $(e.target).find(" tr:eq(1)")
-                    .children().eq(4).children().remove();
-
             }
+            ModalRoadSignsSave = Temp.slice();
+            ModalRoadSignsModal = false;
         });
         $("form").on('hidden.bs.modal', '[id^="RoadBarriers"]', function (e) {
             var lenghtSingle = 0;
-            console.log(RoadBarriersSave);
+          
             for (var j = 0; RoadBarriersSave.length > j; j++) {
                 if (RoadBarriersSave[j][0] == $($(e.target)[0]).attr("id").substring($($(e.target)[0]).attr("id").indexOf("s") + 1)) {
                     lenghtSingle++;
