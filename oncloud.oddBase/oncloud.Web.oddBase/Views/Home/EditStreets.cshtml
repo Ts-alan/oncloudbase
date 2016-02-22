@@ -94,7 +94,12 @@
                                                               ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                                                           }))');
 
-
+                 var DataOfMackUp = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.SpecificationofRM.Select(a => new {a.area,a.length,a.TheHorizontalRoadMarking.NumberMarking})
+                                         , Formatting.None,
+                                         new JsonSerializerSettings()
+                 {
+                                                              ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+             }))');
 
                  var setSegment = function (i) {
                      var pathsObjects = ymaps.geoQuery(currentRoute.getPaths()),
@@ -338,8 +343,8 @@
                              $.ajax({
                                  url:  '@Url.Action("GetRoadSigns", "Home")',
                                  data: { idRS: DataOfRoadSings[i].NumberRoadSigns },
-                                 async:false
-                             }).success(function (result) {
+                                 async: false
+                             }).success(function(result) {
                                  function compare(a, b) {
                                      if (a.ItemOrder < b.ItemOrder)
                                          return -1;
@@ -348,10 +353,11 @@
                                      else
                                          return 0;
                                  }
+
                                  var JsonObject = JSON.parse(result);
                                  JsonObject[0].RoadSignItems.sort(compare);
                                  $(domElement).find("tr:eq(" + j + ") td").eq(0).children().val(DataOfRoadSings[i].NumberRoadSigns);
-                                 $(domElement).find("tr:eq("+j+") td").eq(1).html('<img style="height: 100px; width: 100px" src="/RoadSigns/GetImage/' + JsonObject[0].id + '">');
+                                 $(domElement).find("tr:eq(" + j + ") td").eq(1).html('<img style="height: 100px; width: 100px" src="/RoadSigns/GetImage/' + JsonObject[0].id + '">');
                                  $(domElement).find("tr:eq(" + j + ") td").eq(2).text(JsonObject[0].Description);
                                  if (JsonObject[0].RoadSignItems.length == 0) {
                                      $(domElement).find("tr:eq(" + j + ") td").eq(4).html('<input type="number" value=' + DataOfRoadSings[i].CountRS + '  name="' + $(domElement).closest("[role='dialog']").attr("id").substr($(domElement).closest("[role='dialog']").attr("id").indexOf("s") + 1) + 'ModalC' + DataOfRoadSings[i].NumberRoadSigns + '" type="text"/>');
@@ -364,9 +370,8 @@
                                      for (var z = 0; z < JsonObject[0].RoadSignItems.length; z++) {
                                          if (DataOfRoadSings[i].ItemOrderId == (z + 1)) {
                                              dd += '<option selected value="' + JsonObject[0].RoadSignItems[z].ItemOrder + '" data-image="/RoadSigns/GetItemImage/' + JsonObject[0].RoadSignItems[z].Id + '?hallmark=' + JsonObject[0].RoadSignItems[z].Hallmark + '"></option>';
-                                         }
-                                         else{
-                                         dd += '<option value="' + JsonObject[0].RoadSignItems[z].ItemOrder + '" data-image="/RoadSigns/GetItemImage/' + JsonObject[0].RoadSignItems[z].Id + '?hallmark=' + JsonObject[0].RoadSignItems[z].Hallmark + '"></option>';
+                                         } else {
+                                             dd += '<option value="' + JsonObject[0].RoadSignItems[z].ItemOrder + '" data-image="/RoadSigns/GetItemImage/' + JsonObject[0].RoadSignItems[z].Id + '?hallmark=' + JsonObject[0].RoadSignItems[z].Hallmark + '"></option>';
                                          }
                                      }
 
@@ -376,7 +381,7 @@
                                      $(domElement).find("tr:eq(" + j + ") td").eq(4).html('<input type="number" value=' + DataOfRoadSings[i].CountRS + '  name="' + $(domElement).closest("[role='dialog']").attr("id").substr($(domElement).closest("[role='dialog']").attr("id").indexOf("s") + 1) + 'ModalC' + DataOfRoadSings[i].NumberRoadSigns + 'I' + DataOfRoadSings[i].ItemOrderId + '" type="text"/>');
                                      var t = i;
                                      var z = j;
-                                     $(domElement).find("tr:eq(" + j + ") td").closest("tr").find("select").change(function () {
+                                     $(domElement).find("tr:eq(" + j + ") td").closest("tr").find("select").change(function() {
 
                                          $(domElement).find("tr:eq(" + z + ") td").eq(4).html('<input type="number"  name="' + $(domElement).closest("[role='dialog']").attr("id").substr($(domElement).closest("[role='dialog']").attr("id").indexOf("s") + 1) + 'ModalC' + DataOfRoadSings[t].NumberRoadSigns + 'I' + $(this).val() + '" type="text"/>');
 
@@ -389,8 +394,8 @@
                              j++;
                          }
                      }
-                     for (var g=0;g<$(domElement).find("tr").length;g++) {
-                         ModalRoadSignsSave.push([$(domElement).closest('[id^="ModalRoadSigns"').attr("id").substring($(domElement).closest('[id^="ModalRoadSigns"').attr("id").indexOf("s")+1), $(domElement).find("tr:eq(" + g + ") td:eq(0)").children().val()]);
+                     for (var g = 0; g < $(domElement).find("tr").length; g++) {
+                         ModalRoadSignsSave.push([$(domElement).closest('[id^="ModalRoadSigns"').attr("id").substring($(domElement).closest('[id^="ModalRoadSigns"').attr("id").indexOf("s") + 1), $(domElement).find("tr:eq(" + g + ") td:eq(0)").children().val()]);
                          indexAutoRs.push([$(domElement).closest('[id^="ModalRoadSigns"').attr("id"), $(domElement).find("tr:eq(" + g + ") td:eq(0)").children().val()]);
 
                      }
@@ -402,19 +407,19 @@
                      for (var i = 0; i < DataOfRoadBarriers.length; i++) {
                          if (parseInt(DataOfRoadBarriers[i].Name) == (ind + 1)) {
                              $(domElement).append(
-                                 ' <tr>'+
-                                    '<td style="vertical-align: middle; width: 187px;"><input type="text" class="FindRoadBarriers"></td>'+
-                                    '<td style="width: 170px;"></td>'+
-                                    '<td style="width: 180px"></td>'+
-                                    '<td style="vertical-align: middle;width: 258px"></td>'+
-                                    '<td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>'+
-                                '</tr>');
-                            
+                                 ' <tr>' +
+                                 '<td style="vertical-align: middle; width: 187px;"><input type="text" class="FindRoadBarriers"></td>' +
+                                 '<td style="width: 170px;"></td>' +
+                                 '<td style="width: 180px"></td>' +
+                                 '<td style="vertical-align: middle;width: 258px"></td>' +
+                                 '<td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>' +
+                                 '</tr>');
+
                              $.ajax({
                                  url: '@Url.Action("GetRoadBarriers", "Home")',
                                  data: {
                                      idRB: DataOfRoadBarriers[i].NumberBarriers
-                                     
+
                                  },
                                  async: false
                              }).success(function(result) {
@@ -425,10 +430,10 @@
                                      $("<img>", {
                                          src: url,
                                          error: function () {
-                                            
+
                                          },
                                          load: function () {
-                                            
+
                                              $("#" + (ind + 1) + "AddSrc" + JsonObject[0].Id).attr("src", "/RoadBarriers/GetImage/" + JsonObject[0].Id);
                                              $("#" + (ind + 1) + "AddSrc" + JsonObject[0].Id).css({ "height": "150px", "width": "150px" });
                                          }
@@ -448,42 +453,71 @@
                          indexAutoRB.push([$(domElement).closest('[id^="RoadBarriers"').attr("id"), $(domElement).find("tr:eq(" + g + ") td:eq(0)").children().val()]);
 
                      }
-                    
+
                  });
-                 
-                 var multiplicity, incrementMul = 0, changeColor;
+                 for (var z = 0; z < DataOfMackUp.length; z++) {
+                     
+                     $("#ModalMackUp tbody").append('<tr>'+
+                                    '<td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>'+
+                                    '<td style="width: 241px;"></td>'+
+                                    '<td style="width: 180px"></td>'+
+                                    '<td style="vertical-align: middle;width: 117px"></td>'+
+                                    '<td style="vertical-align: middle;width: 157px"></td>'+
+                                    '<td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>'+
+                                '</tr>');
+                     $.ajax({
+                         url: '@Url.Action("GetRoadMarking", "Home")',
+                         data: {
+                             idRM: DataOfMackUp[z].NumberMarking
+
+                         },
+                         async: false
+                     }).success(function(result) {
+                         var JsonObject = JSON.parse(result);
+                        
+                         $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(0).children().val(DataOfMackUp[z].NumberMarking);
+                         $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(1).html('<img  src="/HorizontalRoadMarkings/GetImage/' + JsonObject[0].id + '">');
+                         $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(2).text(JsonObject[0].description);
+
+                         $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(3).html('<input type="number" style="width:100px" name="ModalsL' + DataOfMackUp[z].NumberMarking + '" />');
+                         $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(3).children().val(DataOfMackUp[z].length);
+                         $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(4).html('<input type="number" style="width:100px"  name="ModalsA' + DataOfMackUp[z].NumberMarking + '" />');
+                         $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(4).children().val(DataOfMackUp[z].area);
+                         indexAutoRm.push(DataOfMackUp[z].NumberMarking);
+                         ModalMackUpSave.push(DataOfMackUp[z].NumberMarking);
+                         
+                     });
+                 }
+                
+                var changeColor;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
-                     if (multiplicity != undefined) {
-                         if (multiplicity == DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString()) {
-                             incrementMul++;
-                         } else {
-                             incrementMul = 0;
-                         }
-                     }
-                     multiplicity = DataOfRoadSings[i].Name.toString() + "ModalC" + DataOfRoadSings[i].NumberRoadSigns.toString();
-
-
 
                      if (changeColor != undefined) {
                          if (changeColor != DataOfRoadSings[i].Name) {
                              changeColorRoadSigns(DataOfRoadSings[i].Name);
+                             $("[data-target=#ModalRoadSigns"+DataOfRoadSings[i].Name+"]").removeClass("btn-default");
+                             $("[data-target=#ModalRoadSigns" + DataOfRoadSings[i].Name+"]").addClass("btn-danger");
                              changeColor = DataOfRoadSings[i].Name;
                          }
                      } else {
-                         changeColorRoadSigns(DataOfRoadSings[i].Name);
+                         $("[data-target=#ModalRoadSigns" + DataOfRoadSings[i].Name+"]").removeClass("btn-default");
+                         $("[data-target=#ModalRoadSigns" + DataOfRoadSings[i].Name+"]").addClass("btn-danger");
                          changeColor = DataOfRoadSings[i].Name;
                      }
                  }
-                 for (var i = 0; i < DataOfRoadBarriers.length; i++) {
+                 var changeColorForRB;
+                 for (var j = 0; j < DataOfRoadBarriers.length; j++) {
 
-                     if (changeColor != undefined) {
-                         if (changeColor != DataOfRoadBarriers[i].Name) {
-                             changeColorRoadBarriers(DataOfRoadBarriers[i].Name);
-                             changeColor = DataOfRoadBarriers[i].Name;
+                     if (changeColorForRB != undefined) {
+                         if (changeColorForRB != DataOfRoadBarriers[j].Name) {
+                             $("[data-target=#RoadBarriers" + DataOfRoadBarriers[j].Name + "]").removeClass("btn-default");
+                             $("[data-target=#RoadBarriers" + DataOfRoadBarriers[j].Name + "]").addClass("btn-danger");
+                             changeColorForRB = DataOfRoadBarriers[j].Name;
                          }
                      } else {
-                         changeColorRoadBarriers(DataOfRoadBarriers[i].Name);
-                         changeColor = DataOfRoadBarriers[i].Name;
+                         $("[data-target=#RoadBarriers" + DataOfRoadBarriers[j].Name + "]").removeClass("btn-default");
+                         $("[data-target=#RoadBarriers" + DataOfRoadBarriers[j].Name + "]").addClass("btn-danger");
+                         changeColorForRB = DataOfRoadBarriers[j].Name;
                      }
                  }
                  //изменения цвета при загрузке
@@ -1040,6 +1074,7 @@
     }
 
     function cleaningModalMackUp(par, e) {
+       
         if (ModalMackUpSave.length != 0) {
             var index;
             var elementIndex;
@@ -1332,7 +1367,7 @@
                                                         "</div>" +
                                                         "<div style='clear: both'>" +
                                                                     "Участок требует изменения дислокации ТСОДД" +
-                                                                     "<select id='Segment_ChangeDislocationTCODD' onchange='setColorSegment(" + increment + ",this)' name='Segment.ChangeDislocationTCODD'>" +
+                                                                     "<select id='Seglengthment_ChangeDislocationTCODD' onchange='setColorSegment(" + increment + ",this)' name='Segment.ChangeDislocationTCODD'>" +
                                                                         "<option value='true'>Да</option>" +
                                                                          "<option selected='selected' value='false'>Нет</option>" +
                                                                       "</select>" +
@@ -1837,7 +1872,7 @@
         });
 
         $('#ModalMackUp').on('hidden.bs.modal', function (e) {
-
+            console.log(ModalMackUpSave);
             if (ModalMackUpSave.length != 0) {
                 var index;
                 var elementIndex;
