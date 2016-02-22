@@ -263,7 +263,10 @@
 
 </script>
 <style>
-
+    .btn {
+        width: 250px;
+        margin-top: 5px;
+    }
 
 </style>
 <h2 style="text-align: center">ПРОСМОТР ДАННЫХ УЛИЦЫ</h2>
@@ -389,7 +392,7 @@
             </tr>
         </table>
         <button type="button" class="btn btn-default" style="margin-top: 5px" onclick="printTable('#gview_table1', '#gview_text1')">Печать</button>
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Просмотр дорожной разметки</button>
+        <button type="button"  class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Просмотр дорожной разметки</button>
     </div>
 
     <div class="col-md-5 col-md-offset-2">
@@ -467,8 +470,16 @@
                                     } 
                                 </td>
                                 <td style="width: 180px">@mark.description</td>
-                                <td style="vertical-align: middle; width: 117px">@srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId.ToString() == mark.NumberMarking)?.length</td>
-                                <td style="vertical-align: middle; width: 157px">@srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId.ToString() == mark.NumberMarking)?.area</td>
+                                 @{
+                                     var ll = srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId.ToString() == mark.NumberMarking);
+                                     string llength = ll == null ? "" : ll.length.ToString();
+                                }
+                                <td style="vertical-align: middle; width: 117px">@llength</td>
+                                @{
+                                     var a = srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId.ToString() == mark.NumberMarking);
+                                     string area = ll == null ? "" : a.area.ToString();
+                                }
+                                <td style="vertical-align: middle; width: 157px">@area</td>
                             </tr>
                         }
                         </tbody>
@@ -593,7 +604,12 @@
                                     
                                 </td>
                                 <td style="width: 180px">@bar.Description</td>
-                                <td style="vertical-align: middle; width: 258px">@srs.SingleOrDefault(x=> x.RoadBarriersId.ToString() == bar.NumberBarriers)?.Length</td>
+                                @{
+                                    var l = srs.SingleOrDefault(x => x.RoadBarriersId.ToString() == bar.NumberBarriers);
+
+                                    string length = l == null ? "" : l.Length.ToString();
+                                }
+                                <td style="vertical-align: middle; width: 258px">@length</td>
                             </tr>
                         }
                     </tbody>
