@@ -2,7 +2,7 @@
 @using oncloud.Domain.Entities
 @model  oncloud.Domain.Entities.Street
 @{
-    ViewBag.Title = "EditStreets";
+    ViewBag.Title = "Review";
 }
 
 <script type="text/javascript">
@@ -263,7 +263,10 @@
 
 </script>
 <style>
-
+    .btn {
+        width: 250px;
+        margin-top: 5px;
+    }
 
 </style>
 <h2 style="text-align: center">ПРОСМОТР ДАННЫХ УЛИЦЫ</h2>
@@ -358,6 +361,7 @@
                 </tr>
             </table>
             <button type="button" class="btn btn-default" style="margin-top: 5px" onclick="printTable('#gview_table2', '#gview_text2')">Печать</button>
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ModalRoadSigns">Просмотр дорожных знаков</button>
         </div>
 
     </div>
@@ -388,6 +392,7 @@
             </tr>
         </table>
         <button type="button" class="btn btn-default" style="margin-top: 5px" onclick="printTable('#gview_table1', '#gview_text1')">Печать</button>
+        <button type="button"  class="btn btn-default" data-toggle="modal" data-target="#ModalMackUp">Просмотр дорожной разметки</button>
     </div>
 
     <div class="col-md-5 col-md-offset-2">
@@ -411,6 +416,7 @@
             </tr>
         </table>
         <button type="button" class="btn btn-default" style="margin-top: 5px" onclick="printTable('#gview_table3', '#gview_text3')">Печать</button>
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#RoadBarriers">Просмотр дорожных ограждений</button>
     </div>
 </div>
 <div style="clear: both">
@@ -418,227 +424,199 @@
 </div>
 
 @*Модальные окна*@
-<div class="modal fade" id="layoutDislocation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+ <!-- ModalMackUp -->
+<div class="modal fade" id="ModalMackUp" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="width: 1000px;" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="border-width: 0px">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-            </div>
-            <div class="modal-body">
-                <div id="carousel-example-generic" class="carouselTCODD slide">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        @for (int i = 0; i < Model.Segment.Count + 1; i++)
-                        {
-                            <li data-target="#carousel-example-generic" data-slide-to="@i"></li>
-                        }
-                    </ol>
-
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner"  role="listbox">
-                        <div class="item TCODD">
-                            @if (Model.layoutScheme != null)
-                            {
-                                <h3 style="color: black; text-align: center">
-                                    Компоновочная схема
-                                </h3>
-                                <br>
-                                <img  src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
-                            }
-                            else
-                            {
-                                <h3 style="color: black;text-align: center">Компоновочная схема не загружена</h3>
-                            }
-                            <div class="carousel-caption">
-
-                            </div>
-                        </div>
-                        @for (int i = 0; i < Model.Segment.Count; i++)
-                        {
-                            <div class="item TCODD">
-                                <h3 style="color: black; text-align: center">
-                                    г.Минск ул. @Model.Name<br>
-                                    Дислокация ТСОДД участок @(i + 1)
-                                </h3>
-                                @if (Model.Segment.ElementAt(i).layoutDislocation.Any())
-                                {
-
-                                    <img id="TCODD" src="@Url.Action("LayoutDislocation", "Home", new {id = Model.Segment.ElementAt(i).layoutDislocation.SingleOrDefault().Id})" />
-                                }
-                                else
-                                {
-                                    <text>
-                                        <h3 style="text-align: center">Дислокация ТСОДД не загружена</h3></text>
-                                }
-                                <div class="carousel-caption">
-
-                                </div>
-                            </div>
-                        }
-                    </div>
-                      
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+            <div class="modal-header">
+                <div style="text-align: right">
+                    <img data-dismiss="modal" onclick="changeColorMackUp(event)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg"/>
+                    <img data-dismiss="modal" onclick="cleaningModalMackUp(1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg"/>
                 </div>
-
-
-
+                <h4 class="modal-title" id="myModalLabel">
+                    Спецификация горизонтальной дорожной разметки
+                    <p>по ул. <span class="text">_________________</span> в г. Минске
+                </h4>
 
             </div>
-            <div class="modal-footer" style="border-width: 0px">
-                <button type="button" class="btn btn-default" onclick="printPicture('.TCODD')">Печать</button>
+            <div class="modal-body" style="height: 640px">
+
+                <table class="table table-bordered" style="margin-bottom: 0px">
+                    <thead>
+                    <tr>
+                        <th style="width: 101px;">№ разметки</th>
+                        <th style="width: 241px;">Картинка</th>
+                        <th style="width: 180px">Описание</th>
+                        <th style="width: 117px">Длина (м.пог) / штуки</th>
+                        <th style="width: 157px">Площадь (м.кв)</th>
+                    </tr>
+                    </thead>
+                </table>
+                <div id="container" style="height: 530px; overflow-y: scroll">
+                    <table class="table table-bordered">
+                        <tbody style="height: 640px; overflow: auto">
+                         @{
+                                List<TheHorizontalRoadMarking> mkg = ViewBag.RoadMarking;
+                                List<SpecificationofRM> srm = ViewBag.SpecificationofRM;
+                            }
+                        @foreach (var mark in mkg)
+                        {
+                            <tr>
+                                <td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px">@mark.NumberMarking</td>
+                                <td style="width: 241px;">
+                                   @{
+                                        var base64 = Convert.ToBase64String(mark.ImageData);
+                                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                    } 
+                                </td>
+                                <td style="width: 180px">@mark.description</td>
+                                 @{
+                                     var ll = srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId.ToString() == mark.NumberMarking);
+                                     string llength = ll == null ? "" : ll.length.ToString();
+                                }
+                                <td style="vertical-align: middle; width: 117px">@llength</td>
+                                @{
+                                     var a = srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId.ToString() == mark.NumberMarking);
+                                     string area = ll == null ? "" : a.area.ToString();
+                                }
+                                <td style="vertical-align: middle; width: 157px">@area</td>
+                            </tr>
+                        }
+                        </tbody>
+
+                    </table>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
 
+
 <!-- ModalRoadSigns -->
 <div class="modal fade" id="ModalRoadSigns" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" style="width: 800px">
+        <div class="modal-content" style="width: 800px;">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-            </div>
-            <div class="modal-body">
-                <div id="carousel-example-generic1" class="RoadSignsItems carousel  slide">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        @for (int i = 0; i < Model.Segment.Count; i++)
-                        {
-                            <li data-target="#carousel-example-generic1" data-slide-to="@i"></li>
-                        }
-                    </ol>
-
-                    <!-- Wrapper for slides -->
-
-                    <div class="carousel-inner" style="height: 700px;" role="listbox">
-                        
-                            @for (int i = 0; i < Model.Segment.Count; i++)
-                            {
-                                <div class="item RoadSignsItem" style="padding-left: 114px; padding-right: 114px;">
-                                    <h3 style="color: black; text-align: center">
-                                        г.Минск ул. @Model.Name<br>
-                                        Спецификация дорожных знаков участок @(i + 1)
-                                    </h3>
-                                    <div style="overflow-x: auto">
-                                        <table class="RoadSignsTable@(i + 1) table table-bordered">
-                                            <tr>
-                                                <th>№ знака</th>
-                                                <th>Количество</th>
-                                            </tr>
-                                            @foreach (var item in Model.SpecificationofRS.Where(a => a.Segment.Name == (i + 1)))
-                                            {
-                                                <tr>
-                                                    <td>@item.RoadSigns.NumberRoadSigns</td>
-                                                    <td>@item.CountRS</td>
-                                                </tr>
-                                            }
-                                            <tr>
-                                                <td><b>Итого</b></td>
-                                                <td>@Model.SpecificationofRS.Where(a => a.Segment.Name == (i + 1)).Sum(a => a.CountRS)</td>
-                                            </tr>
-                                        </table>
-
-                                    </div>
-                                        <div class="carousel-caption">
-
-                                    </div>
-                                </div>
-                            }
-                        
-                    </div>
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#carousel-example-generic1" role="button" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#carousel-example-generic1" role="button" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                <div style="text-align: right">
+                    <img class="buttonSave" data-dismiss="modal" onclick="changeColorRoadSigns(1, this)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+                    <img class="buttonclose" data-dismiss="modal" onclick="cleaningRoadSigns(1,this)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
                 </div>
+
+                <h4 class="modal-title" id="myModalLabel">
+                    Спецификация дорожных знаков
+                    <p>по ул. <span class="text">_________________</span> в г. Минске
+                </h4>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default buttonclose" onclick="printPicture('.RoadSignsItem')">Печать</button>
+            <div class="modal-body " style="height: 800px">
+                <table class="table table-bordered" style="margin-bottom: 0px">
+                    <thead>
+                        <tr>
+                            <th style="width: 187px;">№ знака</th>
+                            <th style="width: 117px;">Картинка</th>
+                            <th style="width: 150px">Описание</th>
+                            <th style="width: 192px">Количество</th>
+                           
+                        </tr>
+                    </thead>
+                </table>
+                <div style="height: 700px;overflow-y:scroll">
+                    <table class="table table-bordered">
+                        <tbody>
+                            @{
+                                List<RoadSigns> signs = ViewBag.RoadSigns;
+                                List<RoadSigns> distinctedSigns = signs.Distinct().ToList();
+                            }
+                        @foreach (var sign in distinctedSigns)
+                        {
+                                <tr>
+                                    <td style="vertical-align: middle; width: 185px; height: 115px">@sign.NumberRoadSigns</td>
+                                    <td style="width: 117px; height: 115px">
+                                    @{
+                                        var base64 = Convert.ToBase64String(sign.ImageData);
+                                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                    }
+                                    <img src="@imgSrc" style="height: 100px; width: 100px"/>
+                                </td>
+                                <td style="width: 150px">@sign.Description</td>
+                                <td style="vertical-align: middle; width: 192px">@signs.Count(x => x.id == sign.id)</td>
+
+                            </tr>
+                        }
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <!-- RoadBarriers  -->
 <div class="modal fade" id="RoadBarriers" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" style="width: 1000px" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <<div class="modal-dialog" role="document">
+    <div class="modal-content" style="width: 800px; ">
+        <div class="modal-header">
+            <div style="text-align: right">
+                <img class="buttonSave" data-dismiss="modal" onclick="changeColorRoadBarriers(1, this)" aria-label="Close" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+                <img class="buttonclose" data-dismiss="modal" onclick="cleaningRoadBarriers(1,this)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
             </div>
-            <div class="modal-body">
-                <div id="carousel-example-generic2" class="RoadBarriersItems slide">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        @for (int i = 0; i < Model.Segment.Count; i++)
-                        {
-                            <li data-target="#RoadBarriers" data-slide-to="@i"></li>
-                        }
-                    </ol>
 
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner" style=" " role="listbox">
-                        @for (int i = 0; i < Model.Segment.Count; i++)
+            <h4 class="modal-title" id="myModalLabel">
+                Спецификация  дорожных ограждений
+                <p>по ул. <span class="text">_________________</span> в г. Минске
+            </h4>
+        </div>
+        <div class="modal-body " style="height: 800px; overflow: auto;">
+            <table class="table table-bordered" style="margin-bottom: 0px">
+                <thead>
+                    <tr>
+                        <th style="width: 187px">№ </th>
+                        <th style="width: 170px">Картинка</th>
+                        <th style="width: 180px">Описание</th>
+                        <th style="width: 258px">Погонные метры</th>
+                    </tr>
+                </thead>
+            </table>
+            <div style="height: 700px; overflow-y: scroll">
+                <table class="table table-bordered">
+                    <tbody>
+                        @{
+                            List<RoadBarriers> brs = ViewBag.RoadBarriers;
+                            List<RoadBarriers> distinctedBarriers = brs.Distinct().ToList();
+                            List<SpecificationOfRb> srs = ViewBag.SpecificationOfRb;
+                        }
+                        @foreach (var bar in distinctedBarriers)
                         {
-                            <div class="item RoadBarriersItem" style ="padding-left: 147px; padding-right: 147px; overflow: auto;">
-                                <h3 style="color: black; text-align: center">
-                                    г.Минск ул. @Model.Name<br>
-                                    Спецификация дорожных ограждений участок @(i + 1)
-                                </h3>
-                                <div style="overflow-x: auto">
-                                    <table class="RoadSignsTable@(i + 1) table table-bordered">
-                                        <tr>
-                                            <th>№ знака</th>
-                                            <th>Количество</th>
-                                        </tr>
-                                        @foreach (var item in Model.SpecificationOfRb.Where(a => a.Segment.Name == (i + 1)))
+                            <tr>
+                                <td style="vertical-align: middle; width: 187px;"><input type="text" class="FindRoadBarriers">@bar.NumberBarriers</td>
+                                <td style="width: 170px;">
+                                    @{
+
+                                        string base64 = null;
+                                        string imgSrc = null;
+                                        if (bar.ImageData != null)
                                         {
-                                            <tr>
-                                                <td>@item.RoadBarriers.NumberBarriers</td>
-                                                <td>@item.Length</td>
-                                            </tr>
+                                            base64 = Convert.ToBase64String(bar.ImageData);
+                                            imgSrc = String.Format("data:image/jpeg;base64,{0}", base64);
+                                            <img src="@imgSrc" style="height: 100px; width: 100px" />
                                         }
-                                        <tr>
-                                            <td><b>Итого</b></td>
-                                            <td>@Model.SpecificationOfRb.Where(a => a.Segment.Name == (i + 1)).Sum(a => a.Length)</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="carousel-caption">
+                                    }
+                                    
+                                </td>
+                                <td style="width: 180px">@bar.Description</td>
+                                @{
+                                    var l = srs.SingleOrDefault(x => x.RoadBarriersId.ToString() == bar.NumberBarriers);
 
-                                </div>
-                            </div>
+                                    string length = l == null ? "" : l.Length.ToString();
+                                }
+                                <td style="vertical-align: middle; width: 258px">@length</td>
+                            </tr>
                         }
-                    </div>
-
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#carousel-example-generic2" role="button" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#carousel-example-generic2" role="button" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="closeModalMackUp" class="btn btn-default buttonclose" onclick="printPicture('.RoadBarriersItem')">Печать</button>
+                    </tbody>
+                </table>
             </div>
         </div>
+
     </div>
+</div>
 </div>

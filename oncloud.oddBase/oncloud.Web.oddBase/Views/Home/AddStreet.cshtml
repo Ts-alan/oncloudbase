@@ -1138,11 +1138,12 @@
             });
         });
         //подсказки ограждений
+        var valThis
         var autocompleteUrlRB = '/Home/FindRoadBarriers';
         $(' form').on('keydown.autocomplete', ".FindRoadBarriers", function() {
             $(this).autocomplete({
                 source: function(request, response) {
-                    var valThis = $($(this)[0].bindings[0]).closest('[id^="RoadBarriers"').attr("id");
+                     valThis = $($(this)[0].bindings[0]).closest('[id^="RoadBarriers"').attr("id");
                     $.ajax({
                         url: autocompleteUrlRB,
                         data: request,
@@ -1183,15 +1184,17 @@
                                 error: function() {
                                     //alert(url + ': ' + false);
                                 },
-                                load: function() {
-                                    $("#AddSrc" + JsonObject[0].Id).attr("src", "/RoadBarriers/GetImage/" + JsonObject[0].Id);
-                                    $("#AddSrc" + JsonObject[0].Id).css({ "height": "150px", "width": "150px" });
+                                load: function ()
+                                {
+                                    console.log("!!!");
+                                    $("#AddSrc" + JsonObject[0].Id+ valThis).attr("src", "/RoadBarriers/GetImage/" + JsonObject[0].Id);
+                                    $("#AddSrc" + JsonObject[0].Id+ valThis).css({ "height": "150px", "width": "150px" });
                                 }
                             });
                         }
 
-
-                        $(event.target).closest("tr").children("td").eq(1).html('<img id="AddSrc' + JsonObject[0].Id + '">');
+                        console.log(valThis);
+                        $(event.target).closest("tr").children("td").eq(1).html('<img id="AddSrc' + JsonObject[0].Id + valThis + '">');
                         IsValidImageUrl(url);
                         $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].Description);
                         $(event.target).closest("tr").children("td").eq(3).html('<input type="number"   name="' + $(event.target).closest("[role='dialog']").attr("id").substr($(event.target).closest("[role='dialog']").attr("id").indexOf("s") + 1) + 'RoadBarriers' + ui.item.value + '" type="text"/>');

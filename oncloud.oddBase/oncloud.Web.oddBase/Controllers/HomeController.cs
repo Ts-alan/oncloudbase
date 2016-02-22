@@ -11,10 +11,12 @@ using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using oncloud.Domain.Concrete;
 using oncloud.Domain.Entities;
+using oncloud.Web.oddBase.Migrations;
 using oncloud.Web.oddBase.Models;
 using oncloud.Web.oddBase.Models.Home;
 using OddBasyBY.Models;
 using WebGrease.Css.Extensions;
+using ListUniqueNumber = oncloud.Domain.Entities.ListUniqueNumber;
 
 
 namespace oncloud.Web.oddBase.Controllers
@@ -261,6 +263,9 @@ namespace oncloud.Web.oddBase.Controllers
             ViewBag.RoadBarriers = db.RoadBarriers.ToList();
             return View(street);
         }
+
+
+
         [HttpPost]
         [Authorize(Roles = "admin,SetMembers,EditData")]
         [HandleError(ExceptionType = typeof(System.FormatException),
@@ -455,6 +460,39 @@ namespace oncloud.Web.oddBase.Controllers
                 segmentChange = s.ChangeDislocationTCODD,
                 segmentString = s.string120Symbol
             });
+            var rmId = db.SpecificationofRM.Where(x => x.StreetId == street.id).Select(x => x.TheHorizontalRoadMarkingId).ToList();
+            ViewBag.RoadMarking = new List<TheHorizontalRoadMarking> {};
+            var rm = new TheHorizontalRoadMarking();
+            foreach (var mark in rmId)
+            {
+                rm = db.TheHorizontalRoadMarking.SingleOrDefault(x => x.id == mark);
+                for (int i = 0; i < db.SpecificationofRS.Single(x => x.Street_id == street.id).CountRS; i++)
+                {
+                    ViewBag.RoadMarking.Add(rm);
+                }
+            }
+            ViewBag.SpecificationofRM = db.SpecificationofRM.ToList();
+            var rsId = db.SpecificationofRS.Where(x => x.Street_id == street.id).Select(x => x.RoadSignsId).ToList();
+            ViewBag.RoadSigns = new List<RoadSigns> {};
+            var rs = new RoadSigns();
+            foreach (var specSign in rsId)
+            {
+                rs = db.RoadSigns.SingleOrDefault(x => x.id == specSign);
+                for (int i = 0; i < db.SpecificationofRS.Single(x => x.Street_id == street.id).CountRS; i++)
+                {
+                    ViewBag.RoadSigns.Add(rs);
+                }
+            }
+           
+            var rbId = db.SpecificationOfRb.Where(x => x.StreetId == street.id).Select(x => x.RoadBarriersId).ToList();
+            ViewBag.RoadBarriers = new List<RoadBarriers> { };
+            foreach (var specRb in rbId)
+            {
+                var rb = db.RoadBarriers.SingleOrDefault(x => x.Id == specRb);
+                ViewBag.RoadBarriers.Add(rb);
+            }
+            ViewBag.SpecificationOfRb = db.SpecificationOfRb.ToList();
+            ViewBag.layoutScheme = db.layoutSchemes.SingleOrDefault(a => a.Id == id);
             ViewBag.jsonStreet = js.Serialize(segments);
             ViewBag.layoutDislocation = db.layoutDislocations.Where(a => a.StreetId == id).Select(a => a.Segment.Name).ToList();
             return View(street);
