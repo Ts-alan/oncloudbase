@@ -2,7 +2,7 @@
 @using oncloud.Domain.Entities
 @model  oncloud.Domain.Entities.Street
 @{
-    ViewBag.Title = "EditStreets";
+    ViewBag.Title = "Review";
 }
 
 <script type="text/javascript">
@@ -446,21 +446,31 @@
                         <th style="width: 180px">Описание</th>
                         <th style="width: 117px">Длина (м.пог) / штуки</th>
                         <th style="width: 157px">Площадь (м.кв)</th>
-                        <th></th>
                     </tr>
                     </thead>
                 </table>
                 <div id="container" style="height: 530px; overflow-y: scroll">
                     <table class="table table-bordered">
                         <tbody style="height: 640px; overflow: auto">
-                        <tr>
-                            <td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>
-                            <td style="width: 241px;"></td>
-                            <td style="width: 180px"></td>
-                            <td style="vertical-align: middle; width: 117px"></td>
-                            <td style="vertical-align: middle; width: 157px"></td>
-                            <td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>
-                        </tr>
+                         @{
+                                List<TheHorizontalRoadMarking> mkg = ViewBag.RoadMarking;
+                                List<SpecificationofRM> srm = ViewBag.SpecificationofRM;
+                            }
+                        @foreach (var mark in mkg)
+                        {
+                            <tr>
+                                <td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px">@mark.NumberMarking</td>
+                                <td style="width: 241px;">
+                                   @{
+                                        var base64 = Convert.ToBase64String(mark.ImageData);
+                                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                    } 
+                                </td>
+                                <td style="width: 180px">@mark.description</td>
+                                <td style="vertical-align: middle; width: 117px">@srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId.ToString() == mark.NumberMarking)?.length</td>
+                                <td style="vertical-align: middle; width: 157px">@srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId.ToString() == mark.NumberMarking)?.area</td>
+                            </tr>
+                        }
                         </tbody>
 
                     </table>
@@ -494,7 +504,6 @@
                             <th style="width: 187px;">№ знака</th>
                             <th style="width: 117px;">Картинка</th>
                             <th style="width: 150px">Описание</th>
-                            <th style="width: 161px">Маркер</th>
                             <th style="width: 192px">Количество</th>
                            
                         </tr>
@@ -503,15 +512,23 @@
                 <div style="height: 700px;overflow-y:scroll">
                     <table class="table table-bordered">
                         <tbody>
-                            @ViewBag.RoadSigns.
-                        @foreach (var sign in ViewBag.RoadSigns)
+                            @{
+                                List<RoadSigns> signs = ViewBag.RoadSigns;
+                                List<RoadSigns> distinctedSigns = signs.Distinct().ToList();
+                            }
+                        @foreach (var sign in distinctedSigns)
                         {
-                            <tr>
-                                <td style="vertical-align: middle; width: 185px; height: 115px">@sign.id</td>
-                                <td style="width: 117px; height: 115px"></td>
-                                <td style="width: 150px"></td>
-                                <td style="width: 161px"></td>
-                                <td style="vertical-align: middle; width: 192px"></td>
+                                <tr>
+                                    <td style="vertical-align: middle; width: 185px; height: 115px">@sign.NumberRoadSigns</td>
+                                    <td style="width: 117px; height: 115px">
+                                    @{
+                                        var base64 = Convert.ToBase64String(sign.ImageData);
+                                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                    }
+                                    <img src="@imgSrc" style="height: 100px; width: 100px"/>
+                                </td>
+                                <td style="width: 150px">@sign.Description</td>
+                                <td style="vertical-align: middle; width: 192px">@signs.Count(x => x.id == sign.id)</td>
 
                             </tr>
                         }
@@ -546,20 +563,39 @@
                         <th style="width: 170px">Картинка</th>
                         <th style="width: 180px">Описание</th>
                         <th style="width: 258px">Погонные метры</th>
-                        <th></th>
                     </tr>
                 </thead>
             </table>
             <div style="height: 700px; overflow-y: scroll">
                 <table class="table table-bordered">
                     <tbody>
-                        <tr>
-                            <td style="vertical-align: middle; width: 187px;"><input type="text" class="FindRoadBarriers"></td>
-                            <td style="width: 170px;"></td>
-                            <td style="width: 180px"></td>
-                            <td style="vertical-align: middle;width: 258px"></td>
-                            <td style="vertical-align: middle"><a class="lastA" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>
-                        </tr>
+                        @{
+                            List<RoadBarriers> brs = ViewBag.RoadBarriers;
+                            List<RoadBarriers> distinctedBarriers = brs.Distinct().ToList();
+                            List<SpecificationOfRb> srs = ViewBag.SpecificationOfRb;
+                        }
+                        @foreach (var bar in distinctedBarriers)
+                        {
+                            <tr>
+                                <td style="vertical-align: middle; width: 187px;"><input type="text" class="FindRoadBarriers">@bar.NumberBarriers</td>
+                                <td style="width: 170px;">
+                                    @{
+
+                                        string base64 = null;
+                                        string imgSrc = null;
+                                        if (bar.ImageData != null)
+                                        {
+                                            base64 = Convert.ToBase64String(bar.ImageData);
+                                            imgSrc = String.Format("data:image/jpeg;base64,{0}", base64);
+                                            <img src="@imgSrc" style="height: 100px; width: 100px" />
+                                        }
+                                    }
+                                    
+                                </td>
+                                <td style="width: 180px">@bar.Description</td>
+                                <td style="vertical-align: middle; width: 258px">@srs.SingleOrDefault(x=> x.RoadBarriersId.ToString() == bar.NumberBarriers)?.Length</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
