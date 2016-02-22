@@ -403,6 +403,7 @@
                      j = 0;
                  });
                  j = 0;
+                  var valThis;
                  $("[id^= RoadBarriers]").find("table:eq(1) tbody").each(function(ind, domElement) {
                      for (var i = 0; i < DataOfRoadBarriers.length; i++) {
                          if (parseInt(DataOfRoadBarriers[i].Name) == (ind + 1)) {
@@ -426,14 +427,11 @@
                                  var JsonObject = JSON.parse(result);
 
                                  $(domElement).find("tr:eq(" + j + ") td").eq(0).children().val(DataOfRoadBarriers[i].NumberBarriers);
-                                 function IsValidImageUrl(url) {
+                                 function IsValidImageUrl(url)
+                                 {
                                      $("<img>", {
                                          src: url,
-                                         error: function () {
-
                                          },
-                                         load: function () {
-
                                              $("#" + (ind + 1) + "AddSrc" + JsonObject[0].Id).attr("src", "/RoadBarriers/GetImage/" + JsonObject[0].Id);
                                              $("#" + (ind + 1) + "AddSrc" + JsonObject[0].Id).css({ "height": "150px", "width": "150px" });
                                          }
