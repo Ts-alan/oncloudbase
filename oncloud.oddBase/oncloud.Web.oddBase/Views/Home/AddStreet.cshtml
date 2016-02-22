@@ -1138,7 +1138,7 @@
             });
         });
         //подсказки ограждений
-        var valThis
+        var valThis;
         var autocompleteUrlRB = '/Home/FindRoadBarriers';
         $(' form').on('keydown.autocomplete', ".FindRoadBarriers", function() {
             $(this).autocomplete({
@@ -1186,14 +1186,14 @@
                                 },
                                 load: function ()
                                 {
-                                    console.log("!!!");
+                                   
                                     $("#AddSrc" + JsonObject[0].Id+ valThis).attr("src", "/RoadBarriers/GetImage/" + JsonObject[0].Id);
                                     $("#AddSrc" + JsonObject[0].Id+ valThis).css({ "height": "150px", "width": "150px" });
                                 }
                             });
                         }
 
-                        console.log(valThis);
+                        
                         $(event.target).closest("tr").children("td").eq(1).html('<img id="AddSrc' + JsonObject[0].Id + valThis + '">');
                         IsValidImageUrl(url);
                         $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].Description);
