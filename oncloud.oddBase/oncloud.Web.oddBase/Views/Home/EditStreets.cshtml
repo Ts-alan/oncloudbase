@@ -489,7 +489,7 @@
                          
                      });
                  }
-                
+                 ModalMackUpSave.push("");
                 var changeColor;
                  for (var i = 0; i < DataOfRoadSings.length; i++) {
 
@@ -539,7 +539,8 @@
                  $('[name*="ModalsL"]').each(function (index, element) {
 
                      if ($(element).val() != '') {
-                         changeColorMackUp();
+                         $('[data-target="#ModalMackUp"]').removeClass("btn-default");
+                         $('[data-target="#ModalMackUp"]').addClass("btn-danger");
 
                          return false;
                      };
@@ -547,7 +548,8 @@
                  $('[name*="ModalsA"]').each(function (index, element) {
 
                      if ($(element).val() != '') {
-                         changeColorMackUp();
+                         $('[data-target="#ModalMackUp"]').removeClass("btn-default");
+                         $('[data-target="#ModalMackUp"]').addClass("btn-danger");
 
                          return false;
                      };
@@ -1075,7 +1077,7 @@
     }
 
     function cleaningModalMackUp(par, e) {
-       
+        
         if (ModalMackUpSave.length != 0) {
             var index;
             var elementIndex;
@@ -1206,6 +1208,7 @@
 
     //изменения цвета
     function changeColorMackUp(par, e) {
+        
         ModalMackUpSave.length = 0;
         for (var i = 0; $(par).closest(".modal-content").find("tbody tr").length > i; i++) {
 
@@ -1873,7 +1876,7 @@
         });
 
         $('#ModalMackUp').on('hidden.bs.modal', function (e) {
-            console.log(ModalMackUpSave);
+          
             if (ModalMackUpSave.length != 0) {
                 var index;
                 var elementIndex;
@@ -2251,8 +2254,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <div style="text-align: right">
-                        <img data-dismiss="modal" onclick="changeColorMackUp(event)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
-                        <img data-dismiss="modal" onclick="cleaningModalMackUp(1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
+                        <img data-dismiss="modal" onclick="changeColorMackUp(this,event)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+                        <img data-dismiss="modal" onclick="cleaningModalMackUp(this, 1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
                     </div>
                     <h4 class="modal-title" id="myModalLabel">
                         Спецификация горизонтальной дорожной разметки
