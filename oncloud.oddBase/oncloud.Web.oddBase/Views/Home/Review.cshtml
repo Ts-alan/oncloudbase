@@ -467,17 +467,18 @@
                                    @{
                                         var base64 = Convert.ToBase64String(mark.ImageData);
                                         var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                    } 
+                                   }
+                                    <img src="@imgSrc" style="height: 100px; width: 230px"/>
                                 </td>
                                 <td style="width: 180px">@mark.description</td>
                                  @{
-                                     var ll = srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId.ToString() == mark.NumberMarking);
+                                     var ll = srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId == mark.id);
                                      string llength = ll == null ? "" : ll.length.ToString();
                                 }
                                 <td style="vertical-align: middle; width: 117px">@llength</td>
                                 @{
-                                     var a = srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId.ToString() == mark.NumberMarking);
-                                     string area = ll == null ? "" : a.area.ToString();
+                                     var a = srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId == mark.id);
+                                     string area = a == null ? "" : a.area.ToString();
                                 }
                                 <td style="vertical-align: middle; width: 157px">@area</td>
                             </tr>
