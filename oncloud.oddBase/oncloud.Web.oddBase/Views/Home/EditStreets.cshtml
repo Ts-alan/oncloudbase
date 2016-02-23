@@ -457,7 +457,7 @@
 
                  });
                  for (var z = 0; z < DataOfMackUp.length; z++) {
-                     
+
                      $("#ModalMackUp tbody").append('<tr>'+
                                     '<td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>'+
                                     '<td style="width: 241px;"></td>'+
@@ -475,7 +475,7 @@
                          async: false
                      }).success(function(result) {
                          var JsonObject = JSON.parse(result);
-                        
+
                          $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(0).children().val(DataOfMackUp[z].NumberMarking);
                          $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(1).html('<img  src="/HorizontalRoadMarkings/GetImage/' + JsonObject[0].id + '">');
                          $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(2).text(JsonObject[0].description);
@@ -486,7 +486,7 @@
                          $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(4).children().val(DataOfMackUp[z].area);
                          indexAutoRm.push(DataOfMackUp[z].NumberMarking);
                          ModalMackUpSave.push(DataOfMackUp[z].NumberMarking);
-                         
+
                      });
                  }
                  ModalMackUpSave.push("");
@@ -1077,7 +1077,7 @@
     }
 
     function cleaningModalMackUp(par, e) {
-        
+
         if (ModalMackUpSave.length != 0) {
             var index;
             var elementIndex;
@@ -1208,7 +1208,7 @@
 
     //изменения цвета
     function changeColorMackUp(par, e) {
-        
+
         ModalMackUpSave.length = 0;
         for (var i = 0; $(par).closest(".modal-content").find("tbody tr").length > i; i++) {
 
@@ -1545,12 +1545,12 @@
             });
         });
         //подсказки ограждений
+        var valThis;
         var autocompleteUrlRB = '/Home/FindRoadBarriers';
         $(' form').on('keydown.autocomplete', ".FindRoadBarriers", function() {
             $(this).autocomplete({
-
                 source: function(request, response) {
-                    var valThis = $($(this)[0].bindings[0]).closest('[id^="RoadBarriers"').attr("id");
+                     valThis = $($(this)[0].bindings[0]).closest('[id^="RoadBarriers"').attr("id");
                     $.ajax({
                         url: autocompleteUrlRB,
                         data: request,
@@ -1591,15 +1591,17 @@
                                 error: function() {
                                     //alert(url + ': ' + false);
                                 },
-                                load: function() {
-                                    $("#AddSrc" + JsonObject[0].Id).attr("src", "/RoadBarriers/GetImage/" + JsonObject[0].Id);
-                                    $("#AddSrc" + JsonObject[0].Id).css({ "height": "150px", "width": "150px" });
+                                load: function ()
+                                {
+
+                                    $("#AddSrc" + JsonObject[0].Id+ valThis).attr("src", "/RoadBarriers/GetImage/" + JsonObject[0].Id);
+                                    $("#AddSrc" + JsonObject[0].Id+ valThis).css({ "height": "150px", "width": "150px" });
                                 }
                             });
                         }
 
 
-                        $(event.target).closest("tr").children("td").eq(1).html('<img id="AddSrc' + JsonObject[0].Id + '">');
+                        $(event.target).closest("tr").children("td").eq(1).html('<img id="AddSrc' + JsonObject[0].Id + valThis + '">');
                         IsValidImageUrl(url);
                         $(event.target).closest("tr").children("td").eq(2).text(JsonObject[0].Description);
                         $(event.target).closest("tr").children("td").eq(3).html('<input type="number"   name="' + $(event.target).closest("[role='dialog']").attr("id").substr($(event.target).closest("[role='dialog']").attr("id").indexOf("s") + 1) + 'RoadBarriers' + ui.item.value + '" type="text"/>');
@@ -1621,7 +1623,8 @@
                     });
                 }
             });
-        })        //подсказки знаков
+        });
+        //подсказки знаков
         var autocompleteUrlRS = '/Home/FindRoadSings';
         $('form').on('keydown.autocomplete', ".FindRoadSings", function () {
             $(this).autocomplete({
@@ -1876,7 +1879,7 @@
         });
 
         $('#ModalMackUp').on('hidden.bs.modal', function (e) {
-          
+
             if (ModalMackUpSave.length != 0) {
                 var index;
                 var elementIndex;
