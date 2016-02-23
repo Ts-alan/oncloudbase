@@ -466,7 +466,8 @@ namespace oncloud.Web.oddBase.Controllers
             foreach (var mark in rmId)
             {
                 rm = db.TheHorizontalRoadMarking.SingleOrDefault(x => x.id == mark);
-                for (int i = 0; i < db.SpecificationofRS.Single(x => x.Street_id == street.id).CountRS; i++)
+                
+                for (int i = 0; i < db.SpecificationofRM.Single(x => x.StreetId == street.id).TheHorizontalRoadMarkingId; i++)
                 {
                     ViewBag.RoadMarking.Add(rm);
                 }
@@ -530,6 +531,7 @@ namespace oncloud.Web.oddBase.Controllers
             var projection = from t in numberRoadSigns
                              select new
                              {
+                                 b.SpecificationofRS.Single
                                  label = t.NumberRoadSigns,
                                  value = t.NumberRoadSigns,
                                  indexManyElement=t.RoadSignItems.Count()
