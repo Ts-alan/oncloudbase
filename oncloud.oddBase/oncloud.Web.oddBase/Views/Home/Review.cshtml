@@ -472,12 +472,12 @@
                                 </td>
                                 <td style="width: 180px">@mark.description</td>
                                  @{
-                                     var ll = srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId == mark.id);
+                                     var ll = srm.FirstOrDefault(x => x.TheHorizontalRoadMarkingId == mark.id);
                                      string llength = ll == null ? "" : ll.length.ToString();
                                 }
                                 <td style="vertical-align: middle; width: 117px">@llength</td>
                                 @{
-                                     var a = srm.SingleOrDefault(x => x.TheHorizontalRoadMarkingId == mark.id);
+                                     var a = srm.FirstOrDefault(x => x.TheHorizontalRoadMarkingId == mark.id);
                                      string area = a == null ? "" : a.area.ToString();
                                 }
                                 <td style="vertical-align: middle; width: 157px">@area</td>
