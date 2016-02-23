@@ -466,8 +466,7 @@ namespace oncloud.Web.oddBase.Controllers
             foreach (var mark in rmId)
             {
                 rm = db.TheHorizontalRoadMarking.SingleOrDefault(x => x.id == mark);
-                
-                    ViewBag.RoadMarking.Add(rm);
+                ViewBag.RoadMarking.Add(rm);
                 
             }
             ViewBag.SpecificationofRM = db.SpecificationofRM.ToList();
@@ -477,7 +476,7 @@ namespace oncloud.Web.oddBase.Controllers
             foreach (var specSign in rsId)
             {
                 rs = db.RoadSigns.SingleOrDefault(x => x.id == specSign);
-                for (int i = 0; i < db.SpecificationofRS.Single(x => x.Street_id == street.id).CountRS; i++)
+                for (int i = 0; i < db.SpecificationofRS.Single(x => x.RoadSignsId == specSign).CountRS; i++)
                 {
                     ViewBag.RoadSigns.Add(rs);
                 }
