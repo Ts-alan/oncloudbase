@@ -61,7 +61,10 @@ namespace oncloud.Web.oddBase
             "~/Scripts/jqGrid/plugins/grid.tbltogrid.js",
              "~/Scripts/jquery.freezetable.js"
             ));
+            bundles.Add(new ScriptBundle("~/bundles/tableHeadFixer").Include(
+            "~/Scripts/tableHeadFixer.js"
 
+            ));
             bundles.Add(new ScriptBundle("~/bundles/print").Include(
                         "~/Scripts/CustomPrint.js",
                         "~/Scripts/Print.js"
