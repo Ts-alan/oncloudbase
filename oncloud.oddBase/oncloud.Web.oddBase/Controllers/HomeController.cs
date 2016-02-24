@@ -476,7 +476,7 @@ namespace oncloud.Web.oddBase.Controllers
             foreach (var specSign in rsId)
             {
                 rs = db.RoadSigns.SingleOrDefault(x => x.id == specSign);
-                for (int i = 0; i < db.SpecificationofRS.Single(x => x.RoadSignsId == specSign).CountRS; i++)
+                for (int i = 0; i < db.SpecificationofRS.First(x => x.RoadSignsId == specSign & x.Street_id == street.id).CountRS; i++)
                 {
                     ViewBag.RoadSigns.Add(rs);
                 }
