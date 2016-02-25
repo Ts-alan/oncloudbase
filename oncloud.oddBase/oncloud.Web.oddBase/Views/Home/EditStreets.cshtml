@@ -481,10 +481,9 @@
                          $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(2).text(JsonObject[0].description);
 
                          $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(3).html('<input type="number" style="width:100px" name="ModalsL' + DataOfMackUp[z].NumberMarking + '" />');
-                         $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(3).children().val(DataOfMackUp[z].length.replace(",","."));
-                  
+                         $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(3).children().val(DataOfMackUp[z].length);
                          $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(4).html('<input type="number" style="width:100px"  name="ModalsA' + DataOfMackUp[z].NumberMarking + '" />');
-                         $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(4).children().val(DataOfMackUp[z].area.replace(",", "."));
+                         $("#ModalMackUp tbody tr:eq(" + z + ") td").eq(4).children().val(DataOfMackUp[z].area);
                          indexAutoRm.push(DataOfMackUp[z].NumberMarking);
                          ModalMackUpSave.push(DataOfMackUp[z].NumberMarking);
 
@@ -1243,8 +1242,7 @@
 
     //задание координат
     $(document).ready(function () {
-        //неподвижные шапки таблиц
-        $(".tableHF").tableHeadFixer();
+
 
         $('[data-target="#ModalTable"]').click(function () {
 
@@ -2270,27 +2268,29 @@
                 </div>
                 <div class="modal-body" style="height: 640px">
 
-                    <div id="container" style="height: 530px;overflow-y:scroll">
-                        <table class="tableHF table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th style="width: 101px;">№ разметки</th>
-                                    <th style="width: 241px;">Картинка</th>
-                                    <th style="width: 180px">Описание</th>
-                                    <th style="width: 117px">Длина (м.пог) / штуки</th>
-                                    <th style="width: 157px">Площадь (м.кв)</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody style="height: 640px; overflow: auto">
+                    <table class="table table-bordered" style="margin-bottom: 0px">
+                        <thead>
                             <tr>
-                                <td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>
-                                <td style="width: 241px;"></td>
-                                <td style="width: 180px"></td>
-                                <td style="vertical-align: middle; width: 117px"></td>
-                                <td style="vertical-align: middle; width: 157px"></td>
-                                <td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg"/></a></td>
+                                <th style="width: 101px;">№ разметки</th>
+                                <th style="width: 241px;">Картинка</th>
+                                <th style="width: 180px">Описание</th>
+                                <th style="width: 117px">Длина (м.пог) / штуки</th>
+                                <th style="width: 157px">Площадь (м.кв)</th>
+                                <th></th>
                             </tr>
+                        </thead>
+                    </table>
+                    <div id="container" style="height: 530px;overflow-y:scroll">
+                        <table class="table table-bordered">
+                            <tbody style="height: 640px; overflow: auto">
+                                <tr>
+                                    <td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px"><input class="FindRoadMarking" style="width: 100px" type="text"></td>
+                                    <td style="width: 241px;"></td>
+                                    <td style="width: 180px"></td>
+                                    <td style="vertical-align: middle;width: 117px"></td>
+                                    <td style="vertical-align: middle;width: 157px"></td>
+                                    <td style="vertical-align: middle"><a class="lastB" href="#"><img style="width: 15px" src="../../Content/images/StrikethroughСircle.jpg" /></a></td>
+                                </tr>
                             </tbody>
 
                         </table>
