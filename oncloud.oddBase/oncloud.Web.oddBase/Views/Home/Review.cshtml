@@ -165,8 +165,17 @@
             });
     }
 
+<<<<<<< HEAD
     $(document).ready(function () {
 
+=======
+    $(document).ready(function() {
+        $(".text").each(function(indx, element) {
+            $(element).text($("#CityStreet").text());
+        });
+        
+        //неподвижные шапки таблиц
+>>>>>>> 17c305a0a70c17cc4370c5a9b93e85065fdb2cee
         $(".tableHF").each(function(index, element) {
             $(element).tableHeadFixer();
         });
@@ -435,7 +444,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div style="text-align: right">
-                    <img data-dismiss="modal"  aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg"/>
+
                     <img data-dismiss="modal"  aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg"/>
                 </div>
                 <h4 class="modal-title" id="myModalLabel">
@@ -502,7 +511,7 @@
         <div class="modal-content" style="width: 800px;">
             <div class="modal-header">
                 <div style="text-align: right">
-                    <img class="buttonSave" data-dismiss="modal"  aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+
                     <img class="buttonclose" data-dismiss="modal"  aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
                 </div>
 
@@ -560,7 +569,7 @@
         <div class="modal-content" style="width: 800px;">
             <div class="modal-header">
                 <div style="text-align: right">
-                    <img class="buttonSave" data-dismiss="modal"  aria-label="Close" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg"/>
+                   
                     <img class="buttonclose" data-dismiss="modal"  aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg"/>
                 </div>
 
