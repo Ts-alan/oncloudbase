@@ -166,6 +166,7 @@
     }
 
     $(document).ready(function () {
+
         $(".tableHF").each(function(index, element) {
             $(element).tableHeadFixer();
         });
@@ -205,7 +206,7 @@
                 $("#carousel-example-generic .carousel-control.left").trigger('click');
             }
         });
-        $("#ModalRoadSigns").on('keyup', function (e) {
+        $("#ModalTableRoadSigns").on('keyup', function (e) {
             if (e.which == 39) {
                 $("#carousel-example-generic1 .carousel-control.right").trigger('click');
             }
@@ -214,7 +215,7 @@
             }
         });
 
-        $("#RoadBarriers").on('keyup', function (e) {
+        $("#TableRoadBarriers").on('keyup', function (e) {
             if (e.which == 39) {
                 $("#carousel-example-generic2 .carousel-control.right").trigger('click');
             }
