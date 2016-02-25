@@ -136,7 +136,7 @@
                     setSegment(i);
                 }
                 var MassLD = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.layoutDislocation))');
-                console.log(MassLD);
+             
                 for (var j = 0; j < MassLD.length; j++) {
                     $('#changeColorDislocation' + MassLD[j] + '').removeClass("btn-default");
                     $('#changeColorDislocation' + MassLD[j] + '').addClass("btn-danger");
@@ -166,7 +166,11 @@
     }
 
     $(document).ready(function () {
-
+        $(".tableHF").each(function(index, element) {
+            $(element).tableHeadFixer();
+        });
+           
+        
         tableToGrid("#table1", {
             cmTemplate: { "resizable": false, sortable: false }
         });
@@ -430,8 +434,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div style="text-align: right">
-                    <img data-dismiss="modal" onclick="changeColorMackUp(event)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg"/>
-                    <img data-dismiss="modal" onclick="cleaningModalMackUp(1)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg"/>
+                    <img data-dismiss="modal"  aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg"/>
+                    <img data-dismiss="modal"  aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg"/>
                 </div>
                 <h4 class="modal-title" id="myModalLabel">
                     Спецификация горизонтальной дорожной разметки
@@ -440,45 +444,42 @@
 
             </div>
             <div class="modal-body" style="height: 640px">
-
-                <table class="table table-bordered" style="margin-bottom: 0px">
-                    <thead>
-                    <tr>
-                        <th style="width: 101px;">№ разметки</th>
-                        <th style="width: 241px;">Картинка</th>
-                        <th style="width: 180px">Описание</th>
-                        <th style="width: 117px">Длина (м.пог) / штуки</th>
-                        <th style="width: 157px">Площадь (м.кв)</th>
-                    </tr>
-                    </thead>
-                </table>
                 <div id="container" style="height: 530px; overflow-y: scroll">
-                    <table class="table table-bordered">
+                    <table class="tableHF table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 101px;">№ разметки</th>
+                                <th style="width: 241px;">Картинка</th>
+                                <th style="width: 180px">Описание</th>
+                                <th style="width: 117px">Длина (м.пог) / штуки</th>
+                                <th style="width: 157px">Площадь (м.кв)</th>
+                            </tr>
+                        </thead>
                         <tbody style="height: 640px; overflow: auto">
-                         @{
-                                List<TheHorizontalRoadMarking> mkg = ViewBag.RoadMarking;
-                                List<SpecificationofRM> srm = ViewBag.SpecificationofRM;
-                            }
+                        @{
+                            List<TheHorizontalRoadMarking> mkg = ViewBag.RoadMarking;
+                            List<SpecificationofRM> srm = ViewBag.SpecificationofRM;
+                        }
                         @foreach (var mark in mkg)
                         {
                             <tr>
                                 <td style="vertical-align: middle; width: 100px; padding: 0px; height: 115px">@mark.NumberMarking</td>
                                 <td style="width: 241px;">
-                                   @{
+                                    @{
                                         var base64 = Convert.ToBase64String(mark.ImageData);
                                         var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                   }
+                                    }
                                     <img src="@imgSrc" style="height: 100px; width: 230px"/>
                                 </td>
                                 <td style="width: 180px">@mark.description</td>
-                                 @{
-                                     var ll = srm.FirstOrDefault(x => x.TheHorizontalRoadMarkingId == mark.id);
-                                     string llength = ll == null ? "" : ll.length.ToString();
+                                @{
+                                    var ll = srm.FirstOrDefault(x => x.TheHorizontalRoadMarkingId == mark.id);
+                                    string llength = ll == null ? "" : ll.length.ToString();
                                 }
                                 <td style="vertical-align: middle; width: 117px">@llength</td>
                                 @{
-                                     var a = srm.FirstOrDefault(x => x.TheHorizontalRoadMarkingId == mark.id);
-                                     string area = a == null ? "" : a.area.ToString();
+                                    var a = srm.FirstOrDefault(x => x.TheHorizontalRoadMarkingId == mark.id);
+                                    string area = a == null ? "" : a.area.ToString();
                                 }
                                 <td style="vertical-align: middle; width: 157px">@area</td>
                             </tr>
@@ -500,8 +501,8 @@
         <div class="modal-content" style="width: 800px;">
             <div class="modal-header">
                 <div style="text-align: right">
-                    <img class="buttonSave" data-dismiss="modal" onclick="changeColorRoadSigns(1, this)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
-                    <img class="buttonclose" data-dismiss="modal" onclick="cleaningRoadSigns(1,this)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
+                    <img class="buttonSave" data-dismiss="modal"  aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg" />
+                    <img class="buttonclose" data-dismiss="modal"  aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg" />
                 </div>
 
                 <h4 class="modal-title" id="myModalLabel">
@@ -510,29 +511,28 @@
                 </h4>
             </div>
             <div class="modal-body " style="height: 800px">
-                <table class="table table-bordered" style="margin-bottom: 0px">
-                    <thead>
-                        <tr>
-                            <th style="width: 187px;">№ знака</th>
-                            <th style="width: 117px;">Картинка</th>
-                            <th style="width: 150px">Описание</th>
-                            <th style="width: 192px">Количество</th>
-                           
-                        </tr>
-                    </thead>
-                </table>
+
                 <div style="height: 700px;overflow-y:scroll">
-                    <table class="table table-bordered">
+                    <table class="tableHF table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 187px; border: 1px solid #ddd !important;">№ знака</th>
+                                <th style="width: 117px; border: 1px solid #ddd !important;">Картинка</th>
+                                <th style="width: 150px; border: 1px solid #ddd !important;">Описание</th>
+                                <th style="width: 192px; border: 1px solid #ddd !important;">Количество</th>
+
+                            </tr>
+                        </thead>
                         <tbody>
-                            @{
-                                List<RoadSigns> signs = ViewBag.RoadSigns;
-                                List<RoadSigns> distinctedSigns = signs.Distinct().ToList();
-                            }
+                        @{
+                            List<RoadSigns> signs = ViewBag.RoadSigns;
+                            List<RoadSigns> distinctedSigns = signs.Distinct().ToList();
+                        }
                         @foreach (var sign in distinctedSigns)
                         {
-                                <tr>
-                                    <td style="vertical-align: middle; width: 185px; height: 115px">@sign.NumberRoadSigns</td>
-                                    <td style="width: 117px; height: 115px">
+                            <tr>
+                                <td style="vertical-align: middle; width: 185px; height: 115px">@sign.NumberRoadSigns</td>
+                                <td style="width: 117px; height: 115px">
                                     @{
                                         var base64 = Convert.ToBase64String(sign.ImageData);
                                         var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
@@ -559,8 +559,8 @@
         <div class="modal-content" style="width: 800px;">
             <div class="modal-header">
                 <div style="text-align: right">
-                    <img class="buttonSave" data-dismiss="modal" onclick="changeColorRoadBarriers(1, this)" aria-label="Close" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg"/>
-                    <img class="buttonclose" data-dismiss="modal" onclick="cleaningRoadBarriers(1, this)" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg"/>
+                    <img class="buttonSave" data-dismiss="modal"  aria-label="Close" aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/save.jpg"/>
+                    <img class="buttonclose" data-dismiss="modal"  aria-label="Close" style="width: 100px; height: 16px" src="../../Content/images/close.jpg"/>
                 </div>
 
                 <h4 class="modal-title" id="myModalLabel">
@@ -569,18 +569,17 @@
                 </h4>
             </div>
             <div class="modal-body " style="height: 800px; overflow: auto;">
-                <table class="table table-bordered" style="margin-bottom: 0px">
-                    <thead>
-                    <tr>
-                        <th style="width: 187px">№ </th>
-                        <th style="width: 170px">Картинка</th>
-                        <th style="width: 180px">Описание</th>
-                        <th style="width: 258px">Погонные метры</th>
-                    </tr>
-                    </thead>
-                </table>
+
                 <div style="height: 700px; overflow-y: scroll">
-                    <table class="table table-bordered">
+                    <table class="tableHF table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 187px">№ </th>
+                                <th style="width: 170px">Картинка</th>
+                                <th style="width: 180px">Описание</th>
+                                <th style="width: 258px">Погонные метры</th>
+                            </tr>
+                        </thead>
                         <tbody>
                         @{
                             List<RoadBarriers> brs = ViewBag.RoadBarriers;
