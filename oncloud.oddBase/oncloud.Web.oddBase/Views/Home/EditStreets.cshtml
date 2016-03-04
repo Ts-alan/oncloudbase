@@ -2491,8 +2491,11 @@
                         г.Минск ул. @Model.Name <br>Компоновочная схема
 
                     </h3>
-
-                    <img src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})" />
+                    @try
+                    {
+                        <img src="@Url.Action("GetImageLayoutScheme", "Home", new {id = Model.layoutScheme.Id})"/>
+                    }
+                    catch { }
                 </div>
            </div>
         <div class="modal-footer" style="border-width: 0px">
